@@ -91,15 +91,6 @@
   cursor: pointer;
 }
 
-.twitter-button {
-  background: #1da1f2;
-
-  &:hover,
-  &:focus {
-    background: #0090e2;
-  }
-}
-
 .google-button {
   background: white;
   color: $black-text;
