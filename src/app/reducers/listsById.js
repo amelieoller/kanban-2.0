@@ -45,6 +45,28 @@ const listsById = (state = {}, action) => {
         }
       };
     }
+    case "COMPLETE_CARD": {
+      const { listId } = action.payload;
+      const destListId = "completed";
+      const sourceListId = listId;
+
+      const oldCardIndex = state[sourceListId].cards.indexOf(
+        action.payload.cardId
+      );
+      const newCardIndex = 0;
+
+      // Move card from one list to another
+      const sourceCards = Array.from(state[sourceListId].cards);
+      const [removedCard] = sourceCards.splice(oldCardIndex, 1);
+      const destinationCards = Array.from(state[destListId].cards);
+
+      destinationCards.splice(newCardIndex, 0, removedCard);
+      return {
+        ...state,
+        [sourceListId]: { ...state[sourceListId], cards: sourceCards },
+        [destListId]: { ...state[destListId], cards: destinationCards }
+      };
+    }
     case "ADD_LIST": {
       const { listId, listTitle } = action.payload;
       return {

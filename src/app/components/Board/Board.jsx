@@ -7,7 +7,7 @@ import classnames from "classnames";
 import List from "../List/List";
 import ListAdder from "../ListAdder/ListAdder";
 import Header from "../Header/Header";
-import BoardHeader from "../BoardHeader/BoardHeader";
+import Sidebar from "../Sidebar/Sidebar";
 import "./Board.scss";
 
 class Board extends Component {
@@ -47,7 +47,7 @@ class Board extends Component {
 
     // Move list
     if (type === "COLUMN") {
-      // Prevent update if nothing has changed
+			// Prevent update if nothing has changed
       if (source.index !== destination.index) {
         dispatch({
           type: "MOVE_LIST",
@@ -133,13 +133,17 @@ class Board extends Component {
 
   render = () => {
     const { lists, boardTitle, boardId, boardColor } = this.props;
+    const completedList = lists.filter(list => list._id === "completed")[0];
+		const otherLists = lists.filter(list => list._id !== "completed");
+
     return (
       <>
         <div className={classnames("board", boardColor)}>
-          <Title>{boardTitle} | React Kanban</Title>
+          <Title>{boardTitle} | Kanban 2.0</Title>
           <Header />
-          <BoardHeader />
+          {/* <BoardHeader /> */}
           {/* eslint-disable jsx-a11y/no-static-element-interactions */}
+          <Sidebar completedList={completedList} />
           <div
             className="lists-wrapper"
             onMouseDown={this.handleMouseDown}
@@ -154,7 +158,7 @@ class Board extends Component {
               >
                 {provided => (
                   <div className="lists" ref={provided.innerRef}>
-                    {lists.map((list, index) => (
+                    {otherLists.map((list, index) => (
                       <List
                         list={list}
                         boardId={boardId}
@@ -178,7 +182,8 @@ class Board extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { board } = ownProps;
-  return {
+
+	return {
     lists: board.lists.map(listId => state.listsById[listId]),
     boardTitle: board.title,
     boardColor: board.color,

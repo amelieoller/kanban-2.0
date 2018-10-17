@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import FaTrash from "react-icons/lib/fa/trash";
+import FaCheck from "react-icons/lib/fa/check";
 import MdAlarm from "react-icons/lib/md/access-alarm";
 import Calendar from "./Calendar";
 import ClickOutside from "../ClickOutside/ClickOutside";
@@ -14,6 +15,7 @@ class CardOptions extends Component {
     isColorPickerOpen: PropTypes.bool.isRequired,
     card: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired,
     listId: PropTypes.string.isRequired,
+    boardId: PropTypes.string.isRequired,
     isCardNearRightBorder: PropTypes.bool.isRequired,
     isThinDisplay: PropTypes.bool.isRequired,
     boundingRect: PropTypes.object.isRequired,
@@ -31,6 +33,15 @@ class CardOptions extends Component {
     dispatch({
       type: "DELETE_CARD",
       payload: { cardId: card._id, listId }
+    });
+  };
+
+  completeCard = () => {
+    const { dispatch, listId, card, boardId } = this.props;
+
+    dispatch({
+      type: "COMPLETE_CARD",
+      payload: { cardId: card._id, listId, boardId }
     });
   };
 
@@ -96,10 +107,19 @@ class CardOptions extends Component {
         }}
       >
         <div>
+          <button onClick={this.completeCard} className="options-list-button">
+            <div className="modal-icon">
+              <FaCheck />
+            </div>
+            &nbsp;Done
+          </button>
+        </div>
+        <div>
           <button onClick={this.deleteCard} className="options-list-button">
             <div className="modal-icon">
               <FaTrash />
-            </div>&nbsp;Delete
+            </div>
+            &nbsp;Delete
           </button>
         </div>
         <div className="modal-color-picker-wrapper">
@@ -114,7 +134,7 @@ class CardOptions extends Component {
             aria-expanded={isColorPickerOpen}
           >
             <img src={colorIcon} alt="colorwheel" className="modal-icon" />
-            &nbsp;Color
+            &nbsp;Category
           </button>
           {isColorPickerOpen && (
             <ClickOutside
@@ -127,7 +147,7 @@ class CardOptions extends Component {
                 onKeyDown={this.handleKeyDown}
               >
                 {/* eslint-enable */}
-                {["white", "#6df", "#6f6", "#ff6", "#fa4", "#f66"].map(
+                {["white", "#F6A054", "#6CC4A7", "#E96A59", "#A39EE0"].map(
                   color => (
                     <button
                       key={color}
@@ -145,7 +165,8 @@ class CardOptions extends Component {
           <button onClick={this.toggleCalendar} className="options-list-button">
             <div className="modal-icon">
               <MdAlarm />
-            </div>&nbsp;Due date
+            </div>
+            &nbsp;Due date
           </button>
         </div>
         <Modal

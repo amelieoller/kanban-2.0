@@ -11,6 +11,7 @@ class BoardAdder extends Component {
     history: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
   };
+
   constructor() {
     super();
     this.state = { isOpen: false, title: "" };
@@ -33,6 +34,9 @@ class BoardAdder extends Component {
     }
     const { dispatch, history, userId } = this.props;
     const boardId = shortid.generate();
+		const listTitle = "Completed";
+		const listId = "completed";
+
     dispatch({
       type: "ADD_BOARD",
       payload: {
@@ -40,6 +44,11 @@ class BoardAdder extends Component {
         boardId,
         userId
       }
+		});
+
+    dispatch({
+      type: "ADD_LIST",
+      payload: { listTitle, listId, boardId }
     });
 
     const urlSlug = slugify(title, { lower: true });

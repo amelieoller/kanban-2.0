@@ -13,9 +13,16 @@ const boardsById = (state = {}, action) => {
     case "MOVE_LIST": {
       const { oldListIndex, newListIndex, boardId } = action.payload;
       const newLists = Array.from(state[boardId].lists);
+      const index = newLists.indexOf("completed");
+      if (index > -1) {
+        newLists.splice(index, 1);
+      }
       const [removedList] = newLists.splice(oldListIndex, 1);
-      newLists.splice(newListIndex, 0, removedList);
-      return {
+
+			newLists.splice(newListIndex, 0, removedList)
+			newLists.unshift("completed");
+
+			return {
         ...state,
         [boardId]: { ...state[boardId], lists: newLists }
       };
@@ -32,6 +39,7 @@ const boardsById = (state = {}, action) => {
     }
     case "ADD_BOARD": {
       const { boardTitle, boardId, userId } = action.payload;
+
       return {
         ...state,
         [boardId]: {
@@ -39,7 +47,7 @@ const boardsById = (state = {}, action) => {
           title: boardTitle,
           lists: [],
           users: [userId],
-          color: "blue"
+          color: "grey"
         }
       };
     }

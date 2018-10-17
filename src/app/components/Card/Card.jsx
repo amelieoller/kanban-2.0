@@ -8,6 +8,7 @@ import CardBadges from "../CardBadges/CardBadges";
 import { findCheckboxes } from "../utils";
 import formatMarkdown from "./formatMarkdown";
 import "./Card.scss";
+import FaCheck from "react-icons/lib/fa/check";
 
 class Card extends Component {
   static propTypes = {
@@ -16,7 +17,7 @@ class Card extends Component {
       text: PropTypes.string.isRequired,
       color: PropTypes.string
     }).isRequired,
-    listId: PropTypes.string.isRequired,
+		listId: PropTypes.string.isRequired,
     isDraggingOver: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired
@@ -71,10 +72,19 @@ class Card extends Component {
       type: "CHANGE_CARD_TEXT",
       payload: { cardId: card._id, cardText: newText }
     });
-  };
+	};
+
+	completeCard = () => {
+		const { dispatch, listId, card, boardId } = this.props;
+
+		dispatch({
+			type: "COMPLETE_CARD",
+			payload: { cardId: card._id, listId, boardId }
+		});
+	};
 
   render() {
-    const { card, index, listId, isDraggingOver } = this.props;
+		const { card, index, listId, boardId, isDraggingOver } = this.props;
     const { isModalOpen } = this.state;
     const checkboxes = findCheckboxes(card.text);
     return (
@@ -106,12 +116,17 @@ class Card extends Component {
                   background: card.color
                 }}
               >
-                <div
-                  className="card-title-html"
-                  dangerouslySetInnerHTML={{
-                    __html: formatMarkdown(card.text)
-                  }}
-                />
+                <div className="card-title-top">
+                  <div
+                    className="card-title-html"
+                    dangerouslySetInnerHTML={{
+                      __html: formatMarkdown(card.text)
+                    }}
+                  />
+									<div className="checkmark" onClick={this.completeCard}>
+                    <FaCheck />
+                  </div>
+                </div>
                 {/* eslint-enable */}
                 {(card.date || checkboxes.total > 0) && (
                   <CardBadges date={card.date} checkboxes={checkboxes} />
@@ -126,7 +141,7 @@ class Card extends Component {
           isOpen={isModalOpen}
           cardElement={this.ref}
           card={card}
-          listId={listId}
+					listId={listId}
           toggleCardEditor={this.toggleCardEditor}
         />
       </>
