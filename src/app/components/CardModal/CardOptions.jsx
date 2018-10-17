@@ -15,7 +15,6 @@ class CardOptions extends Component {
     isColorPickerOpen: PropTypes.bool.isRequired,
     card: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired,
     listId: PropTypes.string.isRequired,
-    boardId: PropTypes.string.isRequired,
     isCardNearRightBorder: PropTypes.bool.isRequired,
     isThinDisplay: PropTypes.bool.isRequired,
     boundingRect: PropTypes.object.isRequired,
@@ -37,11 +36,11 @@ class CardOptions extends Component {
   };
 
   completeCard = () => {
-    const { dispatch, listId, card, boardId } = this.props;
+    const { dispatch, listId, card } = this.props;
 
     dispatch({
       type: "COMPLETE_CARD",
-      payload: { cardId: card._id, listId, boardId }
+      payload: { cardId: card._id, listId }
     });
   };
 
