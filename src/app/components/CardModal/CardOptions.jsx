@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import FaTrash from "react-icons/lib/fa/trash";
 import FaCheck from "react-icons/lib/fa/check";
 import MdAlarm from "react-icons/lib/md/access-alarm";
+import Flag from "react-icons/lib/md/flag";
 import Calendar from "./Calendar";
 import ClickOutside from "../ClickOutside/ClickOutside";
 import colorIcon from "../../../assets/images/color-icon.png";
@@ -12,13 +13,15 @@ import "./CardOptions.scss";
 
 class CardOptions extends Component {
   static propTypes = {
-    isColorPickerOpen: PropTypes.bool.isRequired,
+    isCategoryPickerOpen: PropTypes.bool.isRequired,
+    isDifficultyPickerOpen: PropTypes.bool.isRequired,
     card: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired,
     listId: PropTypes.string.isRequired,
     isCardNearRightBorder: PropTypes.bool.isRequired,
     isThinDisplay: PropTypes.bool.isRequired,
     boundingRect: PropTypes.object.isRequired,
-    toggleColorPicker: PropTypes.func.isRequired,
+    toggleCategoryPicker: PropTypes.func.isRequired,
+    toggleDifficultyPicker: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired
   };
 
@@ -44,28 +47,53 @@ class CardOptions extends Component {
     });
   };
 
-  changeColor = color => {
-    const { dispatch, card, toggleColorPicker } = this.props;
+  changeCategory = color => {
+    const { dispatch, card, toggleCategoryPicker } = this.props;
     if (card.color !== color) {
       dispatch({
         type: "CHANGE_CARD_COLOR",
         payload: { color, cardId: card._id }
       });
     }
-    toggleColorPicker();
+    toggleCategoryPicker();
     this.colorPickerButton.focus();
   };
 
-  handleKeyDown = event => {
+  changeDifficulty = difficulty => {
+    const { dispatch, card, toggleDifficultyPicker } = this.props;
+    if (card.difficulty !== difficulty) {
+      dispatch({
+        type: "CHANGE_CARD_DIFFICULTY",
+        payload: { difficulty, cardId: card._id }
+      });
+    }
+    toggleDifficultyPicker();
+    this.colorPickerButton.focus();
+  };
+
+  handleKeyDownCategory = event => {
     if (event.keyCode === 27) {
-      this.props.toggleColorPicker();
+      this.props.toggleCategoryPicker();
       this.colorPickerButton.focus();
     }
   };
 
-  handleClickOutside = () => {
-    const { toggleColorPicker } = this.props;
-    toggleColorPicker();
+  handleKeyDownDifficulty = event => {
+    if (event.keyCode === 27) {
+      this.props.toggleDifficultyPicker();
+      this.colorPickerButton.focus();
+    }
+  };
+
+  handleClickOutsideCategory = () => {
+    const { toggleCategoryPicker } = this.props;
+    toggleCategoryPicker();
+    this.colorPickerButton.focus();
+  };
+
+  handleClickOutsideDifficulty = () => {
+    const { toggleDifficultyPicker } = this.props;
+    toggleDifficultyPicker();
     this.colorPickerButton.focus();
   };
 
@@ -76,8 +104,10 @@ class CardOptions extends Component {
   render() {
     const {
       isCardNearRightBorder,
-      isColorPickerOpen,
-      toggleColorPicker,
+      isCategoryPickerOpen,
+      isDifficultyPickerOpen,
+      toggleCategoryPicker,
+      toggleDifficultyPicker,
       card,
       isThinDisplay,
       boundingRect
@@ -124,26 +154,26 @@ class CardOptions extends Component {
         <div className="modal-color-picker-wrapper">
           <button
             className="options-list-button"
-            onClick={toggleColorPicker}
-            onKeyDown={this.handleKeyDown}
+            onClick={toggleCategoryPicker}
+            onKeyDown={this.handleKeyDownCategory}
             ref={ref => {
               this.colorPickerButton = ref;
             }}
             aria-haspopup
-            aria-expanded={isColorPickerOpen}
+            aria-expanded={isCategoryPickerOpen}
           >
             <img src={colorIcon} alt="colorwheel" className="modal-icon" />
             &nbsp;Category
           </button>
-          {isColorPickerOpen && (
+          {isCategoryPickerOpen && (
             <ClickOutside
               eventTypes="click"
-              handleClickOutside={this.handleClickOutside}
+              handleClickOutside={this.handleClickOutsideCategory}
             >
               {/* eslint-disable */}
               <div
                 className="modal-color-picker"
-                onKeyDown={this.handleKeyDown}
+                onKeyDown={this.handleKeyDownCategory}
               >
                 {/* eslint-enable */}
                 {["white", "#F6A054", "#6CC4A7", "#E96A59", "#A39EE0"].map(
@@ -152,10 +182,49 @@ class CardOptions extends Component {
                       key={color}
                       style={{ background: color }}
                       className="color-picker-color"
-                      onClick={() => this.changeColor(color)}
+                      onClick={() => this.changeCategory(color)}
                     />
                   )
                 )}
+              </div>
+            </ClickOutside>
+          )}
+        </div>
+        <div className="modal-color-picker-wrapper">
+          <button
+            className="options-list-button"
+            onClick={toggleDifficultyPicker}
+            onKeyDown={this.handleKeyDownDifficulty}
+            ref={ref => {
+              this.colorPickerButton = ref;
+            }}
+            aria-haspopup
+            aria-expanded={isDifficultyPickerOpen}
+          >
+            <Flag className="modal-icon" />
+            &nbsp;Difficulty
+          </button>
+          {isDifficultyPickerOpen && (
+            <ClickOutside
+              eventTypes="click"
+              handleClickOutside={this.handleClickOutsideDifficulty}
+            >
+              {/* eslint-disable */}
+              <div
+                className="modal-color-picker"
+                onKeyDown={this.handleKeyDownDifficulty}
+              >
+                {/* eslint-enable */}
+                {[1, 2, 3].map(difficulty => (
+                  <button
+                    key={difficulty}
+                    type="submit"
+                    className="difficulty-button"
+                    onClick={() => this.changeDifficulty(difficulty)}
+                  >
+                    {difficulty}
+                  </button>
+                ))}
               </div>
             </ClickOutside>
           )}

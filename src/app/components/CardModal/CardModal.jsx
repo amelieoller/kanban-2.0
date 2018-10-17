@@ -16,7 +16,7 @@ class CardModal extends Component {
       date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
       color: PropTypes.string
     }).isRequired,
-		listId: PropTypes.string.isRequired,
+    listId: PropTypes.string.isRequired,
     cardElement: PropTypes.shape({
       getBoundingClientRect: PropTypes.func.isRequired
     }),
@@ -29,7 +29,8 @@ class CardModal extends Component {
     super(props);
     this.state = {
       newText: props.card.text,
-      isColorPickerOpen: false,
+      isCategoryPickerOpen: false,
+      isDifficultyPickerOpen: false,
       isTextareaFocused: true
     };
     if (typeof document !== "undefined") {
@@ -70,21 +71,33 @@ class CardModal extends Component {
     this.setState({ newText: event.target.value });
   };
 
-  toggleColorPicker = () => {
-    this.setState({ isColorPickerOpen: !this.state.isColorPickerOpen });
+  toggleCategoryPicker = () => {
+		this.setState({ isCategoryPickerOpen: !this.state.isCategoryPickerOpen });
+  };
+
+  toggleDifficultyPicker = () => {
+		this.setState({ isDifficultyPickerOpen: !this.state.isDifficultyPickerOpen });
   };
 
   handleRequestClose = () => {
-    const { isColorPickerOpen } = this.state;
+		const { isCategoryPickerOpen, isDifficultyPickerOpen } = this.state;
     const { toggleCardEditor } = this.props;
-    if (!isColorPickerOpen) {
+		if (!isCategoryPickerOpen || !isDifficultyPickerOpen) {
       toggleCardEditor();
     }
-  };
+	};
+
+	// handleRequestCloseDifficulty = () => {
+	// 	const { isDifficultyPickerOpen } = this.state;
+	// 	const { toggleCardEditor } = this.props;
+	// 	if (!isDifficultyPickerOpen) {
+	// 		toggleCardEditor();
+	// 	}
+	// };
 
   render() {
-    const { newText, isColorPickerOpen, isTextareaFocused } = this.state;
-		const { cardElement, card, listId, isOpen } = this.props;
+		const { newText, isCategoryPickerOpen, isDifficultyPickerOpen, isTextareaFocused } = this.state;
+    const { cardElement, card, listId, isOpen } = this.props;
     if (!cardElement) {
       return null;
     }
@@ -171,13 +184,15 @@ class CardModal extends Component {
           )}
         </div>
         <CardOptions
-          isColorPickerOpen={isColorPickerOpen}
+					isCategoryPickerOpen={isCategoryPickerOpen}
+					isDifficultyPickerOpen={isDifficultyPickerOpen}
           card={card}
-					listId={listId}
+          listId={listId}
           boundingRect={boundingRect}
           isCardNearRightBorder={isCardNearRightBorder}
           isThinDisplay={isThinDisplay}
-          toggleColorPicker={this.toggleColorPicker}
+					toggleCategoryPicker={this.toggleCategoryPicker}
+					toggleDifficultyPicker={this.toggleDifficultyPicker}
         />
       </Modal>
     );

@@ -4,7 +4,7 @@ const cardsById = (state = {}, action) => {
       const { cardText, cardId } = action.payload;
       return {
         ...state,
-        [cardId]: { text: cardText, _id: cardId }
+				[cardId]: { text: cardText, _id: cardId, difficulty: 1 }
       };
     }
     case "CHANGE_CARD_TEXT": {
@@ -18,6 +18,10 @@ const cardsById = (state = {}, action) => {
     case "CHANGE_CARD_COLOR": {
       const { color, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], color } };
+    }
+    case "CHANGE_CARD_DIFFICULTY": {
+      const { difficulty, cardId } = action.payload;
+			return { ...state, [cardId]: { ...state[cardId], difficulty } };
     }
     case "DELETE_CARD": {
       const { cardId } = action.payload;

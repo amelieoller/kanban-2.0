@@ -1,27 +1,64 @@
 import React, { Component } from "react";
 import "./Sidebar.scss";
-import CardItem from "./CardItem";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import "./CardItem.scss";
+import Trash from "react-icons/lib/md/clear";
 
 class Sidebar extends Component {
+  static propTypes = {
+    cards: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        difficulty: PropTypes.number.isRequired
+      }).isRequired
+    ).isRequired,
+    dispatch: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  deleteCard = cardId => {
+    const { dispatch } = this.props;
+    const listId = "completed";
+
+    dispatch({
+      type: "DELETE_CARD",
+      payload: { cardId, listId }
+    });
+  };
+
   render = () => {
-		const { completedList, dispatch } = this.props;
+    const { cards } = this.props;
 
     return (
       <>
         <div className="sidebar-wrapper">
           <div className="header">Stats</div>
-					<hr/>
+          <hr />
           <p className="sub-header">Task Points:</p>
-          <span className="points">{completedList.cards.length}</span>
+          <span className="points">
+            {cards.length !== 0 &&
+              cards
+                .map(card => card.difficulty)
+                .reduce(
+                  (accumulator, currentValue) => accumulator + currentValue
+                )}
+          </span>
           <p className="sub-header">Tasks Completed:</p>
           <ul>
-            {completedList.cards.map((cardId, index) => (
-              <CardItem key={cardId} cardId={cardId} index={index} dispatch={dispatch} />
+            {cards.map(card => (
+              <li key={card._id}>
+                {card.text}{" "}
+                <Trash
+                  className="delete"
+                  onClick={() => this.deleteCard(card._id)}
+                />
+              </li>
             ))}
           </ul>
         </div>
@@ -30,4 +67,7 @@ class Sidebar extends Component {
   };
 }
 
-export default Sidebar;
+const mapStateToProps = state => ({
+  cards: state.listsById.completed.cards.map(cardId => state.cardsById[cardId])
+});
+export default connect(mapStateToProps)(Sidebar);

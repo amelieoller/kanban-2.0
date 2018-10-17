@@ -143,7 +143,7 @@ class Board extends Component {
           <Header />
           {/* <BoardHeader /> */}
           {/* eslint-disable jsx-a11y/no-static-element-interactions */}
-          <Sidebar completedList={completedList} />
+          <Sidebar />
           <div
             className="lists-wrapper"
             onMouseDown={this.handleMouseDown}

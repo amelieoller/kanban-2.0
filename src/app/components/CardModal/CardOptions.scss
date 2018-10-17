@@ -119,3 +119,10 @@
   border: 1px #999 solid;
   border-radius: 3px;
 }
+
+.difficulty-button {
+	background: $grey;
+	border-radius: $border-radius;
+	padding: 5px 8px;
+	margin: 5px;
+}

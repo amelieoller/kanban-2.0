@@ -17,7 +17,7 @@ class Card extends Component {
       text: PropTypes.string.isRequired,
       color: PropTypes.string
     }).isRequired,
-		listId: PropTypes.string.isRequired,
+    listId: PropTypes.string.isRequired,
     isDraggingOver: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired
@@ -72,21 +72,22 @@ class Card extends Component {
       type: "CHANGE_CARD_TEXT",
       payload: { cardId: card._id, cardText: newText }
     });
-	};
+  };
 
-	completeCard = () => {
-		const { dispatch, listId, card, boardId } = this.props;
+  completeCard = () => {
+    const { dispatch, listId, card, boardId } = this.props;
 
-		dispatch({
-			type: "COMPLETE_CARD",
-			payload: { cardId: card._id, listId, boardId }
-		});
-	};
+    dispatch({
+      type: "COMPLETE_CARD",
+      payload: { cardId: card._id, listId, boardId }
+    });
+  };
 
   render() {
-		const { card, index, listId, boardId, isDraggingOver } = this.props;
+    const { card, index, listId, boardId, isDraggingOver } = this.props;
     const { isModalOpen } = this.state;
     const checkboxes = findCheckboxes(card.text);
+
     return (
       <>
         <Draggable draggableId={card._id} index={index}>
@@ -94,9 +95,13 @@ class Card extends Component {
             <>
               {/* eslint-disable */}
               <div
-                className={classnames("card-title", {
-                  "card-title--drag": snapshot.isDragging
-                })}
+                className={classnames(
+                  `difficulty-${card.difficulty}`,
+                  "card-title",
+                  {
+                    "card-title--drag": snapshot.isDragging
+                  }
+                )}
                 ref={ref => {
                   provided.innerRef(ref);
                   this.ref = ref;
@@ -123,7 +128,7 @@ class Card extends Component {
                       __html: formatMarkdown(card.text)
                     }}
                   />
-									<div className="checkmark" onClick={this.completeCard}>
+                  <div className="checkmark" onClick={this.completeCard}>
                     <FaCheck />
                   </div>
                 </div>
@@ -141,7 +146,7 @@ class Card extends Component {
           isOpen={isModalOpen}
           cardElement={this.ref}
           card={card}
-					listId={listId}
+          listId={listId}
           toggleCardEditor={this.toggleCardEditor}
         />
       </>
