@@ -47,7 +47,7 @@ class CardAdder extends Component {
       type: "ADD_CARD",
       payload: { cardText: newText, cardId, listId }
     });
-    this.toggleCardComposer();
+    // this.toggleCardComposer();
     this.setState({ newText: "" });
   };
 

@@ -16,7 +16,7 @@ class CardModal extends Component {
       date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
       color: PropTypes.string
     }).isRequired,
-    listId: PropTypes.string.isRequired,
+		listId: PropTypes.string.isRequired,
     cardElement: PropTypes.shape({
       getBoundingClientRect: PropTypes.func.isRequired
     }),
@@ -84,7 +84,7 @@ class CardModal extends Component {
 
   render() {
     const { newText, isColorPickerOpen, isTextareaFocused } = this.state;
-    const { cardElement, card, listId, isOpen } = this.props;
+		const { cardElement, card, listId, isOpen } = this.props;
     if (!cardElement) {
       return null;
     }
@@ -173,7 +173,7 @@ class CardModal extends Component {
         <CardOptions
           isColorPickerOpen={isColorPickerOpen}
           card={card}
-          listId={listId}
+					listId={listId}
           boundingRect={boundingRect}
           isCardNearRightBorder={isCardNearRightBorder}
           isThinDisplay={isThinDisplay}

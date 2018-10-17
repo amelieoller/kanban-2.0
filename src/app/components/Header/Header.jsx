@@ -5,18 +5,19 @@ import { Link } from "react-router-dom";
 import FaUserSecret from "react-icons/lib/fa/user-secret";
 import FaSignOut from "react-icons/lib/fa/sign-out";
 import FaSignIn from "react-icons/lib/fa/sign-in";
-import kanbanLogo from "../../../assets/images/kanban-logo.svg";
+import kanbanLogo from "../../../assets/images/logo.png";
 import "./Header.scss";
 
 class Header extends Component {
   static propTypes = { user: PropTypes.object };
+
   render = () => {
     const { user } = this.props;
     return (
       <header>
         <Link to="/" className="header-title">
           <img src={kanbanLogo} alt="React Kanban logo" />
-          &nbsp;React Kanban
+          &nbsp;Kanban 2.0
         </Link>
         <div className="header-right-side">
           {user ? (
@@ -32,7 +33,6 @@ class Header extends Component {
           {user ? (
             <a className="signout-link" href="/auth/signout">
               <FaSignOut className="signout-icon" />
-              &nbsp;Sign out
             </a>
           ) : (
             <a className="signout-link" href="/">

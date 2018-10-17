@@ -18,12 +18,15 @@ class ListAdder extends Component {
       listTitle: ""
     };
   }
+
   handleBlur = () => {
     this.setState({ isOpen: false });
   };
+
   handleChange = event => {
     this.setState({ listTitle: event.target.value });
   };
+
   handleKeyDown = event => {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -32,6 +35,7 @@ class ListAdder extends Component {
       this.setState({ isOpen: false, listTitle: "" });
     }
   };
+
   handleSubmit = () => {
     const { dispatch, boardId } = this.props;
     const { listTitle } = this.state;
@@ -43,6 +47,7 @@ class ListAdder extends Component {
     });
     this.setState({ isOpen: false, listTitle: "" });
   };
+
   render = () => {
     const { isOpen, listTitle } = this.state;
     if (!isOpen) {
