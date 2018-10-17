@@ -17,7 +17,7 @@
   min-height: 0px; // fix flexbox browser incostiency
   max-height: 100%;
   margin: 0 5px 0 5px;
-  border-radius: $list-radius;
+  border-radius: $border-radius;
   font-size: 14px;
 	transition: box-shadow 0.15s, background 0.3s;
 	box-shadow: $bs;
