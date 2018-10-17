@@ -15,7 +15,8 @@ header {
   padding: 5px;
   background: #555;
   z-index: 2;
-  transition: background 0.3s;
+	transition: background 0.3s;
+	box-shadow: $bs;
 }
 
 .green header {
@@ -27,8 +28,8 @@ header {
 .red header {
   background: $transparent-red;
 }
-.pink header {
-  background: $transparent-pink;
+.grey header {
+  background: $dark-grey;
 }
 
 .header-title {
@@ -66,16 +67,16 @@ header {
 .signout-link {
   padding: 3px 5px 1px 5px;
   margin-left: 12px;
-  border: 1px solid $transparent-black;
-  border-radius: 3px;
+  // border: 1px solid $transparent-black;
+  // border-radius: 3px;
   color: white;
-  background: $transparent-black;
+  // background: $transparent-black;
   text-decoration: none;
 }
 
 .signout-link:focus,
 .signout-link:hover {
-  background: $less-transparent-black;
+  color: $less-transparent-black;
 }
 
 .signout-icon {

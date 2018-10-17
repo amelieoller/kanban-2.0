@@ -1,56 +1,78 @@
 @import "../../variables.scss";
 
 .card-title {
-  position: relative;
-  box-sizing: border-box;
-  margin: 8px 5px 0 5px;
-  border-radius: 3px;
-  color: $black-text;
-  background: $white;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  font-size: 16px;
-  overflow-wrap: break-word;
-  transition: box-shadow 0.15s;
-  user-select: none;
-  cursor: pointer !important;
+	position: relative;
+	box-sizing: border-box;
+	margin: 5px 4px 0 4px;
+	border-radius: 3px;
+	color: $dark-grey;
+	background: $white;
+	box-shadow: $bs;
+	border: 1px solid $light-grey;
+	font-size: 15px;
+	overflow-wrap: break-word;
+	transition: box-shadow 0.15s;
+	user-select: none;
+	cursor: pointer !important;
+}
+
+.card-title-top {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.checkmark {
+	color: $light-grey;
+	padding: 9px;
+	z-index: 2;
+}
+
+.card-title:hover {
+	background-color: $lighter-grey;
+}
+
+.checkmark:hover {
+	color: $green;
 }
 
 .card-title:focus {
-  box-shadow: 0px 0px 1px 3px rgb(0, 180, 255);
+	box-shadow: 0px 0px 1px 3px rgb(0, 180, 255);
 }
 
 .card-title--drag {
-  box-shadow: 1px 9px 8px 1px rgba(0, 0, 0, 0.3) !important;
-  opacity: 1 !important;
+	box-shadow: $bs-dragging !important;
+	opacity: 1 !important;
 }
 
 .card-title-html {
-  padding: 6px 8px;
+	padding: 6px 8px;
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 8px 0;
-  }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin: 8px 0;
+	}
 
-  img {
-    max-width: 100%;
-  }
+	img {
+		max-width: 100%;
+	}
 
-  p {
-    margin: 4px 0;
-  }
+	p {
+		margin: 4px 0;
+	}
 
-  code,
-  pre {
-    white-space: pre-wrap;
-  }
-  pre {
-    margin: 4px 0;
-    padding: 4px 2px;
-    background: rgba(100, 100, 100, 0.08);
-  }
+	code,
+	pre {
+		white-space: pre-wrap;
+	}
+
+	pre {
+		margin: 4px 0;
+		padding: 4px 2px;
+		background: rgba(100, 100, 100, 0.08);
+	}
 }

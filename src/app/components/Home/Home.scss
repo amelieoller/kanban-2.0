@@ -13,7 +13,7 @@ $add-board-focus-bg: #ccc;
   margin: $board-margin;
   padding: 10px;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   transition: background 0.1s;
   cursor: pointer;
@@ -80,8 +80,8 @@ $add-board-focus-bg: #ccc;
   &.red {
     background: $red;
   }
-  &.pink {
-    background: $pink;
+  &.grey {
+    background: $light-grey;
   }
 }
 
@@ -93,8 +93,8 @@ $add-board-focus-bg: #ccc;
   &.blue {
     background: $dark-blue;
   }
-  &.pink {
-    background: $dark-pink;
+  &.grey {
+    background: $light-grey;
   }
   &.red {
     background: $dark-red;
@@ -143,7 +143,7 @@ $add-board-focus-bg: #ccc;
   border-radius: 3px;
   background: $add-board-bg;
   color: #444;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .submit-board-button {

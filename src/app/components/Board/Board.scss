@@ -24,15 +24,15 @@
 .red .board-underlay {
   background: $red;
 }
-.pink .board-underlay {
-  background: $pink;
+.grey .board-underlay {
+  background: $light-grey;
 }
 
 .lists-wrapper {
   display: inline-flex;
   box-sizing: border-box;
   height: 100%;
-  padding: 85px 5px 8px 5px;
+  padding: 60px 5px 8px 5px;
 }
 
 .lists {

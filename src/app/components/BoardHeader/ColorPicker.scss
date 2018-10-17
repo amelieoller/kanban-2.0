@@ -2,7 +2,7 @@
 
 .color-picker-wrapper {
   position: relative;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .color-picker {
@@ -64,10 +64,10 @@
       background: $dark-red;
     }
   }
-  &.pink {
-    background: $pink;
+  &.grey {
+    background: $light-grey;
     &:focus {
-      background: $dark-pink;
+      background: $light-grey;
     }
   }
 }

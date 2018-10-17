@@ -3,7 +3,7 @@
 .board-deleter-wrapper {
   position: relative;
   flex-shrink: 0;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .board-deleter-button {
@@ -36,7 +36,7 @@
   margin-top: 4px;
   padding: 5px;
   border-radius: 3px;
-  color: $black-text;
+  color: $dark-grey;
   background: $white;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
   font-weight: 700;

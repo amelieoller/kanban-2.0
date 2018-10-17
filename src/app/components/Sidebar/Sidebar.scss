@@ -1,0 +1,44 @@
+@import "../../variables.scss";
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid $light-grey;
+	padding: 0;
+	margin: 0;
+}
+
+.sidebar-wrapper {
+	background-color: $white;
+	width: 200px;
+	padding: 25px 8px 8px 8px;
+	margin-top: 40px;
+	box-shadow: $bs;
+}
+
+.header {
+	font-size: 17px;
+	color: $dark-grey;
+	font-weight: 400;
+	overflow-wrap: break-word;
+	text-transform: uppercase;
+	padding: 10px 0;
+}
+
+.sub-header {
+	font-size: 14px;
+	color: $grey;
+	text-transform: uppercase;
+}
+
+.points {
+	font-size: 23px;
+	color: $red;
+	font-weight: 700;
+}

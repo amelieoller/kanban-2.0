@@ -4,8 +4,13 @@
   display: inline-flex;
   flex-shrink: 0;
   border-top-right-radius: $list-radius;
-  border-top-left-radius: $list-radius;
-  font-size: 18px;
+	border-top-left-radius: $list-radius;
+	border-bottom: 1px solid $light-grey;
+	font-size: 16px;
+	background-color: $white;
+	align-items: center;
+	text-transform: uppercase;
+	font-weight: 400;
 }
 
 .list-title-button {
@@ -14,8 +19,7 @@
   padding: 10px;
   border: none;
   border-top-left-radius: inherit;
-  color: $white;
-  font-weight: 700;
+  color: $dark-grey;
   overflow-wrap: break-word;
   cursor: pointer !important;
 }
@@ -32,10 +36,11 @@
   padding: 6px;
   border-radius: 3px;
   border: 0;
-  color: $black-text;
+  color: $grey;
   font-family: inherit;
-  font-size: 18px;
-  font-weight: 700;
+	font-size: 16px;
+	text-transform: uppercase;
+  font-weight: 400;
   line-height: inherit;
   overflow: hidden;
   resize: none;
@@ -52,14 +57,14 @@
   margin: 4px;
   padding: 10px;
   border-radius: $list-radius;
-  color: $white;
-  font-size: 16px;
+  color: $grey;
+  font-size: 15px;
   cursor: pointer;
 }
 
 .delete-list-button:hover,
 .delete-list-button:focus {
-  background: $transparent-black;
+  color: $transparent-black;
 }
 
 .delete-list-button {
@@ -77,7 +82,7 @@
   padding: 5px;
   border-radius: 3px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
-  color: $black-text;
+  color: $grey;
   background: $white;
   font-weight: 700;
   text-align: center;

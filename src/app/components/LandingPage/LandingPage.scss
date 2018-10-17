@@ -85,7 +85,7 @@
   border: 0;
   border-radius: 3px;
   color: white;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
@@ -93,7 +93,7 @@
 
 .google-button {
   background: white;
-  color: $black-text;
+  color: $dark-grey;
 }
 
 .google-button:hover,
@@ -115,7 +115,7 @@
 
 .guest-button {
   background: white;
-  color: $black-text;
+  color: $dark-grey;
 }
 
 .guest-button:hover,
