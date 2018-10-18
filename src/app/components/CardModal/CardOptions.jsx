@@ -25,9 +25,12 @@ class CardOptions extends Component {
     dispatch: PropTypes.func.isRequired
   };
 
-  constructor() {
-    super();
-    this.state = { isCalendarOpen: false };
+	constructor(props) {
+    super(props);
+    this.state = {
+      isCalendarOpen: false,
+      minutes: this.props.card.minutes || ''
+    };
   }
 
   deleteCard = () => {
@@ -82,6 +85,32 @@ class CardOptions extends Component {
     if (event.keyCode === 27) {
       this.props.toggleDifficultyPicker();
       this.colorPickerButton.focus();
+    }
+  };
+
+  handleKeyDownTime = event => {
+    if (event.keyCode === 27) {
+      this.props.toggleDifficultyPicker();
+      this.colorPickerButton.focus();
+    }
+  };
+
+  handleMinuteChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  handleMinuteSubmit = e => {
+    e.preventDefault();
+    const { dispatch, card } = this.props;
+    const { minutes } = this.state;
+
+    if (card.minutes !== minutes) {
+      dispatch({
+        type: "CHANGE_CARD_MINUTES",
+        payload: { minutes, cardId: card._id }
+      });
     }
   };
 
@@ -143,14 +172,23 @@ class CardOptions extends Component {
             &nbsp;Done
           </button>
         </div>
-        <div>
-          <button onClick={this.deleteCard} className="options-list-button">
-            <div className="modal-icon">
-              <FaTrash />
-            </div>
-            &nbsp;Delete
-          </button>
+        <div className="modal-color-picker-wrapper">
+          <form onSubmit={this.handleMinuteSubmit}>
+            <input
+              className="options-list-button"
+              onKeyDown={this.handleKeyDownTime}
+              ref={ref => {
+                this.colorPickerButton = ref;
+              }}
+              name="minutes"
+              type="text"
+              placeholder="Minutes"
+              value={this.state.minutes}
+              onChange={this.handleMinuteChange}
+            />
+          </form>
         </div>
+
         <div className="modal-color-picker-wrapper">
           <button
             className="options-list-button"
@@ -250,6 +288,14 @@ class CardOptions extends Component {
             toggleCalendar={this.toggleCalendar}
           />
         </Modal>
+        <div>
+          <button onClick={this.deleteCard} className="options-list-button">
+            <div className="modal-icon">
+              <FaTrash />
+            </div>
+            &nbsp;Delete
+          </button>
+        </div>
       </div>
     );
   }

@@ -18,6 +18,7 @@ class Board extends Component {
     boardId: PropTypes.string.isRequired,
     boardTitle: PropTypes.string.isRequired,
     boardColor: PropTypes.string.isRequired,
+    pomodoro: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
   };
 
@@ -47,7 +48,7 @@ class Board extends Component {
 
     // Move list
     if (type === "COLUMN") {
-			// Prevent update if nothing has changed
+      // Prevent update if nothing has changed
       if (source.index !== destination.index) {
         dispatch({
           type: "MOVE_LIST",
@@ -106,7 +107,8 @@ class Board extends Component {
 
   // Remove drag event listeners
   handleMouseUp = () => {
-    if (this.state.startX) {
+		const {startX} = this.state
+    if (startX) {
       window.removeEventListener("mousemove", this.handleMouseMove);
       window.removeEventListener("mouseup", this.handleMouseUp);
       this.setState({ startX: null, startScrollX: null });
@@ -132,9 +134,8 @@ class Board extends Component {
   };
 
   render = () => {
-    const { lists, boardTitle, boardId, boardColor } = this.props;
-    const completedList = lists.filter(list => list._id === "completed")[0];
-		const otherLists = lists.filter(list => list._id !== "completed");
+    const { lists, boardTitle, boardId, boardColor, pomodoro } = this.props;
+    const otherLists = lists.filter(list => list._id !== "completed");
 
     return (
       <>
@@ -143,7 +144,7 @@ class Board extends Component {
           <Header />
           {/* <BoardHeader /> */}
           {/* eslint-disable jsx-a11y/no-static-element-interactions */}
-          <Sidebar />
+					<Sidebar pomodoro={pomodoro} boardId={boardId} />
           <div
             className="lists-wrapper"
             onMouseDown={this.handleMouseDown}
@@ -183,11 +184,12 @@ class Board extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { board } = ownProps;
 
-	return {
+  return {
     lists: board.lists.map(listId => state.listsById[listId]),
     boardTitle: board.title,
     boardColor: board.color,
-    boardId: board._id
+    boardId: board._id,
+    pomodoro: board.pomodoro
   };
 };
 

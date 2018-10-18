@@ -5,6 +5,7 @@ import differenceInCalendarDays from "date-fns/difference_in_calendar_days";
 import MdAlarm from "react-icons/lib/md/access-alarm";
 import MdDoneAll from "react-icons/lib/fa/check-square-o";
 import "./CardBadges.scss";
+import Time from "react-icons/lib/md/timelapse";
 
 class CardBadges extends Component {
   static propTypes = {
@@ -46,7 +47,8 @@ class CardBadges extends Component {
 
     return (
       <div className="badge" style={{ background: dueDateColor }}>
-        <MdAlarm className="badge-icon" />&nbsp;
+        <MdAlarm className="badge-icon" />
+        &nbsp;
         {dueDateString}
       </div>
     );
@@ -63,8 +65,26 @@ class CardBadges extends Component {
         className="badge"
         style={{ background: checked === total ? "green" : "#444" }}
       >
-        <MdDoneAll className="badge-icon" />&nbsp;
+        <MdDoneAll className="badge-icon" />
+        &nbsp;
         {checked}/{total}
+      </div>
+    );
+  };
+
+  renderMinutes = () => {
+    const { minutes } = this.props;
+
+    if (!minutes) {
+      return null;
+    }
+
+    return (
+      <div className="badge" style={{ background: "#0179BE" }}>
+				<Time className="badge-icon" />
+        &nbsp;
+        {minutes}
+        min
       </div>
     );
   };
@@ -74,6 +94,7 @@ class CardBadges extends Component {
       <div className="card-badges">
         {this.renderDueDate()}
         {this.renderTaskProgress()}
+        {this.renderMinutes()}
       </div>
     );
   }

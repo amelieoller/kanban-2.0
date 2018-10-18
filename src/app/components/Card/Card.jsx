@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
+import FaCheck from "react-icons/lib/fa/check";
 import CardModal from "../CardModal/CardModal";
 import CardBadges from "../CardBadges/CardBadges";
 import { findCheckboxes } from "../utils";
 import formatMarkdown from "./formatMarkdown";
 import "./Card.scss";
-import FaCheck from "react-icons/lib/fa/check";
 
 class Card extends Component {
   static propTypes = {
@@ -31,7 +31,8 @@ class Card extends Component {
   }
 
   toggleCardEditor = () => {
-    this.setState({ isModalOpen: !this.state.isModalOpen });
+    const { isModalOpen } = this.state;
+    this.setState({ isModalOpen: !isModalOpen });
   };
 
   handleClick = event => {
@@ -84,7 +85,7 @@ class Card extends Component {
   };
 
   render() {
-    const { card, index, listId, boardId, isDraggingOver } = this.props;
+    const { card, index, listId, isDraggingOver } = this.props;
     const { isModalOpen } = this.state;
     const checkboxes = findCheckboxes(card.text);
 
@@ -133,8 +134,12 @@ class Card extends Component {
                   </div>
                 </div>
                 {/* eslint-enable */}
-                {(card.date || checkboxes.total > 0) && (
-                  <CardBadges date={card.date} checkboxes={checkboxes} />
+                {(card.date || checkboxes.total > 0 || card.minutes) && (
+                  <CardBadges
+                    date={card.date}
+                    checkboxes={checkboxes}
+                    minutes={card.minutes}
+                  />
                 )}
               </div>
               {/* Remove placeholder when not dragging over to reduce snapping */}

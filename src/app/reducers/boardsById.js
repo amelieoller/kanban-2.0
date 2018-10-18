@@ -19,10 +19,10 @@ const boardsById = (state = {}, action) => {
       }
       const [removedList] = newLists.splice(oldListIndex, 1);
 
-			newLists.splice(newListIndex, 0, removedList)
-			newLists.unshift("completed");
+      newLists.splice(newListIndex, 0, removedList);
+      newLists.unshift("completed");
 
-			return {
+      return {
         ...state,
         [boardId]: { ...state[boardId], lists: newLists }
       };
@@ -47,7 +47,8 @@ const boardsById = (state = {}, action) => {
           title: boardTitle,
           lists: [],
           users: [userId],
-          color: "grey"
+          color: "grey",
+          pomodoro: { notification: true, audio: true }
         }
       };
     }
@@ -68,6 +69,20 @@ const boardsById = (state = {}, action) => {
         [boardId]: {
           ...state[boardId],
           color
+        }
+      };
+    }
+    case "CHANGE_POMODORO_SETTING": {
+      const { boardId, type, boolean } = action.payload;
+
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          pomodoro: {
+            ...state[boardId].pomodoro,
+            [type]: boolean
+          }
         }
       };
     }

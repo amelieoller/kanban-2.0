@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "./CardItem.scss";
 import Trash from "react-icons/lib/md/clear";
+import Pomodoro from "../Pomodoro/Pomodoro";
 
 class Sidebar extends Component {
   static propTypes = {
@@ -14,7 +15,9 @@ class Sidebar extends Component {
         difficulty: PropTypes.number.isRequired
       }).isRequired
     ).isRequired,
-    dispatch: PropTypes.func.isRequired
+    pomodoro: PropTypes.object.isRequired,
+		dispatch: PropTypes.func.isRequired,
+		boardId: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -33,11 +36,14 @@ class Sidebar extends Component {
   };
 
   render = () => {
-    const { cards } = this.props;
+		const { cards, pomodoro, dispatch, boardId } = this.props;
 
     return (
       <>
         <div className="sidebar-wrapper">
+          <div className="header">Pomodoro</div>
+          <hr />
+          <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
           <div className="header">Stats</div>
           <hr />
           <p className="sub-header">Task Points:</p>
