@@ -41,8 +41,6 @@ class Sidebar extends Component {
     return (
       <>
         <div className="sidebar-wrapper">
-          <div className="header">Pomodoro</div>
-          <hr />
           <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
           <div className="header">Stats</div>
           <hr />

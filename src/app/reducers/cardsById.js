@@ -4,7 +4,7 @@ const cardsById = (state = {}, action) => {
       const { cardText, cardId } = action.payload;
       return {
         ...state,
-        [cardId]: { text: cardText, _id: cardId, difficulty: 1 }
+        [cardId]: { text: cardText, _id: cardId, difficulty: 1, minutes: 5 }
       };
     }
     case "CHANGE_CARD_TEXT": {

@@ -85,7 +85,7 @@ class Card extends Component {
   };
 
   render() {
-    const { card, index, listId, isDraggingOver } = this.props;
+    const { card, index, listId, isDraggingOver, withinPomodoroCard } = this.props;
     const { isModalOpen } = this.state;
     const checkboxes = findCheckboxes(card.text);
 
@@ -101,7 +101,8 @@ class Card extends Component {
                   "card-title",
                   {
                     "card-title--drag": snapshot.isDragging
-                  }
+                  },
+                  withinPomodoroCard && "within-pomodoro"
                 )}
                 ref={ref => {
                   provided.innerRef(ref);

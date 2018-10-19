@@ -72,31 +72,38 @@ class CardModal extends Component {
   };
 
   toggleCategoryPicker = () => {
-		this.setState({ isCategoryPickerOpen: !this.state.isCategoryPickerOpen });
+    this.setState({ isCategoryPickerOpen: !this.state.isCategoryPickerOpen });
   };
 
   toggleDifficultyPicker = () => {
-		this.setState({ isDifficultyPickerOpen: !this.state.isDifficultyPickerOpen });
+    this.setState({
+      isDifficultyPickerOpen: !this.state.isDifficultyPickerOpen
+    });
   };
 
   handleRequestClose = () => {
-		const { isCategoryPickerOpen, isDifficultyPickerOpen } = this.state;
+    const { isCategoryPickerOpen, isDifficultyPickerOpen } = this.state;
     const { toggleCardEditor } = this.props;
-		if (!isCategoryPickerOpen || !isDifficultyPickerOpen) {
+    if (!isCategoryPickerOpen || !isDifficultyPickerOpen) {
       toggleCardEditor();
     }
-	};
+  };
 
-	// handleRequestCloseDifficulty = () => {
-	// 	const { isDifficultyPickerOpen } = this.state;
-	// 	const { toggleCardEditor } = this.props;
-	// 	if (!isDifficultyPickerOpen) {
-	// 		toggleCardEditor();
-	// 	}
-	// };
+  // handleRequestCloseDifficulty = () => {
+  // 	const { isDifficultyPickerOpen } = this.state;
+  // 	const { toggleCardEditor } = this.props;
+  // 	if (!isDifficultyPickerOpen) {
+  // 		toggleCardEditor();
+  // 	}
+  // };
 
   render() {
-		const { newText, isCategoryPickerOpen, isDifficultyPickerOpen, isTextareaFocused } = this.state;
+    const {
+      newText,
+      isCategoryPickerOpen,
+      isDifficultyPickerOpen,
+      isTextareaFocused
+    } = this.state;
     const { cardElement, card, listId, isOpen } = this.props;
     if (!cardElement) {
       return null;
@@ -180,19 +187,23 @@ class CardModal extends Component {
             onBlur={() => this.setState({ isTextareaFocused: false })}
           />
           {(card.date || checkboxes.total > 0 || card.minutes) && (
-            <CardBadges date={card.date} checkboxes={checkboxes} minutes={card.minutes} />
+            <CardBadges
+              date={card.date}
+              checkboxes={checkboxes}
+              minutes={card.minutes}
+            />
           )}
         </div>
         <CardOptions
-					isCategoryPickerOpen={isCategoryPickerOpen}
-					isDifficultyPickerOpen={isDifficultyPickerOpen}
+          isCategoryPickerOpen={isCategoryPickerOpen}
+          isDifficultyPickerOpen={isDifficultyPickerOpen}
           card={card}
           listId={listId}
           boundingRect={boundingRect}
           isCardNearRightBorder={isCardNearRightBorder}
           isThinDisplay={isThinDisplay}
-					toggleCategoryPicker={this.toggleCategoryPicker}
-					toggleDifficultyPicker={this.toggleDifficultyPicker}
+          toggleCategoryPicker={this.toggleCategoryPicker}
+          toggleDifficultyPicker={this.toggleDifficultyPicker}
         />
       </Modal>
     );

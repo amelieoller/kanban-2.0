@@ -25,11 +25,11 @@ class CardOptions extends Component {
     dispatch: PropTypes.func.isRequired
   };
 
-	constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       isCalendarOpen: false,
-      minutes: this.props.card.minutes || ''
+      minutes: this.props.card.minutes || ""
     };
   }
 
@@ -96,8 +96,10 @@ class CardOptions extends Component {
   };
 
   handleMinuteChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
+    const minutes = e.target.value !== "" ? parseInt(e.target.value) : ""
+
+		this.setState({
+			[e.target.name]: minutes
     });
   };
 
@@ -181,7 +183,7 @@ class CardOptions extends Component {
                 this.colorPickerButton = ref;
               }}
               name="minutes"
-              type="text"
+              type="number"
               placeholder="Minutes"
               value={this.state.minutes}
               onChange={this.handleMinuteChange}

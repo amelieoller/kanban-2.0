@@ -15,6 +15,24 @@ class List extends Component {
     list: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired
   };
 
+  withinPomodoroTime = () => {
+    const { cards } = this.props;
+
+    let total = 0;
+    const selectedCards = [];
+
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i];
+      const minutes = parseInt(card.minutes);
+			if (total + minutes <= 25 && minutes) {
+				total += minutes;
+        selectedCards.push(card._id);
+      }
+    }
+
+    return selectedCards;
+  };
+
   render = () => {
     const { list, boardId, index } = this.props;
     return (
@@ -43,7 +61,10 @@ class List extends Component {
                   boardId={boardId}
                 />
                 <div className="cards-wrapper">
-                  <Cards listId={list._id} />
+                  <Cards
+                    listId={list._id}
+                    withinPomodoroCards={this.withinPomodoroTime()}
+                  />
                 </div>
               </div>
               <CardAdder listId={list._id} />
@@ -56,4 +77,12 @@ class List extends Component {
   };
 }
 
-export default connect()(List);
+const mapStateToProps = (state, ownProps) => {
+  const cardIds = ownProps.list.cards;
+
+  return {
+    cards: cardIds.map(id => state.cardsById[id])
+  };
+};
+
+export default connect(mapStateToProps)(List);

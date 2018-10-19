@@ -45,21 +45,21 @@ export default class Pomodoro extends React.Component {
     this.restartInterval();
 
     this.setState({
-			time: newTime,
+      time: newTime,
       timeType: newTime,
       play: true
     });
   }
 
-	setDefaultTime() {
-		const defaultTime = 1500;
+  setDefaultTime() {
+    const defaultTime = 1500;
 
-		this.setState({
-			time: defaultTime,
-			timeType: defaultTime,
-			play: false
-		});
-	}
+    this.setState({
+      time: defaultTime,
+      timeType: defaultTime,
+      play: false
+    });
+  }
 
   handleSettingsChange = (type, boolean) => {
     const { dispatch, boardId } = this.props;
@@ -126,7 +126,6 @@ export default class Pomodoro extends React.Component {
     return this.play();
   }
 
-
   toggleMode(gotoDirection) {
     const timeTypes = this.getFormatTypes();
     let currentPosition = -1;
@@ -161,7 +160,7 @@ export default class Pomodoro extends React.Component {
         });
       } else {
         const notification = new Notification("The time is over!", {
-					icon: "../../../assets/images/code.png",
+          icon: "../../../assets/images/code.png",
           lang: "en",
           body: "Hey, back to code!"
         });
@@ -174,15 +173,18 @@ export default class Pomodoro extends React.Component {
 
     return (
       <div className="pomodoro">
-        {/* <Title render={this.state.title} /> */}
+        <div className="header">
+          Pomodoro:{" "}
+          <span className="timeName">{`${this.formatType(
+            this.state.timeType
+          )} Time!`}</span>
+        </div>
+        <hr />
         {/* Main section
         ------------------------------- */}
         <div className="main">
           <div className="container display timer">
             <span className="time">{this.format(this.state.time)}</span>
-            <span className="timeType">
-              {this.formatType(this.state.timeType)} time!
-            </span>
           </div>
 
           <div className="container display types">
@@ -212,7 +214,7 @@ export default class Pomodoro extends React.Component {
           <div className="container">
             <div className="controlsPlay">
               <Play className="play btnIcon" onClick={this.play} />
-              <Pause className="stop btnIcon" onClick={this.reset} />
+              <Pause className="pause btnIcon" onClick={this.reset} />
             </div>
           </div>
         </div>{" "}

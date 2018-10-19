@@ -14,7 +14,12 @@
     transition: box-shadow 0.15s;
     user-select: none;
     cursor: pointer !important;
-    border-right: 3px solid $light-grey;
+		border-right: 3px solid $light-grey;
+		border-left: 3px solid transparent;
+}
+
+.within-pomodoro.card-title {
+  border-left: 3px solid $green;
 }
 
 .difficulty-1.card-title {
@@ -59,7 +64,8 @@
 }
 
 .card-title-html {
-    padding: 6px 4px 6px 8px;
+		padding: 6px 4px 6px 8px;
+		word-break: break-word;
 
     h1,
     h2,

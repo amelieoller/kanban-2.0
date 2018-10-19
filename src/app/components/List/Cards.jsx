@@ -25,7 +25,7 @@ class Cards extends Component {
   };
 
   render() {
-    const { listId, cards } = this.props;
+    const { listId, cards, withinPomodoroCards } = this.props;
     return (
       <Droppable droppableId={listId}>
         {(provided, { isDraggingOver }) => (
@@ -38,6 +38,7 @@ class Cards extends Component {
                   cardId={cardId}
                   index={index}
                   listId={listId}
+                  withinPomodoroCard={withinPomodoroCards.includes(cardId)}
                 />
               ))}
               {provided.placeholder}

@@ -19,6 +19,18 @@
 	}
 }
 
+.header {
+	text-transform: uppercase;
+	font-size: 18px;
+}
+
+.timeName {
+	text-transform: capitalize;
+	font-size: 16px;
+	font-style: italic;
+	font-family: 'Pacifico', cursive;
+}
+
 /* Main section
 ------------------------------- */
 .container {
@@ -52,7 +64,7 @@
 .timeType {
 	display: block;
 	font-size: 20px;
-	color: $red;
+	color: $dark-grey;
 	font-weight: 300;
 	width: 100%;
 	text-align: center;
@@ -61,25 +73,27 @@
 /* Time control */
 .btn {
 	border: 0;
-	background: $red;
+	background: $grey;
 	color: $white;
 	padding: 5px 0;
+	border-radius: $border-radius;
 	width: 100%;
 	max-width: 60px;
 	margin: 1px;
 	font-weight: 300;
 	-webkit-transition: background .3s;
 	transition: background .3s;
+	cursor: pointer;
 }
 
 .btn:hover {
-	background: $dark-red;
+	background: $dark-grey;
 }
 
 .btn:active,
 .btn:focus {
 	outline: 0;
-	background: $dark-red;
+	background: $dark-grey;
 }
 
 .btnIcon {
@@ -92,7 +106,6 @@
 	background-size: 50px;
 	-webkit-transition: opacity .3s;
 	transition: opacity .3s;
-	fill: $dark-grey;
 	cursor: pointer;
 }
 
@@ -103,6 +116,14 @@
 .btnIcon:active,
 .btnIcon:focus {
 	opacity: .5;
+}
+
+.btnIcon.pause {
+	fill: $grey;
+}
+
+.btnIcon.play {
+	fill: $red;
 }
 
 /* Bottom section
@@ -218,7 +239,8 @@
 	opacity: .8;
 }
 
-.link:active, .link:focus {
+.link:active,
+.link:focus {
 	outline: 0;
 	opacity: .5;
 }
