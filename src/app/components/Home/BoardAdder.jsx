@@ -35,7 +35,7 @@ class BoardAdder extends Component {
     const { dispatch, history, userId } = this.props;
     const boardId = shortid.generate();
 		const listTitle = "Completed";
-		const listId = "completed";
+		const listId = "__standard__completed";
 
     dispatch({
       type: "ADD_BOARD",

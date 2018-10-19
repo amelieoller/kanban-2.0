@@ -47,7 +47,7 @@ const listsById = (state = {}, action) => {
     }
     case "COMPLETE_CARD": {
       const { listId } = action.payload;
-      const destListId = "completed";
+			const destListId = "__standard__completed";
       const sourceListId = listId;
 
       const oldCardIndex = state[sourceListId].cards.indexOf(

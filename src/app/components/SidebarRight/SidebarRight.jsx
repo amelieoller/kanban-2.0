@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import "./Sidebar.scss";
+import "./SidebarRight.scss";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "./CardItem.scss";
 import Trash from "react-icons/lib/md/clear";
 import Pomodoro from "../Pomodoro/Pomodoro";
 
-class Sidebar extends Component {
+class SidebarRight extends Component {
   static propTypes = {
     cards: PropTypes.arrayOf(
       PropTypes.shape({
@@ -16,8 +16,8 @@ class Sidebar extends Component {
       }).isRequired
     ).isRequired,
     pomodoro: PropTypes.object.isRequired,
-		dispatch: PropTypes.func.isRequired,
-		boardId: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    boardId: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -27,7 +27,7 @@ class Sidebar extends Component {
 
   deleteCard = cardId => {
     const { dispatch } = this.props;
-		const listId = "__standard__completed";
+		const listId = "__standard__recurring";
 
     dispatch({
       type: "DELETE_CARD",
@@ -36,23 +36,14 @@ class Sidebar extends Component {
   };
 
   render = () => {
-		const { cards, pomodoro, dispatch, boardId } = this.props;
+    const { cards, pomodoro, dispatch, boardId } = this.props;
 
     return (
       <>
         <div className="sidebar-wrapper">
-          <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
-          <div className="header">Stats</div>
+          <div className="header">Repeating Tasks</div>
           <hr />
           <p className="sub-header">Task Points:</p>
-          <span className="points">
-            {cards.length !== 0 &&
-              cards
-                .map(card => card.difficulty)
-                .reduce(
-                  (accumulator, currentValue) => accumulator + currentValue
-                )}
-          </span>
           <p className="sub-header">Tasks Completed:</p>
           <ul>
             {cards.map(card => (
@@ -72,6 +63,9 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = state => ({
-	cards: state.listsById.__standard__completed.cards.map(cardId => state.cardsById[cardId])
+  cards: state.listsById.__standard__recurring.cards.map(
+    cardId => state.cardsById[cardId]
+  )
 });
-export default connect(mapStateToProps)(Sidebar);
+
+export default connect(mapStateToProps)(SidebarRight);

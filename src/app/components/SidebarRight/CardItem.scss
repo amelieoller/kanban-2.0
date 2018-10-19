@@ -1,0 +1,14 @@
+@import "../../variables.scss";
+
+li {
+	color: $dark-grey;
+	padding-bottom: 8px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+
+	.delete {
+		min-width: 16px;
+	}
+}

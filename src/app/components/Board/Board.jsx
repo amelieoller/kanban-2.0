@@ -8,6 +8,7 @@ import List from "../List/List";
 import ListAdder from "../ListAdder/ListAdder";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
+import SidebarRight from "../SidebarRight/SidebarRight";
 import "./Board.scss";
 
 class Board extends Component {
@@ -107,7 +108,7 @@ class Board extends Component {
 
   // Remove drag event listeners
   handleMouseUp = () => {
-		const {startX} = this.state
+    const { startX } = this.state;
     if (startX) {
       window.removeEventListener("mousemove", this.handleMouseMove);
       window.removeEventListener("mouseup", this.handleMouseUp);
@@ -135,7 +136,7 @@ class Board extends Component {
 
   render = () => {
     const { lists, boardTitle, boardId, boardColor, pomodoro } = this.props;
-    const otherLists = lists.filter(list => list._id !== "completed");
+		const otherLists = lists.filter(list => !list._id.startsWith("__standard__"));
 
     return (
       <>
@@ -144,7 +145,7 @@ class Board extends Component {
           <Header />
           {/* <BoardHeader /> */}
           {/* eslint-disable jsx-a11y/no-static-element-interactions */}
-					<Sidebar pomodoro={pomodoro} boardId={boardId} />
+          <Sidebar pomodoro={pomodoro} boardId={boardId} />
           <div
             className="lists-wrapper"
             onMouseDown={this.handleMouseDown}
@@ -174,6 +175,7 @@ class Board extends Component {
               </Droppable>
             </DragDropContext>
           </div>
+          <SidebarRight pomodoro={pomodoro} boardId={boardId} />
           <div className="board-underlay" />
         </div>
       </>

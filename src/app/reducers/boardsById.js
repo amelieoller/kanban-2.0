@@ -13,14 +13,14 @@ const boardsById = (state = {}, action) => {
     case "MOVE_LIST": {
       const { oldListIndex, newListIndex, boardId } = action.payload;
       const newLists = Array.from(state[boardId].lists);
-      const index = newLists.indexOf("completed");
+			const index = newLists.indexOf("__standard__completed");
       if (index > -1) {
         newLists.splice(index, 1);
       }
       const [removedList] = newLists.splice(oldListIndex, 1);
 
       newLists.splice(newListIndex, 0, removedList);
-      newLists.unshift("completed");
+			newLists.unshift("__standard__completed");
 
       return {
         ...state,

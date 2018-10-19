@@ -80,7 +80,7 @@ class CardBadges extends Component {
     }
 
     return (
-      <div className="badge" style={{ background: "#0179BE" }}>
+			<div className="badge badge-minutes">
 				<Time className="badge-icon" />
         &nbsp;
         {minutes}
