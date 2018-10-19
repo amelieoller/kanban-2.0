@@ -52,6 +52,7 @@
 		"serve-favicon": "^2.5.0",
 		"shortid": "^2.2.8",
 		"slugify": "^1.3.0",
+		"typeface-pacifico": "^0.0.54",
 		"typeface-roboto": "0.0.54"
 	},
 	"devDependencies": {
