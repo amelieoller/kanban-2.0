@@ -6,6 +6,7 @@ import FaTrash from "react-icons/lib/fa/trash";
 import FaCheck from "react-icons/lib/fa/check";
 import MdAlarm from "react-icons/lib/md/access-alarm";
 import Flag from "react-icons/lib/md/flag";
+import later from "later";
 import Calendar from "./Calendar";
 import ClickOutside from "../ClickOutside/ClickOutside";
 import colorIcon from "../../../assets/images/color-icon.png";
@@ -29,7 +30,8 @@ class CardOptions extends Component {
     super(props);
     this.state = {
       isCalendarOpen: false,
-      minutes: this.props.card.minutes || ""
+      minutes: this.props.card.minutes || "",
+      recurringText: this.props.card.recurringText || ""
     };
   }
 
@@ -96,10 +98,10 @@ class CardOptions extends Component {
   };
 
   handleMinuteChange = e => {
-    const minutes = e.target.value !== "" ? parseInt(e.target.value) : ""
+    const minutes = e.target.value !== "" ? parseInt(e.target.value) : "";
 
-		this.setState({
-			[e.target.name]: minutes
+    this.setState({
+      [e.target.name]: minutes
     });
   };
 
@@ -112,6 +114,28 @@ class CardOptions extends Component {
       dispatch({
         type: "CHANGE_CARD_MINUTES",
         payload: { minutes, cardId: card._id }
+      });
+    }
+  };
+
+  handleRecurringChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  handleRecurringSubmit = e => {
+    e.preventDefault();
+    const { dispatch, card } = this.props;
+    const { recurringText } = this.state;
+    const calculatedDates = later.parse.text(recurringText);
+
+		if (calculatedDates.error === -1) {
+			const recurringDates = later.schedule(calculatedDates).next(5);
+
+      dispatch({
+        type: "CHANGE_CARD_RECURRING",
+        payload: { recurringText, cardId: card._id, recurringDates }
       });
     }
   };
@@ -187,6 +211,20 @@ class CardOptions extends Component {
               placeholder="Minutes"
               value={this.state.minutes}
               onChange={this.handleMinuteChange}
+            />
+          </form>
+        </div>
+
+        <div className="modal-color-picker-wrapper">
+          <form onSubmit={this.handleRecurringSubmit}>
+            <input
+              className="options-list-button"
+              onKeyDown={this.handleKeyDownTime}
+              name="recurringText"
+              type="text"
+              placeholder="Recurring Time"
+              value={this.state.recurringText}
+              onChange={this.handleRecurringChange}
             />
           </form>
         </div>
