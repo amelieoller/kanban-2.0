@@ -42,10 +42,11 @@ class CardAdder extends Component {
     const { listId, dispatch } = this.props;
     if (newText === "") return;
 
-    const cardId = shortid.generate();
+		const cardId = shortid.generate();
+		const createdAt = Date.now()
     dispatch({
       type: "ADD_CARD",
-      payload: { cardText: newText, cardId, listId }
+			payload: { cardText: newText, cardId, listId, createdAt }
     });
     // this.toggleCardComposer();
     this.setState({ newText: "" });
