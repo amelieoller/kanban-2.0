@@ -24,8 +24,8 @@ class List extends Component {
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       const minutes = parseInt(card.minutes);
-			if (total + minutes <= 25 && minutes) {
-				total += minutes;
+      if (total + minutes <= 25 && minutes) {
+        total += minutes;
         selectedCards.push(card._id);
       }
     }
@@ -80,8 +80,10 @@ class List extends Component {
 const mapStateToProps = (state, ownProps) => {
   const cardIds = ownProps.list.cards;
 
-  return {
-    cards: cardIds.map(id => state.cardsById[id])
+	return {
+    cards: cardIds
+      .map(id => state.cardsById[id])
+      .filter(card => !card.hasOwnProperty("active") || card.active === true)
   };
 };
 

@@ -44,12 +44,20 @@ class CardOptions extends Component {
   };
 
   completeCard = () => {
-    const { dispatch, listId, card } = this.props;
+		const { dispatch, listId, card } = this.props;
+		if (card.schedule) {
+			const nextDate = later.schedule(card.schedule).next();
 
-    dispatch({
-      type: "COMPLETE_CARD",
-      payload: { cardId: card._id, listId }
-    });
+			dispatch({
+				type: "CHANGE_CARD_SCHEDULE",
+				payload: { cardId: card._id, nextDate }
+			});
+		} else {
+			dispatch({
+				type: "COMPLETE_CARD",
+				payload: { cardId: card._id, listId }
+			});
+		}
   };
 
   changeCategory = color => {
@@ -128,14 +136,13 @@ class CardOptions extends Component {
     e.preventDefault();
     const { dispatch, card } = this.props;
     const { recurringText } = this.state;
-    const calculatedDates = later.parse.text(recurringText);
-
-		if (calculatedDates.error === -1) {
-			const recurringDates = later.schedule(calculatedDates).next(5);
+    const schedule = later.parse.text(recurringText);
+    if (schedule.error === -1) {
+      const nextDate = later.schedule(schedule).next();
 
       dispatch({
         type: "CHANGE_CARD_RECURRING",
-        payload: { recurringText, cardId: card._id, recurringDates }
+        payload: { recurringText, cardId: card._id, nextDate, schedule }
       });
     }
   };

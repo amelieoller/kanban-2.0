@@ -40,6 +40,16 @@ class Board extends Component {
     });
   };
 
+  componentWillUnmount = () => {
+    const { dispatch, boardId } = this.props;
+    const checkinDate = new Date();
+
+    dispatch({
+      type: "CHANGE_LAST_CHECKING",
+      payload: { boardId, checkinDate }
+    });
+  };
+
   handleDragEnd = ({ source, destination, type }) => {
     // dropped outside the list
     if (!destination) {
@@ -136,7 +146,9 @@ class Board extends Component {
 
   render = () => {
     const { lists, boardTitle, boardId, boardColor, pomodoro } = this.props;
-		const otherLists = lists.filter(list => !list._id.startsWith("__standard__"));
+    const otherLists = lists.filter(
+      list => !list._id.startsWith("__standard__")
+    );
 
     return (
       <>

@@ -9,6 +9,7 @@ import CardBadges from "../CardBadges/CardBadges";
 import { findCheckboxes } from "../utils";
 import formatMarkdown from "./formatMarkdown";
 import "./Card.scss";
+import later from "later";
 
 class Card extends Component {
   static propTypes = {
@@ -76,85 +77,103 @@ class Card extends Component {
   };
 
   completeCard = () => {
-    const { dispatch, listId, card, boardId } = this.props;
+    const { dispatch, listId, card } = this.props;
+    if (card.schedule) {
+      const nextDate = later.schedule(card.schedule).next();
 
-    dispatch({
-      type: "COMPLETE_CARD",
-      payload: { cardId: card._id, listId, boardId }
-    });
+      dispatch({
+        type: "CHANGE_CARD_SCHEDULE",
+        payload: { cardId: card._id, nextDate }
+      });
+    } else {
+      dispatch({
+        type: "COMPLETE_CARD",
+        payload: { cardId: card._id, listId }
+      });
+    }
   };
 
   render() {
-    const { card, index, listId, isDraggingOver, withinPomodoroCard } = this.props;
+    const {
+      card,
+      index,
+      listId,
+      isDraggingOver,
+      withinPomodoroCard
+    } = this.props;
     const { isModalOpen } = this.state;
     const checkboxes = findCheckboxes(card.text);
 
     return (
       <>
-        <Draggable draggableId={card._id} index={index}>
-          {(provided, snapshot) => (
-            <>
-              {/* eslint-disable */}
-              <div
-                className={classnames(
-                  `difficulty-${card.difficulty}`,
-                  "card-title",
-                  {
-                    "card-title--drag": snapshot.isDragging
-                  },
-                  withinPomodoroCard && "within-pomodoro"
-                )}
-                ref={ref => {
-                  provided.innerRef(ref);
-                  this.ref = ref;
-                }}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                onClick={event => {
-                  provided.dragHandleProps.onClick(event);
-                  this.handleClick(event);
-                }}
-                onKeyDown={event => {
-                  provided.dragHandleProps.onKeyDown(event);
-                  this.handleKeyDown(event);
-                }}
-                style={{
-                  ...provided.draggableProps.style,
-                  background: card.color
-                }}
-              >
-                <div className="card-title-top">
+        {card.active !== false && (
+          <>
+            <Draggable draggableId={card._id} index={index}>
+              {(provided, snapshot) => (
+                <>
+                  {/* eslint-disable */}
                   <div
-                    className="card-title-html"
-                    dangerouslySetInnerHTML={{
-                      __html: formatMarkdown(card.text)
+                    className={classnames(
+                      `difficulty-${card.difficulty}`,
+                      "card-title",
+                      {
+                        "card-title--drag": snapshot.isDragging
+                      },
+                      withinPomodoroCard && "within-pomodoro"
+                    )}
+                    ref={ref => {
+                      provided.innerRef(ref);
+                      this.ref = ref;
                     }}
-                  />
-                  <div className="checkmark" onClick={this.completeCard}>
-                    <FaCheck />
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    onClick={event => {
+                      provided.dragHandleProps.onClick(event);
+                      this.handleClick(event);
+                    }}
+                    onKeyDown={event => {
+                      provided.dragHandleProps.onKeyDown(event);
+                      this.handleKeyDown(event);
+                    }}
+                    style={{
+                      ...provided.draggableProps.style,
+                      background: card.color
+                    }}
+                  >
+                    <div className="card-title-top">
+                      <div
+                        className="card-title-html"
+                        dangerouslySetInnerHTML={{
+                          __html: formatMarkdown(card.text)
+                        }}
+                      />
+                      <div className="checkmark" onClick={this.completeCard}>
+                        <FaCheck />
+                      </div>
+                    </div>
+                    {/* eslint-enable */}
+                    {(card.date || checkboxes.total > 0 || card.minutes) && (
+                      <CardBadges
+                        date={card.date}
+                        checkboxes={checkboxes}
+                        minutes={card.minutes}
+                      />
+                    )}
                   </div>
-                </div>
-                {/* eslint-enable */}
-                {(card.date || checkboxes.total > 0 || card.minutes) && (
-                  <CardBadges
-                    date={card.date}
-                    checkboxes={checkboxes}
-                    minutes={card.minutes}
-                  />
-                )}
-              </div>
-              {/* Remove placeholder when not dragging over to reduce snapping */}
-              {isDraggingOver && provided.placeholder}
-            </>
-          )}
-        </Draggable>
-        <CardModal
-          isOpen={isModalOpen}
-          cardElement={this.ref}
-          card={card}
-          listId={listId}
-          toggleCardEditor={this.toggleCardEditor}
-        />
+                  {/* Remove placeholder when not dragging over to reduce snapping */}
+                  {isDraggingOver && provided.placeholder}
+                </>
+              )}
+            </Draggable>
+            <CardModal
+              isOpen={isModalOpen}
+              cardElement={this.ref}
+              card={card}
+              listId={listId}
+              toggleCardEditor={this.toggleCardEditor}
+            />{" "}
+          </>
+        )}
       </>
     );
   }

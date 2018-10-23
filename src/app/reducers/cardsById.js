@@ -39,11 +39,37 @@ const cardsById = (state = {}, action) => {
       return restOfCards;
     }
     case "CHANGE_CARD_RECURRING": {
-			const { recurringText, cardId, recurringDates } = action.payload;
+      const { recurringText, cardId, nextDate, schedule } = action.payload;
 
       return {
         ...state,
-        [cardId]: { ...state[cardId], recurringText, recurringDates }
+        [cardId]: {
+          ...state[cardId],
+          recurringText,
+          nextDate,
+          schedule,
+          active: false
+        }
+      };
+    }
+    case "CHANGE_CARD_SCHEDULE": {
+      const { cardId, nextDate } = action.payload;
+      const active = false;
+
+      return {
+        ...state,
+        [cardId]: { ...state[cardId], ...{ nextDate, active } }
+      };
+    }
+    case "CHANGE_CARD_ACTIVE": {
+      const { cardId, active } = action.payload;
+
+      return {
+        ...state,
+        [cardId]: {
+          ...state[cardId],
+          active
+        }
       };
     }
     // Find every card from the deleted list and remove it (actually unnecessary since they will be removed from db on next write anyway)
