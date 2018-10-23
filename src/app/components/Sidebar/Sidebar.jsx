@@ -2,22 +2,22 @@ import React, { Component } from "react";
 import "./Sidebar.scss";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import "./CardItem.scss";
 import Trash from "react-icons/lib/md/clear";
 import Pomodoro from "../Pomodoro/Pomodoro";
+import formatMarkdown from "../Card/formatMarkdown";
 
 class Sidebar extends Component {
   static propTypes = {
-    cards: PropTypes.arrayOf(
-      PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired,
-        difficulty: PropTypes.number.isRequired
-      }).isRequired
-    ).isRequired,
-    pomodoro: PropTypes.object.isRequired,
-		dispatch: PropTypes.func.isRequired,
-		boardId: PropTypes.string.isRequired,
+    // cards: PropTypes.arrayOf(
+    //   PropTypes.shape({
+    //     _id: PropTypes.string.isRequired,
+    //     text: PropTypes.string.isRequired,
+    //     difficulty: PropTypes.number.isRequired
+    //   }).isRequired
+    // ),
+    // pomodoro: PropTypes.object.isRequired,
+    // dispatch: PropTypes.func.isRequired,
+    // boardId: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -27,7 +27,7 @@ class Sidebar extends Component {
 
   deleteCard = cardId => {
     const { dispatch } = this.props;
-		const listId = "__standard__completed";
+    const listId = "__standard__completed";
 
     dispatch({
       type: "DELETE_CARD",
@@ -36,7 +36,7 @@ class Sidebar extends Component {
   };
 
   render = () => {
-		const { cards, pomodoro, dispatch, boardId } = this.props;
+    const { cards, pomodoro, dispatch, boardId } = this.props;
 
     return (
       <>
@@ -46,7 +46,8 @@ class Sidebar extends Component {
           <hr />
           <p className="sub-header">Task Points:</p>
           <span className="points">
-            {cards.length !== 0 &&
+            {cards &&
+              cards.length !== 0 &&
               cards
                 .map(card => card.difficulty)
                 .reduce(
@@ -55,15 +56,21 @@ class Sidebar extends Component {
           </span>
           <p className="sub-header">Tasks Completed:</p>
           <ul>
-            {cards.map(card => (
-              <li key={card._id}>
-                {card.text}{" "}
-                <Trash
-                  className="delete"
-                  onClick={() => this.deleteCard(card._id)}
-                />
-              </li>
-            ))}
+            {cards &&
+              cards.map(card => (
+                <li key={card._id} className="sidebar-card-title-wrapper">
+                  <span
+                    className="sidebar-card-title"
+                    dangerouslySetInnerHTML={{
+                      __html: formatMarkdown(card.text)
+                    }}
+                  />
+                  <Trash
+                    className="delete"
+                    onClick={() => this.deleteCard(card._id)}
+                  />
+                </li>
+              ))}
           </ul>
         </div>
       </>
@@ -71,7 +78,15 @@ class Sidebar extends Component {
   };
 }
 
-const mapStateToProps = state => ({
-	cards: state.listsById.__standard__completed.cards.map(cardId => state.cardsById[cardId])
-});
+const mapStateToProps = state => {
+  if (state.listsById.__standard__completed) {
+    return {
+      cards: state.listsById.__standard__completed.cards.map(
+        cardId => state.cardsById[cardId]
+      )
+    };
+  }
+    return {};
+
+};
 export default connect(mapStateToProps)(Sidebar);

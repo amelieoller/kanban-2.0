@@ -22,8 +22,8 @@ class CardItem extends Component {
 
   deleteCard = () => {
     const { dispatch, card } = this.props;
-    const listId = "__standard__recurring";
-    dispatch({
+
+		dispatch({
       type: "DELETE_CARD",
       payload: { cardId: card._id, listId }
     });

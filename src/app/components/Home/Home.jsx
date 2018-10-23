@@ -21,6 +21,7 @@ class Home extends Component {
     listsById: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
   };
+
   render = () => {
     const { boards, listsById, history } = this.props;
     return (

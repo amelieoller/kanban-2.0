@@ -1,10 +1,10 @@
 const cardsById = (state = {}, action) => {
   switch (action.type) {
     case "ADD_CARD": {
-      const { cardText, cardId } = action.payload;
+			const { cardText, cardId, createdAt } = action.payload;
       return {
         ...state,
-        [cardId]: { text: cardText, _id: cardId, difficulty: 1, minutes: 5 }
+				[cardId]: { text: cardText, _id: cardId, difficulty: 1, minutes: 5, createdAt }
       };
     }
     case "CHANGE_CARD_TEXT": {

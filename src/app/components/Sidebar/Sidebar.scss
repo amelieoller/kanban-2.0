@@ -20,6 +20,9 @@ hr {
 	padding: 25px 8px 8px 8px;
 	margin-top: 40px;
 	box-shadow: $bs;
+	max-height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .header {
@@ -41,4 +44,36 @@ hr {
 	font-size: 23px;
 	color: $red;
 	font-weight: 700;
+}
+
+.sidebar-card-title-wrapper {
+	position: relative;
+	box-sizing: border-box;
+	border-radius: 3px;
+	color: $dark-grey;
+	background: $white;
+	border: 1px solid $light-grey;
+	font-size: 15px;
+	width: 100%;
+	margin: 3px 0;
+	padding: 3px;
+}
+
+.sidebar-card-title {
+	position: relative;
+	box-sizing: border-box;
+	font-size: 15px;
+	width: 100%;
+	overflow: hidden;
+
+	p {
+		margin: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
+
+.delete {
+	cursor: pointer;
 }
