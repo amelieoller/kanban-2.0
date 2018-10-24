@@ -72,6 +72,25 @@ class CardBadges extends Component {
     );
   };
 
+  renderCategory = () => {
+    const { category } = this.props;
+
+    if (!category) {
+      return null;
+    }
+
+    return (
+      <div
+        className="badge badge-category"
+        style={{
+					background: category.color
+        }}
+      >
+        {category.short}
+      </div>
+    );
+  };
+
   renderMinutes = () => {
     const { minutes } = this.props;
 
@@ -80,8 +99,8 @@ class CardBadges extends Component {
     }
 
     return (
-			<div className="badge badge-minutes">
-				<Time className="badge-icon" />
+      <div className="badge badge-minutes">
+        <Time className="badge-icon" />
         &nbsp;
         {minutes}
         min
@@ -92,9 +111,10 @@ class CardBadges extends Component {
   render() {
     return (
       <div className="card-badges">
+        {this.renderCategory()}
         {this.renderDueDate()}
-        {this.renderTaskProgress()}
         {this.renderMinutes()}
+        {this.renderTaskProgress()}
       </div>
     );
   }

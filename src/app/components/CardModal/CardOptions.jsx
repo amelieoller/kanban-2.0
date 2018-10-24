@@ -16,7 +16,11 @@ class CardOptions extends Component {
   static propTypes = {
     isCategoryPickerOpen: PropTypes.bool.isRequired,
     isDifficultyPickerOpen: PropTypes.bool.isRequired,
-    card: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired,
+    card: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      minutes: PropTypes.number,
+      recurringText: PropTypes.string
+    }).isRequired,
     listId: PropTypes.string.isRequired,
     isCardNearRightBorder: PropTypes.bool.isRequired,
     isThinDisplay: PropTypes.bool.isRequired,
@@ -28,10 +32,12 @@ class CardOptions extends Component {
 
   constructor(props) {
     super(props);
+		const { card } = this.props;
+
     this.state = {
       isCalendarOpen: false,
-      minutes: this.props.card.minutes || "",
-      recurringText: this.props.card.recurringText || ""
+			minutes: card.minutes || "",
+			recurringText: card.recurringText || ""
     };
   }
 
@@ -44,28 +50,28 @@ class CardOptions extends Component {
   };
 
   completeCard = () => {
-		const { dispatch, listId, card } = this.props;
-		if (card.schedule) {
-			const nextDate = later.schedule(card.schedule).next();
+    const { dispatch, listId, card } = this.props;
+    if (card.schedule) {
+      const nextDate = later.schedule(card.schedule).next();
 
-			dispatch({
-				type: "CHANGE_CARD_SCHEDULE",
-				payload: { cardId: card._id, nextDate }
-			});
-		} else {
-			dispatch({
-				type: "COMPLETE_CARD",
-				payload: { cardId: card._id, listId }
-			});
-		}
+      dispatch({
+        type: "CHANGE_CARD_SCHEDULE",
+        payload: { cardId: card._id, nextDate }
+      });
+    } else {
+      dispatch({
+        type: "COMPLETE_CARD",
+        payload: { cardId: card._id, listId }
+      });
+    }
   };
 
-  changeCategory = color => {
+  changeCategory = category => {
     const { dispatch, card, toggleCategoryPicker } = this.props;
-    if (card.color !== color) {
+    if (card.category !== category) {
       dispatch({
-        type: "CHANGE_CARD_COLOR",
-        payload: { color, cardId: card._id }
+        type: "CHANGE_CARD_CATEGORY",
+        payload: { category, cardId: card._id }
       });
     }
     toggleCategoryPicker();
@@ -85,28 +91,32 @@ class CardOptions extends Component {
   };
 
   handleKeyDownCategory = event => {
+    const { toggleCategoryPicker } = this.props;
     if (event.keyCode === 27) {
-      this.props.toggleCategoryPicker();
+      toggleCategoryPicker();
       this.colorPickerButton.focus();
     }
   };
 
   handleKeyDownDifficulty = event => {
+    const { toggleDifficultyPicker } = this.props;
+
     if (event.keyCode === 27) {
-      this.props.toggleDifficultyPicker();
+      toggleDifficultyPicker();
       this.colorPickerButton.focus();
     }
   };
 
   handleKeyDownTime = event => {
+		const { toggleDifficultyPicker} = this.props
     if (event.keyCode === 27) {
-      this.props.toggleDifficultyPicker();
+      toggleDifficultyPicker();
       this.colorPickerButton.focus();
     }
   };
 
   handleMinuteChange = e => {
-    const minutes = e.target.value !== "" ? parseInt(e.target.value) : "";
+    const minutes = e.target.value !== "" ? parseInt(e.target.value, 10) : "";
 
     this.setState({
       [e.target.name]: minutes
@@ -160,7 +170,8 @@ class CardOptions extends Component {
   };
 
   toggleCalendar = () => {
-    this.setState({ isCalendarOpen: !this.state.isCalendarOpen });
+    const { isCalendarOpen } = this.state;
+    this.setState({ isCalendarOpen: !isCalendarOpen });
   };
 
   render() {
@@ -174,7 +185,7 @@ class CardOptions extends Component {
       isThinDisplay,
       boundingRect
     } = this.props;
-    const { isCalendarOpen } = this.state;
+    const { isCalendarOpen, minutes, recurringText } = this.state;
 
     const calendarStyle = {
       content: {
@@ -198,7 +209,11 @@ class CardOptions extends Component {
         }}
       >
         <div>
-          <button onClick={this.completeCard} className="options-list-button">
+          <button
+            type="submit"
+            onClick={this.completeCard}
+            className="options-list-button"
+          >
             <div className="modal-icon">
               <FaCheck />
             </div>
@@ -216,7 +231,7 @@ class CardOptions extends Component {
               name="minutes"
               type="number"
               placeholder="Minutes"
-              value={this.state.minutes}
+              value={minutes}
               onChange={this.handleMinuteChange}
             />
           </form>
@@ -230,7 +245,7 @@ class CardOptions extends Component {
               name="recurringText"
               type="text"
               placeholder="Recurring Time"
-              value={this.state.recurringText}
+              value={recurringText}
               onChange={this.handleRecurringChange}
             />
           </form>
@@ -238,6 +253,7 @@ class CardOptions extends Component {
 
         <div className="modal-color-picker-wrapper">
           <button
+            type="submit"
             className="options-list-button"
             onClick={toggleCategoryPicker}
             onKeyDown={this.handleKeyDownCategory}
@@ -261,22 +277,29 @@ class CardOptions extends Component {
                 onKeyDown={this.handleKeyDownCategory}
               >
                 {/* eslint-enable */}
-                {["white", "#F6A054", "#6CC4A7", "#E96A59", "#A39EE0"].map(
-                  color => (
-                    <button
-                      key={color}
-                      style={{ background: color }}
-                      className="color-picker-color"
-                      onClick={() => this.changeCategory(color)}
-                    />
-                  )
-                )}
+                {[
+                  { name: "No Category", short: "", color: "white" },
+                  { name: "Flatiron", short: "//", color: "#32cefe" },
+                  { name: "Graphic", short: "GL", color: "#009ad0" },
+                  { name: "Kanban", short: "KB", color: "#EA725B" }
+                ].map(category => (
+                  <button
+                    type="submit"
+                    key={category.name}
+                    style={{ background: category.color }}
+                    className="color-picker-color category-picker"
+                    onClick={() => this.changeCategory(category)}
+                  >
+                    {category.short}
+                  </button>
+                ))}
               </div>
             </ClickOutside>
           )}
         </div>
         <div className="modal-color-picker-wrapper">
           <button
+            type="submit"
             className="options-list-button"
             onClick={toggleDifficultyPicker}
             onKeyDown={this.handleKeyDownDifficulty}
@@ -315,7 +338,11 @@ class CardOptions extends Component {
           )}
         </div>
         <div>
-          <button onClick={this.toggleCalendar} className="options-list-button">
+          <button
+            type="submit"
+            onClick={this.toggleCalendar}
+            className="options-list-button"
+          >
             <div className="modal-icon">
               <MdAlarm />
             </div>
@@ -336,7 +363,7 @@ class CardOptions extends Component {
           />
         </Modal>
         <div>
-          <button onClick={this.deleteCard} className="options-list-button">
+          <button type="submit" onClick={this.deleteCard} className="options-list-button">
             <div className="modal-icon">
               <FaTrash />
             </div>

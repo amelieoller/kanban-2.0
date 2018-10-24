@@ -16,7 +16,10 @@ class Card extends Component {
     card: PropTypes.shape({
       _id: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
-      color: PropTypes.string
+      category: PropTypes.shape({
+        name: PropTypes.string,
+        color: PropTypes.string
+      })
     }).isRequired,
     listId: PropTypes.string.isRequired,
     isDraggingOver: PropTypes.bool.isRequired,
@@ -136,8 +139,7 @@ class Card extends Component {
                       this.handleKeyDown(event);
                     }}
                     style={{
-                      ...provided.draggableProps.style,
-                      background: card.color
+                      ...provided.draggableProps.style
                     }}
                   >
                     <div className="card-title-top">
@@ -152,11 +154,12 @@ class Card extends Component {
                       </div>
                     </div>
                     {/* eslint-enable */}
-                    {(card.date || checkboxes.total > 0 || card.minutes) && (
+										{(card.date || checkboxes.total > 0 || card.minutes || card.category) && (
                       <CardBadges
                         date={card.date}
                         checkboxes={checkboxes}
                         minutes={card.minutes}
+                        category={card.category}
                       />
                     )}
                   </div>
