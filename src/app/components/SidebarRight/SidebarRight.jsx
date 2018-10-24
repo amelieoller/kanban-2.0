@@ -25,17 +25,15 @@ class SidebarRight extends Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.recurringCalculator(), 20000);
-
     const { lastCheckinDate, dispatch, cards } = this.props;
     const today = new Date();
     const lastCheckin = new Date(lastCheckinDate);
 
-		if (lastCheckin < today) {
+    if (lastCheckin < today) {
       for (let i = 0; i < cards.length; i++) {
         const card = cards[i];
 
-				if (!card.active && lastCheckin > new Date(card.nextDate)) {
+        if (!card.active && lastCheckin > new Date(card.nextDate)) {
           dispatch({
             type: "CHANGE_CARD_ACTIVE",
             payload: { cardId: card._id, active: true }
@@ -43,6 +41,8 @@ class SidebarRight extends Component {
         }
       }
     }
+
+    this.interval = setInterval(() => this.recurringCalculator(), 20000);
   }
 
   componentWillUnmount() {
@@ -83,9 +83,10 @@ class SidebarRight extends Component {
           <p className="sub-header">Recurring Tasks:</p>
           <ul>
             {cards.map(card => (
-              <li key={card._id}>
-                <span>{card.text} - </span>
-                <span>{card.recurringText}</span>
+              <li key={card._id} className="recurring-task-item">
+                <span className="recurring-tasks-title">{card.text}</span>
+                <hr />
+                <span className="recurring-time">{card.recurringText}</span>
               </li>
             ))}
           </ul>

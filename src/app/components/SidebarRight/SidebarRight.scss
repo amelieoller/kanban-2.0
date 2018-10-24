@@ -37,8 +37,16 @@ hr {
 	text-transform: uppercase;
 }
 
-.points {
-	font-size: 23px;
-	color: $red;
-	font-weight: 700;
+.recurring-task-item {
+	margin-bottom: 5px;
+}
+
+.recurring-tasks-title{
+	font-size: 14px;
+	color: $dark-grey;
+}
+
+.recurring-time {
+	font-size: 12px;
+	color: $grey;
 }

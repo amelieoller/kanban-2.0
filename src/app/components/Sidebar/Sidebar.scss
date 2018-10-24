@@ -35,15 +35,9 @@ hr {
 }
 
 .sub-header {
-	font-size: 14px;
+	font-size: 13px;
 	color: $grey;
 	text-transform: uppercase;
-}
-
-.points {
-	font-size: 23px;
-	color: $red;
-	font-weight: 700;
 }
 
 .sidebar-card-title-wrapper {
@@ -57,6 +51,14 @@ hr {
 	width: 100%;
 	margin: 3px 0;
 	padding: 3px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+
+	.delete {
+		min-width: 16px;
+	}
 }
 
 .sidebar-card-title {
@@ -76,4 +78,39 @@ hr {
 
 .delete {
 	cursor: pointer;
+}
+
+.stat-section {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+
+	.stat {
+		margin: 0 5px;
+		text-align: center;
+
+		.points {
+			font-size: 16px;
+			color: $red;
+		}
+	}
+}
+
+.stat-section-tasks {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+
+	.stat {
+		margin: 0 5px;
+		text-align: center;
+
+		.points {
+			font-size: 23px;
+			color: $red;
+			font-weight: 700;
+		}
+	}
 }

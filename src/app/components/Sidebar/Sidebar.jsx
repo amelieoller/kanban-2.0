@@ -35,6 +35,23 @@ class Sidebar extends Component {
     });
   };
 
+  renderCategorySummary = cards => {
+    const categories = ["Flatiron", "Graphic", "Kanban"];
+    const results = [];
+    let accumulated;
+
+    for (let i = 0; i < categories.length; i++) {
+      accumulated = cards
+        .filter(card => card.category && card.category.name === categories[i])
+        .map(c => c.minutes)
+        .reduce((a, b) => a + b, 0);
+
+			results.push({ name: [categories[i]], minutes: accumulated });
+    }
+
+    return results;
+  };
+
   render = () => {
     const { cards, pomodoro, dispatch, boardId } = this.props;
 
@@ -44,21 +61,40 @@ class Sidebar extends Component {
           <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
           <div className="header">Stats</div>
           <hr />
-          <p className="sub-header">Task Points:</p>
-          <span className="points">
-            {cards &&
-              cards.length !== 0 &&
-              cards
-                .map(card => card.difficulty)
-                .reduce(
-                  (accumulator, currentValue) => accumulator + currentValue
-                )}
-          </span>
+          <div className="stat-section-tasks">
+            <div className="stat">
+              <p className="sub-header">Tasks:</p>
+              <span className="points">
+                {cards &&
+                  cards.length !== 0 &&
+                  cards
+                    .map(card => card.difficulty)
+                    .reduce(
+                      (accumulator, currentValue) => accumulator + currentValue
+                    )}{" "}
+                pts
+              </span>
+            </div>
+          </div>
+
+          <div className="stat-section">
+            {this.renderCategorySummary(cards).map(
+              category =>
+                category.minutes !== 0 && (
+                  <div className="stat" key={category.name}>
+                    <p className="sub-header">{category.name}:</p>
+                    <span className="points">{category.minutes} min</span>
+                  </div>
+                )
+            )}
+          </div>
           <p className="sub-header">Tasks Completed:</p>
           <ul>
             {cards &&
               cards.map(card => (
-                <li key={card._id} className="sidebar-card-title-wrapper">
+                <li key={card._id} className="sidebar-card-title-wrapper" style={{
+								borderLeft: `2px solid ${card.category ? card.category.color : "light-grey"}`
+								}}>
                   <span
                     className="sidebar-card-title"
                     dangerouslySetInnerHTML={{
@@ -86,7 +122,6 @@ const mapStateToProps = state => {
       )
     };
   }
-    return {};
-
+  return {};
 };
 export default connect(mapStateToProps)(Sidebar);

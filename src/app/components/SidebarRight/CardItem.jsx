@@ -33,7 +33,7 @@ class CardItem extends Component {
     const { card } = this.props;
     return (
       <div>
-        <li>
+        <li className="sidebar-card-item">
           {card.text} <Trash className="delete" onClick={this.deleteCard} />
         </li>
       </div>
