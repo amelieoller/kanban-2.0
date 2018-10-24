@@ -3,6 +3,9 @@ import "./Pomodoro.scss";
 import Play from "react-icons/lib/md/play-circle-outline";
 import Pause from "react-icons/lib/md/pause-circle-outline";
 import PropTypes from "prop-types";
+import Alarm from "../../../assets/sounds/alarm.mp3";
+import Coffee from "../../../assets/images/coffee.png";
+import Code from "../../../assets/images/code.png";
 
 export default class Pomodoro extends React.Component {
   static propTypes = {
@@ -145,22 +148,35 @@ export default class Pomodoro extends React.Component {
 
   alert() {
     // audio
-    if (this.refs.audio.checked) {
-      const audio = new Audio("songs/alarm.mp3");
-      audio.play();
-      setTimeout(() => audio.pause(), 1400);
+    if (this.props.pomodoro.audio) {
+      const audio = new Audio(Alarm);
+      const playPromise = audio.play();
+
+      // In browsers that don’t yet support this functionality,
+      // playPromise won’t be defined.
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            // Automatic playback started!
+            setTimeout(() => audio.pause(), 2500);
+          })
+          .catch(error => {
+            // Automatic playback failed.
+            // Show a UI element to let the user manually start playback.
+          });
+      }
     }
     // notification
-    if (this.refs.notification.checked) {
+    if (this.props.pomodoro.notification) {
       if (this.state.timeType === 1500) {
         const notification = new Notification("Relax :)", {
-          icon: "../../../assets/images/coffee.png",
+          icon: Coffee,
           lang: "en",
           body: "Go talk or drink a coffee."
         });
       } else {
         const notification = new Notification("The time is over!", {
-          icon: "../../../assets/images/code.png",
+          icon: Code,
           lang: "en",
           body: "Hey, back to code!"
         });

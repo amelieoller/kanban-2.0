@@ -23,10 +23,13 @@ module.exports = {
       {
         test: /\.(css|scss)$/,
         loader: "ignore-loader"
-			},
-			{ test: /\.(woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
+      },
       {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        loader: "url-loader?limit=100000"
+      },
+      {
+        test: /\.(png|jpg|gif|mp3)$/,
         use: [
           {
             loader: "url-loader",
