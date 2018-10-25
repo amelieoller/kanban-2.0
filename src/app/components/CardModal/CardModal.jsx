@@ -72,12 +72,15 @@ class CardModal extends Component {
   };
 
   toggleCategoryPicker = () => {
-    this.setState({ isCategoryPickerOpen: !this.state.isCategoryPickerOpen });
+    const { isCategoryPickerOpen } = this.state;
+    this.setState({ isCategoryPickerOpen: !isCategoryPickerOpen });
   };
 
   toggleDifficultyPicker = () => {
+    const { isDifficultyPickerOpen } = this.state;
+
     this.setState({
-      isDifficultyPickerOpen: !this.state.isDifficultyPickerOpen
+      isDifficultyPickerOpen: !isDifficultyPickerOpen
     });
   };
 
@@ -88,14 +91,6 @@ class CardModal extends Component {
       toggleCardEditor();
     }
   };
-
-  // handleRequestCloseDifficulty = () => {
-  // 	const { isDifficultyPickerOpen } = this.state;
-  // 	const { toggleCardEditor } = this.props;
-  // 	if (!isDifficultyPickerOpen) {
-  // 		toggleCardEditor();
-  // 	}
-  // };
 
   render() {
     const {
@@ -186,12 +181,15 @@ class CardModal extends Component {
             onFocus={() => this.setState({ isTextareaFocused: true })}
             onBlur={() => this.setState({ isTextareaFocused: false })}
           />
-					{(card.date || checkboxes.total > 0 || card.minutes || card.category) && (
+          {(card.date ||
+            checkboxes.total > 0 ||
+            card.minutes ||
+            card.category) && (
             <CardBadges
               date={card.date}
               checkboxes={checkboxes}
-							minutes={card.minutes}
-							category={card.category}
+              minutes={card.minutes}
+              category={card.category}
             />
           )}
         </div>

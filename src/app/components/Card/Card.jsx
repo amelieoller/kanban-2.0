@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
 import FaCheck from "react-icons/lib/fa/check";
+import later from "later";
 import CardModal from "../CardModal/CardModal";
 import CardBadges from "../CardBadges/CardBadges";
 import { findCheckboxes } from "../utils";
 import formatMarkdown from "./formatMarkdown";
 import "./Card.scss";
-import later from "later";
 
 class Card extends Component {
   static propTypes = {
@@ -154,7 +154,10 @@ class Card extends Component {
                       </div>
                     </div>
                     {/* eslint-enable */}
-										{(card.date || checkboxes.total > 0 || card.minutes || card.category) && (
+                    {(card.date ||
+                      checkboxes.total > 0 ||
+                      card.minutes ||
+                      card.category) && (
                       <CardBadges
                         date={card.date}
                         checkboxes={checkboxes}
@@ -174,7 +177,7 @@ class Card extends Component {
               card={card}
               listId={listId}
               toggleCardEditor={this.toggleCardEditor}
-            />{" "}
+            />
           </>
         )}
       </>

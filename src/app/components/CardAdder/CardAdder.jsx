@@ -21,7 +21,8 @@ class CardAdder extends Component {
   }
 
   toggleCardComposer = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    const { isOpen } = this.state;
+    this.setState({ isOpen: !isOpen });
   };
 
   handleChange = event => {
@@ -42,13 +43,12 @@ class CardAdder extends Component {
     const { listId, dispatch } = this.props;
     if (newText === "") return;
 
-		const cardId = shortid.generate();
-		const createdAt = Date.now()
+    const cardId = shortid.generate();
+    const createdAt = Date.now();
     dispatch({
       type: "ADD_CARD",
-			payload: { cardText: newText, cardId, listId, createdAt }
+      payload: { cardText: newText, cardId, listId, createdAt }
     });
-    // this.toggleCardComposer();
     this.setState({ newText: "" });
   };
 
@@ -75,7 +75,11 @@ class CardAdder extends Component {
         </form>
       </ClickOutside>
     ) : (
-      <button onClick={this.toggleCardComposer} className="add-card-button">
+      <button
+        type="submit"
+        onClick={this.toggleCardComposer}
+        className="add-card-button"
+      >
         +
       </button>
     );

@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { Title } from "react-head";
 import FaUserSecret from "react-icons/lib/fa/user-secret";
 import googleLogo from "../../../assets/images/google-logo.svg";
-import kanbanLogo from "../../../assets/images/kanban-logo.svg";
 import background1920 from "../../../assets/images/postits-1920.jpg";
 import background1366 from "../../../assets/images/postits-1366.jpg";
 import "./LandingPage.scss";
@@ -15,7 +14,8 @@ class LandingPage extends Component {
   };
 
   enterAsGuest = () => {
-    this.props.dispatch({ type: "ENTER_AS_GUEST" });
+    const { dispatch } = this.props;
+    dispatch({ type: "ENTER_AS_GUEST" });
   };
 
   render = () => (
@@ -31,24 +31,19 @@ class LandingPage extends Component {
       <div className="landing-page-info-wrapper">
         <div className="landing-page-info">
           <div className="landing-page-heading">
-            <img
-              src={kanbanLogo}
-              alt="React Kanban logo"
-              className="landing-page-logo"
-            />
-            &nbsp;
             <h1>React Kanban</h1>
           </div>
           <p className="landing-page-description">
             An open source kanban application inspired by Trello. Check out the
             source code on{" "}
             <a
-              href="https://github.com/yogaboll/react-kanban"
+              href="https://github.com/amelieoller/kanban-2.0"
               target="_blank"
               rel="noopener noreferrer"
             >
               GitHub
-            </a>.
+            </a>
+            .
           </p>
           <div className="signin-buttons">
             <div>
@@ -63,6 +58,7 @@ class LandingPage extends Component {
             </div>
             <div className="guest-button-wrapper">
               <button
+                type="submit"
                 onClick={this.enterAsGuest}
                 className="signin-button guest-button"
               >

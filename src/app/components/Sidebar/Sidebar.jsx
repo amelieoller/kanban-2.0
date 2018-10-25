@@ -8,16 +8,16 @@ import formatMarkdown from "../Card/formatMarkdown";
 
 class Sidebar extends Component {
   static propTypes = {
-    // cards: PropTypes.arrayOf(
-    //   PropTypes.shape({
-    //     _id: PropTypes.string.isRequired,
-    //     text: PropTypes.string.isRequired,
-    //     difficulty: PropTypes.number.isRequired
-    //   }).isRequired
-    // ),
-    // pomodoro: PropTypes.object.isRequired,
-    // dispatch: PropTypes.func.isRequired,
-    // boardId: PropTypes.string.isRequired
+    cards: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        difficulty: PropTypes.number.isRequired
+      }).isRequired
+    ),
+    pomodoro: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    boardId: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -46,7 +46,7 @@ class Sidebar extends Component {
         .map(c => c.minutes)
         .reduce((a, b) => a + b, 0);
 
-			results.push({ name: [categories[i]], minutes: accumulated });
+      results.push({ name: [categories[i]], minutes: accumulated });
     }
 
     return results;
@@ -92,9 +92,15 @@ class Sidebar extends Component {
           <ul>
             {cards &&
               cards.map(card => (
-                <li key={card._id} className="sidebar-card-title-wrapper" style={{
-								borderLeft: `2px solid ${card.category ? card.category.color : "light-grey"}`
-								}}>
+                <li
+                  key={card._id}
+                  className="sidebar-card-title-wrapper"
+                  style={{
+                    borderLeft: `2px solid ${
+                      card.category ? card.category.color : "light-grey"
+                    }`
+                  }}
+                >
                   <span
                     className="sidebar-card-title"
                     dangerouslySetInnerHTML={{

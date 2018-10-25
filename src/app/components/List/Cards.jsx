@@ -7,14 +7,15 @@ import Card from "../Card/Card";
 class Cards extends Component {
   static propTypes = {
     listId: PropTypes.string.isRequired,
-    cards: PropTypes.arrayOf(PropTypes.string).isRequired
+    cards: PropTypes.arrayOf(PropTypes.string).isRequired,
+    withinPomodoroCards: PropTypes.array
   };
 
   componentDidUpdate = prevProps => {
     // Scroll to bottom of list if a new card has been added
+    const { cards } = this.props;
     if (
-      this.props.cards[this.props.cards.length - 2] ===
-      prevProps.cards[prevProps.cards.length - 1]
+      cards[cards.length - 2] === prevProps.cards[prevProps.cards.length - 1]
     ) {
       this.scrollToBottom();
     }
@@ -26,6 +27,7 @@ class Cards extends Component {
 
   render() {
     const { listId, cards, withinPomodoroCards } = this.props;
+
     return (
       <Droppable droppableId={listId}>
         {(provided, { isDraggingOver }) => (

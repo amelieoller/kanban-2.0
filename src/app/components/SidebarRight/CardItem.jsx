@@ -11,7 +11,6 @@ class CardItem extends Component {
       text: PropTypes.string.isRequired,
       color: PropTypes.string
     }).isRequired,
-    index: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired
   };
 
@@ -23,9 +22,9 @@ class CardItem extends Component {
   deleteCard = () => {
     const { dispatch, card } = this.props;
 
-		dispatch({
+    dispatch({
       type: "DELETE_CARD",
-      payload: { cardId: card._id, listId }
+      payload: { cardId: card._id }
     });
   };
 

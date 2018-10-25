@@ -18,7 +18,8 @@ class BoardAdder extends Component {
   }
 
   toggleOpen = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    const { isOpen } = this.state;
+    this.setState({ isOpen: !isOpen });
   };
 
   handleChange = event => {
@@ -34,8 +35,8 @@ class BoardAdder extends Component {
     }
     const { dispatch, history, userId } = this.props;
     const boardId = shortid.generate();
-		const listTitle = "Completed";
-		const listId = "__standard__completed";
+    const listTitle = "Completed";
+    const listId = "__standard__completed";
 
     dispatch({
       type: "ADD_BOARD",
@@ -44,7 +45,7 @@ class BoardAdder extends Component {
         boardId,
         userId
       }
-		});
+    });
 
     dispatch({
       type: "ADD_LIST",
@@ -86,7 +87,7 @@ class BoardAdder extends Component {
         </form>
       </ClickOutside>
     ) : (
-      <button onClick={this.toggleOpen} className="add-board-button">
+      <button type="submit" onClick={this.toggleOpen} className="add-board-button">
         Add a new board...
       </button>
     );

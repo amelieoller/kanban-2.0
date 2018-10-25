@@ -80,7 +80,7 @@ class List extends Component {
 const mapStateToProps = (state, ownProps) => {
   const cardIds = ownProps.list.cards;
 
-	return {
+  return {
     cards: cardIds
       .map(id => state.cardsById[id])
       .filter(card => !card.hasOwnProperty("active") || card.active === true)

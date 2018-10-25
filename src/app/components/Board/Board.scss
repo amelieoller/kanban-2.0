@@ -1,43 +1,47 @@
 @import "../../variables.scss";
 
 .board {
-  display: inline-flex;
-  height: 100%;
-  min-width: 100%;
+	display: inline-flex;
+	height: 100%;
+	min-width: 100%;
 }
 
 .board-underlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: -1;
-  transition: background 0.3s;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: -1;
+	transition: background 0.3s;
 }
+
 .green .board-underlay {
-  background: $green;
+	background: $green;
 }
+
 .blue .board-underlay {
-  background: $blue;
+	background: $blue;
 }
+
 .red .board-underlay {
-  background: $red;
+	background: $red;
 }
+
 .grey .board-underlay {
-  background: $light-grey;
+	background: $light-grey;
 }
 
 .lists-wrapper {
-  display: inline-flex;
-  box-sizing: border-box;
-  height: 100%;
-  padding: 60px 5px 8px 5px;
+	display: inline-flex;
+	box-sizing: border-box;
+	height: 100%;
+	padding: 60px 5px 8px 5px;
 }
 
 .lists {
-  display: inline-flex;
-  align-items: flex-start;
-  height: 100%;
-  user-select: none;
+	display: inline-flex;
+	align-items: flex-start;
+	height: 100%;
+	user-select: none;
 }

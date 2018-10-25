@@ -13,7 +13,13 @@ class CardBadges extends Component {
     checkboxes: PropTypes.shape({
       total: PropTypes.number.isRequired,
       checked: PropTypes.number.isRequired
-    }).isRequired
+    }).isRequired,
+    minutes: PropTypes.number,
+    category: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      short: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired
+    })
   };
 
   renderDueDate = () => {
@@ -83,7 +89,7 @@ class CardBadges extends Component {
       <div
         className="badge badge-category"
         style={{
-					background: category.color
+          background: category.color
         }}
       >
         {category.short}

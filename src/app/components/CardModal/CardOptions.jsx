@@ -7,9 +7,10 @@ import FaCheck from "react-icons/lib/fa/check";
 import MdAlarm from "react-icons/lib/md/access-alarm";
 import Flag from "react-icons/lib/md/flag";
 import later from "later";
+import Label from "react-icons/lib/md/label";
 import Calendar from "./Calendar";
 import ClickOutside from "../ClickOutside/ClickOutside";
-import colorIcon from "../../../assets/images/color-icon.png";
+
 import "./CardOptions.scss";
 
 class CardOptions extends Component {
@@ -32,12 +33,12 @@ class CardOptions extends Component {
 
   constructor(props) {
     super(props);
-		const { card } = this.props;
+    const { card } = this.props;
 
     this.state = {
       isCalendarOpen: false,
-			minutes: card.minutes || "",
-			recurringText: card.recurringText || ""
+      minutes: card.minutes || "",
+      recurringText: card.recurringText || ""
     };
   }
 
@@ -108,7 +109,7 @@ class CardOptions extends Component {
   };
 
   handleKeyDownTime = event => {
-		const { toggleDifficultyPicker} = this.props
+    const { toggleDifficultyPicker } = this.props;
     if (event.keyCode === 27) {
       toggleDifficultyPicker();
       this.colorPickerButton.focus();
@@ -263,7 +264,7 @@ class CardOptions extends Component {
             aria-haspopup
             aria-expanded={isCategoryPickerOpen}
           >
-            <img src={colorIcon} alt="colorwheel" className="modal-icon" />
+            <Label />
             &nbsp;Category
           </button>
           {isCategoryPickerOpen && (
@@ -363,7 +364,11 @@ class CardOptions extends Component {
           />
         </Modal>
         <div>
-          <button type="submit" onClick={this.deleteCard} className="options-list-button">
+          <button
+            type="submit"
+            onClick={this.deleteCard}
+            className="options-list-button"
+          >
             <div className="modal-icon">
               <FaTrash />
             </div>

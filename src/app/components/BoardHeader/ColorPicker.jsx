@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, Wrapper, Menu, MenuItem } from "react-aria-menubutton";
 import classnames from "classnames";
-import FaCheck from "react-icons/lib/fa/check";
-import colorIcon from "../../../assets/images/color-icon.png";
+import Done from "react-icons/lib/md/done";
+import Label from "react-icons/lib/md/label";
 import "./ColorPicker.scss";
 
 class ColorPicker extends Component {
@@ -32,7 +32,7 @@ class ColorPicker extends Component {
         onSelection={this.handleSelection}
       >
         <Button className="color-picker">
-          <img src={colorIcon} alt="colorwheel" className="modal-icon" />
+          <Label />
           <div className="board-header-right-text">
             &nbsp;Color &nbsp;&#9662;
           </div>
@@ -44,7 +44,7 @@ class ColorPicker extends Component {
               className={classnames("color-picker-item", color)}
               key={color}
             >
-              {color === boardColor && <FaCheck />}
+              {color === boardColor && <Done />}
             </MenuItem>
           ))}
         </Menu>

@@ -7,16 +7,14 @@ import later from "later";
 
 class SidebarRight extends Component {
   static propTypes = {
-    // cards: PropTypes.arrayOf(
-    //   PropTypes.shape({
-    //     _id: PropTypes.string.isRequired,
-    //     text: PropTypes.string.isRequired,
-    //     difficulty: PropTypes.number.isRequired
-    //   }).isRequired
-    // ).isRequired,
-    // pomodoro: PropTypes.object.isRequired,
-    // dispatch: PropTypes.func.isRequired,
-    // boardId: PropTypes.string.isRequired
+    cards: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        difficulty: PropTypes.number.isRequired
+      }).isRequired
+    ).isRequired,
+    dispatch: PropTypes.func.isRequired,
   };
 
   constructor(props) {

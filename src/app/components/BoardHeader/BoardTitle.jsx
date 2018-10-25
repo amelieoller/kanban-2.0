@@ -76,7 +76,11 @@ class BoardTitle extends Component {
         spellCheck={false}
       />
     ) : (
-      <button className="board-title-button" onClick={this.handleClick}>
+      <button
+        type="submit"
+        className="board-title-button"
+        onClick={this.handleClick}
+      >
         <h1 className="board-title-text">{boardTitle}</h1>
       </button>
     );
