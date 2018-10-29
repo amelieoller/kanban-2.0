@@ -42,9 +42,9 @@ class CardModal extends Component {
     this.setState({ newText: nextProps.card.text });
   };
 
-  handleKeyDown = event => {
-    if (event.keyCode === 13 && event.shiftKey === false) {
-      event.preventDefault();
+  handleKeyDown = e => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault();
       this.submitCard();
     }
   };
@@ -67,8 +67,8 @@ class CardModal extends Component {
     toggleCardEditor();
   };
 
-  handleChange = event => {
-    this.setState({ newText: event.target.value });
+  handleChange = e => {
+    this.setState({ newText: e.target.value });
   };
 
   toggleCategoryPicker = () => {

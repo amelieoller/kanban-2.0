@@ -23,15 +23,15 @@ class ListAdder extends Component {
     this.setState({ isOpen: false });
   };
 
-  handleChange = event => {
-    this.setState({ listTitle: event.target.value });
+  handleChange = e => {
+    this.setState({ listTitle: e.target.value });
   };
 
-  handleKeyDown = event => {
-    if (event.keyCode === 13) {
-      event.preventDefault();
+  handleKeyDown = e => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
       this.handleSubmit();
-    } else if (event.keyCode === 27) {
+    } else if (e.keyCode === 27) {
       this.setState({ isOpen: false, listTitle: "" });
     }
   };

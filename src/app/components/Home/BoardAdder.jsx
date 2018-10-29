@@ -22,21 +22,24 @@ class BoardAdder extends Component {
     this.setState({ isOpen: !isOpen });
   };
 
-  handleChange = event => {
-    this.setState({ title: event.target.value });
+  handleChange = e => {
+    this.setState({ title: e.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = e => {
     // Dispatch action to put new empty board in redux store and db + push new url to history
-    event.preventDefault();
+    e.preventDefault();
     const { title } = this.state;
     if (title === "") {
       return;
     }
     const { dispatch, history, userId } = this.props;
-    const boardId = shortid.generate();
+		const boardId = shortid.generate();
     const listTitle = "Completed";
     const listId = "__standard__completed";
+
+		// const listIdAdd = shortid.generate();
+		// const listId = `__standard__completed__${listIdAdd}`;
 
     dispatch({
       type: "ADD_BOARD",
@@ -58,8 +61,8 @@ class BoardAdder extends Component {
     this.setState({ isOpen: false, title: "" });
   };
 
-  handleKeyDown = event => {
-    if (event.keyCode === 27) {
+  handleKeyDown = e => {
+    if (e.keyCode === 27) {
       this.setState({ isOpen: false });
     }
   };

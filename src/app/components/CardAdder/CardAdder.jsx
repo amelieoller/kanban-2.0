@@ -25,20 +25,20 @@ class CardAdder extends Component {
     this.setState({ isOpen: !isOpen });
   };
 
-  handleChange = event => {
-    this.setState({ newText: event.target.value });
+  handleChange = e => {
+    this.setState({ newText: e.target.value });
   };
 
-  handleKeyDown = event => {
-    if (event.keyCode === 13 && event.shiftKey === false) {
-      this.handleSubmit(event);
-    } else if (event.keyCode === 27) {
+  handleKeyDown = e => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      this.handleSubmit(e);
+    } else if (e.keyCode === 27) {
       this.toggleCardComposer();
     }
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
+  handleSubmit = e => {
+    e.preventDefault();
     const { newText } = this.state;
     const { listId, dispatch } = this.props;
     if (newText === "") return;

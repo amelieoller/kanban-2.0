@@ -24,15 +24,15 @@ class ListTitle extends Component {
     };
   }
 
-  handleChange = event => {
-    this.setState({ newTitle: event.target.value });
+  handleChange = e => {
+    this.setState({ newTitle: e.target.value });
   };
 
-  handleKeyDown = event => {
-    if (event.keyCode === 13) {
-      event.preventDefault();
+  handleKeyDown = e => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
       this.handleSubmit();
-    } else if (event.keyCode === 27) {
+    } else if (e.keyCode === 27) {
       this.revertTitle();
     }
   };
@@ -67,9 +67,9 @@ class ListTitle extends Component {
     this.setState({ isOpen: true });
   };
 
-  handleButtonKeyDown = event => {
-    if (event.keyCode === 13) {
-      event.preventDefault();
+  handleButtonKeyDown = e => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
       this.openTitleEditor();
     }
   };

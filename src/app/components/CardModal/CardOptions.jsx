@@ -99,26 +99,26 @@ class CardOptions extends Component {
     this.colorPickerButton.focus();
   };
 
-  handleKeyDownCategory = event => {
+  handleKeyDownCategory = e => {
     const { toggleCategoryPicker } = this.props;
-    if (event.keyCode === 27) {
+    if (e.keyCode === 27) {
       toggleCategoryPicker();
       this.colorPickerButton.focus();
     }
   };
 
-  handleKeyDownDifficulty = event => {
+  handleKeyDownDifficulty = e => {
     const { toggleDifficultyPicker } = this.props;
 
-    if (event.keyCode === 27) {
+    if (e.keyCode === 27) {
       toggleDifficultyPicker();
       this.colorPickerButton.focus();
     }
   };
 
-  handleKeyDownTime = event => {
+  handleKeyDownTime = e => {
     const { toggleDifficultyPicker } = this.props;
-    if (event.keyCode === 27) {
+    if (e.keyCode === 27) {
       toggleDifficultyPicker();
       this.colorPickerButton.focus();
     }

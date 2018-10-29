@@ -23,8 +23,8 @@ class BoardTitle extends Component {
     this.setState({ isOpen: true });
   };
 
-  handleChange = event => {
-    this.setState({ newTitle: event.target.value });
+  handleChange = e => {
+    this.setState({ newTitle: e.target.value });
   };
 
   submitTitle = () => {
@@ -48,16 +48,16 @@ class BoardTitle extends Component {
     this.setState({ newTitle: boardTitle, isOpen: false });
   };
 
-  handleKeyDown = event => {
-    if (event.keyCode === 13) {
+  handleKeyDown = e => {
+    if (e.keyCode === 13) {
       this.submitTitle();
-    } else if (event.keyCode === 27) {
+    } else if (e.keyCode === 27) {
       this.revertTitle();
     }
   };
 
-  handleFocus = event => {
-    event.target.select();
+  handleFocus = e => {
+    e.target.select();
   };
 
   render() {

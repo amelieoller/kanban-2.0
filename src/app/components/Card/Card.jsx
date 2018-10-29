@@ -39,20 +39,20 @@ class Card extends Component {
     this.setState({ isModalOpen: !isModalOpen });
   };
 
-  handleClick = event => {
-    const { tagName, checked, id } = event.target;
+  handleClick = e => {
+    const { tagName, checked, id } = e.target;
     if (tagName.toLowerCase() === "input") {
       // The id is a string that describes which number in the order of checkboxes this particular checkbox has
       this.toggleCheckbox(checked, parseInt(id, 10));
     } else if (tagName.toLowerCase() !== "a") {
-      this.toggleCardEditor(event);
+      this.toggleCardEditor(e);
     }
   };
 
-  handleKeyDown = event => {
+  handleKeyDown = e => {
     // Only open card on enter since spacebar is used by react-beautiful-dnd for keyboard dragging
-    if (event.keyCode === 13 && event.target.tagName.toLowerCase() !== "a") {
-      event.preventDefault();
+    if (e.keyCode === 13 && e.target.tagName.toLowerCase() !== "a") {
+      e.preventDefault();
       this.toggleCardEditor();
     }
   };
