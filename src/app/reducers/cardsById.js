@@ -34,6 +34,15 @@ const cardsById = (state = {}, action) => {
       const { minutes, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], minutes } };
     }
+    case "DELETE_CATEGORY": {
+      const { cardId } = action.payload;
+      const {
+        [cardId]: { category, ...rest1 },
+        ...rest2
+      } = state;
+
+      return { [cardId]: rest1, ...rest2 };
+    }
     case "DELETE_CARD": {
       const { cardId } = action.payload;
       const { [cardId]: deletedCard, ...restOfCards } = state;

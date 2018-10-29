@@ -14,12 +14,13 @@ export default class Pomodoro extends React.Component {
     pomodoro: PropTypes.object.isRequired
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      time: 0,
+      time: 1500,
       play: false,
-      timeType: 0
+      timeType: 1500,
+      pomodori: this.props.pomodoro.pomodori || 0
     };
     // Bind early, avoid function creation on render loop
     this.setTimeForCode = this.setTime.bind(this, 1500);
@@ -64,12 +65,12 @@ export default class Pomodoro extends React.Component {
     });
   }
 
-  handleSettingsChange = (type, boolean) => {
+  handleSettingsChange = (type, value) => {
     const { dispatch, boardId } = this.props;
 
     dispatch({
       type: "CHANGE_POMODORO_SETTING",
-      payload: { boardId, type, boolean }
+      payload: { boardId, type, value }
     });
   };
 
@@ -261,7 +262,6 @@ export default class Pomodoro extends React.Component {
                 <span className="check">
                   <input
                     type="checkbox"
-                    ref="audio"
                     id="audio"
                     defaultChecked={pomodoro.audio}
                     onChange={() =>
@@ -271,13 +271,48 @@ export default class Pomodoro extends React.Component {
                   <label htmlFor="audio" />
                   <span className="checkTitle">Sound</span>
                 </span>
-              </div>{" "}
+                <span className="check">
+                  <form
+                    onSubmit={e => {
+                      e.preventDefault();
+                      this.handleSettingsChange(
+                        "pomodori",
+                        this.state.pomodori
+                      );
+                    }}
+                  >
+                    <input
+                      type="number"
+                      id="pomodori"
+                      placeholder="Pomodori"
+                      value={this.state.pomodori}
+                      onChange={e =>
+                        this.setState({
+                          pomodori: parseInt(e.target.value)
+                        })
+                      }
+                    />
+                  </form>
+                </span>
+								<span className="check">
+									<input
+										type="checkbox"
+										id="showDayPomo"
+										defaultChecked={pomodoro.showDayPomo}
+										onChange={() =>
+											this.handleSettingsChange("showDayPomo", !pomodoro.showDayPomo)
+										}
+									/>
+									<label htmlFor="showDayPomo" />
+									<span className="checkTitle">Show</span>
+								</span>
+              </div>
               {/* controlsCheck */}
-            </div>{" "}
+            </div>
             {/* container */}
-          </div>{" "}
+          </div>
           {/* controls */}
-        </div>{" "}
+        </div>
         {/* bottomBar */}
       </div> /* bottomBar */
     );

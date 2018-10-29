@@ -69,11 +69,19 @@ class CardOptions extends Component {
 
   changeCategory = category => {
     const { dispatch, card, toggleCategoryPicker } = this.props;
+
     if (card.category !== category) {
-      dispatch({
-        type: "CHANGE_CARD_CATEGORY",
-        payload: { category, cardId: card._id }
-      });
+      if (category.color === "white") {
+        dispatch({
+					type: "DELETE_CATEGORY",
+          payload: { cardId: card._id }
+        });
+      } else {
+        dispatch({
+          type: "CHANGE_CARD_CATEGORY",
+          payload: { category, cardId: card._id }
+        });
+      }
     }
     toggleCategoryPicker();
     this.colorPickerButton.focus();
@@ -279,7 +287,7 @@ class CardOptions extends Component {
               >
                 {/* eslint-enable */}
                 {[
-                  { name: "No Category", short: "", color: "white" },
+                  { name: "", short: "", color: "white" },
                   { name: "Flatiron", short: "//", color: "#32cefe" },
                   { name: "Graphic", short: "GL", color: "#009ad0" },
                   { name: "Kanban", short: "KB", color: "#EA725B" }

@@ -47,8 +47,10 @@ const boardsById = (state = {}, action) => {
           title: boardTitle,
           lists: [],
           users: [userId],
-          color: "grey",
-          pomodoro: { notification: true, audio: true }
+          settings: {
+            pomodoro: { notification: true, audio: true },
+            color: "grey"
+          }
         }
       };
     }
@@ -72,30 +74,53 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_LAST_CHECKING": {
+    case "CHANGE_LAST_CHECKIN": {
       const { boardId, checkinDate } = action.payload;
       return {
         ...state,
         [boardId]: {
           ...state[boardId],
-          checkinDate
+          settings: {
+            ...state[boardId].settings,
+            checkinDate
+          }
         }
       };
     }
     case "CHANGE_POMODORO_SETTING": {
-      const { boardId, type, boolean } = action.payload;
+      const { boardId, type, value } = action.payload;
 
       return {
         ...state,
         [boardId]: {
           ...state[boardId],
-          pomodoro: {
-            ...state[boardId].pomodoro,
-            [type]: boolean
+          settings: {
+            ...state[boardId].settings,
+            pomodoro: {
+              ...state[boardId].settings.pomodoro,
+              [type]: value
+            }
           }
         }
       };
     }
+    // case "CHANGE_SETTING": {
+    //   const { boardId, setting, value } = action.payload;
+
+    //   return {
+    //     ...state,
+    //     [boardId]: {
+    //       ...state[boardId],
+    //       settings: {
+    //         ...state[boardId].settings,
+    //         pomodoro: {
+    //           ...state[boardId].pomodoro,
+    //           [type]: value
+    //         }
+    //       }
+    //     }
+    //   };
+    // }
     case "DELETE_BOARD": {
       const { boardId } = action.payload;
       const { [boardId]: deletedBoard, ...restOfBoards } = state;

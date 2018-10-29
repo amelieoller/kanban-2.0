@@ -16,15 +16,25 @@ class List extends Component {
   };
 
   withinPomodoroTime = () => {
-    const { cards } = this.props;
+    const { cards, pomodoro } = this.props;
 
-    let total = 0;
+		let total = 0;
     const selectedCards = [];
+    let time = 25;
+
+    if (pomodoro.showDayPomo && pomodoro.pomodori) {
+			time *= pomodoro.pomodori;
+    }
 
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       const minutes = parseInt(card.minutes);
-      if (total + minutes <= 25 && minutes) {
+
+			if (minutes && card.minutes > time) {
+        selectedCards.push(cards[0]._id);
+        return selectedCards;
+      }
+      if (minutes && total + minutes <= time) {
         total += minutes;
         selectedCards.push(card._id);
       }
@@ -83,7 +93,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     cards: cardIds
       .map(id => state.cardsById[id])
-      .filter(card => !card.hasOwnProperty("active") || card.active === true)
+      .filter(card => !card.hasOwnProperty("active") || card.active === true),
+		pomodoro: state.boardsById[ownProps.boardId].settings.pomodoro
   };
 };
 

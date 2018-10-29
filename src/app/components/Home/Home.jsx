@@ -14,7 +14,13 @@ class Home extends Component {
     boards: PropTypes.arrayOf(
       PropTypes.shape({
         _id: PropTypes.string.isRequired,
-        color: PropTypes.string.isRequired,
+        settings: PropTypes.shape({
+          pomodoro: PropTypes.shape({
+						notification: PropTypes.boolean,
+						audio: PropTypes.boolean
+					}).isRequired,
+          color: PropTypes.string.isRequired
+        }).isRequired,
         title: PropTypes.string.isRequired
       }).isRequired
     ).isRequired,
@@ -35,7 +41,7 @@ class Home extends Component {
               {boards.map(board => (
                 <Link
                   key={board._id}
-                  className={classnames("board-link", board.color)}
+                  className={classnames("board-link", board.settings.color)}
                   to={`/b/${board._id}/${slugify(board.title, {
                     lower: true
                   })}`}

@@ -99,7 +99,7 @@ const mapStateToProps = (state, ownProps) => {
   const cards = Object.keys(cardsById)
     .filter(c => cardsById[c].nextDate)
     .map(cardId => cardsById[cardId]);
-  const lastCheckinDate = boardsById[ownProps.boardId].checkinDate;
+  const lastCheckinDate = boardsById[ownProps.boardId].settings.checkinDate;
 
   return {
     cards,

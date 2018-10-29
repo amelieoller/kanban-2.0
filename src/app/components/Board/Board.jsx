@@ -45,7 +45,7 @@ class Board extends Component {
     const checkinDate = new Date();
 
     dispatch({
-      type: "CHANGE_LAST_CHECKING",
+      type: "CHANGE_LAST_CHECKIN",
       payload: { boardId, checkinDate }
     });
   };
@@ -201,9 +201,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
     boardTitle: board.title,
-    boardColor: board.color,
+		boardColor: board.settings.color,
     boardId: board._id,
-    pomodoro: board.pomodoro
+    pomodoro: board.settings.pomodoro
   };
 };
 

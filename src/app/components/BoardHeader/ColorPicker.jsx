@@ -56,7 +56,7 @@ class ColorPicker extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
   return {
-    boardColor: state.boardsById[boardId].color,
+    boardColor: state.boardsById[boardId].settings.color,
     boardId
   };
 };
