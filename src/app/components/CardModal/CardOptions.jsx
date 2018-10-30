@@ -60,6 +60,13 @@ class CardOptions extends Component {
         payload: { cardId: card._id, nextDate }
       });
     } else {
+      const completedAt = Date.now();
+
+			dispatch({
+        type: "CHANGE_CARD_COMPLETED_AT",
+        payload: { cardId: card._id, completedAt }
+			});
+
       dispatch({
         type: "COMPLETE_CARD",
         payload: { cardId: card._id, listId }
@@ -73,7 +80,7 @@ class CardOptions extends Component {
     if (card.category !== category) {
       if (category.color === "white") {
         dispatch({
-					type: "DELETE_CATEGORY",
+          type: "DELETE_CATEGORY",
           payload: { cardId: card._id }
         });
       } else {

@@ -80,7 +80,8 @@ class Card extends Component {
   };
 
   completeCard = () => {
-    const { dispatch, listId, card } = this.props;
+		const { dispatch, listId, card } = this.props;
+
     if (card.schedule) {
       const nextDate = later.schedule(card.schedule).next();
 
@@ -89,9 +90,16 @@ class Card extends Component {
         payload: { cardId: card._id, nextDate }
       });
     } else {
+			const completedAt = Date.now();
+
+			dispatch({
+				type: "CHANGE_CARD_COMPLETED_AT",
+				payload: { cardId: card._id, completedAt }
+			});
+
       dispatch({
         type: "COMPLETE_CARD",
-        payload: { cardId: card._id, listId }
+				payload: { cardId: card._id, listId }
       });
     }
   };

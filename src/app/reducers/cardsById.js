@@ -71,6 +71,17 @@ const cardsById = (state = {}, action) => {
         [cardId]: { ...state[cardId], ...{ nextDate, active } }
       };
     }
+    case "CHANGE_CARD_COMPLETED_AT": {
+      const { cardId, completedAt } = action.payload;
+
+      return {
+        ...state,
+        [cardId]: {
+          ...state[cardId],
+          completedAt
+        }
+      };
+    }
     case "CHANGE_CARD_ACTIVE": {
       const { cardId, active } = action.payload;
 

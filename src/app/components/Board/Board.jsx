@@ -55,7 +55,7 @@ class Board extends Component {
     if (!destination) {
       return;
     }
-    const { dispatch, boardId } = this.props;
+    const { dispatch, boardId, completedListId } = this.props;
 
     // Move list
     if (type === "COLUMN") {
@@ -66,7 +66,8 @@ class Board extends Component {
           payload: {
             oldListIndex: source.index,
             newListIndex: destination.index,
-            boardId: source.droppableId
+            boardId: source.droppableId,
+            completedListId
           }
         });
       }
@@ -145,9 +146,16 @@ class Board extends Component {
   };
 
   render = () => {
-    const { lists, boardTitle, boardId, boardColor, pomodoro } = this.props;
+    const {
+      lists,
+      boardTitle,
+      boardId,
+      boardColor,
+      pomodoro,
+      completedListId
+    } = this.props;
     const otherLists = lists.filter(
-      list => !list._id.startsWith("__standard__")
+      list => list && list._id !== completedListId
     );
 
     return (
@@ -197,13 +205,15 @@ class Board extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { board } = ownProps;
+  const completedListId = state.boardsById[board._id].settings.completedListId;
 
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
     boardTitle: board.title,
-		boardColor: board.settings.color,
+    boardColor: board.settings.color,
     boardId: board._id,
-    pomodoro: board.settings.pomodoro
+    pomodoro: board.settings.pomodoro,
+    completedListId
   };
 };
 

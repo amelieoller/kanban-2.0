@@ -47,8 +47,17 @@ const listsById = (state = {}, action) => {
     }
     case "COMPLETE_CARD": {
       const { listId } = action.payload;
-      const destListId = "__standard__completed";
+      let destListId = "";
       const sourceListId = listId;
+
+      for (const list in state) {
+        if (
+          state.hasOwnProperty(list) &&
+          state[list].special === "completed"
+        ) {
+          destListId = list;
+        }
+      }
 
       const oldCardIndex = state[sourceListId].cards.indexOf(
         action.payload.cardId
@@ -68,7 +77,20 @@ const listsById = (state = {}, action) => {
       };
     }
     case "ADD_LIST": {
-      const { listId, listTitle } = action.payload;
+      const { listId, listTitle, special } = action.payload;
+      let list = {};
+
+      if (special) {
+        list = { _id: listId, title: listTitle, cards: [], special };
+      } else {
+        list = { _id: listId, title: listTitle, cards: [] };
+      }
+
+      return {
+        ...state,
+        [listId]: list
+      };
+
       return {
         ...state,
         [listId]: { _id: listId, title: listTitle, cards: [] }

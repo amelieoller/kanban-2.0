@@ -34,25 +34,24 @@ class BoardAdder extends Component {
       return;
     }
     const { dispatch, history, userId } = this.props;
-		const boardId = shortid.generate();
+    const boardId = shortid.generate();
     const listTitle = "Completed";
-    const listId = "__standard__completed";
-
-		// const listIdAdd = shortid.generate();
-		// const listId = `__standard__completed__${listIdAdd}`;
+    const listId = shortid.generate();
+    const special = "completed";
 
     dispatch({
       type: "ADD_BOARD",
       payload: {
         boardTitle: title,
         boardId,
-        userId
+        userId,
+        completedListId: listId
       }
     });
 
     dispatch({
       type: "ADD_LIST",
-      payload: { listTitle, listId, boardId }
+      payload: { listTitle, listId, boardId, special }
     });
 
     const urlSlug = slugify(title, { lower: true });
@@ -90,7 +89,11 @@ class BoardAdder extends Component {
         </form>
       </ClickOutside>
     ) : (
-      <button type="submit" onClick={this.toggleOpen} className="add-board-button">
+      <button
+        type="submit"
+        onClick={this.toggleOpen}
+        className="add-board-button"
+      >
         Add a new board...
       </button>
     );
