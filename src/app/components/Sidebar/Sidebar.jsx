@@ -43,6 +43,9 @@ class Sidebar extends Component {
 
     for (let i = 0; i < categories.length; i++) {
       accumulated = cards
+        .filter(
+          ca => differenceInCalendarDays(ca.completedAt, new Date()) === 0
+        )
         .filter(card => card.category && card.category.name === categories[i])
         .map(c => c.minutes)
         .reduce((a, b) => a + b, 0);
@@ -102,54 +105,63 @@ class Sidebar extends Component {
           <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
           <div className="header">Stats</div>
           <hr />
-          <div className="stat-section-tasks">
-            <div className="stat">
-              <p className="sub-header">Tasks:</p>
-              <span className="points">
-                {cards &&
-                  cards.length !== 0 &&
-                  cards
-                    .map(card => card.difficulty)
-                    .reduce(
-                      (accumulator, currentValue) => accumulator + currentValue
-                    )}{" "}
-                pts
-              </span>
-            </div>
-          </div>
-
-          <div className="stat-section">
-            {this.renderCategorySummary(cards).map(
-              category =>
-                category.minutes !== 0 && (
-                  <div className="stat" key={category.name}>
-                    <p className="sub-header">{category.name}:</p>
-                    <span className="points">{category.minutes} min</span>
+          {cards &&
+            (cards.length !== 0 && (
+              <>
+                <div className="stat-section-tasks">
+                  <div className="stat">
+                    <p className="sub-header">Tasks:</p>
+                    <span className="points">
+                      {cards
+                        .map(card => card.difficulty)
+                        .reduce(
+                          (accumulator, currentValue) =>
+                            accumulator + currentValue
+                        )}{" "}
+                      pts
+                    </span>
                   </div>
-                )
-            )}
-          </div>
-          <p className="sub-header">Tasks Completed:</p>
+                </div>
 
-          {this.renderCompletedDateSection(cards, "today").length !== 0 && (
-            <>
-              <p className="today-date">Today</p>
-              <ul>{this.renderCompletedDateSection(cards, "today")}</ul>
-            </>
-          )}
-          {this.renderCompletedDateSection(cards, "yesterday").length !== 0 && (
-            <>
-              <p className="today-date">Yesterday</p>
-              <ul>{this.renderCompletedDateSection(cards, "yesterday")}</ul>
-            </>
-          )}
-          {this.renderCompletedDateSection(cards, "day_before").length !==
-            0 && (
-            <>
-              <p className="today-date">The Day before yesterday</p>
-              <ul>{this.renderCompletedDateSection(cards, "day_before")}</ul>
-            </>
-          )}
+                <div className="stat-section">
+                  {this.renderCategorySummary(cards).map(
+                    category =>
+                      category.minutes !== 0 && (
+                        <div className="stat" key={category.name}>
+                          <p className="sub-header">{category.name}:</p>
+                          <span className="points">{category.minutes} min</span>
+                        </div>
+                      )
+                  )}
+                </div>
+
+                {this.renderCompletedDateSection(cards, "today").length !==
+                  0 && (
+                  <>
+                    <p className="today-date">Today</p>
+                    <ul>{this.renderCompletedDateSection(cards, "today")}</ul>
+                  </>
+                )}
+                {this.renderCompletedDateSection(cards, "yesterday").length !==
+                  0 && (
+                  <>
+                    <p className="today-date">Yesterday</p>
+                    <ul>
+                      {this.renderCompletedDateSection(cards, "yesterday")}
+                    </ul>
+                  </>
+                )}
+                {this.renderCompletedDateSection(cards, "day_before").length !==
+                  0 && (
+                  <>
+                    <p className="today-date">The Day before yesterday</p>
+                    <ul>
+                      {this.renderCompletedDateSection(cards, "day_before")}
+                    </ul>
+                  </>
+                )}
+              </>
+            ))}
         </div>
       </>
     );

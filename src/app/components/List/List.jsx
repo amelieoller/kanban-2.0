@@ -93,7 +93,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     cards: cardIds
       .map(id => state.cardsById[id])
-      .filter(card => !card.hasOwnProperty("active") || card.active === true),
+      .filter(card => card.active !== false),
 		pomodoro: state.boardsById[ownProps.boardId].settings.pomodoro
   };
 };
