@@ -96,9 +96,10 @@ hr {
 .stat-section {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 25px;
+	margin-top: 10px;
 
 	.stat {
 		margin: 0 5px;
@@ -127,4 +128,27 @@ hr {
 			font-weight: 700;
 		}
 	}
+}
+
+.minute-badges {
+	display: flex;
+	font-size: 15px;
+}
+
+.minute-badge {
+	padding: 3px 5px;
+	border-radius: 3px;
+	color: white;
+}
+
+.badge-Flatiron {
+	background: #32cefe;
+}
+
+.badge-Kanban {
+	background: #EA725B;
+}
+
+.badge-Graphic {
+	background: #009ad0;
 }

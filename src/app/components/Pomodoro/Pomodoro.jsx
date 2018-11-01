@@ -3,6 +3,12 @@ import "./Pomodoro.scss";
 import Play from "react-icons/lib/md/play-circle-outline";
 import Pause from "react-icons/lib/md/pause-circle-outline";
 import PropTypes from "prop-types";
+import MdCode from "react-icons/lib/md/code";
+import MdCoffee from "react-icons/lib/md/free-breakfast";
+import MdPet from "react-icons/lib/md/pets";
+import MdNotify from "react-icons/lib/md/notifications-active";
+import MdMessage from "react-icons/lib/md/message";
+import MdTimer from "react-icons/lib/md/timer";
 import Alarm from "../../../assets/sounds/alarm.mp3";
 import Coffee from "../../../assets/images/coffee.png";
 import Code from "../../../assets/images/code.png";
@@ -11,143 +17,175 @@ export default class Pomodoro extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     boardId: PropTypes.string.isRequired,
-    pomodoro: PropTypes.object.isRequired
+    pomodoro: PropTypes.shape({
+      audio: PropTypes.boolean,
+      notification: PropTypes.boolean,
+      pomodori: PropTypes.number,
+      showDayPomo: PropTypes.boolean
+    }).isRequired
   };
 
   constructor(props) {
     super(props);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
     this.state = {
-      time: 1500,
-      play: false,
-      timeType: 1500,
+      sessionLength: 25,
+      timeInterval: false,
+      pausedTime: 0,
+      timePaused: false,
+      countdownDisplay: "25:00",
+      endTime: 0,
+      pomodoriDone: this.props.pomodoro.pomodoriDone[today] || 0,
       pomodori: this.props.pomodoro.pomodori || 0
     };
-    // Bind early, avoid function creation on render loop
-    this.setTimeForCode = this.setTime.bind(this, 1500);
-    this.setTimeForSocial = this.setTime.bind(this, 300);
-    this.setTimeForCoffee = this.setTime.bind(this, 900);
-    this.reset = this.reset.bind(this);
-    this.play = this.play.bind(this);
-    this.elapseTime = this.elapseTime.bind(this);
   }
 
   componentDidMount() {
-    this.setDefaultTime();
-    // this.startShortcuts();
     Notification.requestPermission();
   }
 
-  getFormatTypes() {
-    return [
-      { type: "Code", time: 1500 },
-      { type: "Social", time: 300 },
-      { type: "Coffee", time: 900 }
-    ];
-  }
+  getFormatTypes = () => [
+    { type: "Code", sessionLength: 25 },
+    { type: "Coffee", sessionLength: 5 },
+    { type: "Walk", sessionLength: 15 }
+  ];
 
-  setTime(newTime) {
-    this.restartInterval();
-
-    this.setState({
-      time: newTime,
-      timeType: newTime,
-      play: true
-    });
-  }
-
-  setDefaultTime() {
-    const defaultTime = 1500;
-
-    this.setState({
-      time: defaultTime,
-      timeType: defaultTime,
-      play: false
-    });
-  }
-
-  handleSettingsChange = (type, value) => {
-    const { dispatch, boardId } = this.props;
-
-    dispatch({
-      type: "CHANGE_POMODORO_SETTING",
-      payload: { boardId, type, value }
-    });
-  };
-
-  format(seconds) {
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = Math.floor((seconds % 3600) % 60);
-    const timeFormated = `${(m < 10 ? "0" : "") + m}:${s < 10 ? "0" : ""}${s}`;
-    return timeFormated;
-  }
-
-  elapseTime() {
-    if (this.state.time === 0) {
-      this.reset(0);
-      this.alert();
-    }
-    if (this.state.play === true) {
-      const newState = this.state.time - 1;
-      this.setState({ time: newState });
-    }
-  }
-
-  formatType(timeType) {
+  formatType = timeType => {
     const timeTypes = this.getFormatTypes();
     for (let i = 0; i < timeTypes.length; i += 1) {
       const timeObj = timeTypes[i];
-      if (timeObj.time === timeType) {
+      if (timeObj.sessionLength === timeType) {
         return timeObj.type;
       }
     }
     return null;
-  }
+  };
 
-  restartInterval() {
-    clearInterval(this.interval);
-    this.interval = setInterval(this.elapseTime, 1000);
-  }
+  startCountdown = () => {
+    const { timeInterval, timePaused, pausedTime } = this.state;
+    // Pause pomodoro if countdown is currently running, otherwise start
+    // countdown
+    if (timeInterval !== false) {
+      this.pauseCountdown();
+    } else {
+      // Set start and end time with system time and convert to
+      // milliseconds to correctly measure time elapsed
+      const newStartTime = new Date().getTime();
+      this.setState({
+        startTime: newStartTime
+      });
+      // Check if pomodoro has just been un-paused
+      if (timePaused === false) {
+        // First time starting pomodoro
+        this.unPauseCountdown();
+      } else {
+        // At first pause and every pause afterwards
+        this.setState({
+          endTime: newStartTime + pausedTime,
+          timePaused: false
+        });
+      }
+      // Run updateCountdown every 990ms to avoid lag with 1000ms,
+      // Update countdown checks time against system time and updates
+      // #countdown display
+      this.setState({
+        timeInterval: setInterval(this.updateCountdown, 990)
+      });
+    }
+  };
 
-  play() {
-    if (this.state.play === true) return;
+  updateCountdown = () => {
+    const { endTime } = this.state;
 
-    this.restartInterval();
+    // Get difference between the current time and the
+    // end time in milliseconds. difference = remaining time
+    const difference = endTime - new Date().getTime();
+    // Convert remaining milliseconds into minutes and seconds
+    const seconds = Math.floor((difference / 1000) % 60);
+    const minutes = Math.floor((difference / 1000 / 60) % 60);
+    // Display remaining minutes and seconds, unless there is less than 1 second
+    // left on timer. Then change to next session.
+    if (difference > 1000) {
+      this.setState({
+        countdownDisplay: `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+      });
+    } else {
+      this.changeSessions();
+    }
+  };
+
+  resetInterval = () => {
+    const { timeInterval } = this.state;
+
+    clearInterval(timeInterval);
+    this.setState({
+      timeInterval: false
+    });
+  };
+
+  changeSessions = () => {
+    const { sessionLength, pomodoriDone } = this.state;
+
+    this.resetInterval();
+
+    // Notification
+    this.alert();
+
+    if (sessionLength === 25) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const pomodoriDoneObject = {
+        [today]: pomodoriDone + 1
+      };
+
+      this.handleSettingsChange("pomodoriDone", pomodoriDoneObject);
+
+      this.setState({
+        countdownDisplay: "5:00",
+        sessionLength: 5,
+        pomodoriDone: pomodoriDone + 1
+      });
+    } else {
+      this.setState({
+        countdownDisplay: "25:00",
+        sessionLength: 25
+      });
+    }
+  };
+
+  pauseCountdown = () => {
+    const { endTime } = this.state;
+
+    this.resetInterval();
+    this.setState({
+      pausedTime: endTime - new Date().getTime(),
+      timePaused: true
+    });
+  };
+
+  unPauseCountdown = () => {
+    const { sessionLength } = this.state;
 
     this.setState({
-      play: true
+      endTime: new Date().getTime() + sessionLength * 60000
+    });
+  };
+
+  stopCountdown(newTime) {
+    this.resetInterval();
+    this.setState({
+      sessionLength: newTime,
+      pausedTime: 0,
+      timePaused: false,
+      endTime: 0,
+      countdownDisplay: `${newTime}:00`
     });
   }
 
-  reset(resetFor = this.state.time) {
-    clearInterval(this.interval);
-    const time = this.format(resetFor);
-    this.setState({ play: false });
-  }
-
-  togglePlay() {
-    if (this.state.play === true) return this.reset();
-
-    return this.play();
-  }
-
-  toggleMode(gotoDirection) {
-    const timeTypes = this.getFormatTypes();
-    let currentPosition = -1;
-
-    for (let i = 0; i < timeTypes.length; i += 1) {
-      if (timeTypes[i].time === this.state.timeType) {
-        currentPosition = i;
-        break;
-      }
-    }
-
-    if (currentPosition !== -1) {
-      const newMode = timeTypes[currentPosition + gotoDirection];
-      if (newMode) this.setTime(newMode.time);
-    }
-  }
-
-  alert() {
+  alert = () => {
     // audio
     if (this.props.pomodoro.audio) {
       const audio = new Audio(Alarm);
@@ -169,7 +207,7 @@ export default class Pomodoro extends React.Component {
     }
     // notification
     if (this.props.pomodoro.notification) {
-      if (this.state.timeType === 1500) {
+      if (this.state.sessionLength === 25) {
         const notification = new Notification("Relax :)", {
           icon: Coffee,
           lang: "en",
@@ -183,9 +221,19 @@ export default class Pomodoro extends React.Component {
         });
       }
     }
-  }
+  };
 
-  render() {
+  handleSettingsChange = (type, value) => {
+    const { dispatch, boardId } = this.props;
+
+    dispatch({
+      type: "CHANGE_POMODORO_SETTING",
+      payload: { boardId, type, value }
+    });
+  };
+
+  render = () => {
+    const { timeInterval, pomodoriDone, countdownDisplay } = this.state;
     const { pomodoro } = this.props;
 
     return (
@@ -193,49 +241,62 @@ export default class Pomodoro extends React.Component {
         <div className="header">
           Pomodoro:{" "}
           <span className="timeName">{`${this.formatType(
-            this.state.timeType
+            this.state.sessionLength
           )} Time!`}</span>
         </div>
         <hr />
-        {/* Main section
-        ------------------------------- */}
         <div className="main">
           <div className="container display timer">
-            <span className="time">{this.format(this.state.time)}</span>
+            {/* <span className="time">{this.format(this.state.time)}</span> */}
+            <span className="time">{countdownDisplay}</span>
           </div>
 
-          <div className="container display types">
-            <button
-              type="submit"
-              className="btn code"
-              onClick={this.setTimeForCode}
-            >
-              Code
-            </button>
-            <button
-              type="submit"
-              className="btn social"
-              onClick={this.setTimeForSocial}
-            >
-              Social
-            </button>
-            <button
-              type="submit"
-              className="btn coffee"
-              onClick={this.setTimeForCoffee}
-            >
-              Coffee
-            </button>
-          </div>
+          <div className="container-controls">
+            <div className="container display types">
+              <button
+                type="submit"
+                className="btn code"
+                onClick={() => this.stopCountdown(25)}
+              >
+                <MdCode />
+              </button>
+              <button
+                type="submit"
+                className="btn social"
+                onClick={() => this.stopCountdown(5)}
+              >
+                <MdCoffee />
+              </button>
+              <button
+                type="submit"
+                className="btn coffee"
+                onClick={() => this.stopCountdown(15)}
+              >
+                <MdPet />
+              </button>
+            </div>
 
-          <div className="container">
-            <div className="controlsPlay">
-              <Play className="play btnIcon" onClick={this.play} />
-              <Pause className="pause btnIcon" onClick={this.reset} />
+            <div className="play-count">
+              <div className="controlsPlay">
+                {timeInterval ? (
+                  <Pause
+                    className="pause btnIcon"
+                    onClick={() => this.startCountdown()}
+                  />
+                ) : (
+                  <Play
+                    className="play btnIcon"
+                    onClick={() => this.startCountdown()}
+                  />
+                )}
+              </div>
+              {pomodoriDone !== 0 && (
+                <span className="done">{pomodoriDone}</span>
+              )}
             </div>
           </div>
-        </div>{" "}
-        {/* main */}
+        </div>
+
         {/* Bottom section
         ------------------------------- */}
         <div className="bottomBar">
@@ -256,7 +317,9 @@ export default class Pomodoro extends React.Component {
                     }
                   />
                   <label htmlFor="notification" />
-                  <span className="checkTitle">Notification</span>
+                  <span className="checkTitle">
+                    <MdMessage />
+                  </span>
                 </span>
 
                 <span className="check">
@@ -269,8 +332,29 @@ export default class Pomodoro extends React.Component {
                     }
                   />
                   <label htmlFor="audio" />
-                  <span className="checkTitle">Sound</span>
+                  <span className="checkTitle">
+                    <MdNotify />
+                  </span>
                 </span>
+
+                <span className="check">
+                  <input
+                    type="checkbox"
+                    id="showDayPomo"
+                    defaultChecked={pomodoro.showDayPomo}
+                    onChange={() =>
+                      this.handleSettingsChange(
+                        "showDayPomo",
+                        !pomodoro.showDayPomo
+                      )
+                    }
+                  />
+                  <label htmlFor="showDayPomo" />
+                  <span className="checkTitle">
+                    <MdTimer />
+                  </span>
+                </span>
+
                 <span className="check">
                   <form
                     onSubmit={e => {
@@ -294,18 +378,6 @@ export default class Pomodoro extends React.Component {
                     />
                   </form>
                 </span>
-								<span className="check">
-									<input
-										type="checkbox"
-										id="showDayPomo"
-										defaultChecked={pomodoro.showDayPomo}
-										onChange={() =>
-											this.handleSettingsChange("showDayPomo", !pomodoro.showDayPomo)
-										}
-									/>
-									<label htmlFor="showDayPomo" />
-									<span className="checkTitle">Show</span>
-								</span>
               </div>
               {/* controlsCheck */}
             </div>
@@ -314,7 +386,7 @@ export default class Pomodoro extends React.Component {
           {/* controls */}
         </div>
         {/* bottomBar */}
-      </div> /* bottomBar */
+      </div>
     );
-  }
+  };
 }

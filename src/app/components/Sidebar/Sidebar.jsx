@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Trash from "react-icons/lib/md/clear";
 import differenceInCalendarDays from "date-fns/difference_in_calendar_days";
+import classnames from "classnames";
 import Pomodoro from "../Pomodoro/Pomodoro";
 import formatMarkdown from "../Card/formatMarkdown";
 
@@ -108,7 +109,7 @@ class Sidebar extends Component {
           {cards &&
             (cards.length !== 0 && (
               <>
-                <div className="stat-section-tasks">
+                {/* <div className="stat-section-tasks">
                   <div className="stat">
                     <p className="sub-header">Tasks:</p>
                     <span className="points">
@@ -121,15 +122,18 @@ class Sidebar extends Component {
                       pts
                     </span>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="stat-section">
                   {this.renderCategorySummary(cards).map(
                     category =>
                       category.minutes !== 0 && (
-                        <div className="stat" key={category.name}>
-                          <p className="sub-header">{category.name}:</p>
-                          <span className="points">{category.minutes} min</span>
+                        <div className="minute-badges" key={category.name}>
+                          <div
+                            className={classnames("minute-badge", `badge-${category.name}`)}
+                          >
+                            {category.minutes} min
+                          </div>
                         </div>
                       )
                   )}
