@@ -37,7 +37,7 @@ export default class Pomodoro extends React.Component {
       timePaused: false,
       countdownDisplay: "25:00",
       endTime: 0,
-      pomodoriDone: this.props.pomodoro.pomodoriDone[today] || 0,
+			pomodoriDone: this.props.pomodoro.pomodoriDone ? this.props.pomodoro.pomodoriDone[today] :0,
       pomodori: this.props.pomodoro.pomodori || 0
     };
   }
