@@ -6,9 +6,12 @@ const router = Router();
 router.get(
   "/google",
   passport.authenticate("google", {
-    scope: ["profile"]
+    scope: ["profile", "https://www.googleapis.com/auth/calendar"],
+    accessType: "offline",
+    prompt: "consent"
   })
 );
+
 router.get("/google/callback", passport.authenticate("google"), (req, res) => {
   res.redirect("/");
 });
