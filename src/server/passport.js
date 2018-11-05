@@ -1,5 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import moment from "moment";
 import createWelcomeBoard from "./createWelcomeBoard";
 
 const configurePassport = db => {
@@ -20,9 +21,14 @@ const configurePassport = db => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `${process.env.ROOT_URL}/auth/google/callback`
+        callbackURL: `${process.env.ROOT_URL}/auth/google/callback`,
+        passReqToCallback: true
       },
-      (accessToken, refreshToken, profile, cb) => {
+      (req, accessToken, refreshToken, params, profile, cb) => {
+				const expiryDate = moment()
+          .add(params.expires_in, "s")
+					.format("X");
+
         users.findOne({ _id: profile.id }).then(user => {
           if (user) {
             cb(null, user);
@@ -30,7 +36,10 @@ const configurePassport = db => {
             const newUser = {
               _id: profile.id,
               name: profile.displayName,
-              imageUrl: profile._json.image.url
+							imageUrl: profile._json.image.url,
+							accessToken,
+							refreshToken,
+							expiryDate
             };
             users.insertOne(newUser).then(() => {
               boards
