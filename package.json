@@ -25,6 +25,7 @@
 		"express-session": "^1.15.6",
 		"express-static-gzip": "^1.1.3",
 		"googleapis": "^34.0.0",
+		"googleauth": "^3.0.2",
 		"helmet": "^3.14.0",
 		"later": "RickCarlino/later",
 		"marked": "^0.5.1",
