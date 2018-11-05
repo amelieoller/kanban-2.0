@@ -84,6 +84,8 @@ Since you are not signed in, your changes will not persist after you leave the w
     });
   }
 
+  const completedListId = shortid.generate();
+
   return {
     _id: shortid.generate(),
     title: "Tutorial board",
@@ -103,9 +105,20 @@ Since you are not signed in, your changes will not persist after you leave the w
         _id: shortid.generate(),
         title: "How to use",
         cards: appendAttributes(list3)
+      },
+      {
+        _id: completedListId,
+        title: "Completed",
+        cards: [],
+        special: "completed"
       }
     ],
-    users: userId ? [userId] : []
+    users: userId ? [userId] : [],
+    settings: {
+      pomodoro: { notification: true, audio: true },
+      color: "grey",
+      completedListId
+    }
   };
 };
 
