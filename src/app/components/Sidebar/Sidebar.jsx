@@ -165,7 +165,7 @@ class Sidebar extends Component {
                   </>
                 )}
               </>
-            ))}
+						))}
         </div>
       </>
     );
@@ -180,7 +180,8 @@ const mapStateToProps = (state, ownProps) => {
     cards: state.listsById[completedListId].cards.map(
       cardId => state.cardsById[cardId]
     ),
-    completedListId
+		completedListId,
+		user: state.user
   };
 };
 export default connect(mapStateToProps)(Sidebar);
