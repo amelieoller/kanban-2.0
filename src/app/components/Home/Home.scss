@@ -72,39 +72,31 @@ $add-board-focus-bg: #ccc;
 	overflow-wrap: break-word;
 	text-decoration: none;
 
-	&.green {
-		background: $green;
+	&.light {
+		background: $light-grey;
+	}
+
+	&.dark {
+		background: $dark-grey;
 	}
 
 	&.blue {
 		background: $blue;
 	}
-
-	&.red {
-		background: $red;
-	}
-
-	&.grey {
-		background: $light-grey;
-	}
 }
 
 .board-link:hover,
 .board-link:focus {
-	&.green {
-		background: $dark-green;
+	&.light {
+		background: $light-grey;
+	}
+
+	&.dark {
+		background: $dark-grey;
 	}
 
 	&.blue {
 		background: $dark-blue;
-	}
-
-	&.grey {
-		background: $light-grey;
-	}
-
-	&.red {
-		background: $dark-red;
 	}
 }
 

@@ -7,12 +7,15 @@ import FaSignOut from "react-icons/lib/fa/sign-out";
 import FaSignIn from "react-icons/lib/fa/sign-in";
 import kanbanLogo from "../../../assets/images/logo.png";
 import "./Header.scss";
+import BoardHeader from "../BoardHeader/BoardHeader";
+import { withRouter } from "react-router-dom";
 
 class Header extends Component {
   static propTypes = { user: PropTypes.object };
 
   render = () => {
-    const { user } = this.props;
+    const { user, homePage } = this.props;
+
     return (
       <header>
         <Link to="/" className="header-title">
@@ -20,6 +23,7 @@ class Header extends Component {
           &nbsp;Kanban 2.0
         </Link>
         <div className="header-right-side">
+					{!homePage && <BoardHeader />}
           {user ? (
             <img
               src={user.imageUrl}
@@ -46,6 +50,12 @@ class Header extends Component {
   };
 }
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = (state, ownProps) => {
+  const params = ownProps.match.params;
+  return {
+    user: state.user,
+    homePage: Object.keys(params).length === 0 && params.constructor === Object
+  };
+};
 
-export default connect(mapStateToProps)(Header);
+export default withRouter(connect(mapStateToProps)(Header));

@@ -19,20 +19,16 @@ header {
 	box-shadow: $bs;
 }
 
-.green header {
-	background: $transparent-green;
+.light header {
+	background: $dark-grey;
+}
+
+.dark header {
+	background: $black;
 }
 
 .blue header {
 	background: $transparent-blue;
-}
-
-.red header {
-	background: $transparent-red;
-}
-
-.grey header {
-	background: $dark-grey;
 }
 
 .header-title {
