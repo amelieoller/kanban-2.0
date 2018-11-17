@@ -1,0 +1,21 @@
+@import "../../variables.scss";
+
+.event-title {
+    font-size: 14px;
+    color: $dark-grey;
+    padding-bottom: 8px;
+    line-height: 15px;
+}
+
+.timeUntil {
+    font-family: "Pacifico", cursive;
+    color: $dark-grey;
+    margin-top: 5px;
+}
+
+.pomodoriLeft {
+    font-family: "Pacifico", cursive;
+    color: $grey;
+    text-transform: capitalize;
+    font-size: 15px;
+}

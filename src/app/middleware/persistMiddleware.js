@@ -20,7 +20,17 @@ const persistMiddleware = store => next => action => {
         headers: { "Content-Type": "application/json" },
         credentials: "include"
       });
+    } else if (action.type === "UPDATE_USER") {
+      const user2 = new schema.Entity("user", {}, { idAttribute: "_id" });
+      const entities = { user };
+      const userData = denormalize(user, user2, entities);
 
+      fetch("/api/user", {
+        method: "PUT",
+        body: JSON.stringify(userData),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+      });
       // All action-types that are not DELETE_BOARD or PUT_BOARD_ID_IN_REDUX are currently modifying a board in a way that should
       // be persisted to db. If other types of actions are added, this logic will get unwieldy.
     } else if (action.type !== "PUT_BOARD_ID_IN_REDUX") {
