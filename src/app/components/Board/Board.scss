@@ -16,20 +16,16 @@
 	transition: background 0.3s;
 }
 
-.green .board-underlay {
-	background: $green;
+.light .board-underlay {
+	background: $light-grey;
+}
+
+.dark .board-underlay {
+	background: $dark-grey;
 }
 
 .blue .board-underlay {
 	background: $blue;
-}
-
-.red .board-underlay {
-	background: $red;
-}
-
-.grey .board-underlay {
-	background: $light-grey;
 }
 
 .lists-wrapper {

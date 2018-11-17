@@ -1,15 +1,11 @@
 @import "../../variables.scss";
 
 .board-header {
-	position: fixed;
-	top: 40px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	box-sizing: border-box;
-	height: 40px;
-	width: 100%;
-	padding: 8px 10px 5px 10px;
+	margin-right: 10px;
 	color: $white;
 	z-index: 1;
 }

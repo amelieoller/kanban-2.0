@@ -163,7 +163,6 @@ class Board extends Component {
         <div className={classnames("board", boardColor)}>
           <Title>{boardTitle} | Kanban 2.0</Title>
           <Header />
-          {/* <BoardHeader /> */}
           {/* eslint-disable jsx-a11y/no-static-element-interactions */}
           <Sidebar pomodoro={pomodoro} boardId={boardId} />
           <div

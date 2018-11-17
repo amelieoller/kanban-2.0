@@ -19,11 +19,12 @@
 .board-title-text {
 	margin: 0;
 	color: $white;
-	font-size: 20px;
+	font-size: 18px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	overflow-wrap: break-word;
 	white-space: nowrap;
+	font-weight: 300;
 }
 
 .board-title-input {
@@ -32,7 +33,7 @@
 	border: 0;
 	color: inherit;
 	background: inherit;
-	font-size: 20px;
-	font-weight: 700;
+	font-size: 18px;
+	font-weight: 300;
 	font-family: inherit;
 }
