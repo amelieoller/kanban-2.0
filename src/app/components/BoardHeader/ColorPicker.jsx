@@ -25,7 +25,7 @@ class ColorPicker extends Component {
 
   render() {
     const { boardColor } = this.props;
-    const colors = ["blue", "green", "red", "grey"];
+    const colors = ["blue", "light", "dark"];
     return (
       <Wrapper
         className="color-picker-wrapper"
@@ -33,9 +33,7 @@ class ColorPicker extends Component {
       >
         <Button className="color-picker">
           <Label />
-          <div className="board-header-right-text">
-            &nbsp;Color &nbsp;&#9662;
-          </div>
+          <div className="board-header-right-text">&nbsp;&#9662;</div>
         </Button>
         <Menu className="color-picker-menu">
           {colors.map(color => (
@@ -54,8 +52,9 @@ class ColorPicker extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { boardId } = ownProps.match.params;
-  return {
+	const { boardId } = ownProps.match.params;
+
+	return {
     boardColor: state.boardsById[boardId].settings.color,
     boardId
   };

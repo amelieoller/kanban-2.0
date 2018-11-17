@@ -54,27 +54,19 @@
 		}
 	}
 
-	&.green {
-		background: $green;
-
-		&:focus {
-			background: $dark-green;
-		}
-	}
-
-	&.red {
-		background: $red;
-
-		&:focus {
-			background: $dark-red;
-		}
-	}
-
-	&.grey {
+	&.light {
 		background: $light-grey;
 
 		&:focus {
 			background: $light-grey;
+		}
+	}
+
+	&.dark {
+		background: $dark-grey;
+
+		&:focus {
+			background: $black;
 		}
 	}
 }
