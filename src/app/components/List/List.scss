@@ -23,21 +23,16 @@
 	box-shadow: $bs;
 }
 
+.light .list {
+	background: $lighter-grey;
+}
+
+.dark .list {
+	background: $transparent-black;
+}
+
 .blue .list {
 	background: $transparent-blue;
-}
-
-.green .list {
-	background: $transparent-green;
-}
-
-.red .list {
-	background: $transparent-red;
-}
-
-.grey .list {
-	// background: $transparent-grey;
-	background-color: $lighter-grey;
 }
 
 .list--drag {

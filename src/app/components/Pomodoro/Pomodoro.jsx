@@ -29,6 +29,9 @@ export default class Pomodoro extends React.Component {
     super(props);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const pomodoriDone =
+      this.props.pomodoro.pomodoriDone &&
+      this.props.pomodoro.pomodoriDone[today];
 
     this.state = {
       sessionLength: 25,
@@ -37,7 +40,7 @@ export default class Pomodoro extends React.Component {
       timePaused: false,
       countdownDisplay: "25:00",
       endTime: 0,
-			pomodoriDone: this.props.pomodoro.pomodoriDone ? this.props.pomodoro.pomodoriDone[today] :0,
+      pomodoriDone: pomodoriDone || 0,
       pomodori: this.props.pomodoro.pomodori || 0
     };
   }

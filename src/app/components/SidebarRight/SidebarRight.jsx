@@ -78,7 +78,6 @@ class SidebarRight extends Component {
         <div className="sidebar-wrapper">
           <div className="header">Repeating Tasks</div>
           <hr />
-          <p className="sub-header">Recurring Tasks:</p>
           <ul>
             {cards.map(card => (
               <li key={card._id} className="recurring-task-item">
