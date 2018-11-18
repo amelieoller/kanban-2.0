@@ -10,6 +10,7 @@ import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import SidebarRight from "../SidebarRight/SidebarRight";
 import "./Board.scss";
+import Habits from "../Habits/Habits";
 
 class Board extends Component {
   static propTypes = {
@@ -55,7 +56,7 @@ class Board extends Component {
     if (!destination) {
       return;
     }
-    const { dispatch, boardId, completedListId } = this.props;
+    const { dispatch, boardId, completedListId, habitsListId } = this.props;
 
     // Move list
     if (type === "COLUMN") {
@@ -67,7 +68,8 @@ class Board extends Component {
             oldListIndex: source.index,
             newListIndex: destination.index,
             boardId: source.droppableId,
-            completedListId
+            completedListId,
+            habitsListId
           }
         });
       }
@@ -152,10 +154,11 @@ class Board extends Component {
       boardId,
       boardColor,
       pomodoro,
-      completedListId
+      completedListId,
+      habitsListId
     } = this.props;
     const otherLists = lists.filter(
-      list => list && list._id !== completedListId
+      list => list && list._id !== completedListId && list._id !== habitsListId
     );
 
     return (
@@ -165,6 +168,7 @@ class Board extends Component {
           <Header />
           {/* eslint-disable jsx-a11y/no-static-element-interactions */}
           <Sidebar pomodoro={pomodoro} boardId={boardId} />
+          <Habits boardId={boardId} />
           <div
             className="lists-wrapper"
             onMouseDown={this.handleMouseDown}
@@ -205,6 +209,7 @@ class Board extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { board } = ownProps;
   const completedListId = state.boardsById[board._id].settings.completedListId;
+  const habitsListId = state.boardsById[board._id].settings.habitsListId;
 
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
@@ -212,7 +217,8 @@ const mapStateToProps = (state, ownProps) => {
     boardColor: board.settings.color,
     boardId: board._id,
     pomodoro: board.settings.pomodoro,
-    completedListId
+    completedListId,
+    habitsListId
   };
 };
 

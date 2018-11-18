@@ -85,6 +85,7 @@ Since you are not signed in, your changes will not persist after you leave the w
   }
 
   const completedListId = shortid.generate();
+  const habitsListId = shortid.generate();
 
   return {
     _id: shortid.generate(),
@@ -111,13 +112,21 @@ Since you are not signed in, your changes will not persist after you leave the w
         title: "Completed",
         cards: [],
         special: "completed"
+      },
+      {
+        _id: habitsListId,
+        title: "Habits",
+        cards: [],
+        special: "habits"
       }
     ],
     users: userId ? [userId] : [],
+    stats: { habits: 0 },
     settings: {
       pomodoro: { notification: true, audio: true },
       color: "grey",
-      completedListId
+      completedListId,
+      habitsListId
     }
   };
 };

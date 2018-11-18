@@ -35,9 +35,8 @@ class BoardAdder extends Component {
     }
     const { dispatch, history, userId } = this.props;
     const boardId = shortid.generate();
-    const listTitle = "Completed";
-    const listId = shortid.generate();
-    const special = "completed";
+    const completedListId = shortid.generate();
+    const habitsListId = shortid.generate();
 
     dispatch({
       type: "ADD_BOARD",
@@ -45,13 +44,29 @@ class BoardAdder extends Component {
         boardTitle: title,
         boardId,
         userId,
-        completedListId: listId
+        completedListId,
+        habitsListId
       }
     });
 
     dispatch({
       type: "ADD_LIST",
-      payload: { listTitle, listId, boardId, special }
+      payload: {
+        listTitle: "Completed",
+        listId: completedListId,
+        boardId,
+        special: "completed"
+      }
+    });
+
+    dispatch({
+      type: "ADD_LIST",
+      payload: {
+        listTitle: "Habits",
+        listId: habitsListId,
+        boardId,
+        special: "habits"
+      }
     });
 
     const urlSlug = slugify(title, { lower: true });

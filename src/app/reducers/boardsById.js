@@ -15,17 +15,24 @@ const boardsById = (state = {}, action) => {
         oldListIndex,
         newListIndex,
         boardId,
-        completedListId
+        completedListId,
+        habitsListId
       } = action.payload;
       const newLists = Array.from(state[boardId].lists);
-      const index = newLists.indexOf(completedListId);
-      if (index > -1) {
-        newLists.splice(index, 1);
+      const indexCompletedList = newLists.indexOf(completedListId);
+      const indexHabitsList = newLists.indexOf(habitsListId);
+
+      if (indexCompletedList > -1) {
+        newLists.splice(indexCompletedList, 1);
+      }
+      if (indexHabitsList > -1) {
+        newLists.splice(indexHabitsList, 1);
       }
       const [removedList] = newLists.splice(oldListIndex, 1);
 
       newLists.splice(newListIndex, 0, removedList);
       newLists.unshift(completedListId);
+      newLists.unshift(habitsListId);
 
       return {
         ...state,
@@ -43,7 +50,13 @@ const boardsById = (state = {}, action) => {
       };
     }
     case "ADD_BOARD": {
-      const { boardTitle, boardId, userId, completedListId } = action.payload;
+      const {
+        boardTitle,
+        boardId,
+        userId,
+        completedListId,
+        habitsListId
+      } = action.payload;
 
       return {
         ...state,
@@ -52,10 +65,12 @@ const boardsById = (state = {}, action) => {
           title: boardTitle,
           lists: [],
           users: [userId],
+          stats: { habits: 0 },
           settings: {
             pomodoro: { notification: true, audio: true },
             color: "grey",
-            completedListId
+            completedListId,
+            habitsListId
           }
         }
       };
@@ -76,7 +91,37 @@ const boardsById = (state = {}, action) => {
         ...state,
         [boardId]: {
           ...state[boardId],
-          color
+          settings: {
+            ...state[boardId].settings,
+            color
+          }
+        }
+      };
+    }
+    case "CHANGE_HABIT_STATS": {
+      const { boardId, habit } = action.payload;
+
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          stats: {
+            ...state[boardId].stats,
+						habits: { ...state[boardId].stats.habits, ...habit }
+          }
+        }
+      };
+    }
+    case "CHANGE_SETTING": {
+      const { boardId, checkinDate } = action.payload;
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            checkinDate
+          }
         }
       };
     }
@@ -132,6 +177,7 @@ const boardsById = (state = {}, action) => {
       const { [boardId]: deletedBoard, ...restOfBoards } = state;
       return restOfBoards;
     }
+
     default:
       return state;
   }

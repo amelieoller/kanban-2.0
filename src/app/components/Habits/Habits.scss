@@ -1,0 +1,67 @@
+@import "../../variables.scss";
+
+.habits-wrapper {
+	background-color: rgba(201, 207, 211, 0.25);
+	width: 150px;
+	padding: 25px 8px 8px 8px;
+	margin-top: 40px;
+	max-height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+
+	ul {
+		margin-top: 10px;
+	}
+}
+
+.habits-card-title-wrapper {
+	position: relative;
+	box-sizing: border-box;
+	border-radius: 3px;
+	color: $dark-grey;
+	background: $white;
+	border: 1px solid $light-grey;
+	font-size: 15px;
+	width: 100%;
+	margin: 3px 0;
+	padding: 3px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+
+	.delete {
+		min-width: 16px;
+	}
+}
+
+.habits-card-title {
+	position: relative;
+	box-sizing: border-box;
+	font-size: 15px;
+	width: 100%;
+	overflow: hidden;
+
+	p {
+		margin: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
+
+.habit-delete {
+	cursor: pointer;
+	color: $grey;
+}
+
+.habit-check {
+	cursor: pointer;
+	padding-right: 5px;
+	color: $grey;
+	font-size: 20px;
+
+	&:hover {
+		color: $green;
+	}
+}
