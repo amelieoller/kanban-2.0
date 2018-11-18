@@ -71,16 +71,11 @@ class CardModal extends Component {
     this.setState({ newText: e.target.value });
   };
 
-  toggleCategoryPicker = () => {
-    const { isCategoryPickerOpen } = this.state;
-    this.setState({ isCategoryPickerOpen: !isCategoryPickerOpen });
-  };
-
-  toggleDifficultyPicker = () => {
-    const { isDifficultyPickerOpen } = this.state;
+  togglePicker = type => {
+    const picker = `is${type}PickerOpen`;
 
     this.setState({
-      isDifficultyPickerOpen: !isDifficultyPickerOpen
+      [picker]: !this.state[picker]
     });
   };
 
@@ -201,8 +196,7 @@ class CardModal extends Component {
           boundingRect={boundingRect}
           isCardNearRightBorder={isCardNearRightBorder}
           isThinDisplay={isThinDisplay}
-          toggleCategoryPicker={this.toggleCategoryPicker}
-          toggleDifficultyPicker={this.toggleDifficultyPicker}
+					togglePicker={this.togglePicker}
         />
       </Modal>
     );

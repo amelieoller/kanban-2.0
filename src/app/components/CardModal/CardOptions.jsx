@@ -5,11 +5,11 @@ import Modal from "react-modal";
 import FaTrash from "react-icons/lib/fa/trash";
 import FaCheck from "react-icons/lib/fa/check";
 import MdAlarm from "react-icons/lib/md/access-alarm";
-import Flag from "react-icons/lib/md/flag";
+import MdFlag from "react-icons/lib/md/flag";
 import later from "later";
-import Label from "react-icons/lib/md/label";
+import MdLabel from "react-icons/lib/md/label";
 import Calendar from "./Calendar";
-import ClickOutside from "../ClickOutside/ClickOutside";
+import Picker from "../Picker/Picker";
 
 import "./CardOptions.scss";
 
@@ -26,8 +26,7 @@ class CardOptions extends Component {
     isCardNearRightBorder: PropTypes.bool.isRequired,
     isThinDisplay: PropTypes.bool.isRequired,
     boundingRect: PropTypes.object.isRequired,
-    toggleCategoryPicker: PropTypes.func.isRequired,
-    toggleDifficultyPicker: PropTypes.func.isRequired,
+    togglePicker: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired
   };
 
@@ -62,10 +61,10 @@ class CardOptions extends Component {
     } else {
       const completedAt = Date.now();
 
-			dispatch({
+      dispatch({
         type: "CHANGE_CARD_COMPLETED_AT",
         payload: { cardId: card._id, completedAt }
-			});
+      });
 
       dispatch({
         type: "COMPLETE_CARD",
@@ -75,7 +74,7 @@ class CardOptions extends Component {
   };
 
   changeCategory = category => {
-    const { dispatch, card, toggleCategoryPicker } = this.props;
+    const { dispatch, card, togglePicker } = this.props;
 
     if (card.category !== category) {
       if (category.color === "white") {
@@ -90,37 +89,20 @@ class CardOptions extends Component {
         });
       }
     }
-    toggleCategoryPicker();
+    togglePicker("Category");
     this.colorPickerButton.focus();
   };
 
   changeDifficulty = difficulty => {
-    const { dispatch, card, toggleDifficultyPicker } = this.props;
+    const { dispatch, card, togglePicker } = this.props;
     if (card.difficulty !== difficulty) {
       dispatch({
         type: "CHANGE_CARD_DIFFICULTY",
         payload: { difficulty, cardId: card._id }
       });
     }
-    toggleDifficultyPicker();
+    togglePicker("Difficulty");
     this.colorPickerButton.focus();
-  };
-
-  handleKeyDownCategory = e => {
-    const { toggleCategoryPicker } = this.props;
-    if (e.keyCode === 27) {
-      toggleCategoryPicker();
-      this.colorPickerButton.focus();
-    }
-  };
-
-  handleKeyDownDifficulty = e => {
-    const { toggleDifficultyPicker } = this.props;
-
-    if (e.keyCode === 27) {
-      toggleDifficultyPicker();
-      this.colorPickerButton.focus();
-    }
   };
 
   handleKeyDownTime = e => {
@@ -173,18 +155,6 @@ class CardOptions extends Component {
     }
   };
 
-  handleClickOutsideCategory = () => {
-    const { toggleCategoryPicker } = this.props;
-    toggleCategoryPicker();
-    this.colorPickerButton.focus();
-  };
-
-  handleClickOutsideDifficulty = () => {
-    const { toggleDifficultyPicker } = this.props;
-    toggleDifficultyPicker();
-    this.colorPickerButton.focus();
-  };
-
   toggleCalendar = () => {
     const { isCalendarOpen } = this.state;
     this.setState({ isCalendarOpen: !isCalendarOpen });
@@ -195,11 +165,10 @@ class CardOptions extends Component {
       isCardNearRightBorder,
       isCategoryPickerOpen,
       isDifficultyPickerOpen,
-      toggleCategoryPicker,
-      toggleDifficultyPicker,
       card,
       isThinDisplay,
-      boundingRect
+      boundingRect,
+      togglePicker
     } = this.props;
     const { isCalendarOpen, minutes, recurringText } = this.state;
 
@@ -224,7 +193,9 @@ class CardOptions extends Component {
           alignItems: isCardNearRightBorder ? "flex-end" : "flex-start"
         }}
       >
-        <div>
+
+				{/* Complete */}
+				<div>
           <button
             type="submit"
             onClick={this.completeCard}
@@ -236,6 +207,8 @@ class CardOptions extends Component {
             &nbsp;Done
           </button>
         </div>
+
+				{/* Minutes */}
         <div className="modal-color-picker-wrapper">
           <form onSubmit={this.handleMinuteSubmit}>
             <input
@@ -253,6 +226,7 @@ class CardOptions extends Component {
           </form>
         </div>
 
+				{/* Recurring */}
         <div className="modal-color-picker-wrapper">
           <form onSubmit={this.handleRecurringSubmit}>
             <input
@@ -267,92 +241,51 @@ class CardOptions extends Component {
           </form>
         </div>
 
-        <div className="modal-color-picker-wrapper">
-          <button
-            type="submit"
-            className="options-list-button"
-            onClick={toggleCategoryPicker}
-            onKeyDown={this.handleKeyDownCategory}
-            ref={ref => {
-              this.colorPickerButton = ref;
-            }}
-            aria-haspopup
-            aria-expanded={isCategoryPickerOpen}
-          >
-            <Label />
-            &nbsp;Category
-          </button>
-          {isCategoryPickerOpen && (
-            <ClickOutside
-              eventTypes="click"
-              handleClickOutside={this.handleClickOutsideCategory}
+        {/* Category */}
+        <Picker
+          isPickerOpen={isCategoryPickerOpen}
+          togglePicker={togglePicker}
+          type="Category"
+          icon={<MdLabel className="modal-icon" />}
+        >
+          {[
+            { name: "", short: "", color: "white" },
+            { name: "Flatiron", short: "//", color: "#32cefe" },
+            { name: "Graphic", short: "GL", color: "#009ad0" },
+            { name: "Kanban", short: "KB", color: "#EA725B" }
+          ].map(category => (
+            <button
+              type="submit"
+              key={category.name}
+              style={{ background: category.color }}
+              className="color-picker-color category-picker"
+              onClick={() => this.changeCategory(category)}
             >
-              {/* eslint-disable */}
-              <div
-                className="modal-color-picker"
-                onKeyDown={this.handleKeyDownCategory}
-              >
-                {/* eslint-enable */}
-                {[
-                  { name: "", short: "", color: "white" },
-                  { name: "Flatiron", short: "//", color: "#32cefe" },
-                  { name: "Graphic", short: "GL", color: "#009ad0" },
-                  { name: "Kanban", short: "KB", color: "#EA725B" }
-                ].map(category => (
-                  <button
-                    type="submit"
-                    key={category.name}
-                    style={{ background: category.color }}
-                    className="color-picker-color category-picker"
-                    onClick={() => this.changeCategory(category)}
-                  >
-                    {category.short}
-                  </button>
-                ))}
-              </div>
-            </ClickOutside>
-          )}
-        </div>
-        <div className="modal-color-picker-wrapper">
-          <button
-            type="submit"
-            className="options-list-button"
-            onClick={toggleDifficultyPicker}
-            onKeyDown={this.handleKeyDownDifficulty}
-            ref={ref => {
-              this.colorPickerButton = ref;
-            }}
-            aria-haspopup
-            aria-expanded={isDifficultyPickerOpen}
-          >
-            <Flag className="modal-icon" />
-            &nbsp;Difficulty
-          </button>
-          {isDifficultyPickerOpen && (
-            <ClickOutside
-              eventTypes="click"
-              handleClickOutside={this.handleClickOutsideDifficulty}
+              {category.short}
+            </button>
+          ))}
+        </Picker>
+
+        {/* Difficulty */}
+        <Picker
+          isPickerOpen={isDifficultyPickerOpen}
+          togglePicker={togglePicker}
+          type="Difficulty"
+          icon={<MdFlag className="modal-icon" />}
+        >
+          {[1, 2, 3].map(difficulty => (
+            <button
+              key={difficulty}
+              type="submit"
+              className="picker-button"
+              onClick={() => this.changeDifficulty(difficulty)}
             >
-              {/* eslint-disable */}
-              <div
-                className="modal-color-picker"
-                onKeyDown={this.handleKeyDownDifficulty}
-              >
-                {/* eslint-enable */}
-                {[1, 2, 3].map(difficulty => (
-                  <button
-                    key={difficulty}
-                    type="submit"
-                    className="difficulty-button"
-                    onClick={() => this.changeDifficulty(difficulty)}
-                  >
-                    {difficulty}
-                  </button>
-                ))}
-              </div>
-            </ClickOutside>
-          )}
-        </div>
+              {difficulty}
+            </button>
+          ))}
+        </Picker>
+
+				{/* Calendar */}
         <div>
           <button
             type="submit"
@@ -378,6 +311,8 @@ class CardOptions extends Component {
             toggleCalendar={this.toggleCalendar}
           />
         </Modal>
+
+				{/* Delete */}
         <div>
           <button
             type="submit"
