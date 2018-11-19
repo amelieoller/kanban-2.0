@@ -30,7 +30,7 @@ class Calendar extends Component {
     fetch(
       `https://www.googleapis.com/calendar/v3/calendars/amelie.oller@flatironschool.com/events?access_token=${
         this.props.user.accessToken
-      }&timeMin=${new Date().toISOString()}&showDeleted=false&singleEvents=true&maxResults=5&orderBy=startTime`
+      }&timeMin=${new Date().toISOString()}&showDeleted=false&singleEvents=true&maxResults=3&orderBy=startTime`
     )
       .then(response => response.json())
       .then(data => {
