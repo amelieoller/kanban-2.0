@@ -123,7 +123,10 @@ Since you are not signed in, your changes will not persist after you leave the w
     users: userId ? [userId] : [],
     stats: { habits: 0 },
     settings: {
-      pomodoro: { notification: true, audio: true },
+			pomodoro: { notification: true, audio: true },
+			goals: {
+				habits: 0
+			},
       color: "grey",
       completedListId,
       habitsListId

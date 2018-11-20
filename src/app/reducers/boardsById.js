@@ -65,9 +65,12 @@ const boardsById = (state = {}, action) => {
           title: boardTitle,
           lists: [],
           users: [userId],
-          stats: { habits: 0 },
+          stats: { habits: {} },
           settings: {
             pomodoro: { notification: true, audio: true },
+            goals: {
+              habits: 0
+            },
             color: "grey",
             completedListId,
             habitsListId
@@ -100,6 +103,22 @@ const boardsById = (state = {}, action) => {
     }
     case "CHANGE_HABIT_STATS": {
       const { boardId, habit } = action.payload;
+      let newHabits = {};
+
+      if (!state[boardId].stats.habits[habit.date]) {
+        newHabits = {
+          [habit.date]: (state[boardId].stats.habits[habit.date] = [
+            habit.cardId
+          ])
+        };
+      } else {
+        newHabits = {
+          [habit.date]: [
+            ...state[boardId].stats.habits[habit.date],
+            habit.cardId
+          ]
+        };
+      }
 
       return {
         ...state,
@@ -107,7 +126,10 @@ const boardsById = (state = {}, action) => {
           ...state[boardId],
           stats: {
             ...state[boardId].stats,
-						habits: { ...state[boardId].stats.habits, ...habit }
+            habits: {
+              ...state[boardId].stats.habits,
+              ...newHabits
+            }
           }
         }
       };
@@ -155,23 +177,23 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    // case "CHANGE_SETTING": {
-    //   const { boardId, setting, value } = action.payload;
+    case "CHANGE_GOAL_SETTING": {
+      const { boardId, type, value } = action.payload;
 
-    //   return {
-    //     ...state,
-    //     [boardId]: {
-    //       ...state[boardId],
-    //       settings: {
-    //         ...state[boardId].settings,
-    //         pomodoro: {
-    //           ...state[boardId].pomodoro,
-    //           [type]: value
-    //         }
-    //       }
-    //     }
-    //   };
-    // }
+			return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            goals: {
+              ...state[boardId].settings.goals,
+              [type]: value
+            }
+          }
+        }
+      };
+    }
     case "DELETE_BOARD": {
       const { boardId } = action.payload;
       const { [boardId]: deletedBoard, ...restOfBoards } = state;
