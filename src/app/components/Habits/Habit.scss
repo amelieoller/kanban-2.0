@@ -1,0 +1,49 @@
+@import "../../variables.scss";
+
+.habit-wrapper {
+	position: relative;
+	box-sizing: border-box;
+	border-radius: 3px;
+	color: $dark-grey;
+	background: $white;
+	border: 1px solid $light-grey;
+	font-size: 15px;
+	width: 100%;
+	margin: 3px 0;
+	padding: 3px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	border-right: 3px solid #EAECEE;
+
+	.delete {
+		min-width: 16px;
+	}
+
+	.options-list-button {
+		height: auto;
+		padding: 0;
+		margin: 0;
+		color: $light-grey;
+	}
+
+	.modal-color-picker {
+		width: 104px;
+		left: -100%;
+		top: 150%;
+		padding: 0;
+	}
+}
+
+.difficulty-1.habit-wrapper {
+	border-right-color: $light-grey;
+}
+
+.difficulty-2.habit-wrapper {
+	border-right-color: $blue;
+}
+
+.difficulty-3.habit-wrapper {
+	border-right-color: $red;
+}

@@ -7,6 +7,8 @@ import differenceInCalendarDays from "date-fns/difference_in_calendar_days";
 import classnames from "classnames";
 import Pomodoro from "../Pomodoro/Pomodoro";
 import formatMarkdown from "../Card/formatMarkdown";
+import Calendar from "../Calendar/Calendar";
+import HabitStats from "../HabitStats/HabitStats";
 
 class Sidebar extends Component {
   static propTypes = {
@@ -98,39 +100,41 @@ class Sidebar extends Component {
   };
 
   render = () => {
-    const { cards, pomodoro, dispatch, boardId } = this.props;
+    const { cards, pomodoro, dispatch, boardId, user } = this.props;
 
     return (
       <>
         <div className="sidebar-wrapper">
           <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
-          <div className="header">Stats</div>
+
+          <Calendar user={user} dispatch={dispatch} />
+
+					<HabitStats boardId={boardId} />
+
+          <div className="header">
+            Task Stats ·{" "}
+            <span className="number">
+              {cards
+                .map(card => card.difficulty)
+                .reduce(
+                  (accumulator, currentValue) => accumulator + currentValue
+                )}
+            </span>
+          </div>
           <hr />
           {cards &&
             (cards.length !== 0 && (
               <>
-                {/* <div className="stat-section-tasks">
-                  <div className="stat">
-                    <p className="sub-header">Tasks:</p>
-                    <span className="points">
-                      {cards
-                        .map(card => card.difficulty)
-                        .reduce(
-                          (accumulator, currentValue) =>
-                            accumulator + currentValue
-                        )}{" "}
-                      pts
-                    </span>
-                  </div>
-                </div> */}
-
                 <div className="stat-section">
                   {this.renderCategorySummary(cards).map(
                     category =>
                       category.minutes !== 0 && (
                         <div className="minute-badges" key={category.name}>
                           <div
-                            className={classnames("minute-badge", `badge-${category.name}`)}
+                            className={classnames(
+                              "minute-badge",
+                              `badge-${category.name}`
+                            )}
                           >
                             {category.minutes} min
                           </div>
@@ -165,7 +169,7 @@ class Sidebar extends Component {
                   </>
                 )}
               </>
-						))}
+            ))}
         </div>
       </>
     );
@@ -180,8 +184,8 @@ const mapStateToProps = (state, ownProps) => {
     cards: state.listsById[completedListId].cards.map(
       cardId => state.cardsById[cardId]
     ),
-		completedListId,
-		user: state.user
+    completedListId,
+    user: state.user
   };
 };
 export default connect(mapStateToProps)(Sidebar);

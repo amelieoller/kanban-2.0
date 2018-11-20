@@ -29,9 +29,7 @@ class Habits extends Component {
     return (
       <>
         <div className="habits-wrapper">
-          <div className="header">
-						Habits - {habitStats && Object.keys(habitStats).length}
-          </div>
+          <div className="header">Habits</div>
           <hr />
           {cards &&
             (cards.length !== 0 &&
@@ -42,6 +40,7 @@ class Habits extends Component {
                   card={card}
                   habitsListId={habitsListId}
                   boardId={boardId}
+                  habitStats={habitStats}
                 />
               )))}
           <CardAdder listId={habitsListId} />
