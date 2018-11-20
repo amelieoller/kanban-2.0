@@ -36,7 +36,7 @@ class Picker extends Component {
   };
 
   render() {
-    const { isPickerOpen, togglePicker, type, children, icon } = this.props;
+    const { isPickerOpen, togglePicker, type, children, icon, text } = this.props;
 
     return (
       <div className="modal-color-picker-wrapper">
@@ -53,7 +53,7 @@ class Picker extends Component {
         >
           {icon}
           &nbsp;
-          {type}
+          {text}
         </button>
         {isPickerOpen && (
           <ClickOutside

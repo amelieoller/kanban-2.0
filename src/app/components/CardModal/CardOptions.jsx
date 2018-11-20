@@ -193,9 +193,8 @@ class CardOptions extends Component {
           alignItems: isCardNearRightBorder ? "flex-end" : "flex-start"
         }}
       >
-
-				{/* Complete */}
-				<div>
+        {/* Complete */}
+        <div>
           <button
             type="submit"
             onClick={this.completeCard}
@@ -208,7 +207,7 @@ class CardOptions extends Component {
           </button>
         </div>
 
-				{/* Minutes */}
+        {/* Minutes */}
         <div className="modal-color-picker-wrapper">
           <form onSubmit={this.handleMinuteSubmit}>
             <input
@@ -226,7 +225,7 @@ class CardOptions extends Component {
           </form>
         </div>
 
-				{/* Recurring */}
+        {/* Recurring */}
         <div className="modal-color-picker-wrapper">
           <form onSubmit={this.handleRecurringSubmit}>
             <input
@@ -247,6 +246,7 @@ class CardOptions extends Component {
           togglePicker={togglePicker}
           type="Category"
           icon={<MdLabel className="modal-icon" />}
+          text="Category"
         >
           {[
             { name: "", short: "", color: "white" },
@@ -272,6 +272,7 @@ class CardOptions extends Component {
           togglePicker={togglePicker}
           type="Difficulty"
           icon={<MdFlag className="modal-icon" />}
+          text="Difficulty"
         >
           {[1, 2, 3].map(difficulty => (
             <button
@@ -285,7 +286,7 @@ class CardOptions extends Component {
           ))}
         </Picker>
 
-				{/* Calendar */}
+        {/* Calendar */}
         <div>
           <button
             type="submit"
@@ -312,7 +313,7 @@ class CardOptions extends Component {
           />
         </Modal>
 
-				{/* Delete */}
+        {/* Delete */}
         <div>
           <button
             type="submit"
