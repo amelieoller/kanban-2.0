@@ -27,11 +27,10 @@ export default class Pomodoro extends React.Component {
 
   constructor(props) {
     super(props);
+    const { pomodoro } = props;
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const pomodoriDone =
-      this.props.pomodoro.pomodoriDone &&
-      this.props.pomodoro.pomodoriDone[today];
+    const date = `${today.getFullYear()}-${today.getMonth() +
+      1}-${today.getDate()}`;
 
     this.state = {
       sessionLength: 25,
@@ -40,8 +39,8 @@ export default class Pomodoro extends React.Component {
       timePaused: false,
       countdownDisplay: "25:00",
       endTime: 0,
-      pomodoriDone: pomodoriDone || 0,
-      pomodori: this.props.pomodoro.pomodori || 0
+      pomodoriDone: pomodoro.pomodoriDone[date] || 0,
+      pomodori: pomodoro.pomodori || 0
     };
   }
 
@@ -138,10 +137,11 @@ export default class Pomodoro extends React.Component {
 
     if (sessionLength === 25) {
       const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      const date = `${today.getFullYear()}-${today.getMonth() +
+        1}-${today.getDate()}`;
 
       const pomodoriDoneObject = {
-        [today]: pomodoriDone + 1
+        [date]: pomodoriDone + 1
       };
 
       this.handleSettingsChange("pomodoriDone", pomodoriDoneObject);
@@ -241,16 +241,15 @@ export default class Pomodoro extends React.Component {
 
     return (
       <div className="pomodoro">
-        <div className="header">
-          Pomodoro:{" "}
-          <span className="timeName">{`${this.formatType(
+        <div>
+          <span className="header">Pomodoro: </span>
+          <span className="time-name">{`${this.formatType(
             this.state.sessionLength
           )} Time!`}</span>
         </div>
         <hr />
         <div className="main">
           <div className="container display timer">
-            {/* <span className="time">{this.format(this.state.time)}</span> */}
             <span className="time">{countdownDisplay}</span>
           </div>
 
@@ -293,9 +292,7 @@ export default class Pomodoro extends React.Component {
                   />
                 )}
               </div>
-              {pomodoriDone !== 0 && (
-                <span className="done">{pomodoriDone}</span>
-              )}
+              <span className="done">{pomodoriDone !== 0 && pomodoriDone}</span>
             </div>
           </div>
         </div>
