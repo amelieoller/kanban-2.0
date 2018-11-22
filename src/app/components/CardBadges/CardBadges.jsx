@@ -79,7 +79,7 @@ class CardBadges extends Component {
   };
 
   renderCategory = () => {
-    const { category } = this.props;
+    const { category, toggleCategoryModal } = this.props;
 
     if (!category) {
       return null;
@@ -88,6 +88,7 @@ class CardBadges extends Component {
     return (
       <div
         className="badge badge-category"
+        onClick={toggleCategoryModal}
         style={{
           background: category.color
         }}

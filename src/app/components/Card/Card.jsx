@@ -10,6 +10,7 @@ import CardBadges from "../CardBadges/CardBadges";
 import { findCheckboxes } from "../utils";
 import formatMarkdown from "./formatMarkdown";
 import "./Card.scss";
+import CategoryModal from "../CardModal/CategoryModal";
 
 class Card extends Component {
   static propTypes = {
@@ -30,7 +31,8 @@ class Card extends Component {
   constructor() {
     super();
     this.state = {
-      isModalOpen: false
+      isModalOpen: false,
+      categoryModalIsOpen: false
     };
   }
 
@@ -39,12 +41,20 @@ class Card extends Component {
     this.setState({ isModalOpen: !isModalOpen });
   };
 
+  toggleCategoryModal = () => {
+    const { categoryModalIsOpen } = this.state;
+    this.setState({ categoryModalIsOpen: !categoryModalIsOpen });
+  };
+
   handleClick = e => {
     const { tagName, checked, id } = e.target;
     if (tagName.toLowerCase() === "input") {
       // The id is a string that describes which number in the order of checkboxes this particular checkbox has
       this.toggleCheckbox(checked, parseInt(id, 10));
-    } else if (tagName.toLowerCase() !== "a") {
+    } else if (
+      tagName.toLowerCase() !== "a" &&
+      !e.target.classList.contains("badge")
+    ) {
       this.toggleCardEditor(e);
     }
   };
@@ -80,7 +90,7 @@ class Card extends Component {
   };
 
   completeCard = () => {
-		const { dispatch, listId, card } = this.props;
+    const { dispatch, listId, card } = this.props;
 
     if (card.schedule) {
       const nextDate = later.schedule(card.schedule).next();
@@ -90,18 +100,37 @@ class Card extends Component {
         payload: { cardId: card._id, nextDate }
       });
     } else {
-			const completedAt = Date.now();
+      const completedAt = Date.now();
 
-			dispatch({
-				type: "CHANGE_CARD_COMPLETED_AT",
-				payload: { cardId: card._id, completedAt }
-			});
+      dispatch({
+        type: "CHANGE_CARD_COMPLETED_AT",
+        payload: { cardId: card._id, completedAt }
+      });
 
       dispatch({
         type: "COMPLETE_CARD",
-				payload: { cardId: card._id, listId }
+        payload: { cardId: card._id, listId }
       });
     }
+  };
+
+  changeCategory = category => {
+    const { dispatch, card } = this.props;
+
+    if (card.category !== category) {
+      if (category.color === "white") {
+        dispatch({
+          type: "DELETE_CATEGORY",
+          payload: { cardId: card._id }
+        });
+      } else {
+        dispatch({
+          type: "CHANGE_CARD_CATEGORY",
+          payload: { category, cardId: card._id }
+        });
+      }
+    }
+    this.toggleCategoryModal();
   };
 
   render() {
@@ -112,7 +141,7 @@ class Card extends Component {
       isDraggingOver,
       withinPomodoroCard
     } = this.props;
-    const { isModalOpen } = this.state;
+    const { isModalOpen, categoryModalIsOpen } = this.state;
     const checkboxes = findCheckboxes(card.text);
 
     return (
@@ -122,7 +151,6 @@ class Card extends Component {
             <Draggable draggableId={card._id} index={index}>
               {(provided, snapshot) => (
                 <>
-                  {/* eslint-disable */}
                   <div
                     className={classnames(
                       `difficulty-${card.difficulty}`,
@@ -161,7 +189,6 @@ class Card extends Component {
                         <FaCheck />
                       </div>
                     </div>
-                    {/* eslint-enable */}
                     {(card.date ||
                       checkboxes.total > 0 ||
                       card.minutes ||
@@ -171,6 +198,7 @@ class Card extends Component {
                         checkboxes={checkboxes}
                         minutes={card.minutes}
                         category={card.category}
+                        toggleCategoryModal={this.toggleCategoryModal}
                       />
                     )}
                   </div>
@@ -179,6 +207,13 @@ class Card extends Component {
                 </>
               )}
             </Draggable>
+            <CategoryModal
+              categoryModalIsOpen={categoryModalIsOpen}
+              cardElement={this.ref}
+              card={card}
+              listId={listId}
+              toggleCategoryModal={this.toggleCategoryModal}
+            />
             <CardModal
               isOpen={isModalOpen}
               cardElement={this.ref}
