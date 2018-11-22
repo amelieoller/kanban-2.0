@@ -65,6 +65,9 @@ class Habit extends Component {
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() +
       1}-${today.getDate()}`;
+    const habitCount =
+      habitStats[date] &&
+      habitStats[date].reduce((n, val) => n + (val === card._id), 0);
 
     return (
       <li
@@ -82,10 +85,7 @@ class Habit extends Component {
               __html: formatMarkdown(card.text)
             }}
           />{" "}
-          <span className="habit-done">
-            {habitStats[date] &&
-              habitStats[date].reduce((n, val) => n + (val === card._id), 0)}
-          </span>
+          <span className="habit-done">{habitCount !== 0 && habitCount}</span>
         </span>
 
         <Picker
