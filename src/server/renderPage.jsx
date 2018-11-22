@@ -53,7 +53,7 @@ const renderPage = (req, res) => {
         <link rel="icon" type="image/png" href="/static/favicons/favicon-16x16.png" sizes="16x16" />
         <meta name="msapplication-TileColor" content="#FFFFFF" />
         <meta name="msapplication-TileImage" content="/static/favicons/mstile-144x144.png" />
-        <meta property="og:image" content="https://reactkanban.com/static/favicons/og-kanban-logo.png">
+        <meta property="og:image" content="https://reactkanban.com/static/favicons/favicon-32x32.png">
         <style>${css}</style>
         ${renderToString(headTags)}
       </head>
