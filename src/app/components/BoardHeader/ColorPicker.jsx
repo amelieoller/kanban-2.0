@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, Wrapper, Menu, MenuItem } from "react-aria-menubutton";
 import classnames from "classnames";
-import Done from "react-icons/lib/md/done";
-import Label from "react-icons/lib/md/label";
+import { MdDone, MdLabel } from "react-icons/lib/md";
 import "./ColorPicker.scss";
 
 class ColorPicker extends Component {
@@ -32,7 +31,7 @@ class ColorPicker extends Component {
         onSelection={this.handleSelection}
       >
         <Button className="color-picker">
-          <Label />
+          <MdLabel />
           <div className="board-header-right-text">&nbsp;&#9662;</div>
         </Button>
         <Menu className="color-picker-menu">
@@ -42,7 +41,7 @@ class ColorPicker extends Component {
               className={classnames("color-picker-item", color)}
               key={color}
             >
-              {color === boardColor && <Done />}
+              {color === boardColor && <MdDone />}
             </MenuItem>
           ))}
         </Menu>
@@ -52,9 +51,9 @@ class ColorPicker extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	const { boardId } = ownProps.match.params;
+  const { boardId } = ownProps.match.params;
 
-	return {
+  return {
     boardColor: state.boardsById[boardId].settings.color,
     boardId
   };

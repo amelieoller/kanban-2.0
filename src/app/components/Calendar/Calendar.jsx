@@ -1,6 +1,24 @@
 import React, { Component } from "react";
 import moment from "moment";
-import "./Calendar.scss";
+import styled from "styled-components";
+
+const CalendarStyles = styled.div`
+  .event-title {
+    font-size: 14px;
+    color: ${props => props.theme.darkGrey};
+    padding-bottom: 8px;
+    line-height: 15px;
+  }
+
+  .next-meeting {
+    margin-top: 5px;
+  }
+
+  .pomodori-left {
+    color: ${props => props.theme.grey};
+    font-size: 15px;
+  }
+`;
 
 class Calendar extends Component {
   constructor() {
@@ -99,20 +117,18 @@ class Calendar extends Component {
     const nextEventText = moment(nextEventTime).fromNow();
 
     return (
-      <>
-        <div className="header">
-          Events{" "}
-          {events.length !== 0 && (
-            <span className="pomodoriLeft">
-              {pomodoriToEvent === 1
-                ? ` · ${pomodoriToEvent} Pomodoro`
-                : ` · ${pomodoriToEvent} Pomodori`}
-            </span>
-          )}
-        </div>
+      <CalendarStyles>
+        <span className="header">Events </span>
+        {events.length !== 0 && (
+          <span className="cursive-header pomodori-left">
+            {pomodoriToEvent === 1
+              ? ` · ${pomodoriToEvent} Pomodoro`
+              : ` · ${pomodoriToEvent} Pomodori`}
+          </span>
+        )}
         <hr />
         {events.length !== 0 && (
-          <div className="timeUntil">{`Next meeting is ${nextEventText}.`}</div>
+          <div className="cursive-header next-meeting">{`Next meeting is ${nextEventText}.`}</div>
         )}
         <ul>
           {events &&
@@ -122,7 +138,7 @@ class Calendar extends Component {
               </li>
             ))}
         </ul>
-      </>
+      </CalendarStyles>
     );
   }
 }

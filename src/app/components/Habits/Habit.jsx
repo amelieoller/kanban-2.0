@@ -1,13 +1,81 @@
 import React, { Component } from "react";
-import "./Habits.scss";
 import PropTypes from "prop-types";
-import Trash from "react-icons/lib/md/clear";
-import MdCheckCircle from "react-icons/lib/md/check-circle";
-import MdFlag from "react-icons/lib/md/flag";
-import classnames from "classnames";
+import { MdClear, MdCheckCircle, MdFlag } from "react-icons/lib/md";
+import styled from "styled-components";
 import Picker from "../Picker/Picker";
-import "./Habit.scss";
 import formatMarkdown from "../Card/formatMarkdown";
+
+const bgColorChooser = cardDifficulty => {
+  if (cardDifficulty === 2) return "blue";
+  if (cardDifficulty === 3) return "red";
+  return "lightGrey";
+};
+
+const HabitStyles = styled.li`
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 3px;
+  color: ${props => props.theme.darkGrey};
+  background: ${props => props.theme.white};
+  border: 1px solid ${props => props.theme.lightGrey};
+  font-size: 15px;
+  width: 100%;
+  margin: 3px 0;
+  padding: 3px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-right: 3px solid #eaecee;
+  border-right-color: ${props =>
+    props.theme[`${bgColorChooser(props.cardDifficulty)}`]};
+
+  .options-list-button {
+    height: auto;
+    padding: 0;
+    margin: 0;
+    color: ${props => props.theme.lightGrey};
+  }
+
+  .habit-check {
+    cursor: pointer;
+    padding-right: 5px;
+    color: ${props => props.theme.grey};
+    font-size: 20px;
+
+    &:hover {
+      color: ${props => props.theme.green};
+    }
+  }
+
+  .habit-delete {
+    cursor: pointer;
+    color: ${props => props.theme.grey};
+  }
+
+  .habits-card-title {
+    position: relative;
+    box-sizing: border-box;
+    font-size: 15px;
+    width: 100%;
+    overflow: hidden;
+
+    p {
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .habit-done {
+      font-size: 10px;
+      position: relative;
+      top: -5px;
+      color: ${props => props.theme.red};
+      font-weight: 700;
+    }
+  }
+`;
 
 class Habit extends Component {
   static propTypes = {};
@@ -70,10 +138,7 @@ class Habit extends Component {
       habitStats[date].reduce((n, val) => n + (val === card._id), 0);
 
     return (
-      <li
-        className={classnames(`difficulty-${card.difficulty}`, "habit-wrapper")}
-        name={card._id}
-      >
+      <HabitStyles cardDifficulty={card.difficulty}>
         <MdCheckCircle
           className="habit-check"
           onClick={() => this.changeHabitStat()}
@@ -106,11 +171,11 @@ class Habit extends Component {
           ))}
         </Picker>
 
-        <Trash
+        <MdClear
           className="habit-delete"
           onClick={() => this.deleteCard(card._id)}
         />
-      </li>
+      </HabitStyles>
     );
   };
 }

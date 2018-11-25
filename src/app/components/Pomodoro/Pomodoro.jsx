@@ -1,17 +1,17 @@
 import React from "react";
-import "./Pomodoro.scss";
-import Play from "react-icons/lib/md/play-circle-outline";
-import Pause from "react-icons/lib/md/pause-circle-outline";
 import PropTypes from "prop-types";
-import MdCode from "react-icons/lib/md/code";
-import MdCoffee from "react-icons/lib/md/free-breakfast";
-import MdPet from "react-icons/lib/md/pets";
-import MdNotify from "react-icons/lib/md/notifications-active";
-import MdMessage from "react-icons/lib/md/message";
-import MdTimer from "react-icons/lib/md/timer";
+import {
+  MdMessage,
+  MdTimer,
+  MdPets,
+  MdCode,
+  MdFreeBreakfast,
+  MdNotificationsActive,
+  MdPauseCircleOutline,
+  MdPlayCircleOutline
+} from "react-icons/lib/md";
 import Alarm from "../../../assets/sounds/alarm.mp3";
-import Coffee from "../../../assets/images/coffee.png";
-import Code from "../../../assets/images/code.png";
+import PomodoroStyles from "../styles/PomodoroStyles";
 
 export default class Pomodoro extends React.Component {
   static propTypes = {
@@ -240,10 +240,10 @@ export default class Pomodoro extends React.Component {
     const { pomodoro } = this.props;
 
     return (
-      <div className="pomodoro">
+      <PomodoroStyles>
         <div>
           <span className="header">Pomodoro: </span>
-          <span className="time-name">{`${this.formatType(
+          <span className="cursive-header">{`${this.formatType(
             this.state.sessionLength
           )} Time!`}</span>
         </div>
@@ -267,26 +267,26 @@ export default class Pomodoro extends React.Component {
                 className="btn social"
                 onClick={() => this.stopCountdown(5)}
               >
-                <MdCoffee />
+                <MdFreeBreakfast />
               </button>
               <button
                 type="submit"
                 className="btn coffee"
                 onClick={() => this.stopCountdown(15)}
               >
-                <MdPet />
+                <MdPets />
               </button>
             </div>
 
             <div className="play-count">
               <div className="controlsPlay">
                 {timeInterval ? (
-                  <Pause
+                  <MdPauseCircleOutline
                     className="pause btnIcon"
                     onClick={() => this.startCountdown()}
                   />
                 ) : (
-                  <Play
+                  <MdPlayCircleOutline
                     className="play btnIcon"
                     onClick={() => this.startCountdown()}
                   />
@@ -333,7 +333,7 @@ export default class Pomodoro extends React.Component {
                   />
                   <label htmlFor="audio" />
                   <span className="checkTitle">
-                    <MdNotify />
+                    <MdNotificationsActive />
                   </span>
                 </span>
 
@@ -386,7 +386,7 @@ export default class Pomodoro extends React.Component {
           {/* controls */}
         </div>
         {/* bottomBar */}
-      </div>
+      </PomodoroStyles>
     );
   };
 }

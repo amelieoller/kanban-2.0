@@ -1,9 +1,24 @@
 import React, { Component } from "react";
-import "./SidebarRight.scss";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import "./CardItem.scss";
-import later from "later";
+import styled from "styled-components";
+import SidebarStyles from "../styles/SidebarStyles";
+
+const SidebarRightStyles = styled.div`
+  .recurring-task-item {
+    margin-bottom: 5px;
+
+    .recurring-tasks-title {
+      font-size: 14px;
+      color: ${props => props.theme.darkGrey};
+    }
+
+    .recurring-time {
+      font-size: 12px;
+      color: ${props => props.theme.grey};
+    }
+  }
+`;
 
 class SidebarRight extends Component {
   static propTypes = {
@@ -14,13 +29,8 @@ class SidebarRight extends Component {
         difficulty: PropTypes.number.isRequired
       }).isRequired
     ).isRequired,
-    dispatch: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
   componentDidMount() {
     const { lastCheckinDate, dispatch, cards } = this.props;
@@ -74,8 +84,8 @@ class SidebarRight extends Component {
     const { cards } = this.props;
 
     return (
-      <>
-        <div className="sidebar-wrapper">
+      <SidebarStyles>
+        <SidebarRightStyles>
           <div className="header">Repeating Tasks</div>
           <hr />
           <ul>
@@ -87,8 +97,8 @@ class SidebarRight extends Component {
               </li>
             ))}
           </ul>
-        </div>
-      </>
+        </SidebarRightStyles>
+      </SidebarStyles>
     );
   };
 }

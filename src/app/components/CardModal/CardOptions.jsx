@@ -3,15 +3,105 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import FaTrash from "react-icons/lib/fa/trash";
-import FaCheck from "react-icons/lib/fa/check";
-import MdAlarm from "react-icons/lib/md/access-alarm";
-import MdFlag from "react-icons/lib/md/flag";
+import { MdAccessAlarm, MdFlag, MdLabel, MdDone } from "react-icons/lib/md";
 import later from "later";
-import MdLabel from "react-icons/lib/md/label";
+import styled from "styled-components";
 import Calendar from "./Calendar";
 import Picker from "../Picker/Picker";
 
-import "./CardOptions.scss";
+const CardOptionsStyles = styled.div`
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    margin: 0 8px;
+
+    @media (max-width: 550px) {
+      justify-content: center;
+      flex-direction: row;
+      width: 100%;
+      margin: 0;
+    }
+  }
+
+  .calendar-modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+
+  .calendar-underlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+  }
+
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    border-radius: 3px;
+    background: white;
+  }
+
+  .calendar-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 8px;
+
+    button {
+      width: 120px;
+      height: 30px;
+      border: 0;
+      border-radius: 3px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #bbb;
+    }
+
+    .calendar-save-button {
+      color: ${props => props.theme.white};
+      background: ${props => props.theme.green};
+    }
+
+    .calendar-save-button:hover {
+      background: ${props => props.theme.darkGreen};
+    }
+  }
+
+  .category-picker {
+    color: ${props => props.theme.white};
+  }
+
+  .color-picker-color {
+    width: 36px;
+    height: 36px;
+    margin: 2px;
+    border: 1px #999 solid;
+    border-radius: 3px;
+  }
+
+  .options-list-button {
+    display: flex;
+    align-items: center;
+    height: 33px;
+    margin: 0 3px 4px 3px;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 3px;
+    color: black;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: inherit;
+    cursor: pointer;
+  }
+`;
 
 class CardOptions extends Component {
   static propTypes = {
@@ -187,146 +277,148 @@ class CardOptions extends Component {
       }
     };
     return (
-      <div
-        className="options-list"
-        style={{
-          alignItems: isCardNearRightBorder ? "flex-end" : "flex-start"
-        }}
-      >
-        {/* Complete */}
-        <div>
-          <button
-            type="submit"
-            onClick={this.completeCard}
-            className="options-list-button"
-          >
-            <div className="modal-icon">
-              <FaCheck />
-            </div>
-            &nbsp;Done
-          </button>
-        </div>
-
-        {/* Minutes */}
-        <div className="modal-color-picker-wrapper">
-          <form onSubmit={this.handleMinuteSubmit}>
-            <input
-              className="options-list-button"
-              onKeyDown={this.handleKeyDownTime}
-              ref={ref => {
-                this.colorPickerButton = ref;
-              }}
-              name="minutes"
-              type="number"
-              placeholder="Minutes"
-              value={minutes}
-              onChange={this.handleMinuteChange}
-            />
-          </form>
-        </div>
-
-        {/* Recurring */}
-        <div className="modal-color-picker-wrapper">
-          <form onSubmit={this.handleRecurringSubmit}>
-            <input
-              className="options-list-button"
-              onKeyDown={this.handleKeyDownTime}
-              name="recurringText"
-              type="text"
-              placeholder="Recurring Time"
-              value={recurringText}
-              onChange={this.handleRecurringChange}
-            />
-          </form>
-        </div>
-
-        {/* Category */}
-        <Picker
-          isPickerOpen={isCategoryPickerOpen}
-          togglePicker={togglePicker}
-          type="Category"
-          icon={<MdLabel className="modal-icon" />}
-          text="Category"
+      <CardOptionsStyles>
+        <div
+          className="options-list"
+          style={{
+            alignItems: isCardNearRightBorder ? "flex-end" : "flex-start"
+          }}
         >
-          {[
-            { name: "", short: "", color: "white" },
-            { name: "Flatiron", short: "//", color: "#32cefe" },
-            { name: "Graphic", short: "GL", color: "#009ad0" },
-            { name: "Kanban", short: "KB", color: "#EA725B" }
-          ].map(category => (
+          {/* Complete */}
+          <div>
             <button
               type="submit"
-              key={category.name}
-              style={{ background: category.color }}
-              className="color-picker-color category-picker"
-              onClick={() => this.changeCategory(category)}
+              onClick={this.completeCard}
+              className="options-list-button"
             >
-              {category.short}
+              <div className="modal-icon">
+                <MdDone />
+              </div>
+              &nbsp;Done
             </button>
-          ))}
-        </Picker>
+          </div>
 
-        {/* Difficulty */}
-        <Picker
-          isPickerOpen={isDifficultyPickerOpen}
-          togglePicker={togglePicker}
-          type="Difficulty"
-          icon={<MdFlag className="modal-icon" />}
-          text="Difficulty"
-        >
-          {[1, 2, 3].map(difficulty => (
+          {/* Minutes */}
+          <div className="modal-color-picker-wrapper">
+            <form onSubmit={this.handleMinuteSubmit}>
+              <input
+                className="options-list-button"
+                onKeyDown={this.handleKeyDownTime}
+                ref={ref => {
+                  this.colorPickerButton = ref;
+                }}
+                name="minutes"
+                type="number"
+                placeholder="Minutes"
+                value={minutes}
+                onChange={this.handleMinuteChange}
+              />
+            </form>
+          </div>
+
+          {/* Recurring */}
+          <div className="modal-color-picker-wrapper">
+            <form onSubmit={this.handleRecurringSubmit}>
+              <input
+                className="options-list-button"
+                onKeyDown={this.handleKeyDownTime}
+                name="recurringText"
+                type="text"
+                placeholder="Recurring Time"
+                value={recurringText}
+                onChange={this.handleRecurringChange}
+              />
+            </form>
+          </div>
+
+          {/* Category */}
+          <Picker
+            isPickerOpen={isCategoryPickerOpen}
+            togglePicker={togglePicker}
+            type="Category"
+            icon={<MdLabel className="modal-icon" />}
+            text="Category"
+          >
+            {[
+              { name: "", short: "", color: "white" },
+              { name: "Flatiron", short: "//", color: "#32cefe" },
+              { name: "Graphic", short: "GL", color: "#009ad0" },
+              { name: "Kanban", short: "KB", color: "#EA725B" }
+            ].map(category => (
+              <button
+                type="submit"
+                key={category.name}
+                style={{ background: category.color }}
+                className="color-picker-color category-picker"
+                onClick={() => this.changeCategory(category)}
+              >
+                {category.short}
+              </button>
+            ))}
+          </Picker>
+
+          {/* Difficulty */}
+          <Picker
+            isPickerOpen={isDifficultyPickerOpen}
+            togglePicker={togglePicker}
+            type="Difficulty"
+            icon={<MdFlag className="modal-icon" />}
+            text="Difficulty"
+          >
+            {[1, 2, 3].map(difficulty => (
+              <button
+                key={difficulty}
+                type="submit"
+                className="picker-button"
+                onClick={() => this.changeDifficulty(difficulty)}
+              >
+                {difficulty}
+              </button>
+            ))}
+          </Picker>
+
+          {/* Calendar */}
+          <div>
             <button
-              key={difficulty}
               type="submit"
-              className="picker-button"
-              onClick={() => this.changeDifficulty(difficulty)}
+              onClick={this.toggleCalendar}
+              className="options-list-button"
             >
-              {difficulty}
+              <div className="modal-icon">
+                <MdAccessAlarm />
+              </div>
+              &nbsp;Due date
             </button>
-          ))}
-        </Picker>
-
-        {/* Calendar */}
-        <div>
-          <button
-            type="submit"
-            onClick={this.toggleCalendar}
-            className="options-list-button"
+          </div>
+          <Modal
+            isOpen={isCalendarOpen}
+            onRequestClose={this.toggleCalendar}
+            overlayClassName="calendar-underlay"
+            className="calendar-modal"
+            style={isThinDisplay ? calendarMobileStyle : calendarStyle}
           >
-            <div className="modal-icon">
-              <MdAlarm />
-            </div>
-            &nbsp;Due date
-          </button>
-        </div>
-        <Modal
-          isOpen={isCalendarOpen}
-          onRequestClose={this.toggleCalendar}
-          overlayClassName="calendar-underlay"
-          className="calendar-modal"
-          style={isThinDisplay ? calendarMobileStyle : calendarStyle}
-        >
-          <Calendar
-            cardId={card._id}
-            date={card.date}
-            toggleCalendar={this.toggleCalendar}
-          />
-        </Modal>
+            <Calendar
+              cardId={card._id}
+              date={card.date}
+              toggleCalendar={this.toggleCalendar}
+            />
+          </Modal>
 
-        {/* Delete */}
-        <div>
-          <button
-            type="submit"
-            onClick={this.deleteCard}
-            className="options-list-button"
-          >
-            <div className="modal-icon">
-              <FaTrash />
-            </div>
-            &nbsp;Delete
-          </button>
+          {/* Delete */}
+          <div>
+            <button
+              type="submit"
+              onClick={this.deleteCard}
+              className="options-list-button"
+            >
+              <div className="modal-icon">
+                <FaTrash />
+              </div>
+              &nbsp;Delete
+            </button>
+          </div>
         </div>
-      </div>
+      </CardOptionsStyles>
     );
   }
 }

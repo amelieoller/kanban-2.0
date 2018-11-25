@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
-import FaCheck from "react-icons/lib/fa/check";
+import { MdDone } from "react-icons/lib/md";
 import later from "later";
 import CardModal from "../CardModal/CardModal";
 import CardBadges from "../CardBadges/CardBadges";
 import { findCheckboxes } from "../utils";
 import formatMarkdown from "./formatMarkdown";
-import "./Card.scss";
 import CategoryModal from "../CardModal/CategoryModal";
+import CardStyles from "../styles/CardStyles";
 
 class Card extends Component {
   static propTypes = {
@@ -145,7 +145,7 @@ class Card extends Component {
     const checkboxes = findCheckboxes(card.text);
 
     return (
-      <>
+      <CardStyles>
         {card.active !== false && (
           <>
             <Draggable draggableId={card._id} index={index}>
@@ -186,7 +186,7 @@ class Card extends Component {
                         }}
                       />
                       <div className="checkmark" onClick={this.completeCard}>
-                        <FaCheck />
+                        <MdDone />
                       </div>
                     </div>
                     {(card.date ||
@@ -223,7 +223,7 @@ class Card extends Component {
             />
           </>
         )}
-      </>
+      </CardStyles>
     );
   }
 }

@@ -7,7 +7,7 @@ import slugify from "slugify";
 import classnames from "classnames";
 import Header from "../Header/Header";
 import BoardAdder from "./BoardAdder";
-import "./Home.scss";
+import HomeStyles from "../styles/HomeStyles";
 
 class Home extends Component {
   static propTypes = {
@@ -16,9 +16,9 @@ class Home extends Component {
         _id: PropTypes.string.isRequired,
         settings: PropTypes.shape({
           pomodoro: PropTypes.shape({
-						notification: PropTypes.boolean,
-						audio: PropTypes.boolean
-					}).isRequired,
+            notification: PropTypes.boolean,
+            audio: PropTypes.boolean
+          }).isRequired,
           color: PropTypes.string.isRequired
         }).isRequired,
         title: PropTypes.string.isRequired
@@ -32,9 +32,9 @@ class Home extends Component {
     const { boards, listsById, history } = this.props;
     return (
       <>
-        <Title>Home | React Kanban</Title>
+        <Title>Home | Kanban 2.0</Title>
         <Header />
-        <div className="home">
+        <HomeStyles>
           <div className="main-content">
             <h1>Boards</h1>
             <div className="boards">
@@ -66,7 +66,7 @@ class Home extends Component {
               <BoardAdder history={history} />
             </div>
           </div>
-        </div>
+        </HomeStyles>
       </>
     );
   };

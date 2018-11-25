@@ -3,8 +3,47 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Textarea from "react-textarea-autosize";
 import shortid from "shortid";
+import styled from "styled-components";
 import ClickOutside from "../ClickOutside/ClickOutside";
-import "./CardAdder.scss";
+
+const CardAdderStyles = styled.div`
+  .card-adder-textarea-wrapper {
+    margin: 6px 13px 0 13px;
+  }
+
+  .card-adder-textarea {
+    float: right;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 8px;
+    border: 0;
+    border-radius: 3px;
+    color: inherit;
+    font-family: inherit;
+    font-size: 15px;
+    resize: none;
+  }
+
+  .add-card-button {
+    align-self: center;
+    flex-shrink: 0;
+    width: 100%;
+    height: 39px;
+    margin-top: 6px;
+    border: none;
+    border-radius: ${props => props.theme.borderRadius};
+    color: ${props => props.theme.white};
+    background: transparent;
+    font-size: 28px;
+    transition: background 0.1s;
+    cursor: pointer;
+  }
+
+  .add-card-button:hover,
+  .add-card-button:focus {
+    color: ${props => props.theme.lessTransparentBlack};
+  }
+`;
 
 class CardAdder extends Component {
   static propTypes = {
@@ -54,34 +93,38 @@ class CardAdder extends Component {
 
   render() {
     const { newText, isOpen } = this.state;
-    return isOpen ? (
-      <ClickOutside handleClickOutside={this.toggleCardComposer}>
-        <form
-          onSubmit={this.handleSubmit}
-          className="card-adder-textarea-wrapper"
-        >
-          <Textarea
-            autoFocus
-            useCacheForDOMMeasurements
-            minRows={1}
-            onChange={this.handleChange}
-            onKeyDown={this.handleKeyDown}
-            value={newText}
-            className="card-adder-textarea"
-            placeholder="Add a new card..."
-            spellCheck={false}
-            onBlur={this.toggleCardComposer}
-          />
-        </form>
-      </ClickOutside>
-    ) : (
-      <button
-        type="submit"
-        onClick={this.toggleCardComposer}
-        className="add-card-button"
-      >
-        +
-      </button>
+    return (
+      <CardAdderStyles>
+        {isOpen ? (
+          <ClickOutside handleClickOutside={this.toggleCardComposer}>
+            <form
+              onSubmit={this.handleSubmit}
+              className="card-adder-textarea-wrapper"
+            >
+              <Textarea
+                autoFocus
+                useCacheForDOMMeasurements
+                minRows={1}
+                onChange={this.handleChange}
+                onKeyDown={this.handleKeyDown}
+                value={newText}
+                className="card-adder-textarea"
+                placeholder="Add a new card..."
+                spellCheck={false}
+                onBlur={this.toggleCardComposer}
+              />
+            </form>
+          </ClickOutside>
+        ) : (
+          <button
+            type="submit"
+            onClick={this.toggleCardComposer}
+            className="add-card-button"
+          >
+            +
+          </button>
+        )}
+      </CardAdderStyles>
     );
   }
 }

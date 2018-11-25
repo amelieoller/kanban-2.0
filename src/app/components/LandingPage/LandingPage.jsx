@@ -6,7 +6,7 @@ import FaUserSecret from "react-icons/lib/fa/user-secret";
 import googleLogo from "../../../assets/images/google-logo.svg";
 import background1920 from "../../../assets/images/postits-1920.jpg";
 import background1366 from "../../../assets/images/postits-1366.jpg";
-import "./LandingPage.scss";
+import LandingPageStyles from '../styles/LandingPageStyles'
 
 class LandingPage extends Component {
   static propTypes = {
@@ -19,7 +19,7 @@ class LandingPage extends Component {
   };
 
   render = () => (
-    <div className="landing-page">
+    <LandingPageStyles>
       <Title>Sign in | React Kanban</Title>
       <div className="landing-page-background">
         <img
@@ -68,7 +68,7 @@ class LandingPage extends Component {
           </div>
         </div>
       </div>
-    </div>
+    </LandingPageStyles>
   );
 }
 

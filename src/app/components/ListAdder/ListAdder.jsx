@@ -3,7 +3,57 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Textarea from "react-textarea-autosize";
 import shortid from "shortid";
-import "./ListAdder.scss";
+import styled from "styled-components";
+
+const ListAdderButton = styled.button`
+  display: inline-flex;
+  flex-shrink: 0;
+  width: ${props => props.theme.listWidth};
+  margin: 0 5px 0 5px;
+  padding: 10px;
+  border: none;
+  border-radius: ${props => props.theme.borderRadius};
+  color: ${props => props.theme.white};
+  background: rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  transition: background 0.2s;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background: rgba(0, 0, 0, 0.25);
+  }
+`;
+
+const ListAdderTextArea = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: ${props => props.theme.listWidth};
+  min-height: 0px;
+  max-height: 100%;
+  margin: 0 5px 0 5px;
+  border-radius: ${props => props.theme.borderRadius};
+  font-size: 14px;
+  transition: box-shadow 0.15s, background 0.3s;
+  box-shadow: ${props => props.theme.bs};
+
+  .list-adder-textarea {
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px 10px;
+    border: 0;
+    border-radius: 3px;
+    color: ${props => props.theme.darkGrey};
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    overflow: hidden;
+    resize: none;
+  }
+`;
 
 class ListAdder extends Component {
   static propTypes = {
@@ -52,17 +102,16 @@ class ListAdder extends Component {
     const { isOpen, listTitle } = this.state;
     if (!isOpen) {
       return (
-        <button
+        <ListAdderButton
           type="submit"
           onClick={() => this.setState({ isOpen: true })}
-          className="add-list-button"
         >
           Add a new list...
-        </button>
+        </ListAdderButton>
       );
     }
     return (
-      <div className="list">
+      <ListAdderTextArea>
         <Textarea
           autoFocus
           useCacheForDOMMeasurements
@@ -73,7 +122,7 @@ class ListAdder extends Component {
           onBlur={this.handleBlur}
           spellCheck={false}
         />
-      </div>
+      </ListAdderTextArea>
     );
   };
 }

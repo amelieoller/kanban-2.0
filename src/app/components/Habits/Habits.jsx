@@ -1,9 +1,26 @@
 import React, { Component } from "react";
-import "./Habits.scss";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import styled from "styled-components";
 import CardAdder from "../CardAdder/CardAdder";
 import Habit from "./Habit";
+
+const HabitsStyles = styled.div`
+  background-color: rgba(201, 207, 211, 0.25);
+  width: 160px;
+  padding: 25px 8px 8px 8px;
+  margin-top: 40px;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .card-title-html {
+    padding: 0;
+    display: inline;
+    float: left;
+    padding-right: 2px;
+  }
+`;
 
 class Habits extends Component {
   static propTypes = {
@@ -27,10 +44,10 @@ class Habits extends Component {
     const { cards, habitsListId, habitStats, dispatch, boardId } = this.props;
 
     return (
-      <>
-        <div className="habits-wrapper">
-          <div className="header">Habits</div>
-          <hr />
+      <HabitsStyles>
+        <div className="header">Habits</div>
+        <hr />
+        <ul>
           {cards &&
             (cards.length !== 0 &&
               cards.map(card => (
@@ -43,9 +60,9 @@ class Habits extends Component {
                   habitStats={habitStats}
                 />
               )))}
-          <CardAdder listId={habitsListId} />
-        </div>
-      </>
+        </ul>
+        <CardAdder listId={habitsListId} />
+      </HabitsStyles>
     );
   };
 }

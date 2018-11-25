@@ -1,10 +1,79 @@
 import React, { Component } from "react";
-import "./HabitStats.scss";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { XYPlot, XAxis, VerticalBarSeries } from "react-vis";
 import moment from "moment";
-import MdStar from "react-icons/lib/md/star";
+import { MdStar } from "react-icons/lib/md";
+import styled from "styled-components";
+
+const HabitStatsStyles = styled.div`
+  .header .number {
+    color: ${props => props.theme.red};
+    font-size: 23px;
+    cursor: pointer;
+    transform: scale(2);
+    transition: 0.5s cubic-bezier(0.95, 0.32, 0.37, 1.31);
+    font-family: "Pacifico", cursive;
+  }
+
+  .habit-target {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+
+    .goal {
+      color: ${props => props.theme.grey};
+
+      input {
+        width: 25px;
+        border: none;
+        color: ${props => props.theme.grey};
+      }
+    }
+
+    .habit-progress-wrapper {
+      background-color: ${props => props.theme.lightGrey};
+      width: 75%;
+      float: left;
+
+      .habit-progress {
+        background-color: ${props => props.theme.green};
+        width: 100%;
+        height: 20px;
+      }
+    }
+  }
+
+  .number-container {
+    text-align: center;
+    padding: 10px 10px;
+
+    .numberLarge {
+      font-size: 60px;
+    }
+
+    .chart-hover {
+      height: 8px;
+      color: ${props => props.theme.grey};
+      line-height: 10px;
+      text-align: center;
+
+      .number {
+        font-weight: 700;
+        font-size: 24px;
+      }
+    }
+
+    .rv-xy-plot {
+      position: relative;
+      left: -18px;
+    }
+
+    .rv-xy-plot__axis {
+      fill: ${props => props.theme.grey};
+    }
+  }
+`;
 
 class HabitStats extends Component {
   static propTypes = {};
@@ -97,7 +166,7 @@ class HabitStats extends Component {
       calculateWidth > 1 ? `100%` : `${calculateWidth * 100}%`;
 
     return (
-      <>
+			<HabitStatsStyles>
         <div className="header">
           Habit Stats ·{" "}
           <span className="number">{this.calculateHabits(0).y}</span>
@@ -147,7 +216,7 @@ class HabitStats extends Component {
             />
           </XYPlot>
         </div>
-      </>
+			</HabitStatsStyles>
     );
   };
 }

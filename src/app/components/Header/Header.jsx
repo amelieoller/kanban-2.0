@@ -6,9 +6,9 @@ import FaUserSecret from "react-icons/lib/fa/user-secret";
 import FaSignOut from "react-icons/lib/fa/sign-out";
 import FaSignIn from "react-icons/lib/fa/sign-in";
 import kanbanLogo from "../../../assets/images/logo.png";
-import "./Header.scss";
 import BoardHeader from "../BoardHeader/BoardHeader";
 import { withRouter } from "react-router-dom";
+import HeaderStyles from "../styles/HeaderStyles";
 
 class Header extends Component {
   static propTypes = { user: PropTypes.object };
@@ -17,13 +17,13 @@ class Header extends Component {
     const { user, homePage } = this.props;
 
     return (
-      <header>
+      <HeaderStyles>
         <Link to="/" className="header-title">
           <img src={kanbanLogo} alt="React Kanban logo" />
           &nbsp;Kanban 2.0
         </Link>
         <div className="header-right-side">
-					{!homePage && <BoardHeader />}
+          {!homePage && <BoardHeader />}
           {user ? (
             <img
               src={user.imageUrl}
@@ -45,7 +45,7 @@ class Header extends Component {
             </a>
           )}
         </div>
-      </header>
+      </HeaderStyles>
     );
   };
 }
