@@ -158,7 +158,7 @@ const PomodoroStyles = styled.div`
     color: ${props => props.theme.grey};
     display: inline-block;
     margin: 0px 4px 0px 7px;
-    font-size: 18px;
+    font-size: 15px;
   }
 
   /* Checkbox style and UI feedback */
@@ -249,7 +249,7 @@ const PomodoroStyles = styled.div`
       display: flex;
       flex-direction: row;
       align-items: center;
-		}
+    }
 
     .done {
       padding-left: 3px;

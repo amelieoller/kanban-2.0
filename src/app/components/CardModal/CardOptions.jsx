@@ -7,6 +7,7 @@ import later from "later";
 import styled from "styled-components";
 import Calendar from "./Calendar";
 import Picker from "../Picker/Picker";
+import "./CardOptions.scss";
 
 const CardOptionsStyles = styled.div`
   .options-list {
@@ -20,58 +21,6 @@ const CardOptionsStyles = styled.div`
       flex-direction: row;
       width: 100%;
       margin: 0;
-    }
-  }
-
-  .calendar-modal {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-  }
-
-  .calendar-underlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 3;
-  }
-
-  .calendar {
-    display: flex;
-    flex-direction: column;
-    border-radius: 3px;
-    background: white;
-  }
-
-  .calendar-buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 8px;
-
-    button {
-      width: 120px;
-      height: 30px;
-      border: 0;
-      border-radius: 3px;
-      font-size: 14px;
-      font-weight: 700;
-      transition: background 0.2s;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #bbb;
-    }
-
-    .calendar-save-button {
-      color: ${props => props.theme.white};
-      background: ${props => props.theme.green};
-    }
-
-    .calendar-save-button:hover {
-      background: ${props => props.theme.darkGreen};
     }
   }
 
@@ -336,7 +285,7 @@ class CardOptions extends Component {
                 type="submit"
                 key={category.name}
                 style={{ background: category.color }}
-								className="picker"
+                className="picker"
                 onClick={() => this.changeCategory(category)}
               >
                 {category.short}

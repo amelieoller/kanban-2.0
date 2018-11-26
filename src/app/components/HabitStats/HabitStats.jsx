@@ -14,18 +14,31 @@ const HabitStatsStyles = styled.div`
 
     .goal {
       color: ${props => props.theme.grey};
+      display: flex;
+      align-items: center;
 
       input {
-        width: 25px;
+        width: 17px;
         border: none;
         color: ${props => props.theme.grey};
+        outline: none;
+        text-align: right;
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
       }
     }
 
     .habit-progress-wrapper {
       background-color: ${props => props.theme.lightGrey};
-      width: 75%;
+      width: 100%;
       float: left;
+      margin-right: 15px;
 
       .habit-progress {
         background-color: ${props => props.theme.green};
@@ -191,7 +204,7 @@ class HabitStats extends Component {
           <XYPlot
             xType="ordinal"
             width={200}
-            height={130}
+            height={120}
             colorDomain={[0, 1]}
             colorRange={myPalette}
             colorType="literal"

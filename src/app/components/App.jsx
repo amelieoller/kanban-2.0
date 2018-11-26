@@ -49,6 +49,8 @@ const GlobalStyle = createGlobalStyle`
 		box-sizing: border-box;
 		height: 100%;
 		width: 100%;
+		overflow: hidden;
+
 
 		&::-webkit-scrollbar {
 			width: 10px;
@@ -125,7 +127,6 @@ const GlobalStyle = createGlobalStyle`
 
 	.cursive-header {
     font-size: 16px;
-    font-style: italic;
     font-family: "Pacifico", cursive;
     color: ${theme.darkGrey};
 	}
