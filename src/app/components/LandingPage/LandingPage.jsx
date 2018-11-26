@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Title } from "react-head";
-import FaUserSecret from "react-icons/lib/fa/user-secret";
+import { FiUser } from "react-icons/fi";
 import googleLogo from "../../../assets/images/google-logo.svg";
 import background1920 from "../../../assets/images/postits-1920.jpg";
 import background1366 from "../../../assets/images/postits-1366.jpg";
-import LandingPageStyles from '../styles/LandingPageStyles'
+import LandingPageStyles from "../styles/LandingPageStyles";
 
 class LandingPage extends Component {
   static propTypes = {

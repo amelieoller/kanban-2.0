@@ -3,19 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { XYPlot, XAxis, VerticalBarSeries } from "react-vis";
 import moment from "moment";
-import { MdStar } from "react-icons/lib/md";
+import { FiStar } from "react-icons/fi";
 import styled from "styled-components";
 
 const HabitStatsStyles = styled.div`
-  .header .number {
-    color: ${props => props.theme.red};
-    font-size: 23px;
-    cursor: pointer;
-    transform: scale(2);
-    transition: 0.5s cubic-bezier(0.95, 0.32, 0.37, 1.31);
-    font-family: "Pacifico", cursive;
-  }
-
   .habit-target {
     display: flex;
     justify-content: space-between;
@@ -166,7 +157,7 @@ class HabitStats extends Component {
       calculateWidth > 1 ? `100%` : `${calculateWidth * 100}%`;
 
     return (
-			<HabitStatsStyles>
+      <HabitStatsStyles>
         <div className="header">
           Habit Stats ·{" "}
           <span className="number">{this.calculateHabits(0).y}</span>
@@ -182,7 +173,7 @@ class HabitStats extends Component {
             />
           </div>
           <span className="goal">
-            <MdStar />
+            <FiStar />
             <input
               type="number"
               onChange={e =>
@@ -216,7 +207,7 @@ class HabitStats extends Component {
             />
           </XYPlot>
         </div>
-			</HabitStatsStyles>
+      </HabitStatsStyles>
     );
   };
 }

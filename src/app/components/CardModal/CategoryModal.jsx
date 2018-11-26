@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Modal from "react-modal";
 
-class CardModal extends Component {
+class CategoryModal extends Component {
   static propTypes = {
     card: PropTypes.shape({
       text: PropTypes.string.isRequired,
@@ -166,7 +166,7 @@ class CardModal extends Component {
             type="submit"
             key={category.name}
             style={{ background: category.color }}
-            className="color-picker-color category-picker"
+						className="picker"
             onClick={() => this.changeCategory(category)}
           >
             {category.short}
@@ -177,4 +177,4 @@ class CardModal extends Component {
   }
 }
 
-export default connect()(CardModal);
+export default connect()(CategoryModal);

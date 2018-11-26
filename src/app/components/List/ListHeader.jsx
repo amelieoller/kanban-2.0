@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Textarea from "react-textarea-autosize";
 import { Button, Wrapper, Menu, MenuItem } from "react-aria-menubutton";
-import FaTrash from "react-icons/lib/fa/trash";
+import { FiTrash2 } from "react-icons/fi";
 import "./ListHeader.scss";
 
 class ListTitle extends Component {
@@ -109,7 +109,7 @@ class ListTitle extends Component {
         )}
         <Wrapper className="delete-list-wrapper" onSelection={this.deleteList}>
           <Button className="delete-list-button">
-            <FaTrash />
+            <FiTrash2 />
           </Button>
           <Menu className="delete-list-menu">
             <div className="delete-list-header">Are you sure?</div>

@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
 import differenceInCalendarDays from "date-fns/difference_in_calendar_days";
-import MdDoneAll from "react-icons/lib/fa/check-square-o";
-import { MdTimelapse, MdAccessAlarm } from "react-icons/lib/md";
+import { FiClock, FiBell, FiCheck } from "react-icons/fi";
 import styled from "styled-components";
 
 const CardBadgesStyles = styled.div`
@@ -14,10 +13,6 @@ const CardBadgesStyles = styled.div`
   .badge {
     margin-right: 5px;
     transition: background 0.15s;
-  }
-
-  .badge-icon {
-    margin-bottom: 2px;
   }
 
   .badge-minutes {
@@ -71,7 +66,7 @@ class CardBadges extends Component {
 
     return (
       <div className="badge" style={{ background: dueDateColor }}>
-        <MdAccessAlarm className="badge-icon" />
+        <FiBell className="badge-icon" />
         &nbsp;
         {dueDateString}
       </div>
@@ -89,7 +84,7 @@ class CardBadges extends Component {
         className="badge"
         style={{ background: checked === total ? "green" : "#444" }}
       >
-        <MdDoneAll className="badge-icon" />
+        <FiCheck className="badge-icon" />
         &nbsp;
         {checked}/{total}
       </div>
@@ -125,10 +120,12 @@ class CardBadges extends Component {
 
     return (
       <div className="badge badge-minutes">
-        <MdTimelapse className="badge-icon" />
-        &nbsp;
-        {minutes}
-        min
+        <FiClock className="badge-icon" />
+        <span>
+          &nbsp;
+          {minutes}
+          min
+        </span>
       </div>
     );
   };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { MdClear } from "react-icons/lib/md";
+import { FiX } from "react-icons/fi";
 import differenceInCalendarDays from "date-fns/difference_in_calendar_days";
 import classnames from "classnames";
 import styled from "styled-components";
@@ -116,7 +116,7 @@ class TaskStats extends Component {
               }}
             >
               <span className="completed-task-text">{card.text}</span>
-              <MdClear
+              <FiX
                 className="delete"
                 onClick={() => this.deleteCard(card._id)}
               />

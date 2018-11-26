@@ -18,7 +18,7 @@ const PomodoroStyles = styled.div`
 
   /* Main section
 ------------------------------- */
-  .container {
+  .timer {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -30,14 +30,10 @@ const PomodoroStyles = styled.div`
     -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
+    margin-top: 6px;
   }
 
   /* Display */
-  .display {
-    margin-bottom: 10px;
-    margin-top: 10px;
-  }
-
   .time {
     font-size: 45px;
     font-weight: 400;
@@ -69,6 +65,9 @@ const PomodoroStyles = styled.div`
     -webkit-transition: background 0.3s;
     transition: background 0.3s;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .btn:hover {
@@ -104,11 +103,11 @@ const PomodoroStyles = styled.div`
   }
 
   .btnIcon.pause {
-    fill: ${props => props.theme.grey};
+    color: ${props => props.theme.grey};
   }
 
   .btnIcon.play {
-    fill: ${props => props.theme.red};
+    color: ${props => props.theme.red};
   }
 
   /* Bottom section
@@ -118,7 +117,7 @@ const PomodoroStyles = styled.div`
     padding: 2.5px 0;
   }
 
-  .controlsCheck {
+  .settings {
     width: 100%;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
@@ -201,7 +200,7 @@ const PomodoroStyles = styled.div`
     position: absolute;
     display: block;
     bottom: 4px;
-    left: -2px;
+    left: -3px;
     width: 10px;
     height: 4px;
     -webkit-transform: rotate(45deg);
@@ -214,7 +213,7 @@ const PomodoroStyles = styled.div`
     position: absolute;
     display: block;
     bottom: 0px;
-    right: -1px;
+    right: -2px;
     width: 3px;
     height: 15px;
     -webkit-transform: rotate(45deg);
@@ -244,6 +243,13 @@ const PomodoroStyles = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+    margin: 6px 0;
+
+    .time-switcher {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+		}
 
     .done {
       padding-left: 3px;

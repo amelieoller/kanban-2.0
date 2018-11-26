@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
-import { MdDone } from "react-icons/lib/md";
+import { FiCheck } from "react-icons/fi";
 import later from "later";
 import CardModal from "../CardModal/CardModal";
 import CardBadges from "../CardBadges/CardBadges";
@@ -186,7 +186,7 @@ class Card extends Component {
                         }}
                       />
                       <div className="checkmark" onClick={this.completeCard}>
-                        <MdDone />
+                        <FiCheck />
                       </div>
                     </div>
                     {(card.date ||

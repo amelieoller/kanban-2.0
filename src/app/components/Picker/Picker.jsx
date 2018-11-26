@@ -40,7 +40,6 @@ const PickerStyles = styled.div`
     flex-wrap: wrap;
     width: 120px;
     margin-top: 4px;
-    padding: 5px;
     border-radius: 3px;
     color: black;
     background: white;

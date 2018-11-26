@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, Wrapper, Menu, MenuItem } from "react-aria-menubutton";
 import classnames from "classnames";
-import { MdDone, MdLabel } from "react-icons/lib/md";
+import { FiCheck, FiDroplet } from "react-icons/fi";
 import "./ColorPicker.scss";
 
 class ColorPicker extends Component {
@@ -31,7 +31,7 @@ class ColorPicker extends Component {
         onSelection={this.handleSelection}
       >
         <Button className="color-picker">
-          <MdLabel />
+          <FiDroplet />
           <div className="board-header-right-text">&nbsp;&#9662;</div>
         </Button>
         <Menu className="color-picker-menu">
@@ -41,7 +41,7 @@ class ColorPicker extends Component {
               className={classnames("color-picker-item", color)}
               key={color}
             >
-              {color === boardColor && <MdDone />}
+              {color === boardColor && <FiCheck />}
             </MenuItem>
           ))}
         </Menu>

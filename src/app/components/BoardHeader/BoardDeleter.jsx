@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button, Wrapper, Menu, MenuItem } from "react-aria-menubutton";
-import FaTrash from "react-icons/lib/fa/trash";
+import { FiTrash2 } from "react-icons/fi";
+
 import "./BoardDeleter.scss";
 
 class BoardDeleter extends Component {
@@ -29,7 +30,7 @@ class BoardDeleter extends Component {
     >
       <Button className="board-deleter-button">
         <div className="modal-icon">
-          <FaTrash />
+          <FiTrash2 />
         </div>
         <div className="board-header-right-text" />
       </Button>

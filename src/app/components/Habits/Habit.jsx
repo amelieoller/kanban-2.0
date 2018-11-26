@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { MdClear, MdCheckCircle, MdFlag } from "react-icons/lib/md";
+import { FiX, FiCheckCircle, FiFlag } from "react-icons/fi";
 import styled from "styled-components";
 import Picker from "../Picker/Picker";
 import formatMarkdown from "../Card/formatMarkdown";
@@ -139,7 +139,7 @@ class Habit extends Component {
 
     return (
       <HabitStyles cardDifficulty={card.difficulty}>
-        <MdCheckCircle
+        <FiCheckCircle
           className="habit-check"
           onClick={() => this.changeHabitStat()}
         />
@@ -157,7 +157,7 @@ class Habit extends Component {
           isPickerOpen={isDifficultyPickerOpen}
           togglePicker={this.togglePicker}
           type="Difficulty"
-          icon={<MdFlag className="modal-icon" />}
+          icon={<FiFlag className="modal-icon" />}
         >
           {[1, 2, 3].map(difficulty => (
             <button
@@ -171,7 +171,7 @@ class Habit extends Component {
           ))}
         </Picker>
 
-        <MdClear
+        <FiX
           className="habit-delete"
           onClick={() => this.deleteCard(card._id)}
         />

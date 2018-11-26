@@ -32,7 +32,7 @@ const theme = {
   transparentWhite: "rgba(255, 255, 255, 0.4)",
 
   listWidth: "300px",
-	borderRadius: "3px",
+  borderRadius: "3px",
 
   // Calculate Styles
   mainMargin: 40,
@@ -114,7 +114,13 @@ const GlobalStyle = createGlobalStyle`
     color: ${theme.darkGrey};
     font-weight: 400;
     overflow-wrap: break-word;
-    text-transform: uppercase;
+		text-transform: uppercase;
+
+		.number {
+			color: ${theme.red};
+			font-size: 23px;
+			font-family: "Pacifico", cursive;
+		}
 	}
 
 	.cursive-header {
@@ -125,10 +131,22 @@ const GlobalStyle = createGlobalStyle`
 	}
 
 	.badge {
-		padding: 3px 5px 1px 5px;
+		padding: 2px 4px;
 		border-radius: ${theme.borderRadius};
 		color: ${theme.white};
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
+
+  .picker {
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+    border: 1px ${theme.darkGrey} solid;
+		border-radius: ${theme.borderRadius};
+		color: ${theme.white};
+  }
 `;
 
 const App = ({ user, isGuest }) => {

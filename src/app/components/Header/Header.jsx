@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import FaUserSecret from "react-icons/lib/fa/user-secret";
-import FaSignOut from "react-icons/lib/fa/sign-out";
-import FaSignIn from "react-icons/lib/fa/sign-in";
+import { FiUser, FiLogOut, FiLogIn } from "react-icons/fi";
+import { withRouter } from "react-router-dom";
 import kanbanLogo from "../../../assets/images/logo.png";
 import BoardHeader from "../BoardHeader/BoardHeader";
-import { withRouter } from "react-router-dom";
 import HeaderStyles from "../styles/HeaderStyles";
 
 class Header extends Component {
@@ -32,15 +30,15 @@ class Header extends Component {
               title={user.name}
             />
           ) : (
-            <FaUserSecret className="guest-icon" />
+            <FiUser className="guest-icon" />
           )}
           {user ? (
             <a className="signout-link" href="/auth/signout">
-              <FaSignOut className="signout-icon" />
+              <FiLogOut className="signout-icon" />
             </a>
           ) : (
             <a className="signout-link" href="/">
-              <FaSignIn className="signout-icon" />
+              <FiLogIn className="signout-icon" />
               &nbsp;Sign in
             </a>
           )}

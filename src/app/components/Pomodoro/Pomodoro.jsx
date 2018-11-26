@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  MdMessage,
-  MdTimer,
-  MdPets,
-  MdCode,
-  MdFreeBreakfast,
-  MdNotificationsActive,
-  MdPauseCircleOutline,
-  MdPlayCircleOutline
-} from "react-icons/lib/md";
+  FiMessageSquare,
+  FiBellOff,
+  FiSun,
+  FiCode,
+  FiTv,
+  FiBell,
+  FiPauseCircle,
+  FiPlayCircle
+} from "react-icons/fi";
 import Alarm from "../../../assets/sounds/alarm.mp3";
 import PomodoroStyles from "../styles/PomodoroStyles";
 
@@ -248,144 +248,123 @@ export default class Pomodoro extends React.Component {
           )} Time!`}</span>
         </div>
         <hr />
-        <div className="main">
-          <div className="container display timer">
+        <div>
+          <div className="timer">
             <span className="time">{countdownDisplay}</span>
           </div>
 
           <div className="container-controls">
-            <div className="container display types">
+            <div className="time-switcher">
               <button
                 type="submit"
                 className="btn code"
                 onClick={() => this.stopCountdown(25)}
               >
-                <MdCode />
+                <FiCode />
               </button>
               <button
                 type="submit"
                 className="btn social"
                 onClick={() => this.stopCountdown(5)}
               >
-                <MdFreeBreakfast />
+                <FiTv />
               </button>
               <button
                 type="submit"
                 className="btn coffee"
                 onClick={() => this.stopCountdown(15)}
               >
-                <MdPets />
+                <FiSun />
               </button>
             </div>
-
             <div className="play-count">
-              <div className="controlsPlay">
-                {timeInterval ? (
-                  <MdPauseCircleOutline
-                    className="pause btnIcon"
-                    onClick={() => this.startCountdown()}
-                  />
-                ) : (
-                  <MdPlayCircleOutline
-                    className="play btnIcon"
-                    onClick={() => this.startCountdown()}
-                  />
-                )}
-              </div>
+              {timeInterval ? (
+                <FiPauseCircle
+                  className="pause btnIcon"
+                  onClick={() => this.startCountdown()}
+                />
+              ) : (
+                <FiPlayCircle
+                  className="play btnIcon"
+                  onClick={() => this.startCountdown()}
+                />
+              )}
               <span className="done">{pomodoriDone !== 0 && pomodoriDone}</span>
             </div>
           </div>
         </div>
 
-        {/* Bottom section
-        ------------------------------- */}
-        <div className="bottomBar">
-          <div className="controls">
-            <div className="container">
-              <div className="controlsCheck">
-                <span className="check">
-                  <input
-                    type="checkbox"
-                    ref="notification"
-                    id="notification"
-                    defaultChecked={pomodoro.notification}
-                    onChange={() =>
-                      this.handleSettingsChange(
-                        "notification",
-                        !pomodoro.notification
-                      )
-                    }
-                  />
-                  <label htmlFor="notification" />
-                  <span className="checkTitle">
-                    <MdMessage />
-                  </span>
-                </span>
+        <div className="settings">
+          <span className="check">
+            <input
+              type="checkbox"
+              ref="notification"
+              id="notification"
+              defaultChecked={pomodoro.notification}
+              onChange={() =>
+                this.handleSettingsChange(
+                  "notification",
+                  !pomodoro.notification
+                )
+              }
+            />
+            <label htmlFor="notification" />
+            <span className="checkTitle">
+              <FiMessageSquare />
+            </span>
+          </span>
 
-                <span className="check">
-                  <input
-                    type="checkbox"
-                    id="audio"
-                    defaultChecked={pomodoro.audio}
-                    onChange={() =>
-                      this.handleSettingsChange("audio", !pomodoro.audio)
-                    }
-                  />
-                  <label htmlFor="audio" />
-                  <span className="checkTitle">
-                    <MdNotificationsActive />
-                  </span>
-                </span>
+          <span className="check">
+            <input
+              type="checkbox"
+              id="audio"
+              defaultChecked={pomodoro.audio}
+              onChange={() =>
+                this.handleSettingsChange("audio", !pomodoro.audio)
+              }
+            />
+            <label htmlFor="audio" />
+            <span className="checkTitle">
+              <FiBell />
+            </span>
+          </span>
 
-                <span className="check">
-                  <input
-                    type="checkbox"
-                    id="showDayPomo"
-                    defaultChecked={pomodoro.showDayPomo}
-                    onChange={() =>
-                      this.handleSettingsChange(
-                        "showDayPomo",
-                        !pomodoro.showDayPomo
-                      )
-                    }
-                  />
-                  <label htmlFor="showDayPomo" />
-                  <span className="checkTitle">
-                    <MdTimer />
-                  </span>
-                </span>
+          <span className="check">
+            <input
+              type="checkbox"
+              id="showDayPomo"
+              defaultChecked={pomodoro.showDayPomo}
+              onChange={() =>
+                this.handleSettingsChange("showDayPomo", !pomodoro.showDayPomo)
+              }
+            />
+            <label htmlFor="showDayPomo" />
+            <span className="checkTitle">
+              <FiBellOff />
+            </span>
+          </span>
 
-                <span className="check">
-                  <form
-                    onSubmit={e => {
-                      e.preventDefault();
-                      this.handleSettingsChange(
-                        "pomodori",
-                        this.state.pomodori
-                      );
-                    }}
-                  >
-                    <input
-                      type="number"
-                      id="pomodori"
-                      placeholder="Pomodori"
-                      value={this.state.pomodori}
-                      onChange={e =>
-                        this.setState({
-                          pomodori: parseInt(e.target.value)
-                        })
-                      }
-                    />
-                  </form>
-                </span>
-              </div>
-              {/* controlsCheck */}
-            </div>
-            {/* container */}
-          </div>
-          {/* controls */}
+          <span className="check">
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                this.handleSettingsChange("pomodori", this.state.pomodori);
+              }}
+            >
+              <input
+                type="number"
+                id="pomodori"
+                placeholder="Pomodori"
+                value={this.state.pomodori}
+                onChange={e =>
+                  this.setState({
+                    pomodori: parseInt(e.target.value)
+                  })
+                }
+              />
+            </form>
+          </span>
         </div>
-        {/* bottomBar */}
       </PomodoroStyles>
     );
   };

@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
-import FaTrash from "react-icons/lib/fa/trash";
-import { MdAccessAlarm, MdFlag, MdLabel, MdDone } from "react-icons/lib/md";
+import { FiBell, FiFlag, FiTag, FiCheck, FiTrash2 } from "react-icons/fi";
 import later from "later";
 import styled from "styled-components";
 import Calendar from "./Calendar";
@@ -74,18 +73,6 @@ const CardOptionsStyles = styled.div`
     .calendar-save-button:hover {
       background: ${props => props.theme.darkGreen};
     }
-  }
-
-  .category-picker {
-    color: ${props => props.theme.white};
-  }
-
-  .color-picker-color {
-    width: 36px;
-    height: 36px;
-    margin: 2px;
-    border: 1px #999 solid;
-    border-radius: 3px;
   }
 
   .options-list-button {
@@ -292,7 +279,7 @@ class CardOptions extends Component {
               className="options-list-button"
             >
               <div className="modal-icon">
-                <MdDone />
+                <FiCheck />
               </div>
               &nbsp;Done
             </button>
@@ -336,7 +323,7 @@ class CardOptions extends Component {
             isPickerOpen={isCategoryPickerOpen}
             togglePicker={togglePicker}
             type="Category"
-            icon={<MdLabel className="modal-icon" />}
+            icon={<FiTag className="modal-icon" />}
             text="Category"
           >
             {[
@@ -349,7 +336,7 @@ class CardOptions extends Component {
                 type="submit"
                 key={category.name}
                 style={{ background: category.color }}
-                className="color-picker-color category-picker"
+								className="picker"
                 onClick={() => this.changeCategory(category)}
               >
                 {category.short}
@@ -362,7 +349,7 @@ class CardOptions extends Component {
             isPickerOpen={isDifficultyPickerOpen}
             togglePicker={togglePicker}
             type="Difficulty"
-            icon={<MdFlag className="modal-icon" />}
+            icon={<FiFlag className="modal-icon" />}
             text="Difficulty"
           >
             {[1, 2, 3].map(difficulty => (
@@ -385,7 +372,7 @@ class CardOptions extends Component {
               className="options-list-button"
             >
               <div className="modal-icon">
-                <MdAccessAlarm />
+                <FiBell />
               </div>
               &nbsp;Due date
             </button>
@@ -412,7 +399,7 @@ class CardOptions extends Component {
               className="options-list-button"
             >
               <div className="modal-icon">
-                <FaTrash />
+                <FiTrash2 />
               </div>
               &nbsp;Delete
             </button>
