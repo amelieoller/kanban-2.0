@@ -12,6 +12,8 @@ import {
 } from "react-icons/fi";
 import Alarm from "../../../assets/sounds/alarm.mp3";
 import PomodoroStyles from "../styles/PomodoroStyles";
+import Coffee from "../../../assets/images/coffee.png";
+import Code from "../../../assets/images/code.png";
 
 export default class Pomodoro extends React.Component {
   static propTypes = {
@@ -229,7 +231,7 @@ export default class Pomodoro extends React.Component {
   handleSettingsChange = (type, value) => {
     const { dispatch, boardId } = this.props;
 
-    dispatch({
+		dispatch({
       type: "CHANGE_POMODORO_SETTING",
       payload: { boardId, type, value }
     });
@@ -347,7 +349,7 @@ export default class Pomodoro extends React.Component {
           <span className="check">
             <form
               onSubmit={e => {
-                e.preventDefault();
+								e.preventDefault();
                 this.handleSettingsChange("pomodori", this.state.pomodori);
               }}
             >

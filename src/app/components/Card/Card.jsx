@@ -139,7 +139,8 @@ class Card extends Component {
       index,
       listId,
       isDraggingOver,
-      withinPomodoroCard
+      withinPomodoroCard,
+      dispatch
     } = this.props;
     const { isModalOpen, categoryModalIsOpen } = this.state;
     const checkboxes = findCheckboxes(card.text);
@@ -199,6 +200,8 @@ class Card extends Component {
                         minutes={card.minutes}
                         category={card.category}
                         toggleCategoryModal={this.toggleCategoryModal}
+												dispatch={dispatch}
+												cardId={card._id}
                       />
                     )}
                   </div>

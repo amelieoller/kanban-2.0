@@ -51,7 +51,6 @@ const GlobalStyle = createGlobalStyle`
 		width: 100%;
 		overflow: hidden;
 
-
 		&::-webkit-scrollbar {
 			width: 10px;
 			height: 10px;

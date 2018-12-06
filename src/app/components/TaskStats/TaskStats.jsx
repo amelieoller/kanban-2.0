@@ -170,7 +170,7 @@ class TaskStats extends Component {
               {this.renderCompletedDateSection(
                 cards,
                 -2,
-                "The Day before yesterday"
+                "The Day Before Yesterday"
               )}
             </>
           ))}

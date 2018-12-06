@@ -62,7 +62,7 @@ class LandingPage extends Component {
                 onClick={this.enterAsGuest}
                 className="signin-button guest-button"
               >
-                <FaUserSecret className="logo-icon" /> &nbsp;Enter as guest
+								<FiUser className="logo-icon" /> &nbsp;Enter as guest
               </button>
             </div>
           </div>

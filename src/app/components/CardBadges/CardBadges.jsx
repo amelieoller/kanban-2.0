@@ -17,6 +17,15 @@ const CardBadgesStyles = styled.div`
 
   .badge-minutes {
     background-color: ${props => props.theme.grey};
+
+    input {
+      background: transparent;
+      color: ${props => props.theme.white};
+      width: 17px;
+      border: none;
+      text-align: center;
+      font-size: 12px;
+    }
   }
 `;
 
@@ -32,7 +41,9 @@ class CardBadges extends Component {
       name: PropTypes.string.isRequired,
       short: PropTypes.string.isRequired,
       color: PropTypes.string.isRequired
-    })
+    }),
+    dispatch: PropTypes.func,
+    cardId: PropTypes.string
   };
 
   renderDueDate = () => {
@@ -111,6 +122,18 @@ class CardBadges extends Component {
     );
   };
 
+  handleMinuteChange = e => {
+    const { dispatch, minutes, cardId } = this.props;
+    const newMinutes = parseInt(e.target.value);
+
+    if (minutes !== newMinutes) {
+      dispatch({
+        type: "CHANGE_CARD_MINUTES",
+        payload: { minutes: newMinutes, cardId }
+      });
+    }
+  };
+
   renderMinutes = () => {
     const { minutes } = this.props;
 
@@ -121,11 +144,13 @@ class CardBadges extends Component {
     return (
       <div className="badge badge-minutes">
         <FiClock className="badge-icon" />
-        <span>
-          &nbsp;
-          {minutes}
-          min
-        </span>
+        &nbsp;
+        <input
+          onChange={e => this.handleMinuteChange(e)}
+          type="text"
+          value={minutes}
+        />
+        min
       </div>
     );
   };
