@@ -76,6 +76,7 @@ const boardsById = (state = {}, action) => {
               { name: "", short: "", color: "white", _id: categoryId }
             ],
             defaultCategory: "none",
+            eventCalendarId: "",
             color: "grey",
             completedListId,
             habitsListId
@@ -237,6 +238,19 @@ const boardsById = (state = {}, action) => {
           settings: {
             ...state[boardId].settings,
             defaultCategory: categoryId
+          }
+        }
+      };
+    }
+    case "CHANGE_EVENT_CALENDAR_ID": {
+      const { boardId, eventCalendarId } = action.payload;
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            eventCalendarId
           }
         }
       };

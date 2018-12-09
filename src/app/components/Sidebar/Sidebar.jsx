@@ -32,13 +32,18 @@ class Sidebar extends Component {
       boardId,
       user,
       completedListId,
-      categories
+      categories,
+      eventCalendarId
     } = this.props;
 
     return (
       <SidebarStyles>
         <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
-        <Calendar user={user} dispatch={dispatch} />
+        <Calendar
+          user={user}
+          dispatch={dispatch}
+          eventCalendarId={eventCalendarId}
+        />
         <HabitStats boardId={boardId} />
         <TaskStats
           cards={cards}
@@ -61,7 +66,8 @@ const mapStateToProps = (state, ownProps) => {
     ),
     completedListId,
     user: state.user,
-    categories: state.boardsById[ownProps.boardId].settings.categories
+    categories: state.boardsById[ownProps.boardId].settings.categories,
+    eventCalendarId: state.boardsById[ownProps.boardId].settings.eventCalendarId
   };
 };
 export default connect(mapStateToProps)(Sidebar);

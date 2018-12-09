@@ -130,6 +130,7 @@ Since you are not signed in, your changes will not persist after you leave the w
       },
       categories: [{ name: "", short: "", color: "white", _id: categoryId }],
       defaultCategory: "none",
+      eventCalendarId: "",
       color: "grey",
       completedListId,
       habitsListId

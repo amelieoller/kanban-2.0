@@ -45,8 +45,9 @@ class Calendar extends Component {
   };
 
   fetchEvents = () => {
+    const { eventCalendarId } = this.props;
     fetch(
-      `https://www.googleapis.com/calendar/v3/calendars/amelie.oller@flatironschool.com/events?access_token=${
+			`https://www.googleapis.com/calendar/v3/calendars/${eventCalendarId}/events?access_token=${
         this.props.user.accessToken
       }&timeMin=${new Date().toISOString()}&showDeleted=false&singleEvents=true&maxResults=5&orderBy=startTime`
     )
