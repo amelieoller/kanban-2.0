@@ -125,19 +125,21 @@ class HabitStats extends Component {
         if (cards[cardId]) result += cards[cardId].difficulty;
       });
     } else {
+      const day = new Date(date);
       return {
-        x: moment(date).format("dd"),
+        x: moment(day).format("dd"),
         y: 0,
         z: date,
-        a: moment(date).format("dddd")
+        a: moment(day).format("dddd")
       };
     }
 
+		const day = new Date(date);
     return {
-      x: moment(date).format("dd"),
+      x: moment(day).format("dd"),
       y: result,
       z: date,
-      a: moment(date).format("dddd")
+      a: moment(day).format("dddd")
     };
   };
 

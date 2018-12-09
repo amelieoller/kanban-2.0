@@ -33,6 +33,7 @@ export default class Pomodoro extends React.Component {
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() +
       1}-${today.getDate()}`;
+    const pomodoriDone = pomodoro.pomodoriDone && pomodoro.pomodoriDone[date];
 
     this.state = {
       sessionLength: 25,
@@ -41,7 +42,7 @@ export default class Pomodoro extends React.Component {
       timePaused: false,
       countdownDisplay: "25:00",
       endTime: 0,
-      pomodoriDone: pomodoro.pomodoriDone[date] || 0,
+      pomodoriDone: pomodoriDone || 0,
       pomodori: pomodoro.pomodori || 0
     };
   }
@@ -231,7 +232,7 @@ export default class Pomodoro extends React.Component {
   handleSettingsChange = (type, value) => {
     const { dispatch, boardId } = this.props;
 
-		dispatch({
+    dispatch({
       type: "CHANGE_POMODORO_SETTING",
       payload: { boardId, type, value }
     });
@@ -349,7 +350,7 @@ export default class Pomodoro extends React.Component {
           <span className="check">
             <form
               onSubmit={e => {
-								e.preventDefault();
+                e.preventDefault();
                 this.handleSettingsChange("pomodori", this.state.pomodori);
               }}
             >

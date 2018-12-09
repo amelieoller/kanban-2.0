@@ -21,7 +21,7 @@ class Sidebar extends Component {
     boardId: PropTypes.string.isRequired,
     completedListId: PropTypes.string.isRequired,
     user: PropTypes.object,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array
   };
 
   render = () => {
@@ -39,11 +39,13 @@ class Sidebar extends Component {
     return (
       <SidebarStyles>
         <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
-        <Calendar
-          user={user}
-          dispatch={dispatch}
-          eventCalendarId={eventCalendarId}
-        />
+        {user && (
+          <Calendar
+            user={user}
+            dispatch={dispatch}
+            eventCalendarId={eventCalendarId}
+          />
+        )}
         <HabitStats boardId={boardId} />
         <TaskStats
           cards={cards}

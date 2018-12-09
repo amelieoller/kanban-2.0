@@ -107,18 +107,18 @@ Since you are not signed in, your changes will not persist after you leave the w
         _id: shortid.generate(),
         title: "How to use",
         cards: appendAttributes(list3)
-      },
+			},
+			{
+				_id: habitsListId,
+				title: "Habits",
+				cards: [],
+				special: "habits"
+			},
       {
         _id: completedListId,
         title: "Completed",
         cards: [],
         special: "completed"
-      },
-      {
-        _id: habitsListId,
-        title: "Habits",
-        cards: [],
-        special: "habits"
       }
     ],
     users: userId ? [userId] : [],

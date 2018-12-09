@@ -40,8 +40,8 @@ const TaskStatsStyled = styled.div`
     flex-wrap: wrap;
 
     .minute-badges {
-			margin-bottom: 5px;
-		}
+      margin-bottom: 5px;
+    }
   }
 `;
 
@@ -128,18 +128,16 @@ class TaskStats extends Component {
 
   render = () => {
     const { cards } = this.props;
+    const accumulated =
+      cards.length !== 0 &&
+      cards
+        .map(card => card.difficulty)
+        .reduce((accumulator, currentValue) => accumulator + currentValue);
 
     return (
       <TaskStatsStyled>
         <div className="header">
-          Task Stats ·{" "}
-          <span className="number">
-            {cards
-              .map(card => card.difficulty)
-              .reduce(
-                (accumulator, currentValue) => accumulator + currentValue
-              )}
-          </span>
+          Task Stats · <span className="number">{accumulated || 0}</span>
         </div>
         <hr />
         {cards &&

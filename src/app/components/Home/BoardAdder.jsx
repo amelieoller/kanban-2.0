@@ -49,7 +49,16 @@ class BoardAdder extends Component {
         habitsListId,
         categoryId
       }
-    });
+		});
+		dispatch({
+			type: "ADD_LIST",
+			payload: {
+				listTitle: "Habits",
+				listId: habitsListId,
+				boardId,
+				special: "habits"
+			}
+		});
 
     dispatch({
       type: "ADD_LIST",
@@ -58,16 +67,6 @@ class BoardAdder extends Component {
         listId: completedListId,
         boardId,
         special: "completed"
-      }
-    });
-
-    dispatch({
-      type: "ADD_LIST",
-      payload: {
-        listTitle: "Habits",
-        listId: habitsListId,
-        boardId,
-        special: "habits"
       }
     });
 
