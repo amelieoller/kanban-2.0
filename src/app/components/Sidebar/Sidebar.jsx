@@ -20,7 +20,8 @@ class Sidebar extends Component {
     dispatch: PropTypes.func.isRequired,
     boardId: PropTypes.string.isRequired,
     completedListId: PropTypes.string.isRequired,
-    user: PropTypes.object
+    user: PropTypes.object,
+    categories: PropTypes.array.isRequired
   };
 
   render = () => {
@@ -30,7 +31,8 @@ class Sidebar extends Component {
       dispatch,
       boardId,
       user,
-      completedListId
+      completedListId,
+      categories
     } = this.props;
 
     return (
@@ -38,7 +40,12 @@ class Sidebar extends Component {
         <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
         <Calendar user={user} dispatch={dispatch} />
         <HabitStats boardId={boardId} />
-				<TaskStats cards={cards} completedListId={completedListId} dispatch={dispatch} />
+        <TaskStats
+          cards={cards}
+          completedListId={completedListId}
+          dispatch={dispatch}
+          categories={categories}
+        />
       </SidebarStyles>
     );
   };
@@ -53,7 +60,8 @@ const mapStateToProps = (state, ownProps) => {
       cardId => state.cardsById[cardId]
     ),
     completedListId,
-    user: state.user
+    user: state.user,
+    categories: state.boardsById[ownProps.boardId].settings.categories
   };
 };
 export default connect(mapStateToProps)(Sidebar);

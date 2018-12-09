@@ -37,6 +37,11 @@ const TaskStatsStyled = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
+    flex-wrap: wrap;
+
+    .minute-badges {
+			margin-bottom: 5px;
+		}
   }
 `;
 
@@ -63,7 +68,7 @@ class TaskStats extends Component {
   };
 
   renderCategorySummary = cards => {
-    const categories = ["Flatiron", "Graphic", "Kanban"];
+    const { categories } = this.props;
     const results = [];
     let accumulated;
 
@@ -72,11 +77,17 @@ class TaskStats extends Component {
         .filter(
           ca => differenceInCalendarDays(ca.completedAt, new Date()) === 0
         )
-        .filter(card => card.category && card.category.name === categories[i])
+        .filter(
+          card => card.categoryId && card.categoryId === categories[i]._id
+        )
         .map(c => c.minutes)
         .reduce((a, b) => a + b, 0);
 
-      results.push({ name: [categories[i]], minutes: accumulated });
+      results.push({
+        name: [categories[i].short],
+        minutes: accumulated,
+        color: categories[i].color
+      });
     }
 
     return results;
@@ -140,11 +151,8 @@ class TaskStats extends Component {
                     category.minutes !== 0 && (
                       <div className="minute-badges" key={category.name}>
                         <div
-                          className={classnames(
-                            "minute-badge",
-                            "badge",
-                            `badge-${category.name}`
-                          )}
+                          className={classnames("minute-badge", "badge")}
+                          style={{ background: category.color }}
                         >
                           {category.minutes} min
                         </div>
