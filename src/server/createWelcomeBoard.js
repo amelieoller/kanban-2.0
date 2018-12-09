@@ -86,6 +86,7 @@ Since you are not signed in, your changes will not persist after you leave the w
 
   const completedListId = shortid.generate();
   const habitsListId = shortid.generate();
+  const categoryId = shortid.generate();
 
   return {
     _id: shortid.generate(),
@@ -123,10 +124,11 @@ Since you are not signed in, your changes will not persist after you leave the w
     users: userId ? [userId] : [],
     stats: { habits: 0 },
     settings: {
-			pomodoro: { notification: true, audio: true },
-			goals: {
-				habits: 0
-			},
+      pomodoro: { notification: true, audio: true },
+      goals: {
+        habits: 0
+      },
+      categories: [{ name: "", short: "", color: "white", _id: categoryId }],
       color: "grey",
       completedListId,
       habitsListId

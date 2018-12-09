@@ -10,7 +10,7 @@ const cardsById = (state = {}, action) => {
           difficulty: 1,
           minutes: 5,
           createdAt,
-          category: { name: "Flatiron", short: "//", color: "#32cefe" }
+					category: { name: "Flatiron", short: "//", color: "#32cefe", _id: "Og4XCuJT6" }
         }
       };
     }
@@ -23,8 +23,8 @@ const cardsById = (state = {}, action) => {
       return { ...state, [cardId]: { ...state[cardId], date } };
     }
     case "CHANGE_CARD_CATEGORY": {
-      const { category, cardId } = action.payload;
-      return { ...state, [cardId]: { ...state[cardId], category } };
+			const { categoryId, cardId } = action.payload;
+      return { ...state, [cardId]: { ...state[cardId], categoryId } };
     }
     case "CHANGE_CARD_DIFFICULTY": {
       const { difficulty, cardId } = action.payload;
@@ -37,7 +37,7 @@ const cardsById = (state = {}, action) => {
     case "DELETE_CATEGORY": {
       const { cardId } = action.payload;
       const {
-        [cardId]: { category, ...rest1 },
+        [cardId]: { categoryId, ...rest1 },
         ...rest2
       } = state;
 

@@ -18,19 +18,19 @@ class List extends Component {
   withinPomodoroTime = () => {
     const { cards, pomodoro } = this.props;
 
-		let total = 0;
+    let total = 0;
     const selectedCards = [];
     let time = 25;
 
     if (pomodoro.showDayPomo && pomodoro.pomodori) {
-			time *= pomodoro.pomodori;
+      time *= pomodoro.pomodori;
     }
 
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       const minutes = parseInt(card.minutes);
 
-			if (minutes && card.minutes > time) {
+      if (minutes && card.minutes > time) {
         selectedCards.push(cards[0]._id);
         return selectedCards;
       }
@@ -44,7 +44,7 @@ class List extends Component {
   };
 
   render = () => {
-    const { list, boardId, index } = this.props;
+    const { list, boardId, index, categories } = this.props;
     return (
       <Draggable
         draggableId={list._id}
@@ -74,6 +74,7 @@ class List extends Component {
                   <Cards
                     listId={list._id}
                     withinPomodoroCards={this.withinPomodoroTime()}
+                    categories={categories}
                   />
                 </div>
               </div>
@@ -94,7 +95,8 @@ const mapStateToProps = (state, ownProps) => {
     cards: cardIds
       .map(id => state.cardsById[id])
       .filter(card => card.active !== false),
-		pomodoro: state.boardsById[ownProps.boardId].settings.pomodoro
+    pomodoro: state.boardsById[ownProps.boardId].settings.pomodoro,
+    categories: state.boardsById[ownProps.boardId].settings.categories
   };
 };
 

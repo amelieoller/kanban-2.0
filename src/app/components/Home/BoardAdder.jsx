@@ -37,6 +37,7 @@ class BoardAdder extends Component {
     const boardId = shortid.generate();
     const completedListId = shortid.generate();
     const habitsListId = shortid.generate();
+    const categoryId = shortid.generate();
 
     dispatch({
       type: "ADD_BOARD",
@@ -45,7 +46,8 @@ class BoardAdder extends Component {
         boardId,
         userId,
         completedListId,
-        habitsListId
+        habitsListId,
+        categoryId
       }
     });
 

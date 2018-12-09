@@ -53,7 +53,8 @@ class CardOptions extends Component {
     isThinDisplay: PropTypes.bool.isRequired,
     boundingRect: PropTypes.object.isRequired,
     togglePicker: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired
   };
 
   constructor(props) {
@@ -111,7 +112,7 @@ class CardOptions extends Component {
       } else {
         dispatch({
           type: "CHANGE_CARD_CATEGORY",
-          payload: { category, cardId: card._id }
+					payload: { categoryId: category._id, cardId: card._id }
         });
       }
     }
@@ -194,7 +195,8 @@ class CardOptions extends Component {
       card,
       isThinDisplay,
       boundingRect,
-      togglePicker
+      togglePicker,
+      categories
     } = this.props;
     const { isCalendarOpen, minutes, recurringText } = this.state;
 
@@ -275,12 +277,7 @@ class CardOptions extends Component {
             icon={<FiTag className="modal-icon" />}
             text="Category"
           >
-            {[
-              { name: "", short: "", color: "white" },
-              { name: "Flatiron", short: "//", color: "#32cefe" },
-              { name: "Graphic", short: "GL", color: "#009ad0" },
-              { name: "Kanban", short: "KB", color: "#EA725B" }
-            ].map(category => (
+            {categories.map(category => (
               <button
                 type="submit"
                 key={category.name}

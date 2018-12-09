@@ -6,6 +6,7 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Home from "./Home/Home";
 import BoardContainer from "./Board/BoardContainer";
 import LandingPage from "./LandingPage/LandingPage";
+import Settings from "./Settings/Settings";
 
 const theme = {
   white: "#FFFFFF",
@@ -158,6 +159,11 @@ const App = ({ user, isGuest }) => {
           <GlobalStyle />
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route path="/settings" component={Settings} />
+            <Route
+						path="/b/:boardId/getting-things-done/settings"
+              component={Settings}
+            />
             <Route path="/b/:boardId" component={BoardContainer} />
             <Redirect to="/" />
           </Switch>

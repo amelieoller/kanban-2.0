@@ -25,7 +25,8 @@ class Card extends Component {
     listId: PropTypes.string.isRequired,
     isDraggingOver: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired
   };
 
   constructor() {
@@ -126,7 +127,7 @@ class Card extends Component {
       } else {
         dispatch({
           type: "CHANGE_CARD_CATEGORY",
-          payload: { category, cardId: card._id }
+          payload: { categoryId: category._id, cardId: card._id }
         });
       }
     }
@@ -140,7 +141,8 @@ class Card extends Component {
       listId,
       isDraggingOver,
       withinPomodoroCard,
-      dispatch
+      dispatch,
+      categories
     } = this.props;
     const { isModalOpen, categoryModalIsOpen } = this.state;
     const checkboxes = findCheckboxes(card.text);
@@ -198,10 +200,10 @@ class Card extends Component {
                         date={card.date}
                         checkboxes={checkboxes}
                         minutes={card.minutes}
-                        category={card.category}
+                        category={categories.find(cat => cat._id === card.categoryId)}
                         toggleCategoryModal={this.toggleCategoryModal}
-												dispatch={dispatch}
-												cardId={card._id}
+                        dispatch={dispatch}
+                        cardId={card._id}
                       />
                     )}
                   </div>
@@ -216,6 +218,7 @@ class Card extends Component {
               card={card}
               listId={listId}
               toggleCategoryModal={this.toggleCategoryModal}
+              categories={categories}
             />
             <CardModal
               isOpen={isModalOpen}
@@ -223,6 +226,7 @@ class Card extends Component {
               card={card}
               listId={listId}
               toggleCardEditor={this.toggleCardEditor}
+							categories={categories}
             />
           </>
         )}

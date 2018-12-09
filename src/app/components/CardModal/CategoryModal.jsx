@@ -83,7 +83,7 @@ class CategoryModal extends Component {
   changeCategory = category => {
     const { dispatch, card } = this.props;
 
-    if (card.category !== category) {
+    if (card.categoryId !== category._id) {
       if (category.color === "white") {
         dispatch({
           type: "DELETE_CATEGORY",
@@ -92,7 +92,7 @@ class CategoryModal extends Component {
       } else {
         dispatch({
           type: "CHANGE_CARD_CATEGORY",
-          payload: { category, cardId: card._id }
+					payload: { categoryId: category._id, cardId: card._id }
         });
       }
     }
@@ -106,7 +106,8 @@ class CategoryModal extends Component {
       card,
       listId,
       categoryModalIsOpen,
-      toggleCategoryModal
+      toggleCategoryModal,
+      categories
     } = this.props;
     if (!cardElement) {
       return null;
@@ -147,26 +148,21 @@ class CategoryModal extends Component {
     return (
       <Modal
         isOpen={categoryModalIsOpen}
-        onRequestClose={this.props.toggleCategoryModal}
+        onRequestClose={toggleCategoryModal}
         closeTimeoutMS={150}
         contentLabel="Card editor"
         overlayClassName="modal-underlay"
         className="modal"
         style={isThinDisplay ? mobileStyle : style}
         includeDefaultStyles={false}
-        onClick={this.props.toggleCategoryModal}
+        onClick={toggleCategoryModal}
       >
-        {[
-          { name: "", short: "", color: "white" },
-          { name: "Flatiron", short: "//", color: "#32cefe" },
-          { name: "Graphic", short: "GL", color: "#009ad0" },
-          { name: "Kanban", short: "KB", color: "#EA725B" }
-        ].map(category => (
+        {categories.map(category => (
           <button
             type="submit"
             key={category.name}
             style={{ background: category.color }}
-						className="picker"
+            className="picker"
             onClick={() => this.changeCategory(category)}
           >
             {category.short}

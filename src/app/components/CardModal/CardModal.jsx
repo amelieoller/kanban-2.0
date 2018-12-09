@@ -22,7 +22,8 @@ class CardModal extends Component {
     }),
     isOpen: PropTypes.bool.isRequired,
     toggleCardEditor: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired
   };
 
   constructor(props) {
@@ -94,7 +95,7 @@ class CardModal extends Component {
       isDifficultyPickerOpen,
       isTextareaFocused
     } = this.state;
-    const { cardElement, card, listId, isOpen } = this.props;
+		const { cardElement, card, listId, isOpen, categories } = this.props;
     if (!cardElement) {
       return null;
     }
@@ -184,7 +185,7 @@ class CardModal extends Component {
               date={card.date}
               checkboxes={checkboxes}
               minutes={card.minutes}
-              category={card.category}
+							category={categories.find(cat => cat._id === card.categoryId)}
             />
           )}
         </div>
@@ -196,7 +197,8 @@ class CardModal extends Component {
           boundingRect={boundingRect}
           isCardNearRightBorder={isCardNearRightBorder}
           isThinDisplay={isThinDisplay}
-					togglePicker={this.togglePicker}
+          togglePicker={this.togglePicker}
+          categories={categories}
         />
       </Modal>
     );

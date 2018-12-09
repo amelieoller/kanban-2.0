@@ -55,7 +55,8 @@ const boardsById = (state = {}, action) => {
         boardId,
         userId,
         completedListId,
-        habitsListId
+        habitsListId,
+        categoryId
       } = action.payload;
 
       return {
@@ -71,6 +72,9 @@ const boardsById = (state = {}, action) => {
             goals: {
               habits: 0
             },
+            categories: [
+              { name: "", short: "", color: "white", _id: categoryId }
+            ],
             color: "grey",
             completedListId,
             habitsListId
@@ -180,7 +184,7 @@ const boardsById = (state = {}, action) => {
     case "CHANGE_GOAL_SETTING": {
       const { boardId, type, value } = action.payload;
 
-			return {
+      return {
         ...state,
         [boardId]: {
           ...state[boardId],
@@ -190,6 +194,20 @@ const boardsById = (state = {}, action) => {
               ...state[boardId].settings.goals,
               [type]: value
             }
+          }
+        }
+      };
+    }
+    case "ADD_CATEGORY": {
+      const { boardId, category } = action.payload;
+
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            categories: [...state[boardId].settings.categories, category]
           }
         }
       };
