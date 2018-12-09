@@ -37,18 +37,6 @@ const TaskStatsStyled = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-
-    .badge-Flatiron {
-      background: #32cefe;
-    }
-
-    .badge-Kanban {
-      background: #ea725b;
-    }
-
-    .badge-Graphic {
-      background: #009ad0;
-    }
   }
 `;
 

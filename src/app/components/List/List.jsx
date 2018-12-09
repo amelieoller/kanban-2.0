@@ -12,7 +12,8 @@ class List extends Component {
   static propTypes = {
     boardId: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
-    list: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired
+    list: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired,
+    defaultCategory: PropTypes.string.isRequired
   };
 
   withinPomodoroTime = () => {
@@ -44,7 +45,7 @@ class List extends Component {
   };
 
   render = () => {
-    const { list, boardId, index, categories } = this.props;
+    const { list, boardId, index, categories, defaultCategory } = this.props;
     return (
       <Draggable
         draggableId={list._id}
@@ -78,7 +79,7 @@ class List extends Component {
                   />
                 </div>
               </div>
-              <CardAdder listId={list._id} />
+              <CardAdder listId={list._id} defaultCategory={defaultCategory} />
             </div>
             {provided.placeholder}
           </>
@@ -96,7 +97,8 @@ const mapStateToProps = (state, ownProps) => {
       .map(id => state.cardsById[id])
       .filter(card => card.active !== false),
     pomodoro: state.boardsById[ownProps.boardId].settings.pomodoro,
-    categories: state.boardsById[ownProps.boardId].settings.categories
+    categories: state.boardsById[ownProps.boardId].settings.categories,
+    defaultCategory: state.boardsById[ownProps.boardId].settings.defaultCategory
   };
 };
 

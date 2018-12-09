@@ -75,6 +75,7 @@ const boardsById = (state = {}, action) => {
             categories: [
               { name: "", short: "", color: "white", _id: categoryId }
             ],
+            defaultCategory: "none",
             color: "grey",
             completedListId,
             habitsListId
@@ -208,6 +209,34 @@ const boardsById = (state = {}, action) => {
           settings: {
             ...state[boardId].settings,
             categories: [...state[boardId].settings.categories, category]
+          }
+        }
+      };
+    }
+    case "DELETE_CATEGORY": {
+      const { boardId, categoryId } = action.payload;
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            categories: state[boardId].settings.categories.filter(
+              category => category._id !== categoryId
+            )
+          }
+        }
+      };
+    }
+    case "CHANGE_DEFAULT_CATEGORY": {
+      const { boardId, categoryId } = action.payload;
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            defaultCategory: categoryId
           }
         }
       };

@@ -3,8 +3,8 @@ import styled from "styled-components";
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import slugify from "slugify";
 import shortid from "shortid";
+import { FiX } from "react-icons/fi";
 
 const CategoriesStyles = styled.div``;
 
@@ -23,15 +23,18 @@ class Categories extends Component {
     this.state = {
       categoryName: "",
       categoryShort: "",
-      categoryColor: ""
+      categoryColor: "",
+      defaultCategory: "none"
     };
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    const { match, history, boardTitle, dispatch } = this.props;
-    const { boardId } = match.params;
     const { categoryName, categoryShort, categoryColor } = this.state;
+    if (!categoryName || !categoryShort || !categoryColor) return;
+
+    const { match, dispatch } = this.props;
+    const { boardId } = match.params;
     const categoryId = shortid.generate();
     const category = {
       name: categoryName,
@@ -47,11 +50,6 @@ class Categories extends Component {
         category
       }
     });
-    history.push(
-      `/b/${boardId}/${slugify(boardTitle, {
-        lower: true
-      })}`
-    );
   };
 
   handleChange = e => {
@@ -60,9 +58,37 @@ class Categories extends Component {
     });
   };
 
+  handleDelete = categoryId => {
+    const { match, dispatch } = this.props;
+    const { boardId } = match.params;
+    dispatch({
+      type: "DELETE_CATEGORY",
+      payload: {
+        boardId,
+        categoryId
+      }
+    });
+  };
+
+  handleDefaultCategoryChange = categoryId => {
+    const { match, dispatch } = this.props;
+    const { boardId } = match.params;
+    dispatch({
+      type: "CHANGE_DEFAULT_CATEGORY",
+      payload: {
+        boardId,
+        categoryId
+      }
+    });
+  };
+
   render = () => {
-    const { categoryName, categoryShort, categoryColor } = this.state;
-    const { categories } = this.props;
+    const {
+      categoryName,
+      categoryShort,
+      categoryColor
+    } = this.state;
+		const { categories, defaultCategory } = this.props;
     const filteredCategories = categories.filter(
       category => category.name !== ""
     );
@@ -70,13 +96,32 @@ class Categories extends Component {
     return (
       <CategoriesStyles>
         <h2>Categories</h2>
-        <ul>
+        <h3>Default Category:</h3>
+        <form>
           {filteredCategories.map(category => (
-            <li>
-              {category.name} - {category.short} - {category.color}
-            </li>
+            <div key={category._id}>
+              <label>
+                <input
+                  type="radio"
+                  value={category._id}
+                  checked={defaultCategory === category._id}
+                  onChange={() => this.handleDefaultCategoryChange(category._id)}
+                />
+                {category.name} - {category.short} - {category.color}{" "}
+                <FiX onClick={() => this.handleDelete(category._id)} />
+              </label>
+            </div>
           ))}
-        </ul>
+          <label key="none">
+            <input
+              type="radio"
+              value="none"
+              checked={defaultCategory === "none"}
+							onChange={() => this.handleDefaultCategoryChange("none")}
+            />
+            none
+          </label>
+        </form>
         <h3>Add a new Category:</h3>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="categoryName">Name:</label>
@@ -114,7 +159,8 @@ const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
   return {
     boardTitle: state.boardsById[boardId].title,
-    categories: state.boardsById[boardId].settings.categories
+    categories: state.boardsById[boardId].settings.categories,
+		defaultCategory: state.boardsById[boardId].settings.defaultCategory
   };
 };
 

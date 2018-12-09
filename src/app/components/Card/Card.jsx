@@ -121,7 +121,7 @@ class Card extends Component {
     if (card.category !== category) {
       if (category.color === "white") {
         dispatch({
-          type: "DELETE_CATEGORY",
+					type: "DELETE_CARD_CATEGORY",
           payload: { cardId: card._id }
         });
       } else {

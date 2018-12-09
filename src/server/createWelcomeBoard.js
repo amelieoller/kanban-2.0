@@ -129,6 +129,7 @@ Since you are not signed in, your changes will not persist after you leave the w
         habits: 0
       },
       categories: [{ name: "", short: "", color: "white", _id: categoryId }],
+      defaultCategory: "none",
       color: "grey",
       completedListId,
       habitsListId

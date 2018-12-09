@@ -1,7 +1,7 @@
 const cardsById = (state = {}, action) => {
   switch (action.type) {
     case "ADD_CARD": {
-      const { cardText, cardId, createdAt } = action.payload;
+			const { cardText, cardId, createdAt, categoryId } = action.payload;
       return {
         ...state,
         [cardId]: {
@@ -9,8 +9,8 @@ const cardsById = (state = {}, action) => {
           _id: cardId,
           difficulty: 1,
           minutes: 5,
-          createdAt,
-					category: { name: "Flatiron", short: "//", color: "#32cefe", _id: "Og4XCuJT6" }
+					createdAt,
+					categoryId
         }
       };
     }
@@ -34,7 +34,7 @@ const cardsById = (state = {}, action) => {
       const { minutes, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], minutes } };
     }
-    case "DELETE_CATEGORY": {
+    case "DELETE_CARD_CATEGORY": {
       const { cardId } = action.payload;
       const {
         [cardId]: { categoryId, ...rest1 },

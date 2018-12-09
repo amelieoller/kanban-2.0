@@ -86,7 +86,7 @@ class CategoryModal extends Component {
     if (card.categoryId !== category._id) {
       if (category.color === "white") {
         dispatch({
-          type: "DELETE_CATEGORY",
+					type: "DELETE_CARD_CATEGORY",
           payload: { cardId: card._id }
         });
       } else {
