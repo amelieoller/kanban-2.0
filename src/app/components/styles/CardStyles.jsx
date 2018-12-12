@@ -44,7 +44,6 @@ const CardStyles = styled.div`
   .checkmark {
     color: ${props => props.theme.lightGrey};
     padding: 9px 8px 9px 4px;
-    z-index: 2;
   }
 
   .card-title:hover {
