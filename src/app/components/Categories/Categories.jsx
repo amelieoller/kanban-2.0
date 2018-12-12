@@ -6,7 +6,15 @@ import { connect } from "react-redux";
 import shortid from "shortid";
 import { FiX } from "react-icons/fi";
 
-const CategoriesStyles = styled.div``;
+const CategoriesStyles = styled.div`
+  .edit-category-form {
+    .edit-category {
+      background: transparent;
+      border: none;
+      font-size: 16px;
+    }
+  }
+`;
 
 class Categories extends Component {
   static propTypes = {
@@ -52,9 +60,34 @@ class Categories extends Component {
     });
   };
 
-  handleChange = e => {
+  handleNewCategoryChange = e => {
     this.setState({
       [e.target.name]: e.target.value
+    });
+  };
+
+  handleEditCategoryChange = (e, id, type) => {
+    this.setState({
+      [`${id}-${type}`]: e.target.value
+    });
+  };
+
+  handleEditCategorySubmit = (e, categoryId, oldName, oldShort, oldColor) => {
+    e.preventDefault();
+    const { match, dispatch } = this.props;
+    const { boardId } = match.params;
+    const name = this.state[`${categoryId}-name`] || oldName;
+    const short = this.state[`${categoryId}-short`] || oldShort;
+    const color = this.state[`${categoryId}-color`] || oldColor;
+    dispatch({
+      type: "CHANGE_CATEGORY",
+      payload: {
+        boardId,
+        categoryId,
+        name,
+        short,
+        color
+      }
     });
   };
 
@@ -83,12 +116,8 @@ class Categories extends Component {
   };
 
   render = () => {
-    const {
-      categoryName,
-      categoryShort,
-      categoryColor
-    } = this.state;
-		const { categories, defaultCategory } = this.props;
+    const { categoryName, categoryShort, categoryColor } = this.state;
+    const { categories, defaultCategory } = this.props;
     const filteredCategories = categories.filter(
       category => category.name !== ""
     );
@@ -96,32 +125,77 @@ class Categories extends Component {
     return (
       <CategoriesStyles>
         <h2>Categories</h2>
-        <h3>Default Category:</h3>
+        <h3>Set Default Category:</h3>
         <form>
           {filteredCategories.map(category => (
-            <div key={category._id}>
-              <label>
-                <input
-                  type="radio"
-                  value={category._id}
-                  checked={defaultCategory === category._id}
-                  onChange={() => this.handleDefaultCategoryChange(category._id)}
-                />
-                {category.name} - {category.short} - {category.color}{" "}
-                <FiX onClick={() => this.handleDelete(category._id)} />
-              </label>
-            </div>
+            <label key={category._id}>
+              <input
+                type="radio"
+                value={category._id}
+                checked={defaultCategory === category._id}
+                onChange={() => this.handleDefaultCategoryChange(category._id)}
+              />
+              {category.name}
+            </label>
           ))}
           <label key="none">
             <input
               type="radio"
               value="none"
               checked={defaultCategory === "none"}
-							onChange={() => this.handleDefaultCategoryChange("none")}
-            />
+              onChange={() => this.handleDefaultCategoryChange("none")}
+            />{" "}
             none
           </label>
         </form>
+				<h3>Edit Categories:</h3>
+        {filteredCategories.map(category => (
+          <form
+            action=""
+            className="edit-category-form"
+            onSubmit={e =>
+              this.handleEditCategorySubmit(
+                e,
+                category._id,
+                category.name,
+                category.short,
+                category.color
+              )
+            }
+            key={category._id}
+          >
+            <input
+              className="edit-category"
+              type="text"
+              value={this.state[`${category._id}-name`] || category.name}
+              name="name"
+              onChange={e =>
+                this.handleEditCategoryChange(e, category._id, "name")
+              }
+            />
+            <input
+              className="edit-category"
+              type="text"
+              value={this.state[`${category._id}-short`] || category.short}
+              name="short"
+              onChange={e =>
+                this.handleEditCategoryChange(e, category._id, "short")
+              }
+            />
+            <input
+              className="edit-category"
+              type="text"
+              value={this.state[`${category._id}-color`] || category.color}
+              name="color"
+              onChange={e =>
+                this.handleEditCategoryChange(e, category._id, "color")
+              }
+            />
+						<FiX onClick={() => this.handleDelete(category._id)} />
+            <input type="submit" />
+          </form>
+        ))}
+
         <h3>Add a new Category:</h3>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="categoryName">Name:</label>
@@ -129,7 +203,7 @@ class Categories extends Component {
             type="text"
             name="categoryName"
             value={categoryName}
-            onChange={this.handleChange}
+            onChange={this.handleNewCategoryChange}
             id="categoryName"
           />
           <label htmlFor="categoryShort">Short:</label>
@@ -137,7 +211,7 @@ class Categories extends Component {
             type="text"
             name="categoryShort"
             value={categoryShort}
-            onChange={this.handleChange}
+            onChange={this.handleNewCategoryChange}
             id="categoryShort"
           />
           <label htmlFor="categoryColor">Color:</label>
@@ -145,7 +219,7 @@ class Categories extends Component {
             type="text"
             name="categoryColor"
             value={categoryColor}
-            onChange={this.handleChange}
+            onChange={this.handleNewCategoryChange}
             id="categoryColor"
           />
           <input type="submit" value="Add Category" />
@@ -160,7 +234,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     boardTitle: state.boardsById[boardId].title,
     categories: state.boardsById[boardId].settings.categories,
-		defaultCategory: state.boardsById[boardId].settings.defaultCategory
+    defaultCategory: state.boardsById[boardId].settings.defaultCategory
   };
 };
 

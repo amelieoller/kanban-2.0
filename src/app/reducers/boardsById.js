@@ -242,6 +242,23 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
+    case "CHANGE_CATEGORY": {
+			const { boardId, categoryId, name, short, color } = action.payload;
+			// debugger
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            categories: state[boardId].settings.categories.map(
+              cat =>
+								cat._id == categoryId ? { ...cat, name, short, color } : cat
+            )
+          }
+        }
+      };
+    }
     case "CHANGE_EVENT_CALENDAR_ID": {
       const { boardId, eventCalendarId } = action.payload;
       return {
