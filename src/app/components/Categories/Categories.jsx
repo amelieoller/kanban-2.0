@@ -5,13 +5,44 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import shortid from "shortid";
 import { FiX } from "react-icons/fi";
+import ColorPicker from "./ColorPicker";
 
 const CategoriesStyles = styled.div`
   .edit-category-form {
+    display: flex;
+    align-items: center;
     .edit-category {
       background: transparent;
       border: none;
       font-size: 16px;
+    }
+    .short {
+      width: 40px;
+    }
+    .delete-button {
+      margin: 0 8px;
+    }
+  }
+
+  .new-category-form {
+    display: flex;
+    align-items: center;
+
+    label {
+      display: inline-block;
+    }
+
+    .new-input {
+      display: block;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      line-height: 1;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
   }
 `;
@@ -72,6 +103,12 @@ class Categories extends Component {
     });
   };
 
+  handleEditCategoryColorChange = (color, id) => {
+    this.setState({
+      [`${id}-color`]: color
+    });
+  };
+
   handleEditCategorySubmit = (e, categoryId, oldName, oldShort, oldColor) => {
     e.preventDefault();
     const { match, dispatch } = this.props;
@@ -116,7 +153,7 @@ class Categories extends Component {
   };
 
   render = () => {
-    const { categoryName, categoryShort, categoryColor } = this.state;
+    const { categoryName, categoryShort } = this.state;
     const { categories, defaultCategory } = this.props;
     const filteredCategories = categories.filter(
       category => category.name !== ""
@@ -148,7 +185,7 @@ class Categories extends Component {
             none
           </label>
         </form>
-				<h3>Edit Categories:</h3>
+        <h3>Edit Categories:</h3>
         {filteredCategories.map(category => (
           <form
             action=""
@@ -174,7 +211,7 @@ class Categories extends Component {
               }
             />
             <input
-              className="edit-category"
+              className="edit-category short"
               type="text"
               value={this.state[`${category._id}-short`] || category.short}
               name="short"
@@ -182,24 +219,28 @@ class Categories extends Component {
                 this.handleEditCategoryChange(e, category._id, "short")
               }
             />
-            <input
-              className="edit-category"
-              type="text"
-              value={this.state[`${category._id}-color`] || category.color}
-              name="color"
-              onChange={e =>
-                this.handleEditCategoryChange(e, category._id, "color")
+            <ColorPicker
+              handleColorChange={categoryColor =>
+                this.handleEditCategoryColorChange(categoryColor, category._id)
+              }
+              previousColor={
+                this.state[`${category._id}-color`] || category.color
               }
             />
-						<FiX onClick={() => this.handleDelete(category._id)} />
+
+            <FiX
+              className="delete-button"
+              onClick={() => this.handleDelete(category._id)}
+            />
             <input type="submit" />
           </form>
         ))}
 
         <h3>Add a new Category:</h3>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="new-category-form">
           <label htmlFor="categoryName">Name:</label>
           <input
+            className="new-input"
             type="text"
             name="categoryName"
             value={categoryName}
@@ -208,19 +249,17 @@ class Categories extends Component {
           />
           <label htmlFor="categoryShort">Short:</label>
           <input
+            className="new-input"
             type="text"
             name="categoryShort"
             value={categoryShort}
             onChange={this.handleNewCategoryChange}
             id="categoryShort"
           />
-          <label htmlFor="categoryColor">Color:</label>
-          <input
-            type="text"
-            name="categoryColor"
-            value={categoryColor}
-            onChange={this.handleNewCategoryChange}
-            id="categoryColor"
+          <ColorPicker
+            handleColorChange={categoryColor =>
+              this.setState({ categoryColor })
+            }
           />
           <input type="submit" value="Add Category" />
         </form>
