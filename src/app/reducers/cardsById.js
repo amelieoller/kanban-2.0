@@ -1,7 +1,7 @@
 const cardsById = (state = {}, action) => {
   switch (action.type) {
     case "ADD_CARD": {
-			const { cardText, cardId, createdAt, categoryId } = action.payload;
+      const { cardText, cardId, createdAt, categoryId } = action.payload;
       return {
         ...state,
         [cardId]: {
@@ -9,8 +9,8 @@ const cardsById = (state = {}, action) => {
           _id: cardId,
           difficulty: 1,
           minutes: 5,
-					createdAt,
-					categoryId
+          createdAt,
+          categoryId
         }
       };
     }
@@ -23,7 +23,7 @@ const cardsById = (state = {}, action) => {
       return { ...state, [cardId]: { ...state[cardId], date } };
     }
     case "CHANGE_CARD_CATEGORY": {
-			const { categoryId, cardId } = action.payload;
+      const { categoryId, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], categoryId } };
     }
     case "CHANGE_CARD_DIFFICULTY": {
@@ -33,6 +33,11 @@ const cardsById = (state = {}, action) => {
     case "CHANGE_CARD_MINUTES": {
       const { minutes, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], minutes } };
+    }
+    case "CHANGE_CARD_STAR": {
+      const { cardId } = action.payload;
+			const starred = !state[cardId].starred;
+      return { ...state, [cardId]: { ...state[cardId], starred } };
     }
     case "DELETE_CARD_CATEGORY": {
       const { cardId } = action.payload;

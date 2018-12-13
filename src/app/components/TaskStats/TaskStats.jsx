@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { FiX } from "react-icons/fi";
+import { FiX, FiStar, FiRepeat } from "react-icons/fi";
 import differenceInCalendarDays from "date-fns/difference_in_calendar_days";
 import classnames from "classnames";
 import styled from "styled-components";
@@ -18,6 +18,12 @@ const TaskStatsStyled = styled.div`
     align-items: center;
     justify-content: space-between;
 
+    &:hover {
+      .completed-task-text {
+        white-space: normal;
+      }
+    }
+
     .completed-task-text {
       font-size: 15px;
       width: 100%;
@@ -25,11 +31,27 @@ const TaskStatsStyled = styled.div`
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      &:hover {
+        white-space: normal;
+      }
     }
 
-    .delete {
-      min-width: 16px;
+    .card-icon {
       cursor: pointer;
+      min-width: 16px;
+      stroke: ${props => props.theme.grey};
+      &:hover {
+        stroke: ${props => props.theme.darkGrey};
+      }
+    }
+
+    .card-icon-starred {
+      fill: #ffcb34;
+      stroke: #ffcb34;
+      &:hover {
+        fill: #ffb934;
+        stroke: #ffb934;
+      }
     }
   }
 
@@ -56,6 +78,14 @@ class TaskStats extends Component {
     ),
     completedListId: PropTypes.string.isRequired
   };
+
+  constructor() {
+    super();
+
+    this.state = {
+      hoverTask: ""
+    };
+  }
 
   deleteCard = cardId => {
     const { dispatch, completedListId } = this.props;
@@ -93,6 +123,15 @@ class TaskStats extends Component {
     return results;
   };
 
+  handleStarClick = cardId => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: "CHANGE_CARD_STAR",
+      payload: { cardId }
+    });
+  };
+
   renderCompletedDateSection = (cards, dateOffset, text) => {
     const filteredCards = cards.filter(
       c => differenceInCalendarDays(c.completedAt, new Date()) === dateOffset
@@ -113,11 +152,25 @@ class TaskStats extends Component {
                   card.category ? card.category.color : "light-grey"
                 }`
               }}
+              onMouseEnter={() => this.setState({ hoverTask: card._id })}
+              onMouseLeave={() => this.setState({ hoverTask: "" })}
             >
               <span className="completed-task-text">{card.text}</span>
-              <FiX
-                className="delete"
-                onClick={() => this.deleteCard(card._id)}
+
+              {this.state.hoverTask === card._id && (
+                <>
+                  <FiRepeat className="card-icon" />
+                  <FiX
+                    className="card-icon"
+                    onClick={() => this.deleteCard(card._id)}
+                  />
+                </>
+              )}
+              <FiStar
+                className={
+                  card.starred ? "card-icon card-icon-starred" : "card-icon"
+                }
+                onClick={() => this.handleStarClick(card._id)}
               />
             </li>
           ))}
