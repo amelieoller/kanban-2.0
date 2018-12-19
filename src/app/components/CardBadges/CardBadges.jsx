@@ -16,11 +16,11 @@ const CardBadgesStyles = styled.div`
   }
 
   .badge-minutes {
-    background-color: ${props => props.theme.grey};
+    background-color: ${props => props.theme.monotoneAccent};
 
     input {
       background: transparent;
-      color: ${props => props.theme.white};
+      color: ${props => props.theme.backgroundAccent};
       width: 17px;
       border: none;
       text-align: center;

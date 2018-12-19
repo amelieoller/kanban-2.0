@@ -13,7 +13,7 @@ const ListAdderButton = styled.button`
   padding: 10px;
   border: none;
   border-radius: ${props => props.theme.borderRadius};
-  color: ${props => props.theme.white};
+  color: ${props => props.theme.backgroundAccent};
   background: rgba(0, 0, 0, 0.15);
   font-size: 14px;
   transition: background 0.2s;
@@ -46,7 +46,7 @@ const ListAdderTextArea = styled.div`
     padding: 6px 10px;
     border: 0;
     border-radius: 3px;
-    color: ${props => props.theme.darkGrey};
+    color: ${props => props.theme.text};
     font-family: inherit;
     font-size: 18px;
     font-weight: 700;

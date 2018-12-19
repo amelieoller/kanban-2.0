@@ -6,33 +6,33 @@ const CardStyles = styled.div`
     box-sizing: border-box;
     margin: 5px 4px 0 4px;
     border-radius: 3px;
-    color: ${props => props.theme.darkGrey};
-    background: ${props => props.theme.white};
+    color: ${props => props.theme.text};
+    background: ${props => props.theme.backgroundAccent};
     box-shadow: ${props => props.theme.bs};
-    border: 1px solid ${props => props.theme.lightGrey};
+    border: 1px solid ${props => props.theme.mainBackground};
     font-size: 15px;
     overflow-wrap: break-word;
     transition: box-shadow 0.15s;
     user-select: none;
     cursor: pointer !important;
-    border-right: 3px solid ${props => props.theme.lightGrey};
+    border-right: 3px solid ${props => props.theme.mainBackground};
     border-left: 3px solid transparent;
   }
 
   .within-pomodoro.card-title {
-    border-left: 3px solid ${props => props.theme.green};
+    border-left: 3px solid ${props => props.theme.success};
   }
 
   .difficulty-1.card-title {
-    border-right-color: ${props => props.theme.lightGrey};
+    border-right-color: ${props => props.theme.mainBackground};
   }
 
   .difficulty-2.card-title {
-    border-right-color: ${props => props.theme.blue};
+    border-right-color: ${props => props.theme.mediumDifficulty};
   }
 
   .difficulty-3.card-title {
-    border-right-color: ${props => props.theme.red};
+    border-right-color: ${props => props.theme.mainAccent};
   }
 
   .card-title-top {
@@ -42,16 +42,16 @@ const CardStyles = styled.div`
   }
 
   .checkmark {
-    color: ${props => props.theme.lightGrey};
+    color: ${props => props.theme.mainBackground};
     padding: 9px 8px 9px 4px;
   }
 
   .card-title:hover {
-    background-color: ${props => props.theme.lighterGrey};
+    background-color: ${props => props.theme.cardHover};
   }
 
   .checkmark:hover {
-    color: ${props => props.theme.green};
+    color: ${props => props.theme.success};
   }
 
   .card-title:focus {

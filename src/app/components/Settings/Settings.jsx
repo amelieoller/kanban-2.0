@@ -7,13 +7,13 @@ import slugify from "slugify";
 import Categories from "../Categories/Categories";
 
 const SettingsStyles = styled.div`
-  background-color: ${props => props.theme.lightGrey};
+  background-color: ${props => props.theme.mainBackground};
   width: 100%;
   padding: 40px;
   button {
     padding: 5px 10px;
-    color: ${props => props.theme.white};
-    background: ${props => props.theme.grey};
+    color: ${props => props.theme.backgroundAccent};
+    background: ${props => props.theme.monotoneAccent};
     cursor: pointer;
     border-radius: ${props => props.theme.borderRadius};
   }

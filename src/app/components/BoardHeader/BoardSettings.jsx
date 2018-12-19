@@ -8,7 +8,7 @@ import styled from "styled-components";
 import slugify from "slugify";
 
 const BoardSettingsStyles = styled.button`
-  color: ${props => props.theme.white};
+  color: ${props => props.theme.backgroundAccent};
   background: transparent;
   cursor: pointer;
   padding: 8px 10px 8px 10px;

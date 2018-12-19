@@ -93,7 +93,7 @@ const LandingPageStyles = styled.div`
 
   .google-button {
     background: white;
-    color: ${props => props.theme.darkGrey};
+    color: ${props => props.theme.text};
   }
 
   .google-button:hover,
@@ -115,7 +115,7 @@ const LandingPageStyles = styled.div`
 
   .guest-button {
     background: white;
-    color: ${props => props.theme.darkGrey};
+    color: ${props => props.theme.text};
   }
 
   .guest-button:hover,

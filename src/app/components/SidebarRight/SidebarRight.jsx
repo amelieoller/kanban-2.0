@@ -10,12 +10,12 @@ const SidebarRightStyles = styled.div`
 
     .recurring-tasks-title {
       font-size: 14px;
-      color: ${props => props.theme.darkGrey};
+      color: ${props => props.theme.text};
     }
 
     .recurring-time {
       font-size: 12px;
-      color: ${props => props.theme.grey};
+      color: ${props => props.theme.monotoneAccent};
     }
   }
 `;

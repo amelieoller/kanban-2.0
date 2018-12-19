@@ -18,18 +18,7 @@ const HeaderStyles = styled.header`
   z-index: 2;
   transition: background 0.3s;
   box-shadow: ${props => props.theme.bs};
-
-  .light {
-    background: ${props => props.theme.darkGrey};
-  }
-
-  .dark {
-    background: ${props => props.theme.black};
-  }
-
-  .blue {
-    background: ${props => props.theme.transparentBlue};
-  }
+  background: ${props => props.theme.headerBackground};
 
   .header-title {
     display: inline-flex;
@@ -67,10 +56,7 @@ const HeaderStyles = styled.header`
   .signout-link {
     padding: 3px 5px 1px 5px;
     margin-left: 12px;
-    /* border: 1px solid ${props => props.theme.transparentBlack}; */
-    /* border-radius: 3px; */
     color: white;
-    /* background: ${props => props.theme.transparentBlack}; */
     text-decoration: none;
   }
 

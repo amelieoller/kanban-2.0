@@ -15,9 +15,9 @@ const HabitStyles = styled.li`
   position: relative;
   box-sizing: border-box;
   border-radius: 3px;
-  color: ${props => props.theme.darkGrey};
-  background: ${props => props.theme.white};
-  border: 1px solid ${props => props.theme.lightGrey};
+  color: ${props => props.theme.text};
+  background: ${props => props.theme.backgroundAccent};
+  border: 1px solid ${props => props.theme.mainBackground};
   font-size: 15px;
   width: 100%;
   margin: 3px 0;
@@ -34,23 +34,23 @@ const HabitStyles = styled.li`
     height: auto;
     padding: 0;
     margin: 0;
-    color: ${props => props.theme.lightGrey};
+    color: ${props => props.theme.mainBackground};
   }
 
   .habit-check {
     cursor: pointer;
     padding-right: 5px;
-    color: ${props => props.theme.grey};
+    color: ${props => props.theme.monotoneAccent};
     font-size: 20px;
 
     &:hover {
-      color: ${props => props.theme.green};
+      color: ${props => props.theme.success};
     }
   }
 
   .habit-delete {
     cursor: pointer;
-    color: ${props => props.theme.grey};
+    color: ${props => props.theme.monotoneAccent};
   }
 
   .habits-card-title {
@@ -71,7 +71,7 @@ const HabitStyles = styled.li`
       font-size: 10px;
       position: relative;
       top: -5px;
-      color: ${props => props.theme.red};
+      color: ${props => props.theme.mainAccent};
       font-weight: 700;
     }
   }

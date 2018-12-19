@@ -8,8 +8,8 @@ import styled from "styled-components";
 const TaskStatsStyled = styled.div`
   .completed-task-wrapper {
     border-radius: 3px;
-    color: ${props => props.theme.darkGrey};
-    border: 1px solid ${props => props.theme.lightGrey};
+    color: ${props => props.theme.text};
+    border: 1px solid ${props => props.theme.mainBackground};
     width: 100%;
     margin: 3px 0;
     padding: 3px;
@@ -39,9 +39,9 @@ const TaskStatsStyled = styled.div`
     .card-icon {
       cursor: pointer;
       min-width: 16px;
-      stroke: ${props => props.theme.grey};
+      stroke: ${props => props.theme.monotoneAccent};
       &:hover {
-        stroke: ${props => props.theme.darkGrey};
+        stroke: ${props => props.theme.text};
       }
     }
 

@@ -73,32 +73,22 @@ const HomeStyles = styled.div`
     color: white;
     overflow-wrap: break-word;
     text-decoration: none;
+    background: ${props => props.theme.mainBackground};
 
-    &.light {
-      background: ${props => props.theme.lightGrey};
-    }
-
-    &.dark {
-      background: ${props => props.theme.darkGrey};
-    }
-
-    &.blue {
-      background: ${props => props.theme.blue};
-    }
   }
 
   .board-link:hover,
   .board-link:focus {
     &.light {
-      background: ${props => props.theme.lightGrey};
+      background: ${props => props.theme.mainBackground};
     }
 
     &.dark {
-      background: ${props => props.theme.darkGrey};
+      background: ${props => props.theme.text};
     }
 
     &.blue {
-      background: ${props => props.theme.darkBlue};
+      background: ${props => props.theme.neutralHover};
     }
   }
 
@@ -161,7 +151,7 @@ const HomeStyles = styled.div`
     margin: 8px 0 0 0;
     border: none;
     border-radius: 3px;
-    background: ${props => props.theme.green};
+    background: ${props => props.theme.success};
     color: white;
     font-size: 14px;
     font-weight: 700;
@@ -171,7 +161,7 @@ const HomeStyles = styled.div`
 
   .submit-board-button:focus,
   .submit-board-button:hover {
-    background: ${props => props.theme.darkGreen};
+    background: ${props => props.theme.successHover};
   }
 
   .submit-board-input {
