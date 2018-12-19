@@ -2,7 +2,45 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import "./BoardTitle.scss";
+import styled from "styled-components";
+
+const BoardTitleInput = styled.input`
+  width: 100%;
+  padding: 6px 10px 6px 10px;
+  border: 0;
+  color: inherit;
+  background: inherit;
+  font-size: 18px;
+  font-weight: 300;
+  font-family: inherit;
+`;
+
+const BoardTitleButton = styled.button`
+  display: flex;
+  min-width: 0;
+  padding: 6px 10px 6px 10px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  transition: background 0.1s;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background: $transparent-black;
+  }
+
+  .board-title-text {
+    margin: 0;
+    color: ${props => props.theme.negativeText};
+    font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    white-space: nowrap;
+    font-weight: 300;
+  }
+`;
 
 class BoardTitle extends Component {
   static propTypes = {
@@ -64,7 +102,7 @@ class BoardTitle extends Component {
     const { isOpen, newTitle } = this.state;
     const { boardTitle } = this.props;
     return isOpen ? (
-      <input
+      <BoardTitleInput
         autoFocus
         value={newTitle}
         type="text"
@@ -72,17 +110,12 @@ class BoardTitle extends Component {
         onChange={this.handleChange}
         onBlur={this.revertTitle}
         onFocus={this.handleFocus}
-        className="board-title-input"
         spellCheck={false}
       />
     ) : (
-      <button
-        type="submit"
-        className="board-title-button"
-        onClick={this.handleClick}
-      >
+      <BoardTitleButton type="submit" onClick={this.handleClick}>
         <h1 className="board-title-text">{boardTitle}</h1>
-      </button>
+      </BoardTitleButton>
     );
   }
 }
