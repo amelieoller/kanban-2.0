@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import DayPicker from "react-day-picker";
-import "./ReactDayPicker.css";
+import styled from "styled-components";
+import DayPickerStyles from "../styles/DayPickerStyles";
 
 class Calendar extends Component {
   static propTypes = {
@@ -45,7 +46,7 @@ class Calendar extends Component {
     const { selectedDay } = this.state;
     const { toggleCalendar } = this.props;
     return (
-      <div className="calendar">
+      <DayPickerStyles>
         <DayPicker
           onDayClick={this.handleDayClick}
           selectedDays={selectedDay}
@@ -63,7 +64,7 @@ class Calendar extends Component {
             Cancel
           </button>
         </div>
-      </div>
+      </DayPickerStyles>
     );
   }
 }
