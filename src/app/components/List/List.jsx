@@ -3,10 +3,63 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
+import styled from "styled-components";
 import ListHeader from "./ListHeader";
 import Cards from "./Cards";
 import CardAdder from "../CardAdder/CardAdder";
-import "./List.scss";
+
+const ListStyles = styled.span`
+  .list-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    height: 100%;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  .list {
+    display: inline-flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: ${props => props.theme.listWidth};
+    min-height: 0px;
+    max-height: 100%;
+    margin: 0 5px 0 5px;
+    border-radius: ${props => props.theme.borderRadius};
+    font-size: 14px;
+    transition: box-shadow 0.15s, background 0.3s;
+    /* box-shadow: ${props => props.theme.bs}; */
+    /* background: ${props => props.theme.mainBackground}; */
+  }
+
+  .list--drag {
+    box-shadow: ${props => props.theme.bsDragging} !important;
+  }
+
+  .cards-wrapper {
+    height: 100%;
+    margin: 0 3px 6px 3px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .cards-wrapper::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 2px;
+    background-color: ${props => props.theme.transparentBlack};
+  }
+
+  .cards-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: ${props => props.theme.transparentWhite};
+  }
+
+  .cards {
+    min-height: 1px;
+    margin-bottom: 3px;
+  }
+`;
 
 class List extends Component {
   static propTypes = {
@@ -47,44 +100,49 @@ class List extends Component {
   render = () => {
     const { list, boardId, index, categories, defaultCategory } = this.props;
     return (
-      <Draggable
-        draggableId={list._id}
-        index={index}
-        disableInteractiveElementBlocking
-      >
-        {(provided, snapshot) => (
-          <>
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              className="list-wrapper"
-            >
+      <ListStyles>
+        <Draggable
+          draggableId={list._id}
+          index={index}
+          disableInteractiveElementBlocking
+        >
+          {(provided, snapshot) => (
+            <>
               <div
-                className={classnames("list", {
-                  "list--drag": snapshot.isDragging
-                })}
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                className="list-wrapper"
               >
-                <ListHeader
-                  dragHandleProps={provided.dragHandleProps}
-                  listTitle={list.title}
-                  listId={list._id}
-                  cards={list.cards}
-                  boardId={boardId}
-                />
-                <div className="cards-wrapper">
-                  <Cards
+                <div
+                  className={classnames("list", {
+                    "list--drag": snapshot.isDragging
+                  })}
+                >
+                  <ListHeader
+                    dragHandleProps={provided.dragHandleProps}
+                    listTitle={list.title}
                     listId={list._id}
-                    withinPomodoroCards={this.withinPomodoroTime()}
-                    categories={categories}
+                    cards={list.cards}
+                    boardId={boardId}
                   />
+                  <div className="cards-wrapper">
+                    <Cards
+                      listId={list._id}
+                      withinPomodoroCards={this.withinPomodoroTime()}
+                      categories={categories}
+                    />
+                  </div>
                 </div>
+                <CardAdder
+                  listId={list._id}
+                  defaultCategory={defaultCategory}
+                />
               </div>
-              <CardAdder listId={list._id} defaultCategory={defaultCategory} />
-            </div>
-            {provided.placeholder}
-          </>
-        )}
-      </Draggable>
+              {provided.placeholder}
+            </>
+          )}
+        </Draggable>
+      </ListStyles>
     );
   };
 }

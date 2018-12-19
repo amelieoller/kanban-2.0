@@ -12,7 +12,7 @@ class Header extends Component {
   static propTypes = { user: PropTypes.object };
 
   render = () => {
-    const { user, homePage } = this.props;
+		const { user, homePage, changeTheme, setBoardColor } = this.props;
 
     return (
       <HeaderStyles>
@@ -21,7 +21,12 @@ class Header extends Component {
           &nbsp;Kanban 2.0
         </Link>
         <div className="header-right-side">
-          {!homePage && <BoardHeader />}
+          {!homePage && (
+            <BoardHeader
+              changeTheme={changeTheme}
+              setBoardColor={setBoardColor}
+            />
+          )}
           {user ? (
             <img
               src={user.imageUrl}
