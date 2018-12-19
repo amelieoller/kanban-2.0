@@ -16,6 +16,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@babel/runtime": "^7.1.2",
+		"chartist": "^0.11.0",
 		"classnames": "^2.2.6",
 		"compression": "^1.7.3",
 		"connect-mongo": "^2.0.1",
@@ -41,6 +42,7 @@
 		"react": "^16.2.0",
 		"react-aria-menubutton": "^5.1.1",
 		"react-beautiful-dnd": "github:yogaboll/react-beautiful-dnd#include-generated",
+		"react-chartist": "^0.13.1",
 		"react-color": "^2.14.1",
 		"react-day-picker": "^7.1.9",
 		"react-dom": "^16.2.0",
