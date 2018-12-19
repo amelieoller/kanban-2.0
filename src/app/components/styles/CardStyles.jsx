@@ -19,10 +19,6 @@ const CardStyles = styled.div`
     border-left: 3px solid transparent;
   }
 
-  .within-pomodoro.card-title {
-    border-left: 3px solid ${props => props.theme.success};
-  }
-
   .difficulty-1.card-title {
     border-right-color: ${props => props.theme.mainBackground};
   }

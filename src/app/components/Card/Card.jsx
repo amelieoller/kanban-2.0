@@ -121,7 +121,7 @@ class Card extends Component {
     if (card.category !== category) {
       if (category.color === "white") {
         dispatch({
-					type: "DELETE_CARD_CATEGORY",
+          type: "DELETE_CARD_CATEGORY",
           payload: { cardId: card._id }
         });
       } else {
@@ -140,7 +140,6 @@ class Card extends Component {
       index,
       listId,
       isDraggingOver,
-      withinPomodoroCard,
       dispatch,
       categories
     } = this.props;
@@ -160,8 +159,7 @@ class Card extends Component {
                       "card-title",
                       {
                         "card-title--drag": snapshot.isDragging
-                      },
-                      withinPomodoroCard && "within-pomodoro"
+                      }
                     )}
                     ref={ref => {
                       provided.innerRef(ref);
@@ -200,7 +198,9 @@ class Card extends Component {
                         date={card.date}
                         checkboxes={checkboxes}
                         minutes={card.minutes}
-                        category={categories.find(cat => cat._id === card.categoryId)}
+                        category={categories.find(
+                          cat => cat._id === card.categoryId
+                        )}
                         toggleCategoryModal={this.toggleCategoryModal}
                         dispatch={dispatch}
                         cardId={card._id}
@@ -226,7 +226,7 @@ class Card extends Component {
               card={card}
               listId={listId}
               toggleCardEditor={this.toggleCardEditor}
-							categories={categories}
+              categories={categories}
             />
           </>
         )}

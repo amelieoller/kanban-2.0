@@ -8,7 +8,6 @@ class Cards extends Component {
   static propTypes = {
     listId: PropTypes.string.isRequired,
     cards: PropTypes.arrayOf(PropTypes.string).isRequired,
-    withinPomodoroCards: PropTypes.array,
     categories: PropTypes.array.isRequired
   };
 
@@ -27,7 +26,7 @@ class Cards extends Component {
   };
 
   render() {
-    const { listId, cards, withinPomodoroCards, categories } = this.props;
+    const { listId, cards, categories } = this.props;
 
     return (
       <Droppable droppableId={listId}>
@@ -41,7 +40,6 @@ class Cards extends Component {
                   cardId={cardId}
                   index={index}
                   listId={listId}
-                  withinPomodoroCard={withinPomodoroCards.includes(cardId)}
                   categories={categories}
                 />
               ))}

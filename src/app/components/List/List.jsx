@@ -69,34 +69,6 @@ class List extends Component {
     defaultCategory: PropTypes.string.isRequired
   };
 
-  withinPomodoroTime = () => {
-    const { cards, pomodoro } = this.props;
-
-    let total = 0;
-    const selectedCards = [];
-    let time = 25;
-
-    if (pomodoro.showDayPomo && pomodoro.pomodori) {
-      time *= pomodoro.pomodori;
-    }
-
-    for (let i = 0; i < cards.length; i++) {
-      const card = cards[i];
-      const minutes = parseInt(card.minutes);
-
-      if (minutes && card.minutes > time) {
-        selectedCards.push(cards[0]._id);
-        return selectedCards;
-      }
-      if (minutes && total + minutes <= time) {
-        total += minutes;
-        selectedCards.push(card._id);
-      }
-    }
-
-    return selectedCards;
-  };
-
   render = () => {
     const { list, boardId, index, categories, defaultCategory } = this.props;
     return (
@@ -128,7 +100,6 @@ class List extends Component {
                   <div className="cards-wrapper">
                     <Cards
                       listId={list._id}
-                      withinPomodoroCards={this.withinPomodoroTime()}
                       categories={categories}
                     />
                   </div>
