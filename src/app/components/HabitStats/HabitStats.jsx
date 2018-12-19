@@ -1,28 +1,63 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { XYPlot, XAxis, VerticalBarSeries } from "react-vis";
 import moment from "moment";
 import { FiStar } from "react-icons/fi";
 import styled from "styled-components";
+import ChartistGraph from "react-chartist";
 
-const HabitStatsStyles = styled.div`
+const GraphStyles = styled.div`
+  .ct-series-a .ct-line {
+    stroke: ${props => props.theme.text};
+    stroke-width: 2px;
+    fill: none;
+  }
+
+  .ct-series-a .ct-point {
+    stroke: ${props => props.theme.mainAccent};
+    stroke-width: 8px;
+    stroke-linecap: round;
+  }
+
+  .ct-area {
+    opacity: 0.4;
+    fill: ${props => props.theme.monotoneAccent};
+  }
+
+  .ct-label.ct-horizontal.ct-end {
+    display: flex;
+    position: relative;
+    justify-content: flex-end;
+    text-align: right;
+    transform-origin: 100% 0;
+    transform: translate(-63%) rotate(0deg);
+    white-space: nowrap;
+    font-size: 12px;
+    color: ${props => props.theme.grey};
+    font-family: "Pacifico", cursive;
+    margin-top: 3px;
+  }
+`;
+
+const ProgressBarStyles = styled.div`
   .habit-target {
     display: flex;
     justify-content: space-between;
     margin-top: 5px;
+    align-items: center;
 
     .goal {
-      color: ${props => props.theme.grey};
+      color: ${props => props.theme.monotoneAccent};
       display: flex;
       align-items: center;
 
       input {
         width: 17px;
         border: none;
-        color: ${props => props.theme.grey};
+        color: ${props => props.theme.monotoneAccent};
         outline: none;
         text-align: right;
+        background: transparent;
       }
 
       input[type="number"]::-webkit-inner-spin-button,
@@ -35,46 +70,17 @@ const HabitStatsStyles = styled.div`
     }
 
     .habit-progress-wrapper {
-      background-color: ${props => props.theme.lightGrey};
+      background-color: ${props => props.theme.mainBackground};
       width: 100%;
       float: left;
       margin-right: 15px;
+      height: 13px;
 
       .habit-progress {
-        background-color: ${props => props.theme.green};
+        background-color: ${props => props.theme.success};
         width: 100%;
-        height: 20px;
+        height: 13px;
       }
-    }
-  }
-
-  .number-container {
-    text-align: center;
-    padding: 10px 10px;
-
-    .numberLarge {
-      font-size: 60px;
-    }
-
-    .chart-hover {
-      height: 8px;
-      color: ${props => props.theme.grey};
-      line-height: 10px;
-      text-align: center;
-
-      .number {
-        font-weight: 700;
-        font-size: 24px;
-      }
-    }
-
-    .rv-xy-plot {
-      position: relative;
-      left: -18px;
-    }
-
-    .rv-xy-plot__axis {
-      fill: ${props => props.theme.grey};
     }
   }
 `;
@@ -91,9 +97,7 @@ class HabitStats extends Component {
       this.props.stats.habits[date] && this.props.stats.habits[date].length;
 
     this.state = {
-      number: habits || 0,
-      index: null,
-      datapoint: null
+      number: habits || 0
     };
   }
 
@@ -111,7 +115,14 @@ class HabitStats extends Component {
     }, 1200);
   };
 
-  calculateHabits = num => {
+  calculateLabel = num => {
+    const today = new Date();
+    today.setDate(today.getDate() - num);
+
+		return moment(today).format("ddd");
+  };
+
+  calculateSeries = num => {
     const { stats, cards } = this.props;
     let result = 0;
     const today = new Date();
@@ -125,22 +136,10 @@ class HabitStats extends Component {
         if (cards[cardId]) result += cards[cardId].difficulty;
       });
     } else {
-      const day = new Date(date);
-      return {
-        x: moment(day).format("dd"),
-        y: 0,
-        z: date,
-        a: moment(day).format("dddd")
-      };
+      return 0;
     }
 
-		const day = new Date(date);
-    return {
-      x: moment(day).format("dd"),
-      y: result,
-      z: date,
-      a: moment(day).format("dddd")
-    };
+    return result;
   };
 
   handleSettingsChange = (type, value) => {
@@ -153,76 +152,80 @@ class HabitStats extends Component {
   };
 
   render = () => {
-    const { index, datapoint } = this.state;
     const { habitGoals } = this.props;
 
-    const data = [
-      this.calculateHabits(3),
-      this.calculateHabits(2),
-      this.calculateHabits(1),
-      this.calculateHabits(0)
-    ].map((d, i) => ({
-      ...d,
-      color: i === index ? "#EA725B" : "#C9CFD3"
-    }));
-
-    const myPalette = ["#EA725B", "#C9CFD3"];
-    const calculateWidth = this.calculateHabits(0).y / parseInt(habitGoals);
+    const calculateWidth = this.calculateSeries(0) / parseInt(habitGoals);
     const progressWidth =
       calculateWidth > 1 ? `100%` : `${calculateWidth * 100}%`;
 
-    return (
-      <HabitStatsStyles>
-        <div className="header">
-          Habit Stats ·{" "}
-          <span className="number">{this.calculateHabits(0).y}</span>
-        </div>
-        <hr />
-        <div className="habit-target">
-          <div className="habit-progress-wrapper">
-            <div
-              className="habit-progress"
-              style={{
-                width: progressWidth
-              }}
-            />
-          </div>
-          <span className="goal">
-            <FiStar />
-            <input
-              type="number"
-              onChange={e =>
-                this.handleSettingsChange("habits", e.target.value)
-              }
-              value={habitGoals}
-            />
-          </span>
-        </div>
-        <div className="number-container">
-          <div className="chart-hover">
-            {datapoint && `${datapoint.a}: ${datapoint.y}`}
-          </div>
+    const data = {
+      labels: [
+        this.calculateLabel(4),
+        this.calculateLabel(3),
+        this.calculateLabel(2),
+        this.calculateLabel(1),
+        this.calculateLabel(0)
+      ],
+      series: [
+        [
+          this.calculateSeries(4),
+          this.calculateSeries(3),
+          this.calculateSeries(2),
+          this.calculateSeries(1),
+          this.calculateSeries(0)
+        ]
+      ]
+    };
 
-          <XYPlot
-            xType="ordinal"
-            width={200}
-            height={120}
-            colorDomain={[0, 1]}
-            colorRange={myPalette}
-            colorType="literal"
-            onMouseLeave={() => this.setState({ index: null, datapoint: null })}
-          >
-            <XAxis />
-            <VerticalBarSeries
-              data={data}
-              stroke="white"
-              onNearestX={(datapoint, { index }) =>
-                this.setState({ index, datapoint })
-              }
-            />
-          </XYPlot>
-        </div>
-      </HabitStatsStyles>
+    const options = {
+      low: 0,
+      showArea: true,
+      fullWidth: true,
+      chartPadding: 12,
+      axisX: {
+        showGrid: false
+      },
+      axisY: {
+        offset: 0,
+        showLabel: false,
+        showGrid: true
+      },
+      width: "100%",
+      height: "140px"
+    };
+
+    return (
+      <>
+        <ProgressBarStyles>
+          <div className="header">
+            Habits · <span className="number">{this.calculateSeries(0)}</span>
+          </div>
+          <hr />
+          <div className="habit-target">
+            <div className="habit-progress-wrapper">
+              <div
+                className="habit-progress"
+                style={{
+                  width: progressWidth
+                }}
+              />
+            </div>
+            <span className="goal">
+              <FiStar />
+              <input
+                type="number"
+                onChange={e =>
+                  this.handleSettingsChange("habits", e.target.value)
+                }
+                value={habitGoals}
+              />
+            </span>
+          </div>
+        </ProgressBarStyles>
+        <GraphStyles>
+          <ChartistGraph data={data} options={options} type="Line" />
+        </GraphStyles>
+      </>
     );
   };
 }

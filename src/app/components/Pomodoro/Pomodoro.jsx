@@ -245,7 +245,7 @@ export default class Pomodoro extends React.Component {
     return (
       <PomodoroStyles>
         <div>
-          <span className="header">Pomodoro: </span>
+					<span className="header">Pomodoro · </span>
           <span className="cursive-header">{`${this.formatType(
             this.state.sessionLength
           )} Time!`}</span>

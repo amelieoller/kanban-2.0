@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import CardAdder from "../CardAdder/CardAdder";
 import Habit from "./Habit";
+import HabitStats from "../HabitStats/HabitStats";
 
 const HabitsStyles = styled.div`
   background-color: rgba(201, 207, 211, 0.25);
-  width: 160px;
+  width: 200px;
   padding: 25px 8px 8px 8px;
   margin-top: 40px;
   max-height: 100%;
@@ -20,6 +21,10 @@ const HabitsStyles = styled.div`
     float: left;
     padding-right: 2px;
   }
+
+	ul {
+		margin-top: 0;
+	}
 `;
 
 class Habits extends Component {
@@ -45,8 +50,7 @@ class Habits extends Component {
 
     return (
       <HabitsStyles>
-        <div className="header">Habits</div>
-        <hr />
+        <HabitStats boardId={boardId} />
         <ul>
           {cards &&
             (cards.length !== 0 &&
