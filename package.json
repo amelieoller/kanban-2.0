@@ -1,6 +1,9 @@
 {
 	"name": "react-kanban",
 	"version": "0.1.0",
+	"engines": {
+		"node": "9.7.1"
+	},
 	"description": "An open source kanban application created with React and Redux.",
 	"main": "dist/server.js",
 	"scripts": {
