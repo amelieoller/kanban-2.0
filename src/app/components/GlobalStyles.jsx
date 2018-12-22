@@ -5,7 +5,8 @@ const GlobalStyles = createGlobalStyle`
 		box-sizing: border-box;
 		height: 100%;
 		width: 100%;
-		overflow: hidden;
+		/* If overflow is hidden here it disables mobile vertical scrolling */
+		/* overflow: hidden; */
 
 		&::-webkit-scrollbar {
 			width: 10px;
