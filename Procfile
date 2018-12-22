@@ -1,2 +1,1 @@
-web: yarn serve:prod
-web: yarn build:prod
+web: node dist/server.js
