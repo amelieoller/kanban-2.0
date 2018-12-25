@@ -27,12 +27,12 @@ const BoardTitleButton = styled.button`
 
   &:hover,
   &:focus {
-    background: $transparent-black;
+    background: ${props => props.theme.transparentBlack};
   }
 
   .board-title-text {
     margin: 0;
-    color: ${props => props.theme.negativeText};
+    color: ${props => props.theme.white};
     font-size: 18px;
     overflow: hidden;
     text-overflow: ellipsis;

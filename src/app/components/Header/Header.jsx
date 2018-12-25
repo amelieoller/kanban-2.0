@@ -7,12 +7,13 @@ import { withRouter } from "react-router-dom";
 import kanbanLogo from "../../../assets/images/logo.png";
 import BoardHeader from "../BoardHeader/BoardHeader";
 import HeaderStyles from "../styles/HeaderStyles";
+import HeaderButtonStyles from "../styles/HeaderButtonStyles";
 
 class Header extends Component {
   static propTypes = { user: PropTypes.object };
 
   render = () => {
-		const { user, homePage, changeTheme, setBoardColor } = this.props;
+    const { user, homePage, changeTheme, setBoardColor } = this.props;
 
     return (
       <HeaderStyles>
@@ -38,13 +39,17 @@ class Header extends Component {
             <FiUser className="guest-icon" />
           )}
           {user ? (
-            <a className="signout-link" href="/auth/signout">
-              <FiLogOut className="signout-icon" />
+            <a href="/auth/signout">
+              <HeaderButtonStyles>
+                <FiLogOut />
+              </HeaderButtonStyles>
             </a>
           ) : (
-            <a className="signout-link" href="/">
-              <FiLogIn className="signout-icon" />
-              &nbsp;Sign in
+            <a href="/">
+              <HeaderButtonStyles>
+                <FiLogIn />
+                &nbsp;Sign in
+              </HeaderButtonStyles>
             </a>
           )}
         </div>

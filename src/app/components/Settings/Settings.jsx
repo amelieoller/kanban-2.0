@@ -7,7 +7,8 @@ import slugify from "slugify";
 import Categories from "../Categories/Categories";
 
 const SettingsStyles = styled.div`
-  background-color: ${props => props.theme.mainBackground};
+	background-color: ${props => props.theme.mainBackground};
+	color: ${props => props.theme.text};
   width: 100%;
   padding: 40px;
   button {

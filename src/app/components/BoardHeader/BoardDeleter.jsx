@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { Button, Wrapper, Menu, MenuItem } from "react-aria-menubutton";
 import { FiTrash2 } from "react-icons/fi";
-
-import "./BoardDeleter.scss";
+import ToolTip from "../ToolTip/ToolTip";
+import HeaderButtonStyles from "../styles/HeaderButtonStyles";
 
 class BoardDeleter extends Component {
   static propTypes = {
@@ -24,21 +23,14 @@ class BoardDeleter extends Component {
   };
 
   render = () => (
-    <Wrapper
-      className="board-deleter-wrapper"
-      onSelection={this.handleSelection}
+    <ToolTip
+      message="Are you sure?"
+      button={<button onClick={this.handleSelection}>Delete</button>}
     >
-      <Button className="board-deleter-button">
-        <div className="modal-icon">
-          <FiTrash2 />
-        </div>
-        <div className="board-header-right-text" />
-      </Button>
-      <Menu className="board-deleter-menu">
-        <div className="board-deleter-header">Are you sure?</div>
-        <MenuItem className="board-deleter-confirm">Delete</MenuItem>
-      </Menu>
-    </Wrapper>
+      <HeaderButtonStyles>
+        <FiTrash2 />
+      </HeaderButtonStyles>
+    </ToolTip>
   );
 }
 

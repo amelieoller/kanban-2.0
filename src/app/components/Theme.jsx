@@ -23,13 +23,15 @@ const colors = {
 };
 
 const light = {
+	white: colors.white,
   text: colors.darkGrey,
   success: colors.green,
   successHover: colors.darkGreen,
   neutral: colors.blue,
   neutralHover: colors.darkBlue,
   failure: colors.darkRed,
-  mainAccent: colors.red,
+	mainAccent: colors.red,
+	danger: colors.red,
   monotoneAccent: colors.lightGrey,
   mainBackground: colors.lighterGrey,
   backgroundAccent: colors.white,
@@ -43,6 +45,9 @@ const light = {
   negativeText: colors.white,
   negativeBackground: colors.darkGrey,
 
+	transparentBlack: "rgba(0, 0, 0, 0.2)",
+	transparentWhite: "rgba(255, 255, 255, 0.4)",
+
   listWidth: "300px",
   borderRadius: "3px",
   mainMargin: 40,
@@ -55,13 +60,15 @@ const light = {
 };
 
 const dark = {
+	white: colors.white,
   text: colors.white,
   success: colors.green,
   successHover: colors.darkGreen,
   neutral: colors.blue,
   neutralHover: colors.darkBlue,
   failure: colors.darkRed,
-  mainAccent: colors.red,
+	mainAccent: colors.red,
+	danger: colors.red,
   monotoneAccent: colors.lightGrey,
   mainBackground: colors.darkGrey,
   backgroundAccent: colors.grey,
@@ -69,8 +76,11 @@ const dark = {
   mediumDifficulty: colors.blue,
   highDifficulty: colors.lighterGrey,
   cardHover: colors.lighterGrey,
-  headerBackground: colors.grey,
+	headerBackground: colors.black,
   cardButtonHover: colors.darkGrey,
+	grey: colors.grey,
+	negativeText: colors.darkGrey,
+	negativeBackground: colors.white,
 
   transparentBlack: "rgba(0, 0, 0, 0.2)",
   transparentWhite: "rgba(255, 255, 255, 0.4)",
@@ -87,9 +97,3 @@ const dark = {
 };
 
 export { light, dark };
-
-// mainBackground
-// text
-// accent
-
-// white, black, red, grey

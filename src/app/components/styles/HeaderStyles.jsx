@@ -44,8 +44,9 @@ const HeaderStyles = styled.header`
   }
 
   .user-thumbnail {
-    height: 28px;
-    border-radius: 3px;
+    height: 100%;
+    border-radius: ${props => props.theme.borderRadius};
+    margin: 0 6px;
   }
 
   .guest-icon {

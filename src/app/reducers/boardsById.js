@@ -77,7 +77,7 @@ const boardsById = (state = {}, action) => {
             ],
             defaultCategory: "none",
             eventCalendarId: "",
-            color: "grey",
+            color: "light",
             completedListId,
             habitsListId
           }
