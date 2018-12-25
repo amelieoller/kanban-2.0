@@ -1,15 +1,15 @@
 {
   "main.css": "/static/main.css",
-  "main.js": "/static/bundle.c16adf.js",
-  "main.css.gz": "/static/main.css.gz",
-  "images/postits-1920.jpg": "/static/images/postits-1920.c6070a.jpg",
-  "images/alarm.mp3": "/static/images/alarm.90a6d5.mp3",
-  "images/postits-1366.jpg": "/static/images/postits-1366.84482c.jpg",
-  "images/logo.png": "/static/images/logo.37a890.png",
-  "bundle.c16adf.js.gz": "/static/bundle.c16adf.js.gz",
+  "main.js": "/static/bundle.e2812d.js",
+  "bundle.e2812d.js.gz": "/static/bundle.e2812d.js.gz",
   "favicons/apple-touch-icon-144x144.png": "/static/favicons/apple-touch-icon-144x144.png",
+  "favicons/apple-touch-icon-152x152.png": "/static/favicons/apple-touch-icon-152x152.png",
   "favicons/favicon-16x16.png": "/static/favicons/favicon-16x16.png",
   "favicons/favicon-32x32.png": "/static/favicons/favicon-32x32.png",
-  "favicons/apple-touch-icon-152x152.png": "/static/favicons/apple-touch-icon-152x152.png",
-  "favicons/favicon.ico": "/static/favicons/favicon.ico"
+  "favicons/favicon.ico": "/static/favicons/favicon.ico",
+  "images/alarm.mp3": "/static/images/alarm.90a6d5.mp3",
+  "images/logo.png": "/static/images/logo.37a890.png",
+  "images/postits-1366.jpg": "/static/images/postits-1366.84482c.jpg",
+  "images/postits-1920.jpg": "/static/images/postits-1920.c6070a.jpg",
+  "main.css.gz": "/static/main.css.gz"
 }

@@ -41,8 +41,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              importLoaders: 1,
-              minimize: true
+              importLoaders: 1
             }
           },
           {

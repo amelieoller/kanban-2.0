@@ -8,15 +8,13 @@ import ListHeader from "./ListHeader";
 import Cards from "./Cards";
 import CardAdder from "../CardAdder/CardAdder";
 
-const ListStyles = styled.span`
-  .list-wrapper {
-    display: inline-flex;
-    flex-direction: column;
-    height: 100%;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-  }
+const ListStyles = styled.div`
+	display: inline-flex;
+	flex-direction: column;
+	height: 100%;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
 
   .list {
     display: inline-flex;
@@ -72,48 +70,36 @@ class List extends Component {
   render = () => {
     const { list, boardId, index, categories, defaultCategory } = this.props;
     return (
-      <ListStyles>
-        <Draggable
-          draggableId={list._id}
-          index={index}
-          disableInteractiveElementBlocking
-        >
-          {(provided, snapshot) => (
-            <>
+      <Draggable
+        draggableId={list._id}
+        index={index}
+        disableInteractiveElementBlocking
+      >
+        {(provided, snapshot) => (
+          <>
+            <ListStyles ref={provided.innerRef} {...provided.draggableProps}>
               <div
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                className="list-wrapper"
+                className={classnames("list", {
+                  "list--drag": snapshot.isDragging
+                })}
               >
-                <div
-                  className={classnames("list", {
-                    "list--drag": snapshot.isDragging
-                  })}
-                >
-                  <ListHeader
-                    dragHandleProps={provided.dragHandleProps}
-                    listTitle={list.title}
-                    listId={list._id}
-                    cards={list.cards}
-                    boardId={boardId}
-                  />
-                  <div className="cards-wrapper">
-                    <Cards
-                      listId={list._id}
-                      categories={categories}
-                    />
-                  </div>
-                </div>
-                <CardAdder
+                <ListHeader
+                  dragHandleProps={provided.dragHandleProps}
+                  listTitle={list.title}
                   listId={list._id}
-                  defaultCategory={defaultCategory}
+                  cards={list.cards}
+                  boardId={boardId}
                 />
+                <div className="cards-wrapper">
+                  <Cards listId={list._id} categories={categories} />
+                </div>
               </div>
-              {provided.placeholder}
-            </>
-          )}
-        </Draggable>
-      </ListStyles>
+              <CardAdder listId={list._id} defaultCategory={defaultCategory} />
+            </ListStyles>
+            {provided.placeholder}
+          </>
+        )}
+      </Draggable>
     );
   };
 }
