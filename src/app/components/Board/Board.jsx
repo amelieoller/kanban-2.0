@@ -3,18 +3,21 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Title } from "react-head";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import styled from "styled-components";
 import List from "../List/List";
 import ListAdder from "../ListAdder/ListAdder";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import SidebarRight from "../SidebarRight/SidebarRight";
 import Habits from "../Habits/Habits";
-import styled from "styled-components";
 
 const BoardStyles = styled.div`
-  display: inline-flex;
+  /* display: inline-flex; */
   height: 100%;
   min-width: 100%;
+  display: grid;
+  grid-template-columns: 200px 200px auto 200px;
+  grid-template-rows: auto;
 
   .board-underlay {
     position: fixed;

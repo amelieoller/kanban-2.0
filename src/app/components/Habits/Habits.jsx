@@ -8,7 +8,7 @@ import HabitStats from "../HabitStats/HabitStats";
 
 const HabitsStyles = styled.div`
   background-color: rgba(201, 207, 211, 0.25);
-  width: 200px;
+  /* width: 200px; */
   padding: 25px 8px 8px 8px;
   margin-top: 40px;
   max-height: 100%;
@@ -22,9 +22,9 @@ const HabitsStyles = styled.div`
     padding-right: 2px;
   }
 
-	ul {
-		margin-top: 0;
-	}
+  ul {
+    margin-top: 0;
+  }
 `;
 
 class Habits extends Component {
