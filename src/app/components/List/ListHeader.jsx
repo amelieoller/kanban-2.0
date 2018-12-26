@@ -2,9 +2,63 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Textarea from "react-textarea-autosize";
-import { Button, Wrapper, Menu, MenuItem } from "react-aria-menubutton";
 import { FiTrash2 } from "react-icons/fi";
-import "./ListHeader.scss";
+import styled from "styled-components";
+import ToolTip from "../ToolTip/ToolTip";
+
+const ListHeaderStyles = styled.div`
+  .list-title-button {
+    flex-grow: 1;
+    min-width: 50%;
+    padding: 4px;
+    border: none;
+    border-top-left-radius: inherit;
+    color: ${props => props.theme.text};
+    overflow-wrap: break-word;
+    cursor: pointer !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .list-title-textarea-wrapper {
+    width: 100%;
+    padding: 4px 4px 4px 4px;
+  }
+
+  .list-title-textarea {
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px;
+    border-radius: 3px;
+    border: 0;
+    color: ${props => props.theme.grey};
+    font-family: inherit;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 400;
+    line-height: inherit;
+    overflow: hidden;
+    resize: none;
+    text-align: center;
+  }
+
+  .delete-list-button {
+    font-size: 20px;
+    cursor: pointer;
+    padding-left: 6px;
+    color: ${props => props.theme.monotoneAccent};
+  }
+
+  .delete-list-button:hover,
+  .delete-list-button:focus {
+    color: ${props => props.theme.grey};
+  }
+`;
 
 class ListTitle extends Component {
   static propTypes = {
@@ -78,7 +132,7 @@ class ListTitle extends Component {
     const { isOpen, newTitle } = this.state;
     const { dragHandleProps, listTitle } = this.props;
     return (
-      <div className="list-header">
+      <ListHeaderStyles>
         {isOpen ? (
           <div className="list-title-textarea-wrapper">
             <Textarea
@@ -105,18 +159,15 @@ class ListTitle extends Component {
             className="list-title-button"
           >
             {listTitle}
+            <ToolTip
+              message="Are you sure?"
+              button={<button onClick={this.deleteList}>Delete</button>}
+            >
+              <FiTrash2 className="delete-list-button" />
+            </ToolTip>
           </div>
         )}
-        <Wrapper className="delete-list-wrapper" onSelection={this.deleteList}>
-          <Button className="delete-list-button">
-            <FiTrash2 />
-          </Button>
-          <Menu className="delete-list-menu">
-            <div className="delete-list-header">Are you sure?</div>
-            <MenuItem className="delete-list-confirm">Delete</MenuItem>
-          </Menu>
-        </Wrapper>
-      </div>
+      </ListHeaderStyles>
     );
   }
 }

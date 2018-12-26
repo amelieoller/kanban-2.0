@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "../Theme";
 
 // Header position has to fixed as the user scrolls to the right. Because of a limitation in react-beautiful-dnd library
 // the drag-drop context can only have one scroll container so the entire board has to be scrolled. Therefore,
@@ -28,6 +29,8 @@ const HeaderStyles = styled.header`
     font-weight: 700;
     text-decoration: none;
     font-family: "Pacifico", cursive;
+
+    ${media.tablet`font-size: 20px; font-weight: 500;`}
   }
 
   .header-title img {
@@ -71,15 +74,13 @@ const HeaderStyles = styled.header`
     font-size: 22px;
   }
 
-  @media (max-width: 700px) {
-    .user-thumbnail,
-    .guest-icon {
-      display: none;
-    }
+  .user-thumbnail,
+  .guest-icon {
+    ${media.tablet`display: none;`}
+  }
 
-    .signout-link {
-      margin-left: 0px;
-    }
+  .signout-link {
+    ${media.tablet`margin-left: 0px;`}
   }
 `;
 
