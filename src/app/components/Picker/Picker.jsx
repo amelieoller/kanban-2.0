@@ -49,8 +49,8 @@ const PickerStyles = styled.div`
   }
 
   .picker-button {
-    background: ${props => props.theme.monotoneAccent};
-    border-radius: ${props => props.theme.borderRadius};
+    background: ${props => props.theme.colors.monotoneAccent};
+    border-radius: ${props => props.theme.sizes.borderRadius};
     padding: 5px 8px;
     margin: 5px;
   }

@@ -13,10 +13,11 @@ const CardOptionsStyles = styled.div`
     margin: 0 8px;
 
     @media (max-width: 550px) {
-      justify-content: center;
       flex-direction: row;
       width: 100%;
       margin: 0;
+      display: flex;
+      flex-wrap: wrap;
     }
   }
 
@@ -32,6 +33,14 @@ const CardOptionsStyles = styled.div`
     background: rgba(255, 255, 255, 0.8);
     font-size: inherit;
     cursor: pointer;
+
+    &.minutes {
+			max-width: 85px;
+    }
+
+    &.recurring {
+			max-width: 130px;
+    }
   }
 
   .calendar-modal {
@@ -285,37 +294,33 @@ class CardOptions extends Component {
           </div>
 
           {/* Minutes */}
-          <div className="modal-color-picker-wrapper">
-            <form onSubmit={this.handleMinuteSubmit}>
-              <input
-                className="options-list-button"
-                onKeyDown={this.handleKeyDownTime}
-                ref={ref => {
-                  this.colorPickerButton = ref;
-                }}
-                name="minutes"
-                type="number"
-                placeholder="Minutes"
-                value={minutes}
-                onChange={this.handleMinuteChange}
-              />
-            </form>
-          </div>
+          <form onSubmit={this.handleMinuteSubmit}>
+            <input
+              className="options-list-button minutes"
+              onKeyDown={this.handleKeyDownTime}
+              ref={ref => {
+                this.colorPickerButton = ref;
+              }}
+              name="minutes"
+              type="number"
+              placeholder="Minutes"
+              value={minutes}
+              onChange={this.handleMinuteChange}
+            />
+          </form>
 
           {/* Recurring */}
-          <div className="modal-color-picker-wrapper">
-            <form onSubmit={this.handleRecurringSubmit}>
-              <input
-                className="options-list-button"
-                onKeyDown={this.handleKeyDownTime}
-                name="recurringText"
-                type="text"
-                placeholder="Recurring Time"
-                value={recurringText}
-                onChange={this.handleRecurringChange}
-              />
-            </form>
-          </div>
+          <form onSubmit={this.handleRecurringSubmit}>
+            <input
+              className="options-list-button recurring"
+              onKeyDown={this.handleKeyDownTime}
+              name="recurringText"
+              type="text"
+              placeholder="Recurring Time"
+              value={recurringText}
+              onChange={this.handleRecurringChange}
+            />
+          </form>
 
           {/* Category */}
           <Picker

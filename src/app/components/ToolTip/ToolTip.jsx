@@ -20,7 +20,7 @@ const ToolTipStyles = styled.span`
       position: absolute;
       border-left: 9px solid transparent;
       border-right: 9px solid transparent;
-      border-bottom: ${props => `9px solid ${props.theme.monotoneAccent}`};
+      border-bottom: ${props => `9px solid ${props.theme.colors.monotoneAccent}`};
       top: 0;
       left: 50%;
       transform: translateX(-50%);
@@ -28,19 +28,19 @@ const ToolTipStyles = styled.span`
   }
 
   .tooltip-message {
-    background: ${props => props.theme.monotoneAccent};
+    background: ${props => props.theme.colors.monotoneAccent};
     border-radius: 3px;
-    color: ${props => props.theme.negativeText};
+    color: ${props => props.theme.colors.negativeText};
     font-size: 0.75rem;
     padding: 4px 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
     button {
-      background-color: ${props => props.theme.danger};
+      background-color: ${props => props.theme.colors.danger};
       padding: 4px 8px;
-      border-radius: ${props => props.theme.borderRadius};
-      color: ${props => props.theme.text};
+      border-radius: ${props => props.theme.sizes.borderRadius};
+      color: ${props => props.theme.colors.text};
       cursor: pointer;
       margin-top: 3px;
     }

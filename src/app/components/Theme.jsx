@@ -1,5 +1,3 @@
-import { css } from "styled-components";
-
 const colors = {
   white: "#FFFFFF",
   lightestGrey: "#F7F8F8",
@@ -24,7 +22,7 @@ const colors = {
   darkPurple: "#9C55A4"
 };
 
-const light = {
+const lightColors = {
   white: colors.white,
   text: colors.darkGrey,
   success: colors.green,
@@ -48,22 +46,10 @@ const light = {
   negativeBackground: colors.darkGrey,
 
   transparentBlack: "rgba(0, 0, 0, 0.2)",
-  transparentWhite: "rgba(255, 255, 255, 0.4)",
-
-  listWidth: "300px",
-  borderRadius: "3px",
-  mainMargin: 40,
-  boardWidth: 260,
-  boardHeight: 140,
-  boardMargin: 5,
-  headerHeight: 40,
-	footerHeight: 180,
-
-  bs: "0 5px 18px 0 rgba(0, 0, 0, 0.03)",
-  bsDragging: "0 7px 15px 0 rgba(0, 0, 0, 0.08)"
+  transparentWhite: "rgba(255, 255, 255, 0.4)"
 };
 
-const dark = {
+const darkColors = {
   white: colors.white,
   text: colors.white,
   success: colors.green,
@@ -87,8 +73,15 @@ const dark = {
   negativeBackground: colors.white,
 
   transparentBlack: "rgba(0, 0, 0, 0.2)",
-  transparentWhite: "rgba(255, 255, 255, 0.4)",
+  transparentWhite: "rgba(255, 255, 255, 0.4)"
+};
 
+const common = {
+  bs: "0 5px 18px 0 rgba(0, 0, 0, 0.03)",
+  bsDragging: "0 7px 15px 0 rgba(0, 0, 0, 0.08)"
+};
+
+const sizes = {
   listWidth: "300px",
   borderRadius: "3px",
   mainMargin: 40,
@@ -96,26 +89,16 @@ const dark = {
   boardHeight: 140,
   boardMargin: 5,
   headerHeight: 40,
-  footerHeight: 100,
-
-  bs: "0 5px 18px 0 rgba(0, 0, 0, 0.03)",
-  bsDragging: "0 7px 15px 0 rgba(0, 0, 0, 0.08)"
+  footerHeight: 180
 };
 
-const sizes = {
-  desktop: 992,
-  tablet: 768,
-  phone: 376
+const media = {
+	desktop: `(max-width: 992px)`,
+	tablet: `(max-width: 768px)`,
+	phone: `(max-width: 376px)`
 };
 
-const media = Object.keys(sizes).reduce((accumulator, label) => {
-  const emSize = sizes[label] / 16;
-  accumulator[label] = (...args) => css`
-    @media (max-width: ${emSize}em) {
-      ${css(...args)};
-    }
-  `;
-  return accumulator;
-}, {});
+const light = { colors: lightColors, sizes, media, common };
+const dark = { colors: darkColors, sizes, media, common };
 
-export { light, dark, media };
+export { light, dark };

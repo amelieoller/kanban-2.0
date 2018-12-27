@@ -8,20 +8,20 @@ import ChartistGraph from "react-chartist";
 
 const GraphStyles = styled.div`
   .ct-series-a .ct-line {
-    stroke: ${props => props.theme.text};
+    stroke: ${props => props.theme.colors.text};
     stroke-width: 2px;
     fill: none;
   }
 
   .ct-series-a .ct-point {
-    stroke: ${props => props.theme.mainAccent};
+    stroke: ${props => props.theme.colors.mainAccent};
     stroke-width: 8px;
     stroke-linecap: round;
   }
 
   .ct-area {
     opacity: 0.4;
-    fill: ${props => props.theme.monotoneAccent};
+    fill: ${props => props.theme.colors.monotoneAccent};
   }
 
   .ct-label.ct-horizontal.ct-end {
@@ -33,7 +33,7 @@ const GraphStyles = styled.div`
     transform: translate(-63%) rotate(0deg);
     white-space: nowrap;
     font-size: 12px;
-    color: ${props => props.theme.grey};
+    color: ${props => props.theme.colors.grey};
     font-family: "Pacifico", cursive;
     margin-top: 3px;
   }
@@ -47,14 +47,14 @@ const ProgressBarStyles = styled.div`
     align-items: center;
 
     .goal {
-      color: ${props => props.theme.monotoneAccent};
+      color: ${props => props.theme.colors.monotoneAccent};
       display: flex;
       align-items: center;
 
       input {
         width: 17px;
         border: none;
-        color: ${props => props.theme.monotoneAccent};
+        color: ${props => props.theme.colors.monotoneAccent};
         outline: none;
         text-align: right;
         background: transparent;
@@ -70,14 +70,14 @@ const ProgressBarStyles = styled.div`
     }
 
     .habit-progress-wrapper {
-      background-color: ${props => props.theme.mainBackground};
+      background-color: ${props => props.theme.colors.mainBackground};
       width: 100%;
       float: left;
       margin-right: 15px;
       height: 13px;
 
       .habit-progress {
-        background-color: ${props => props.theme.success};
+        background-color: ${props => props.theme.colors.success};
         width: 100%;
         height: 13px;
       }

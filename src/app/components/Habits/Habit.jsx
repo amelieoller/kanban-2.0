@@ -6,18 +6,18 @@ import Picker from "../Picker/Picker";
 import formatMarkdown from "../Card/formatMarkdown";
 
 const bgColorChooser = cardDifficulty => {
-  if (cardDifficulty === 2) return "blue";
-  if (cardDifficulty === 3) return "red";
-  return "lightGrey";
+	if (cardDifficulty === 2) return "neutral";
+	if (cardDifficulty === 3) return "danger";
+	return "monotoneAccent";
 };
 
 const HabitStyles = styled.li`
   position: relative;
   box-sizing: border-box;
   border-radius: 3px;
-  color: ${props => props.theme.text};
-  background: ${props => props.theme.backgroundAccent};
-  border: 1px solid ${props => props.theme.mainBackground};
+  color: ${props => props.theme.colors.text};
+  background: ${props => props.theme.colors.backgroundAccent};
+  border: 1px solid ${props => props.theme.colors.mainBackground};
   font-size: 15px;
   width: 100%;
   margin: 3px 0;
@@ -28,29 +28,29 @@ const HabitStyles = styled.li`
   justify-content: space-between;
   border-right: 3px solid #eaecee;
   border-right-color: ${props =>
-    props.theme[`${bgColorChooser(props.cardDifficulty)}`]};
+    props.theme.colors[`${bgColorChooser(props.cardDifficulty)}`]};
 
   .options-list-button {
     height: auto;
     padding: 0;
     margin: 0;
-    color: ${props => props.theme.mainBackground};
+    color: ${props => props.theme.colors.mainBackground};
   }
 
   .habit-check {
     cursor: pointer;
     padding-right: 5px;
-    color: ${props => props.theme.monotoneAccent};
+    color: ${props => props.theme.colors.monotoneAccent};
     font-size: 20px;
 
     &:hover {
-      color: ${props => props.theme.success};
+      color: ${props => props.theme.colors.success};
     }
   }
 
   .habit-delete {
     cursor: pointer;
-    color: ${props => props.theme.monotoneAccent};
+    color: ${props => props.theme.colors.monotoneAccent};
   }
 
   .habits-card-title {
@@ -71,7 +71,7 @@ const HabitStyles = styled.li`
       font-size: 10px;
       position: relative;
       top: -5px;
-      color: ${props => props.theme.mainAccent};
+      color: ${props => props.theme.colors.mainAccent};
       font-weight: 700;
     }
   }

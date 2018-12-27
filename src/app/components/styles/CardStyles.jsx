@@ -6,29 +6,29 @@ const CardStyles = styled.div`
     box-sizing: border-box;
     margin: 5px 4px 0 4px;
     border-radius: 3px;
-    color: ${props => props.theme.text};
-    background: ${props => props.theme.backgroundAccent};
-    box-shadow: ${props => props.theme.bs};
-    border: 1px solid ${props => props.theme.mainBackground};
+    color: ${props => props.theme.colors.text};
+    background: ${props => props.theme.colors.backgroundAccent};
+    box-shadow: ${props => props.theme.common.bs};
+    border: 1px solid ${props => props.theme.colors.mainBackground};
     font-size: 15px;
     overflow-wrap: break-word;
     transition: box-shadow 0.15s;
     user-select: none;
     cursor: pointer !important;
-    border-right: 3px solid ${props => props.theme.mainBackground};
+    border-right: 3px solid ${props => props.theme.colors.mainBackground};
     border-left: 3px solid transparent;
   }
 
   .difficulty-1.card-title {
-    border-right-color: ${props => props.theme.mainBackground};
+    border-right-color: ${props => props.theme.colors.mainBackground};
   }
 
   .difficulty-2.card-title {
-    border-right-color: ${props => props.theme.mediumDifficulty};
+    border-right-color: ${props => props.theme.colors.mediumDifficulty};
   }
 
   .difficulty-3.card-title {
-    border-right-color: ${props => props.theme.mainAccent};
+    border-right-color: ${props => props.theme.colors.mainAccent};
   }
 
   .card-title-top {
@@ -38,16 +38,16 @@ const CardStyles = styled.div`
   }
 
   .checkmark {
-    color: ${props => props.theme.mainBackground};
+    color: ${props => props.theme.colors.mainBackground};
     padding: 9px 8px 9px 4px;
   }
 
   .card-title:hover {
-    background-color: ${props => props.theme.cardHover};
+    background-color: ${props => props.theme.colors.cardHover};
   }
 
   .checkmark:hover {
-    color: ${props => props.theme.success};
+    color: ${props => props.theme.colors.success};
   }
 
   .card-title:focus {
@@ -55,7 +55,7 @@ const CardStyles = styled.div`
   }
 
   .card-title--drag {
-    box-shadow: ${props => props.theme.bsDragging} !important;
+    box-shadow: ${props => props.theme.common.bsDragging} !important;
     opacity: 1 !important;
   }
 

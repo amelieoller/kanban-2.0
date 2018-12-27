@@ -12,38 +12,38 @@ const HomeStyles = styled.div`
     display: inline-flex;
     flex-direction: column;
     width: ${props =>
-      `${4 * props.theme.boardWidth + 8 * props.theme.boardMargin}px`};
-    margin: ${props => `${props.theme.mainMargin}px`};
+      `${4 * props.theme.sizes.boardWidth + 8 * props.theme.sizes.boardMargin}px`};
+    margin: ${props => `${props.theme.sizes.mainMargin}px`};
   }
 
   @media (max-width: ${props =>
-      `${4 * props.theme.boardWidth +
-        8 * props.theme.boardMargin +
-        2 * props.theme.mainMargin}px`}) {
+      `${4 * props.theme.sizes.boardWidth +
+        8 * props.theme.sizes.boardMargin +
+        2 * props.theme.sizes.mainMargin}px`}) {
     .main-content {
       width: ${props =>
-        `${3 * props.theme.boardWidth + 6 * props.theme.boardMargin}px`};
+        `${3 * props.theme.sizes.boardWidth + 6 * props.theme.sizes.boardMargin}px`};
     }
   }
 
   @media (max-width: ${props =>
-      `${3 * props.theme.boardWidth +
-        6 * props.theme.boardMargin +
-        2 * props.theme.mainMargin}px`}) {
+      `${3 * props.theme.sizes.boardWidth +
+        6 * props.theme.sizes.boardMargin +
+        2 * props.theme.sizes.mainMargin}px`}) {
     .main-content {
       width: ${props =>
-        `${2 * props.theme.boardWidth + 4 * props.theme.boardMargin}px`};
+        `${2 * props.theme.sizes.boardWidth + 4 * props.theme.sizes.boardMargin}px`};
     }
   }
 
   @media (max-width: ${props =>
-      `${2 * props.theme.boardWidth +
-        4 * props.theme.boardMargin +
-        2 * props.theme.mainMargin}px`}) {
+      `${2 * props.theme.sizes.boardWidth +
+        4 * props.theme.sizes.boardMargin +
+        2 * props.theme.sizes.mainMargin}px`}) {
     .main-content {
       width: ${props =>
-        `${props.theme.boardWidth + 2 * props.theme.boardMargin}px`};
-      margin: ${props => `${props.theme.mainMargin}px 0`};
+        `${props.theme.sizes.boardWidth + 2 * props.theme.sizes.boardMargin}px`};
+      margin: ${props => `${props.theme.sizes.mainMargin}px 0`};
     }
   }
 
@@ -59,9 +59,9 @@ const HomeStyles = styled.div`
 
   .board-link {
     box-sizing: border-box;
-    width: ${props => `${props.theme.boardWidth}px`};
-    height: ${props => `${props.theme.boardHeight}px`};
-    margin: ${props => `${props.theme.boardMargin}px`};
+    width: ${props => `${props.theme.sizes.boardWidth}px`};
+    height: ${props => `${props.theme.sizes.boardHeight}px`};
+    margin: ${props => `${props.theme.sizes.boardMargin}px`};
     padding: 10px;
     border-radius: 6px;
     font-size: 15px;
@@ -73,22 +73,22 @@ const HomeStyles = styled.div`
     color: white;
     overflow-wrap: break-word;
     text-decoration: none;
-    background: ${props => props.theme.mainBackground};
+    background: ${props => props.theme.colors.mainBackground};
 
   }
 
   .board-link:hover,
   .board-link:focus {
     &.light {
-      background: ${props => props.theme.mainBackground};
+      background: ${props => props.theme.colors.mainBackground};
     }
 
     &.dark {
-      background: ${props => props.theme.text};
+      background: ${props => props.theme.colors.text};
     }
 
     &.blue {
-      background: ${props => props.theme.neutralHover};
+      background: ${props => props.theme.colors.neutralHover};
     }
   }
 
@@ -113,9 +113,9 @@ const HomeStyles = styled.div`
 
   .add-board-button {
     box-sizing: border-box;
-    width: ${props => `${props.theme.boardWidth}px`};
-    height: ${props => `${props.theme.boardHeight}px`};
-    margin: ${props => `${props.theme.boardMargin}px`};
+    width: ${props => `${props.theme.sizes.boardWidth}px`};
+    height: ${props => `${props.theme.sizes.boardHeight}px`};
+    margin: ${props => `${props.theme.sizes.boardMargin}px`};
     padding: 10px;
     border-radius: 6px;
     font-size: 15px;
@@ -135,9 +135,9 @@ const HomeStyles = styled.div`
 
   .board-adder {
     box-sizing: border-box;
-    width: ${props => `${props.theme.boardWidth}px`};
-    height: ${props => `${props.theme.boardHeight}px`};
-    margin: ${props => `${props.theme.boardMargin}px`};
+    width: ${props => `${props.theme.sizes.boardWidth}px`};
+    height: ${props => `${props.theme.sizes.boardHeight}px`};
+    margin: ${props => `${props.theme.sizes.boardMargin}px`};
     margin-bottom: 20px;
     padding: 8px;
     border-radius: 3px;
@@ -151,7 +151,7 @@ const HomeStyles = styled.div`
     margin: 8px 0 0 0;
     border: none;
     border-radius: 3px;
-    background: ${props => props.theme.success};
+    background: ${props => props.theme.colors.success};
     color: white;
     font-size: 14px;
     font-weight: 700;
@@ -161,7 +161,7 @@ const HomeStyles = styled.div`
 
   .submit-board-button:focus,
   .submit-board-button:hover {
-    background: ${props => props.theme.successHover};
+    background: ${props => props.theme.colors.successHover};
   }
 
   .submit-board-input {

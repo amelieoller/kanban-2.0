@@ -13,7 +13,7 @@ const ListHeaderStyles = styled.div`
     padding: 4px;
     border: none;
     border-top-left-radius: inherit;
-    color: ${props => props.theme.text};
+    color: ${props => props.theme.colors.text};
     overflow-wrap: break-word;
     cursor: pointer !important;
     display: flex;
@@ -36,7 +36,7 @@ const ListHeaderStyles = styled.div`
     padding: 6px;
     border-radius: 3px;
     border: 0;
-    color: ${props => props.theme.grey};
+    color: ${props => props.theme.colors.grey};
     font-family: inherit;
     font-size: 20px;
     text-transform: uppercase;
@@ -51,12 +51,12 @@ const ListHeaderStyles = styled.div`
     font-size: 20px;
     cursor: pointer;
     padding-left: 6px;
-    color: ${props => props.theme.monotoneAccent};
+    color: ${props => props.theme.colors.monotoneAccent};
   }
 
   .delete-list-button:hover,
   .delete-list-button:focus {
-    color: ${props => props.theme.grey};
+    color: ${props => props.theme.colors.grey};
   }
 `;
 

@@ -10,12 +10,12 @@ const RepeatingTasksStyles = styled.div`
 
     .recurring-tasks-title {
       font-size: 14px;
-      color: ${props => props.theme.text};
+      color: ${props => props.theme.colors.text};
     }
 
     .recurring-time {
       font-size: 12px;
-      color: ${props => props.theme.monotoneAccent};
+      color: ${props => props.theme.colors.monotoneAccent};
     }
   }
 `;

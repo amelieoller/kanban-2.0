@@ -10,6 +10,8 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import MobileFooter from "../MobileFooter/MobileFooter";
 
+const calculateMainHeight = () => {};
+
 const BoardStyles = styled.div`
   /* display: inline-flex; */
   height: 100%;
@@ -18,11 +20,25 @@ const BoardStyles = styled.div`
   main {
     height: calc(
       100vh -
-        ${props => `${props.theme.footerHeight + props.theme.headerHeight}px`}
+        ${props =>
+          `${
+            props.footerIsExpanded
+              ? props.theme.sizes.footerHeight + props.theme.sizes.headerHeight
+              : 40 + props.theme.sizes.headerHeight
+          }px`}
     );
     display: inline-flex;
     padding: 15px 5px;
-    margin-top: ${props => `${props.theme.headerHeight}px`};
+    margin-top: ${props => `${props.theme.sizes.headerHeight}px`};
+
+    @media (min-width: 768px) {
+      height: calc(
+        100vh -
+          ${props =>
+            `${props.theme.sizes.footerHeight +
+              props.theme.sizes.headerHeight}px`}
+      );
+    }
   }
 
   .board-underlay {
@@ -33,7 +49,7 @@ const BoardStyles = styled.div`
     right: 0;
     z-index: -1;
     transition: background 0.3s;
-    background: ${props => props.theme.mainBackground};
+    background: ${props => props.theme.colors.mainBackground};
   }
 
   .lists {
@@ -60,7 +76,8 @@ class Board extends Component {
     super(props);
     this.state = {
       startX: null,
-      startScrollX: null
+      startScrollX: null,
+      footerIsExpanded: false
     };
   }
 
@@ -179,6 +196,12 @@ class Board extends Component {
     }
   };
 
+  changeContentHeight = footerIsExpanded => {
+    this.setState({
+      footerIsExpanded
+    });
+  };
+
   render = () => {
     const {
       lists,
@@ -195,7 +218,7 @@ class Board extends Component {
     );
 
     return (
-      <BoardStyles>
+      <BoardStyles footerIsExpanded={this.state.footerIsExpanded}>
         <Title>{boardTitle} | Kanban 2.0</Title>
         <Header changeTheme={changeTheme} setBoardColor={setBoardColor} />
         {/* eslint-disable jsx-a11y/no-static-element-interactions */}
@@ -229,7 +252,11 @@ class Board extends Component {
           </DragDropContext>
         </main>
         <Footer pomodoro={pomodoro} boardId={boardId} />
-				<MobileFooter pomodoro={pomodoro} boardId={boardId} />
+        <MobileFooter
+          pomodoro={pomodoro}
+          boardId={boardId}
+          changeContentHeight={this.changeContentHeight}
+        />
         <div className="board-underlay" />
       </BoardStyles>
     );

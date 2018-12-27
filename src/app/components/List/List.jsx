@@ -20,19 +20,19 @@ const ListStyles = styled.div`
     display: inline-flex;
     flex-direction: column;
     box-sizing: border-box;
-    width: ${props => props.theme.listWidth};
+    width: ${props => props.theme.sizes.listWidth};
     min-height: 0px;
     max-height: 100%;
     margin: 0 5px 0 5px;
-    border-radius: ${props => props.theme.borderRadius};
+    border-radius: ${props => props.theme.sizes.borderRadius};
     font-size: 14px;
     transition: box-shadow 0.15s, background 0.3s;
-    /* box-shadow: ${props => props.theme.bs}; */
-    /* background: ${props => props.theme.mainBackground}; */
+    /* box-shadow: ${props => props.theme.common.bs}; */
+    /* background: ${props => props.theme.colors.mainBackground}; */
   }
 
   .list--drag {
-    box-shadow: ${props => props.theme.bsDragging} !important;
+    box-shadow: ${props => props.theme.common.bsDragging} !important;
   }
 
   .cards-wrapper {
@@ -45,12 +45,12 @@ const ListStyles = styled.div`
   .cards-wrapper::-webkit-scrollbar {
     width: 8px;
     border-radius: 2px;
-    background-color: ${props => props.theme.transparentBlack};
+    background-color: ${props => props.theme.colors.transparentBlack};
   }
 
   .cards-wrapper::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    background: ${props => props.theme.transparentWhite};
+    background: ${props => props.theme.colors.transparentWhite};
   }
 
   .cards {

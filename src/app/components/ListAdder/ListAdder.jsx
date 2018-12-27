@@ -8,12 +8,12 @@ import styled from "styled-components";
 const ListAdderButton = styled.button`
   display: inline-flex;
   flex-shrink: 0;
-  width: ${props => props.theme.listWidth};
+  width: ${props => props.theme.sizes.listWidth};
   margin: 0 5px 0 5px;
   padding: 10px;
   border: none;
-  border-radius: ${props => props.theme.borderRadius};
-  color: ${props => props.theme.backgroundAccent};
+  border-radius: ${props => props.theme.sizes.borderRadius};
+  color: ${props => props.theme.colors.backgroundAccent};
   background: rgba(0, 0, 0, 0.15);
   font-size: 14px;
   transition: background 0.2s;
@@ -30,14 +30,14 @@ const ListAdderTextArea = styled.div`
   display: inline-flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: ${props => props.theme.listWidth};
+  width: ${props => props.theme.sizes.listWidth};
   min-height: 0px;
   max-height: 100%;
   margin: 0 5px 0 5px;
-  border-radius: ${props => props.theme.borderRadius};
+  border-radius: ${props => props.theme.sizes.borderRadius};
   font-size: 14px;
   transition: box-shadow 0.15s, background 0.3s;
-  box-shadow: ${props => props.theme.bs};
+  box-shadow: ${props => props.theme.common.bs};
 
   .list-adder-textarea {
     float: left;
@@ -46,7 +46,7 @@ const ListAdderTextArea = styled.div`
     padding: 6px 10px;
     border: 0;
     border-radius: 3px;
-    color: ${props => props.theme.text};
+    color: ${props => props.theme.colors.text};
     font-family: inherit;
     font-size: 18px;
     font-weight: 700;

@@ -138,7 +138,6 @@ class CategoryModal extends Component {
     // For layouts that are less wide than 550px, let the modal take up the entire width at the top of the screen
     const mobileStyle = {
       content: {
-        flexDirection: "column",
         top: 3,
         left: 3,
         right: 3

@@ -31,8 +31,8 @@ const CardAdderStyles = styled.div`
     height: 39px;
     margin-top: 6px;
     border: none;
-    border-radius: ${props => props.theme.borderRadius};
-    color: ${props => props.theme.backgroundAccent};
+    border-radius: ${props => props.theme.sizes.borderRadius};
+    color: ${props => props.theme.colors.backgroundAccent};
     background: transparent;
     font-size: 28px;
     transition: background 0.1s;
@@ -41,7 +41,7 @@ const CardAdderStyles = styled.div`
 
   .add-card-button:hover,
   .add-card-button:focus {
-    color: ${props => props.theme.cardButtonHover};
+    color: ${props => props.theme.colors.cardButtonHover};
   }
 `;
 

@@ -18,7 +18,7 @@ const PomodoroStyles = styled.div`
   .time {
     font-size: 45px;
     font-weight: 400;
-    color: ${props => props.theme.text};
+    color: ${props => props.theme.colors.text};
     display: block;
     width: 100%;
     text-align: center;
@@ -27,7 +27,7 @@ const PomodoroStyles = styled.div`
   .timeType {
     display: block;
     font-size: 20px;
-    color: ${props => props.theme.text};
+    color: ${props => props.theme.colors.text};
     font-weight: 300;
     width: 100%;
     text-align: center;
@@ -36,10 +36,10 @@ const PomodoroStyles = styled.div`
   /* Time control */
   .btn {
     border: 0;
-    background: ${props => props.theme.monotoneAccent};
-    color: ${props => props.theme.backgroundAccent};
+    background: ${props => props.theme.colors.monotoneAccent};
+    color: ${props => props.theme.colors.backgroundAccent};
     padding: 5px 0;
-    border-radius: ${props => props.theme.borderRadius};
+    border-radius: ${props => props.theme.sizes.borderRadius};
     width: 30px;
     margin: 1px;
     font-weight: 300;
@@ -51,13 +51,13 @@ const PomodoroStyles = styled.div`
   }
 
   .btn:hover {
-    background: ${props => props.theme.text};
+    background: ${props => props.theme.colors.text};
   }
 
   .btn:active,
   .btn:focus {
     outline: 0;
-    background: ${props => props.theme.text};
+    background: ${props => props.theme.colors.text};
   }
 
   .btnIcon {
@@ -82,11 +82,11 @@ const PomodoroStyles = styled.div`
   }
 
   .btnIcon.pause {
-    color: ${props => props.theme.monotoneAccent};
+    color: ${props => props.theme.colors.monotoneAccent};
   }
 
   .btnIcon.play {
-    color: ${props => props.theme.mainAccent};
+    color: ${props => props.theme.colors.mainAccent};
   }
 
   /* Bottom section
@@ -117,7 +117,7 @@ const PomodoroStyles = styled.div`
   #pomodori {
     width: 27px;
     border: none;
-    color: ${props => props.theme.monotoneAccent};
+    color: ${props => props.theme.colors.monotoneAccent};
   }
 
   @media (max-width: 500px) {
@@ -128,7 +128,7 @@ const PomodoroStyles = styled.div`
   }
 
   .checkTitle {
-    color: ${props => props.theme.monotoneAccent};
+    color: ${props => props.theme.colors.monotoneAccent};
     display: inline-block;
     margin: 0px 4px 0px 7px;
     font-size: 15px;
@@ -140,7 +140,7 @@ const PomodoroStyles = styled.div`
   }
 
   .check label {
-    border: 1px solid ${props => props.theme.mainBackground};
+    border: 1px solid ${props => props.theme.colors.mainBackground};
     height: 10px;
     width: 10px;
     margin: 0;
@@ -156,11 +156,11 @@ const PomodoroStyles = styled.div`
   }
 
   .check input[type="checkbox"]:checked + label {
-    border: 1px solid ${props => props.theme.mainAccent};
+    border: 1px solid ${props => props.theme.colors.mainAccent};
   }
 
   .check input[type="checkbox"]:checked + label:after {
-    background-color: ${props => props.theme.mainAccent};
+    background-color: ${props => props.theme.colors.mainAccent};
     position: absolute;
     display: block;
     bottom: 4px;
@@ -172,7 +172,7 @@ const PomodoroStyles = styled.div`
   }
 
   .check input[type="checkbox"]:checked + label:before {
-    background-color: ${props => props.theme.mainAccent};
+    background-color: ${props => props.theme.colors.mainAccent};
     position: absolute;
     display: block;
     bottom: 0px;
@@ -184,7 +184,7 @@ const PomodoroStyles = styled.div`
   }
 
   .link {
-    color: ${props => props.theme.text};
+    color: ${props => props.theme.colors.text};
     text-decoration: none;
     transition: color 0.3s;
   }
@@ -215,7 +215,7 @@ const PomodoroStyles = styled.div`
     .done {
       padding-left: 3px;
       margin-bottom: 3px;
-      color: ${props => props.theme.mainAccent};
+      color: ${props => props.theme.colors.mainAccent};
       text-transform: capitalize;
       font-size: 22px;
       font-style: italic;

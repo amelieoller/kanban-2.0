@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { media } from "../Theme";
 
 const BoardTitleInput = styled.input`
   width: 100%;
@@ -28,14 +27,16 @@ const BoardTitleButton = styled.button`
 
   &:hover,
   &:focus {
-    background: ${props => props.theme.transparentBlack};
+    background: ${props => props.theme.colors.transparentBlack};
   }
 
-  ${media.tablet`display: none;`}
+  @media ${props => props.theme.media.tablet} {
+    display: none;
+  }
 
   .board-title-text {
     margin: 0;
-    color: ${props => props.theme.white};
+    color: ${props => props.theme.colors.white};
     font-size: 18px;
     overflow: hidden;
     text-overflow: ellipsis;

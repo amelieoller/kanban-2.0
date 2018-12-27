@@ -15,7 +15,6 @@ import Calendar from "../Calendar/Calendar";
 import TaskStats from "../TaskStats/TaskStats";
 import RepeatingTasks from "../RepeatingTasks/RepeatingTasks";
 import Habits from "../Habits/Habits";
-import { media } from "../Theme";
 
 const MobileFooterStyles = styled.footer`
   position: fixed;
@@ -24,7 +23,7 @@ const MobileFooterStyles = styled.footer`
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme.white};
+  background: ${props => props.theme.colors.negativeText};
 
   @media (min-width: 768px) {
     display: none;
@@ -32,9 +31,9 @@ const MobileFooterStyles = styled.footer`
 
   .topFooter {
     height: ${props =>
-      `${props.theme.footerHeight - props.theme.headerHeight}px`};
+      `${props.theme.sizes.footerHeight - props.theme.sizes.headerHeight}px`};
     display: flex;
-    border-top: 1px solid ${props => props.theme.monotoneAccent};
+    border-top: 1px solid ${props => props.theme.colors.monotoneAccent};
 
     & > div {
       padding: 5px;
@@ -44,30 +43,38 @@ const MobileFooterStyles = styled.footer`
     }
 
     & > div:first-child:nth-last-child(2) {
-      border-right: 1px solid ${props => props.theme.monotoneAccent};
+      border-right: 1px solid ${props => props.theme.colors.monotoneAccent};
     }
   }
 
   .footerBar {
-    background: ${props => props.theme.white};
+    background: ${props => props.theme.colors.negativeText};
     display: flex;
     justify-content: space-evenly;
-    border-top: 1px solid ${props => props.theme.monotoneAccent};
+    border-top: 1px solid ${props => props.theme.colors.monotoneAccent};
     padding: 4px;
     align-items: center;
-    height: ${props => `${props.theme.headerHeight}px`};
+    height: ${props => `${props.theme.sizes.headerHeight}px`};
 
     button {
-      border-radius: ${props => props.theme.borderRadius};
+      border-radius: ${props => props.theme.sizes.borderRadius};
       padding: 5px 8px;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+
+      &.highlight svg {
+        stroke: ${props => props.theme.colors.mainAccent};
+      }
 
       &:hover {
-        background: ${props => props.theme.transparentBlack};
+        background: ${props => props.theme.colors.transparentBlack};
       }
 
       &#clear svg {
-        stroke: ${props => props.theme.mainAccent};
+        stroke: ${props => props.theme.colors.mainAccent};
       }
     }
   }
@@ -106,6 +113,10 @@ class MobileFooter extends Component {
       newDisplayArray = [...displayArray.splice(1, 1), type];
     } else {
       newDisplayArray = [...displayArray, type];
+    }
+
+    if (newDisplayArray.length > 0) {
+      this.props.changeContentHeight(true);
     }
 
     this.setState({
@@ -161,26 +172,50 @@ class MobileFooter extends Component {
           </div>
         )}
         <div className="footerBar">
-          <button onClick={() => this.handleClick("Pomodoro")}>
+          <button
+            className={displayArray.includes("Pomodoro") ? "highlight" : ""}
+            onClick={() => this.handleClick("Pomodoro")}
+          >
             <FiPlay />
+            Pomodoro
           </button>
-          <button onClick={() => this.handleClick("Calendar")}>
+          <button
+            className={displayArray.includes("Calendar") ? "highlight" : ""}
+            onClick={() => this.handleClick("Calendar")}
+          >
             <FiCalendar />
+            Events
           </button>
-          <button onClick={() => this.handleClick("TaskStats")}>
+          <button
+            className={displayArray.includes("TaskStats") ? "highlight" : ""}
+            onClick={() => this.handleClick("TaskStats")}
+          >
             <FiCheckCircle />
+            TaskStats
           </button>
-          <button onClick={() => this.handleClick("Habits")}>
+          <button
+            className={displayArray.includes("Habits") ? "highlight" : ""}
+            onClick={() => this.handleClick("Habits")}
+          >
             <FiStar />
+            Habits
           </button>
-          <button onClick={() => this.handleClick("Repeating")}>
+          <button
+            className={displayArray.includes("Repeating") ? "highlight" : ""}
+            onClick={() => this.handleClick("Repeating")}
+          >
             <FiRepeat />
+            Repeat
           </button>
           <button
             id="clear"
-            onClick={() => this.setState({ displayArray: [] })}
+            onClick={() => {
+              this.setState({ displayArray: [] });
+              this.props.changeContentHeight(false);
+            }}
           >
             <FiX />
+            Clear
           </button>
         </div>
       </MobileFooterStyles>

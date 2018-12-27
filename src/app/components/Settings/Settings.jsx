@@ -5,18 +5,19 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import slugify from "slugify";
 import Categories from "../Categories/Categories";
+import BoardDeleter from "./BoardDeleter";
 
 const SettingsStyles = styled.div`
-	background-color: ${props => props.theme.mainBackground};
-	color: ${props => props.theme.text};
+  background-color: ${props => props.theme.colors.mainBackground};
+  color: ${props => props.theme.colors.text};
   width: 100%;
   padding: 40px;
   button {
     padding: 5px 10px;
-    color: ${props => props.theme.backgroundAccent};
-    background: ${props => props.theme.monotoneAccent};
+    color: ${props => props.theme.colors.backgroundAccent};
+    background: ${props => props.theme.colors.monotoneAccent};
     cursor: pointer;
-    border-radius: ${props => props.theme.borderRadius};
+    border-radius: ${props => props.theme.sizes.borderRadius};
   }
   .eventCalendarInput {
     width: 200px;
@@ -80,7 +81,7 @@ class Settings extends Component {
         <h1>Settings</h1>
         <Categories dispatch={dispatch} />
         <h2>Change Event Calendar:</h2>
-				<p>This is your email address associate with a google calendar</p>
+        <p>This is your email address associate with a google calendar</p>
         <form action="" onSubmit={this.handleSubmit}>
           <input
             type="text"
@@ -90,6 +91,7 @@ class Settings extends Component {
           />
           <input type="submit" value="Change Calendar" />
         </form>
+				Delete this board: <BoardDeleter />
       </SettingsStyles>
     );
   };

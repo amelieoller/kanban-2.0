@@ -5,7 +5,7 @@ import styled from "styled-components";
 const CalendarStyles = styled.div`
   .event-title {
     font-size: 14px;
-    color: ${props => props.theme.text};
+    color: ${props => props.theme.colors.text};
     padding-bottom: 8px;
     line-height: 15px;
   }
@@ -15,7 +15,7 @@ const CalendarStyles = styled.div`
   }
 
   .pomodori-left {
-    color: ${props => props.theme.monotoneAccent};
+    color: ${props => props.theme.colors.monotoneAccent};
     font-size: 15px;
   }
 `;

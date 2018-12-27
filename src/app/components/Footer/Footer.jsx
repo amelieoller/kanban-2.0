@@ -7,24 +7,25 @@ import Calendar from "../Calendar/Calendar";
 import TaskStats from "../TaskStats/TaskStats";
 import RepeatingTasks from "../RepeatingTasks/RepeatingTasks";
 import Habits from "../Habits/Habits";
-import { media } from "../Theme";
 
 const FooterStyles = styled.footer`
-  height: ${props => `${props.theme.footerHeight}px`};
+  height: ${props => `${props.theme.sizes.footerHeight}px`};
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-  border-top: 1px solid ${props => props.theme.monotoneAccent};
-	${media.tablet`display: none;`}
+  border-top: 1px solid ${props => props.theme.colors.monotoneAccent};
+  @media ${props => props.theme.media.tablet} {
+    display: none;
+  }
 
   & > div {
     &:not(:last-child) {
-      border-right: 1px solid ${props => props.theme.monotoneAccent};
+      border-right: 1px solid ${props => props.theme.colors.monotoneAccent};
     }
-    background: ${props => props.theme.white};
+    background: ${props => props.theme.colors.negativeText};
     padding: 10px;
     width: 100%;
     overflow-y: auto;

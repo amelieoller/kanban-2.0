@@ -11,12 +11,12 @@ const GlobalStyles = createGlobalStyle`
 		&::-webkit-scrollbar {
 			width: 10px;
 			height: 10px;
-			background: ${props => props.theme.monotoneAccent};
+			background: ${props => props.theme.colors.monotoneAccent};
 		}
 
 		&::-webkit-scrollbar-thumb {
 			border-radius: 3px;
-			background: ${props => props.theme.text};
+			background: ${props => props.theme.colors.text};
 		}
 	}
 
@@ -50,7 +50,7 @@ const GlobalStyles = createGlobalStyle`
 	}
 
 	a {
-		color: ${props => props.theme.text};
+		color: ${props => props.theme.colors.text};
 	}
 
 	ul {
@@ -62,20 +62,20 @@ const GlobalStyles = createGlobalStyle`
     display: block;
     height: 1px;
     border: 0;
-    border-top: 1px solid ${props => props.theme.mainBackground};
+    border-top: 1px solid ${props => props.theme.colors.mainBackground};
     padding: 0;
     margin: 2px 0;
 	}
 
   .header {
     font-size: 17px;
-    color: ${props => props.theme.text};
+    color: ${props => props.theme.colors.text};
     font-weight: 400;
     overflow-wrap: break-word;
 		text-transform: uppercase;
 
 		.number {
-			color: ${props => props.theme.mainAccent};
+			color: ${props => props.theme.colors.mainAccent};
 			font-size: 17px;
 			font-family: "Pacifico", cursive;
 		}
@@ -84,13 +84,13 @@ const GlobalStyles = createGlobalStyle`
 	.cursive-header {
     font-size: 16px;
     font-family: "Pacifico", cursive;
-    color: ${props => props.theme.text};
+    color: ${props => props.theme.colors.text};
 	}
 
 	.badge {
 		padding: 2px 4px;
-		border-radius: ${props => props.theme.borderRadius};
-		color: ${props => props.theme.backgroundAccent};
+		border-radius: ${props => props.theme.sizes.borderRadius};
+		color: ${props => props.theme.colors.backgroundAccent};
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -100,9 +100,9 @@ const GlobalStyles = createGlobalStyle`
     width: 30px;
     height: 30px;
     margin: 2px;
-    border: 1px ${props => props.theme.text} solid;
-		border-radius: ${props => props.theme.borderRadius};
-		color: ${props => props.theme.backgroundAccent};
+    border: 1px ${props => props.theme.colors.text} solid;
+		border-radius: ${props => props.theme.sizes.borderRadius};
+		color: ${props => props.theme.colors.backgroundAccent};
   }
 `;
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { media } from "../Theme";
+// import { media } from "../Theme";
 
 // Header position has to fixed as the user scrolls to the right. Because of a limitation in react-beautiful-dnd library
 // the drag-drop context can only have one scroll container so the entire board has to be scrolled. Therefore,
@@ -13,13 +13,13 @@ const HeaderStyles = styled.header`
   flex-shrink: 0;
   box-sizing: border-box;
   width: 100%;
-  height: ${props => `${props.theme.headerHeight}px`};
+  height: ${props => `${props.theme.sizes.headerHeight}px`};
   padding: 5px;
   background: #555;
   z-index: 2;
   transition: background 0.3s;
-  box-shadow: ${props => props.theme.bs};
-  background: ${props => props.theme.headerBackground};
+  box-shadow: ${props => props.theme.common.bs};
+  background: ${props => props.theme.colors.headerBackground};
 
   .header-title {
     display: inline-flex;
@@ -30,7 +30,10 @@ const HeaderStyles = styled.header`
     text-decoration: none;
     font-family: "Pacifico", cursive;
 
-    ${media.tablet`font-size: 20px; font-weight: 500;`}
+    @media ${props => props.theme.media.tablet} {
+      font-size: 20px;
+      font-weight: 500;
+    }
   }
 
   .header-title img {
@@ -48,7 +51,7 @@ const HeaderStyles = styled.header`
 
   .user-thumbnail {
     height: 100%;
-    border-radius: ${props => props.theme.borderRadius};
+    border-radius: ${props => props.theme.sizes.borderRadius};
     margin: 0 6px;
   }
 
@@ -66,7 +69,7 @@ const HeaderStyles = styled.header`
 
   .signout-link:focus,
   .signout-link:hover {
-    color: ${props => props.theme.less}-transparent-black;
+    color: ${props => props.theme.colors.transparentBlack};
   }
 
   .signout-icon {
@@ -76,11 +79,15 @@ const HeaderStyles = styled.header`
 
   .user-thumbnail,
   .guest-icon {
-    ${media.tablet`display: none;`}
+    @media ${props => props.theme.media.tablet} {
+      display: none;
+    }
   }
 
   .signout-link {
-    ${media.tablet`margin-left: 0px;`}
+    @media ${props => props.theme.media.tablet} {
+      margin-left: 0px;
+    }
   }
 `;
 
