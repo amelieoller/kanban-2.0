@@ -1,34 +1,15 @@
 import styled from "styled-components";
 
 const PomodoroStyles = styled.div`
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
+  /* display: flex;
   flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin-bottom: 30px;
+  justify-content: center; */
 
   /* Main section
 ------------------------------- */
   .timer {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
     justify-content: center;
     margin-top: 6px;
   }
@@ -62,7 +43,6 @@ const PomodoroStyles = styled.div`
     width: 30px;
     margin: 1px;
     font-weight: 300;
-    -webkit-transition: background 0.3s;
     transition: background 0.3s;
     cursor: pointer;
     display: flex;
@@ -88,7 +68,6 @@ const PomodoroStyles = styled.div`
     width: 40px;
     height: 40px;
     background-size: 40px;
-    -webkit-transition: opacity 0.3s;
     transition: opacity 0.3s;
     cursor: pointer;
   }
@@ -119,13 +98,8 @@ const PomodoroStyles = styled.div`
 
   .settings {
     width: 100%;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
     justify-content: center;
     margin: 10px 0;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     display: flex;
   }
@@ -133,7 +107,6 @@ const PomodoroStyles = styled.div`
   .check {
     display: inline-block;
     font-size: 12px;
-    -webkit-transition: color 0.3s;
     transition: color 0.3s;
     margin: 0px 3px;
     display: flex;
@@ -149,8 +122,8 @@ const PomodoroStyles = styled.div`
 
   @media (max-width: 500px) {
     .check {
-      width: 100%;
-      margin: 10px;
+      /* width: 100%; */
+      margin: 5px;
     }
   }
 
@@ -172,17 +145,8 @@ const PomodoroStyles = styled.div`
     width: 10px;
     margin: 0;
     padding: 0;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: -ms-inline-flexbox;
     display: inline-flex;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
     justify-content: center;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
     align-items: center;
     position: relative;
   }
@@ -203,7 +167,6 @@ const PomodoroStyles = styled.div`
     left: -3px;
     width: 10px;
     height: 4px;
-    -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
     content: "";
   }
@@ -216,7 +179,6 @@ const PomodoroStyles = styled.div`
     right: -2px;
     width: 3px;
     height: 15px;
-    -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
     content: "";
   }
@@ -224,7 +186,6 @@ const PomodoroStyles = styled.div`
   .link {
     color: ${props => props.theme.text};
     text-decoration: none;
-    -webkit-transition: color 0.3s;
     transition: color 0.3s;
   }
 

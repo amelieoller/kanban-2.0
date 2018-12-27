@@ -11,9 +11,6 @@ import "./CardOptions.scss";
 
 const CardOptionsStyles = styled.div`
   .options-list {
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
     margin: 0 8px;
 
     @media (max-width: 550px) {

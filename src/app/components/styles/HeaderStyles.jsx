@@ -13,7 +13,7 @@ const HeaderStyles = styled.header`
   flex-shrink: 0;
   box-sizing: border-box;
   width: 100%;
-  height: 40px;
+  height: ${props => `${props.theme.headerHeight}px`};
   padding: 5px;
   background: #555;
   z-index: 2;

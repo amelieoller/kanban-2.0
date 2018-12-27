@@ -56,6 +56,8 @@ const light = {
   boardWidth: 260,
   boardHeight: 140,
   boardMargin: 5,
+  headerHeight: 40,
+	footerHeight: 180,
 
   bs: "0 5px 18px 0 rgba(0, 0, 0, 0.03)",
   bsDragging: "0 7px 15px 0 rgba(0, 0, 0, 0.08)"
@@ -93,6 +95,8 @@ const dark = {
   boardWidth: 260,
   boardHeight: 140,
   boardMargin: 5,
+  headerHeight: 40,
+  footerHeight: 100,
 
   bs: "0 5px 18px 0 rgba(0, 0, 0, 0.03)",
   bsDragging: "0 7px 15px 0 rgba(0, 0, 0, 0.08)"

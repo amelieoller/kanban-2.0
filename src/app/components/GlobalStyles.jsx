@@ -76,7 +76,7 @@ const GlobalStyles = createGlobalStyle`
 
 		.number {
 			color: ${props => props.theme.mainAccent};
-			font-size: 23px;
+			font-size: 17px;
 			font-family: "Pacifico", cursive;
 		}
 	}

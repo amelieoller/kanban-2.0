@@ -6,6 +6,11 @@ import classnames from "classnames";
 import styled from "styled-components";
 
 const TaskStatsStyled = styled.div`
+  width: 20%;
+  @media (min-width: 768px) {
+    width: 50%;
+  }
+
   .completed-task-wrapper {
     border-radius: 3px;
     color: ${props => props.theme.text};

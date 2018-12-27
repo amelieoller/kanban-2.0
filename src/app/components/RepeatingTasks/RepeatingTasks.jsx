@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import SidebarStyles from "../styles/SidebarStyles";
 
-const SidebarRightStyles = styled.div`
+const RepeatingTasksStyles = styled.div`
   .recurring-task-item {
     margin-bottom: 5px;
 
@@ -20,7 +20,7 @@ const SidebarRightStyles = styled.div`
   }
 `;
 
-class SidebarRight extends Component {
+class RepeatingTasks extends Component {
   static propTypes = {
     cards: PropTypes.arrayOf(
       PropTypes.shape({
@@ -85,7 +85,7 @@ class SidebarRight extends Component {
 
     return (
       <SidebarStyles>
-        <SidebarRightStyles>
+        <RepeatingTasksStyles>
           <div className="header">Repeating Tasks</div>
           <hr />
           <ul>
@@ -97,7 +97,7 @@ class SidebarRight extends Component {
               </li>
             ))}
           </ul>
-        </SidebarRightStyles>
+        </RepeatingTasksStyles>
       </SidebarStyles>
     );
   };
@@ -116,4 +116,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(SidebarRight);
+export default connect(mapStateToProps)(RepeatingTasks);

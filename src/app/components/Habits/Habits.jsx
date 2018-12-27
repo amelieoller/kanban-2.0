@@ -7,14 +7,6 @@ import Habit from "./Habit";
 import HabitStats from "../HabitStats/HabitStats";
 
 const HabitsStyles = styled.div`
-  background-color: rgba(201, 207, 211, 0.25);
-  /* width: 200px; */
-  padding: 25px 8px 8px 8px;
-  margin-top: 40px;
-  max-height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-
   .card-title-html {
     padding: 0;
     display: inline;

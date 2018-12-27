@@ -7,17 +7,23 @@ import styled from "styled-components";
 import List from "../List/List";
 import ListAdder from "../ListAdder/ListAdder";
 import Header from "../Header/Header";
-import Sidebar from "../Sidebar/Sidebar";
-import SidebarRight from "../SidebarRight/SidebarRight";
-import Habits from "../Habits/Habits";
+import Footer from "../Footer/Footer";
+import MobileFooter from "../MobileFooter/MobileFooter";
 
 const BoardStyles = styled.div`
   /* display: inline-flex; */
   height: 100%;
   min-width: 100%;
-  display: grid;
-  grid-template-columns: 200px 200px auto 200px;
-  grid-template-rows: auto;
+
+  main {
+    height: calc(
+      100vh -
+        ${props => `${props.theme.footerHeight + props.theme.headerHeight}px`}
+    );
+    display: inline-flex;
+    padding: 15px 5px;
+    margin-top: ${props => `${props.theme.headerHeight}px`};
+  }
 
   .board-underlay {
     position: fixed;
@@ -28,13 +34,6 @@ const BoardStyles = styled.div`
     z-index: -1;
     transition: background 0.3s;
     background: ${props => props.theme.mainBackground};
-  }
-
-  .lists-wrapper {
-    display: inline-flex;
-    box-sizing: border-box;
-    height: 100%;
-    padding: 60px 5px 8px 5px;
   }
 
   .lists {
@@ -185,7 +184,6 @@ class Board extends Component {
       lists,
       boardTitle,
       boardId,
-      boardColor,
       pomodoro,
       completedListId,
       habitsListId,
@@ -201,9 +199,7 @@ class Board extends Component {
         <Title>{boardTitle} | Kanban 2.0</Title>
         <Header changeTheme={changeTheme} setBoardColor={setBoardColor} />
         {/* eslint-disable jsx-a11y/no-static-element-interactions */}
-        <Sidebar pomodoro={pomodoro} boardId={boardId} />
-        <Habits boardId={boardId} />
-        <div
+        <main
           className="lists-wrapper"
           onMouseDown={this.handleMouseDown}
           onWheel={this.handleWheel}
@@ -231,8 +227,9 @@ class Board extends Component {
               )}
             </Droppable>
           </DragDropContext>
-        </div>
-        <SidebarRight pomodoro={pomodoro} boardId={boardId} />
+        </main>
+        <Footer pomodoro={pomodoro} boardId={boardId} />
+				<MobileFooter pomodoro={pomodoro} boardId={boardId} />
         <div className="board-underlay" />
       </BoardStyles>
     );
