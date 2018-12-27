@@ -7,7 +7,6 @@ import later from "later";
 import styled from "styled-components";
 import Calendar from "./Calendar";
 import Picker from "../Picker/Picker";
-import "./CardOptions.scss";
 
 const CardOptionsStyles = styled.div`
   .options-list {
