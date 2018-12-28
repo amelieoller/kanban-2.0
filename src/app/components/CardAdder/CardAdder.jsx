@@ -79,12 +79,12 @@ class CardAdder extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { newText } = this.state;
-		const { listId, dispatch, defaultCategory } = this.props;
+    const { listId, dispatch, defaultCategory } = this.props;
     if (newText === "") return;
 
     const cardId = shortid.generate();
-		const createdAt = Date.now();
-		const categoryId = defaultCategory;
+    const createdAt = Date.now();
+    const categoryId = defaultCategory;
 
     dispatch({
       type: "ADD_CARD",

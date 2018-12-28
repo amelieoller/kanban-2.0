@@ -89,13 +89,15 @@ const sizes = {
   boardHeight: 140,
   boardMargin: 5,
   headerHeight: 40,
-  footerHeight: 180
+  footerHeight: 180,
+  mobileFooterHeight: 40,
+  mobileFooterHeightExpanded: 140
 };
 
 const media = {
-	desktop: `(max-width: 992px)`,
-	tablet: `(max-width: 768px)`,
-	phone: `(max-width: 376px)`
+  desktop: `(max-width: 992px)`,
+  tablet: `(max-width: 768px)`,
+  phone: `(max-width: 376px)`
 };
 
 const light = { colors: lightColors, sizes, media, common };

@@ -6,7 +6,6 @@ import styled from "styled-components";
 // header has to be part of the page that is being scrolled and as a workaround we use position:fixed.
 
 const HeaderStyles = styled.header`
-  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;

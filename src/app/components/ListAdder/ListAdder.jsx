@@ -5,35 +5,36 @@ import Textarea from "react-textarea-autosize";
 import shortid from "shortid";
 import styled from "styled-components";
 
-const ListAdderButton = styled.button`
-  display: inline-flex;
-  flex-shrink: 0;
-  width: ${props => props.theme.sizes.listWidth};
-  margin: 0 5px 0 5px;
-  padding: 10px;
-  border: none;
-  border-radius: ${props => props.theme.sizes.borderRadius};
-  color: ${props => props.theme.colors.backgroundAccent};
-  background: rgba(0, 0, 0, 0.15);
-  font-size: 14px;
-  transition: background 0.2s;
-  user-select: none;
-  cursor: pointer;
+const ListAdderButton = styled.div`
+  margin: 10px 0;
 
-  &:hover,
-  &:focus {
-    background: rgba(0, 0, 0, 0.25);
+  button {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: ${props => props.theme.sizes.listWidth};
+    margin: 0 5px 0 5px;
+    padding: 10px;
+    border: none;
+    border-radius: ${props => props.theme.sizes.borderRadius};
+    color: ${props => props.theme.colors.backgroundAccent};
+    background: rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    transition: background 0.2s;
+    user-select: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background: rgba(0, 0, 0, 0.25);
+    }
   }
 `;
 
 const ListAdderTextArea = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  margin: 10px 5px;
   width: ${props => props.theme.sizes.listWidth};
   min-height: 0px;
   max-height: 100%;
-  margin: 0 5px 0 5px;
   border-radius: ${props => props.theme.sizes.borderRadius};
   font-size: 14px;
   transition: box-shadow 0.15s, background 0.3s;
@@ -52,6 +53,7 @@ const ListAdderTextArea = styled.div`
     font-weight: 700;
     overflow: hidden;
     resize: none;
+    text-transform: uppercase;
   }
 `;
 
@@ -102,11 +104,10 @@ class ListAdder extends Component {
     const { isOpen, listTitle } = this.state;
     if (!isOpen) {
       return (
-        <ListAdderButton
-          type="submit"
-          onClick={() => this.setState({ isOpen: true })}
-        >
-          Add a new list...
+        <ListAdderButton>
+          <button type="submit" onClick={() => this.setState({ isOpen: true })}>
+            Add a new list...
+          </button>
         </ListAdderButton>
       );
     }

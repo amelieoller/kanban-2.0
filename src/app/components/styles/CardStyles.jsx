@@ -4,7 +4,7 @@ const CardStyles = styled.div`
   .card-title {
     position: relative;
     box-sizing: border-box;
-    margin: 5px 4px 0 4px;
+    margin: 5px 0 0 0;
     border-radius: 3px;
     color: ${props => props.theme.colors.text};
     background: ${props => props.theme.colors.backgroundAccent};

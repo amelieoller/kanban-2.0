@@ -9,26 +9,21 @@ import Cards from "./Cards";
 import CardAdder from "../CardAdder/CardAdder";
 
 const ListStyles = styled.div`
-	display: inline-flex;
-	flex-direction: column;
-	height: 100%;
-	user-select: none;
-	-webkit-user-select: none;
-	-webkit-touch-callout: none;
+  display: inline-flex;
+  flex-direction: column;
+  user-select: none;
+  scroll-snap-align: center;
+  margin: 10px 0;
 
   .list {
     display: inline-flex;
     flex-direction: column;
     box-sizing: border-box;
-    width: ${props => props.theme.sizes.listWidth};
     min-height: 0px;
     max-height: 100%;
-    margin: 0 5px 0 5px;
     border-radius: ${props => props.theme.sizes.borderRadius};
     font-size: 14px;
     transition: box-shadow 0.15s, background 0.3s;
-    /* box-shadow: ${props => props.theme.common.bs}; */
-    /* background: ${props => props.theme.colors.mainBackground}; */
   }
 
   .list--drag {
@@ -37,7 +32,6 @@ const ListStyles = styled.div`
 
   .cards-wrapper {
     height: 100%;
-    margin: 0 3px 6px 3px;
     overflow-y: auto;
     overflow-x: hidden;
   }

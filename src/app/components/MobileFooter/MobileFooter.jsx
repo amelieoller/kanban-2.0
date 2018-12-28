@@ -17,13 +17,18 @@ import RepeatingTasks from "../RepeatingTasks/RepeatingTasks";
 import Habits from "../Habits/Habits";
 
 const MobileFooterStyles = styled.footer`
-  position: fixed;
-  left: 0;
-  bottom: 0;
+  height: ${props =>
+    `${
+      props.footerExpanded
+        ? props.theme.sizes.mobileFooterHeight +
+          props.theme.sizes.mobileFooterHeightExpanded
+        : props.theme.sizes.mobileFooterHeight
+    }px`};
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme.colors.negativeText};
+	background: ${props => props.theme.colors.negativeText};
+	width: 100vw;
 
   @media (min-width: 768px) {
     display: none;
@@ -63,7 +68,8 @@ const MobileFooterStyles = styled.footer`
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 12px;
+			font-size: 12px;
+			background: transparent;
 
       &.highlight svg {
         stroke: ${props => props.theme.colors.mainAccent};
@@ -138,7 +144,7 @@ class MobileFooter extends Component {
     const { displayArray } = this.state;
 
     return (
-      <MobileFooterStyles>
+      <MobileFooterStyles footerExpanded={displayArray.length !== 0}>
         {displayArray.length !== 0 && (
           <div className="topFooter">
             {displayArray.includes("Pomodoro") && (
@@ -177,7 +183,7 @@ class MobileFooter extends Component {
             onClick={() => this.handleClick("Pomodoro")}
           >
             <FiPlay />
-            Pomodoro
+            Time
           </button>
           <button
             className={displayArray.includes("Calendar") ? "highlight" : ""}

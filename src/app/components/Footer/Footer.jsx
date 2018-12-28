@@ -10,10 +10,7 @@ import Habits from "../Habits/Habits";
 
 const FooterStyles = styled.footer`
   height: ${props => `${props.theme.sizes.footerHeight}px`};
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: space-evenly;
   border-top: 1px solid ${props => props.theme.colors.monotoneAccent};

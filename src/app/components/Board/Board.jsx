@@ -10,14 +10,48 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import MobileFooter from "../MobileFooter/MobileFooter";
 
-const calculateMainHeight = () => {};
-
 const BoardStyles = styled.div`
-  /* display: inline-flex; */
-  height: 100%;
-  min-width: 100%;
+	width: 100%;
+	height: 100%;
+	overflow-y: scroll;
+	display: grid;
+	grid-template-columns: 1fr;
+	align-content: space-between;
+	background: ${props => props.theme.colors.mainBackground};
 
-  main {
+  .lists {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 10px;
+    grid-template-rows: minmax(calc(100vh - ${props =>
+      `${props.theme.sizes.headerHeight +
+        props.theme.sizes.footerHeight}px`}), 1fr);
+    grid-auto-flow: column;
+    grid-auto-columns: ${props => props.theme.sizes.listWidth};
+    overflow-x: scroll;
+    scroll-snap-type: x proximity;
+		margin: 0;
+
+		@media (max-width: 768px) {
+      grid-template-rows: minmax(calc(100vh - ${props =>
+        `${
+          props.footerIsExpanded
+            ? props.theme.sizes.headerHeight +
+              props.theme.sizes.mobileFooterHeight +
+              props.theme.sizes.mobileFooterHeightExpanded
+            : props.theme.sizes.headerHeight +
+              props.theme.sizes.mobileFooterHeight
+        }px`}), 1fr);
+    }
+  }
+
+  .lists:before,
+  .lists:after {
+    content: "";
+    width: 10px;
+  }
+
+  /* main {
     height: calc(
       100vh -
         ${props =>
@@ -57,7 +91,7 @@ const BoardStyles = styled.div`
     align-items: flex-start;
     height: 100%;
     user-select: none;
-  }
+  } */
 `;
 
 class Board extends Component {
@@ -221,13 +255,55 @@ class Board extends Component {
       <BoardStyles footerIsExpanded={this.state.footerIsExpanded}>
         <Title>{boardTitle} | Kanban 2.0</Title>
         <Header changeTheme={changeTheme} setBoardColor={setBoardColor} />
-        {/* eslint-disable jsx-a11y/no-static-element-interactions */}
+
+        {/* <div className="lists">
+          <div className="list">test</div>
+          <div className="list">test</div>
+          <div className="list">test</div>
+          <div className="list">test</div>
+          <div className="list">test</div>
+          <div className="list">test</div>
+        </div> */}
+
+        {/* <main
+          className="lists-wrapper"
+          onMouseDown={this.handleMouseDown}
+          onWheel={this.handleWheel}
+        > */}
+        <DragDropContext onDragEnd={this.handleDragEnd}>
+          <Droppable droppableId={boardId} type="COLUMN" direction="horizontal">
+            {provided => (
+              <main className="lists" ref={provided.innerRef}>
+                {otherLists.map((list, index) => (
+                  <List
+                    list={list}
+                    boardId={boardId}
+                    index={index}
+                    key={list._id}
+                  />
+                ))}
+                {provided.placeholder}
+                <ListAdder boardId={boardId} />
+              </main>
+            )}
+          </Droppable>
+        </DragDropContext>
+        {/* </main> */}
+
+        <Footer pomodoro={pomodoro} boardId={boardId} />
+        <MobileFooter
+          pomodoro={pomodoro}
+          boardId={boardId}
+          changeContentHeight={this.changeContentHeight}
+        />
+
+        {/* <Title>{boardTitle} | Kanban 2.0</Title>
+        <Header changeTheme={changeTheme} setBoardColor={setBoardColor} />
         <main
           className="lists-wrapper"
           onMouseDown={this.handleMouseDown}
           onWheel={this.handleWheel}
         >
-          {/* eslint-enable jsx-a11y/no-static-element-interactions */}
           <DragDropContext onDragEnd={this.handleDragEnd}>
             <Droppable
               droppableId={boardId}
@@ -257,7 +333,7 @@ class Board extends Component {
           boardId={boardId}
           changeContentHeight={this.changeContentHeight}
         />
-        <div className="board-underlay" />
+        <div className="board-underlay" /> */}
       </BoardStyles>
     );
   };
