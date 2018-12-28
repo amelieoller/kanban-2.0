@@ -1,51 +1,16 @@
 import styled from "styled-components";
 
 const HomeStyles = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  height: 100%;
   width: 100%;
-  background: #eee;
-  overflow: auto;
+  height: 100%;
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: flex-start;
+  background: ${props => props.theme.colors.mainBackground};
 
   .main-content {
-    display: inline-flex;
-    flex-direction: column;
-    width: ${props =>
-      `${4 * props.theme.sizes.boardWidth + 8 * props.theme.sizes.boardMargin}px`};
-    margin: ${props => `${props.theme.sizes.mainMargin}px`};
-  }
-
-  @media (max-width: ${props =>
-      `${4 * props.theme.sizes.boardWidth +
-        8 * props.theme.sizes.boardMargin +
-        2 * props.theme.sizes.mainMargin}px`}) {
-    .main-content {
-      width: ${props =>
-        `${3 * props.theme.sizes.boardWidth + 6 * props.theme.sizes.boardMargin}px`};
-    }
-  }
-
-  @media (max-width: ${props =>
-      `${3 * props.theme.sizes.boardWidth +
-        6 * props.theme.sizes.boardMargin +
-        2 * props.theme.sizes.mainMargin}px`}) {
-    .main-content {
-      width: ${props =>
-        `${2 * props.theme.sizes.boardWidth + 4 * props.theme.sizes.boardMargin}px`};
-    }
-  }
-
-  @media (max-width: ${props =>
-      `${2 * props.theme.sizes.boardWidth +
-        4 * props.theme.sizes.boardMargin +
-        2 * props.theme.sizes.mainMargin}px`}) {
-    .main-content {
-      width: ${props =>
-        `${props.theme.sizes.boardWidth + 2 * props.theme.sizes.boardMargin}px`};
-      margin: ${props => `${props.theme.sizes.mainMargin}px 0`};
-    }
-  }
+		padding: 20px;
 
   .main-content h1 {
     margin: 20px 5px;
@@ -53,8 +18,9 @@ const HomeStyles = styled.div`
   }
 
   .boards {
-    display: inline-flex;
-    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+		flex-wrap: wrap;
   }
 
   .board-link {
@@ -74,7 +40,7 @@ const HomeStyles = styled.div`
     overflow-wrap: break-word;
     text-decoration: none;
     background: ${props => props.theme.colors.mainBackground};
-
+		border: 1px solid ${props => props.theme.colors.white};
   }
 
   .board-link:hover,

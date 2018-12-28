@@ -31,43 +31,41 @@ class Home extends Component {
   render = () => {
     const { boards, listsById, history } = this.props;
     return (
-      <>
+      <HomeStyles>
         <Title>Home | Kanban 2.0</Title>
         <Header />
-        <HomeStyles>
-          <div className="main-content">
-            <h1>Boards</h1>
-            <div className="boards">
-              {boards.map(board => (
-                <Link
-                  key={board._id}
-                  className={classnames("board-link", board.settings.color)}
-                  to={`/b/${board._id}/${slugify(board.title, {
-                    lower: true
-                  })}`}
-                >
-                  <div className="board-link-title">{board.title}</div>
-                  <div className="mini-board">
-                    {board.lists.map(listId => (
-                      <div
-                        key={listId}
-                        className="mini-list"
-                        style={{
-                          height: `${Math.min(
-                            (listsById[listId].cards.length + 1) * 18,
-                            100
-                          )}%`
-                        }}
-                      />
-                    ))}
-                  </div>
-                </Link>
-              ))}
-              <BoardAdder history={history} />
-            </div>
-          </div>
-        </HomeStyles>
-      </>
+				<div className="main-content">
+					<h1>Boards</h1>
+					<div className="boards">
+						{boards.map(board => (
+							<Link
+								key={board._id}
+								className={classnames("board-link", board.settings.color)}
+								to={`/b/${board._id}/${slugify(board.title, {
+									lower: true
+								})}`}
+							>
+								<div className="board-link-title">{board.title}</div>
+								<div className="mini-board">
+									{board.lists.map(listId => (
+										<div
+											key={listId}
+											className="mini-list"
+											style={{
+												height: `${Math.min(
+													(listsById[listId].cards.length + 1) * 18,
+													100
+												)}%`
+											}}
+										/>
+									))}
+								</div>
+							</Link>
+						))}
+						<BoardAdder history={history} />
+					</div>
+				</div>
+      </HomeStyles>
     );
   };
 }
