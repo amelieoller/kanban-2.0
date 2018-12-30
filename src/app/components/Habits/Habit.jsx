@@ -35,6 +35,7 @@ const HabitStyles = styled.li`
     padding: 0;
     margin: 0;
     color: ${props => props.theme.colors.mainBackground};
+		background: transparent;
   }
 
   .habit-check {

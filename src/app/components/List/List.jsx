@@ -24,6 +24,8 @@ const ListStyles = styled.div`
     border-radius: ${props => props.theme.sizes.borderRadius};
     font-size: 14px;
     transition: box-shadow 0.15s, background 0.3s;
+    background: ${props => props.theme.colors.listBackground};
+		padding: 6px;
   }
 
   .list--drag {
@@ -36,16 +38,17 @@ const ListStyles = styled.div`
     overflow-x: hidden;
   }
 
-  .cards-wrapper::-webkit-scrollbar {
+  /* .cards-wrapper::-webkit-scrollbar {
     width: 8px;
     border-radius: 2px;
     background-color: ${props => props.theme.colors.transparentBlack};
+		margin-left: 3px;
   }
 
   .cards-wrapper::-webkit-scrollbar-thumb {
     border-radius: 2px;
     background: ${props => props.theme.colors.transparentWhite};
-  }
+  } */
 
   .cards {
     min-height: 1px;

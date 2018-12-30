@@ -16,7 +16,7 @@ const CardStyles = styled.div`
     user-select: none;
     cursor: pointer !important;
     border-right: 3px solid ${props => props.theme.colors.mainBackground};
-    border-left: 3px solid transparent;
+    /* border-left: 3px solid transparent; */
   }
 
   .difficulty-1.card-title {

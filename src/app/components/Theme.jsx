@@ -1,11 +1,13 @@
 const colors = {
   white: "#FFFFFF",
-  lightestGrey: "#F7F8F8",
+  lightestGrey: "#F6F6F8",
   lighterGrey: "#EAECEE",
-  lightGrey: "#C9CFD3",
+  // lightGrey: "#C9CFD3",
+  lightGrey: "#C6C7C6",
   grey: "#73777b",
   darkGrey: "#51575D",
   black: "#272930",
+  darkBlack: "#1C1C20",
   darkRed: "#a03f2c",
   red: "#EA725B",
   lightRed: "#E98D5A",
@@ -23,8 +25,8 @@ const colors = {
 };
 
 const lightColors = {
-	white: colors.white,
-	lightestGrey: colors.lightestGrey,
+  white: colors.white,
+  lightestGrey: colors.lightestGrey,
   text: colors.darkGrey,
   success: colors.green,
   successHover: colors.darkGreen,
@@ -45,15 +47,17 @@ const lightColors = {
   grey: colors.grey,
   negativeText: colors.white,
   negativeBackground: colors.darkGrey,
+  listBackground: colors.white,
+  borderColor: colors.lighterGrey,
 
   transparentBlack: "rgba(0, 0, 0, 0.2)",
   transparentWhite: "rgba(255, 255, 255, 0.4)"
 };
 
 const darkColors = {
-	white: colors.white,
-	lightestGrey: colors.lightestGrey,
-  text: colors.white,
+  white: colors.white,
+  lightestGrey: colors.lightestGrey,
+  text: colors.lightestGrey,
   success: colors.green,
   successHover: colors.darkGreen,
   neutral: colors.blue,
@@ -62,17 +66,19 @@ const darkColors = {
   mainAccent: colors.red,
   danger: colors.red,
   monotoneAccent: colors.lightGrey,
-  mainBackground: colors.darkGrey,
-  backgroundAccent: colors.grey,
+  mainBackground: colors.darkBlack,
+  backgroundAccent: "#36363bad",
   easyDifficulty: colors.lighterGrey,
   mediumDifficulty: colors.blue,
   highDifficulty: colors.lighterGrey,
-  cardHover: colors.lighterGrey,
+  cardHover: colors.darkBlack,
   headerBackground: colors.black,
   cardButtonHover: colors.darkGrey,
   grey: colors.grey,
-  negativeText: colors.darkGrey,
-  negativeBackground: colors.white,
+  negativeText: "#36363bad",
+  negativeBackground: colors.lightGrey,
+  listBackground: "#36363bad",
+  borderColor: colors.darkBlack,
 
   transparentBlack: "rgba(0, 0, 0, 0.2)",
   transparentWhite: "rgba(255, 255, 255, 0.4)"

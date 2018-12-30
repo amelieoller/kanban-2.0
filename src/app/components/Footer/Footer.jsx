@@ -13,14 +13,14 @@ const FooterStyles = styled.footer`
   width: 100vw;
   display: flex;
   justify-content: space-evenly;
-  border-top: 1px solid ${props => props.theme.colors.monotoneAccent};
+  border-top: 1px solid ${props => props.theme.colors.borderColor};
   @media ${props => props.theme.media.tablet} {
     display: none;
   }
 
   & > div {
     &:not(:last-child) {
-      border-right: 1px solid ${props => props.theme.colors.monotoneAccent};
+      border-right: 1px solid ${props => props.theme.colors.borderColor};
     }
     background: ${props => props.theme.colors.negativeText};
     padding: 10px;

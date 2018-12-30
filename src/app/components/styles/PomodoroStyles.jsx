@@ -118,6 +118,7 @@ const PomodoroStyles = styled.div`
     width: 27px;
     border: none;
     color: ${props => props.theme.colors.monotoneAccent};
+		background: transparent;
   }
 
   @media (max-width: 500px) {

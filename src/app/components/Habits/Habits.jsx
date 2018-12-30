@@ -14,6 +14,10 @@ const HabitsStyles = styled.div`
     padding-right: 2px;
   }
 
+  .add-card-button {
+    color: ${props => props.theme.colors.mainBackground};
+  }
+
   ul {
     margin-top: 0;
   }
