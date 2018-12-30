@@ -23,7 +23,8 @@ const colors = {
 };
 
 const lightColors = {
-  white: colors.white,
+	white: colors.white,
+	lightestGrey: colors.lightestGrey,
   text: colors.darkGrey,
   success: colors.green,
   successHover: colors.darkGreen,
@@ -50,7 +51,8 @@ const lightColors = {
 };
 
 const darkColors = {
-  white: colors.white,
+	white: colors.white,
+	lightestGrey: colors.lightestGrey,
   text: colors.white,
   success: colors.green,
   successHover: colors.darkGreen,
