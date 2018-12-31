@@ -49,6 +49,7 @@
 		"react-chartist": "^0.13.1",
 		"react-color": "^2.14.1",
 		"react-day-picker": "^7.1.9",
+		"react-dom": "^16.2.0",
 		"react-head": "^2.1.0",
 		"react-icons": "^3.2.2",
 		"react-modal": "^3.4.4",
