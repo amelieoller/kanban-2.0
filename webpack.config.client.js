@@ -6,6 +6,15 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ZopfliPlugin = require("zopfli-webpack-plugin");
 const UglifyPlugin = require("uglifyjs-webpack-plugin");
 const autoprefixer = require("autoprefixer");
+const webpack = require("webpack");
+const dotenv = require("dotenv");
+
+const env = dotenv.config().parsed;
+
+const envKeys = Object.keys(env).reduce((prev, next) => {
+	prev[`process.env.${next}`] = JSON.stringify(env[next]);
+	return prev;
+}, {});
 
 module.exports = {
   name: "client",
@@ -79,6 +88,7 @@ module.exports = {
     ]
   },
   plugins: [
+		new webpack.DefinePlugin(envKeys),
     new CleanPlugin(["dist"]),
     new CopyPlugin([{ from: "src/assets/favicons", to: "favicons" }]),
     new ManifestPlugin(),
