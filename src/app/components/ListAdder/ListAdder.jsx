@@ -50,10 +50,11 @@ const ListAdderTextArea = styled.div`
     color: ${props => props.theme.colors.text};
     font-family: inherit;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 500;
     overflow: hidden;
     resize: none;
     text-transform: uppercase;
+    background: ${props => props.theme.colors.listBackground};
   }
 `;
 
