@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { FiSettings } from "react-icons/fi";
-import CheeseburgerMenu from "../Settings/CheeseburgerMenu";
+import SlideMenu from "../Settings/SlideMenu";
 import HeaderButtonStyles from "../styles/HeaderButtonStyles";
 import Settings from "../Settings/Settings";
 
@@ -34,14 +34,14 @@ class BoardSettings extends Component {
 
   render = () => (
     <>
-      <CheeseburgerMenu
+      <SlideMenu
         isOpen={this.state.menuOpen}
         closeCallback={this.closeMenu}
         right
         width={350}
       >
         <Settings closeMenu={this.closeMenu} />
-      </CheeseburgerMenu>
+      </SlideMenu>
       <HeaderButtonStyles onClick={this.openMenu}>
         <FiSettings />
       </HeaderButtonStyles>
