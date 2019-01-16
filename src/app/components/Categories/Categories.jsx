@@ -6,15 +6,24 @@ import { connect } from "react-redux";
 import shortid from "shortid";
 import { FiX } from "react-icons/fi";
 import ColorPicker from "./ColorPicker";
+import ButtonStyles from "../styles/ButtonStyles";
 
 const CategoriesStyles = styled.div`
   .edit-category-form {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    .right-form-section {
+      display: flex;
+      align-items: center;
+    }
     .edit-category {
       background: transparent;
       border: none;
       font-size: 16px;
+      max-width: 140px;
+			color: ${props => props.theme.colors.text};
     }
     .short {
       width: 40px;
@@ -24,10 +33,12 @@ const CategoriesStyles = styled.div`
     }
   }
 
-  .new-category-form {
+  .category-list {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+  }
 
+  .new-category-form {
     label {
       display: inline-block;
     }
@@ -163,7 +174,7 @@ class Categories extends Component {
       <CategoriesStyles>
         <h2>Categories</h2>
         <h3>Set Default Category:</h3>
-        <form>
+        <form className="category-list">
           {filteredCategories.map(category => (
             <label key={category._id}>
               <input
@@ -181,7 +192,7 @@ class Categories extends Component {
               value="none"
               checked={defaultCategory === "none"}
               onChange={() => this.handleDefaultCategoryChange("none")}
-            />{" "}
+            />
             none
           </label>
         </form>
@@ -210,33 +221,38 @@ class Categories extends Component {
                 this.handleEditCategoryChange(e, category._id, "name")
               }
             />
-            <input
-              className="edit-category short"
-              type="text"
-              value={this.state[`${category._id}-short`] || category.short}
-              name="short"
-              onChange={e =>
-                this.handleEditCategoryChange(e, category._id, "short")
-              }
-            />
-            <ColorPicker
-              handleColorChange={categoryColor =>
-                this.handleEditCategoryColorChange(categoryColor, category._id)
-              }
-              previousColor={
-                this.state[`${category._id}-color`] || category.color
-              }
-            />
+            <div className="right-form-section">
+              <input
+                className="edit-category short"
+                type="text"
+                value={this.state[`${category._id}-short`] || category.short}
+                name="short"
+                onChange={e =>
+                  this.handleEditCategoryChange(e, category._id, "short")
+                }
+              />
+              <ColorPicker
+                handleColorChange={categoryColor =>
+                  this.handleEditCategoryColorChange(
+                    categoryColor,
+                    category._id
+                  )
+                }
+                previousColor={
+                  this.state[`${category._id}-color`] || category.color
+                }
+              />
 
-            <FiX
-              className="delete-button"
-              onClick={() => this.handleDelete(category._id)}
-            />
-            <input type="submit" />
+              <FiX
+                className="delete-button"
+                onClick={() => this.handleDelete(category._id)}
+              />
+              <ButtonStyles>Save</ButtonStyles>
+            </div>
           </form>
         ))}
 
-        <h3>Add a new Category:</h3>
+        <h3>Add a New Category:</h3>
         <form onSubmit={this.handleSubmit} className="new-category-form">
           <label htmlFor="categoryName">Name:</label>
           <input
@@ -261,7 +277,7 @@ class Categories extends Component {
               this.setState({ categoryColor })
             }
           />
-          <input type="submit" value="Add Category" />
+          <ButtonStyles>Add Category</ButtonStyles>
         </form>
       </CategoriesStyles>
     );
