@@ -7,6 +7,7 @@ import { FiX, FiTrash2 } from "react-icons/fi";
 import Categories from "../Categories/Categories";
 import ToolTip from "../ToolTip/ToolTip";
 import ButtonStyles from "../styles/ButtonStyles";
+import ExpandingInput from "../ExpandingInput/ExpandingInput";
 
 const SettingsStyles = styled.div`
   background-color: ${props => props.theme.colors.mainBackground};
@@ -97,17 +98,20 @@ class Settings extends Component {
         <FiX className="close-button" onClick={closeMenu} />
         <h1>Settings</h1>
         <Categories dispatch={dispatch} />
+        <hr />
         <h2>Change Event Calendar:</h2>
         <p>This is your email address associate with a google calendar</p>
         <form action="" onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            className="event-calendar-input"
+          <ExpandingInput
+            placeholder="Name"
+            name="name"
             value={eventCalendarId}
             onChange={this.handleChange}
+            max=""
           />
           <ButtonStyles>Change Calendar</ButtonStyles>
         </form>
+        <hr />
         <h2>Delete this board:</h2>
         <ToolTip
           message="Are you sure?"

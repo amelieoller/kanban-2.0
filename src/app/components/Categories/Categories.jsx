@@ -7,6 +7,7 @@ import shortid from "shortid";
 import { FiX } from "react-icons/fi";
 import ColorPicker from "./ColorPicker";
 import ButtonStyles from "../styles/ButtonStyles";
+import ExpandingInput from "../ExpandingInput/ExpandingInput";
 
 const CategoriesStyles = styled.div`
   .edit-category-form {
@@ -23,13 +24,10 @@ const CategoriesStyles = styled.div`
       border: none;
       font-size: 16px;
       max-width: 140px;
-			color: ${props => props.theme.colors.text};
+      color: ${props => props.theme.colors.text};
     }
     .short {
-      width: 40px;
-    }
-    .delete-button {
-      margin: 0 8px;
+      max-width: 40px;
     }
   }
 
@@ -43,6 +41,12 @@ const CategoriesStyles = styled.div`
       display: inline-block;
     }
 
+    .input-areas {
+    }
+    .buttons {
+      display: flex;
+      justify-items: center;
+    }
     .new-input {
       display: block;
       padding: 0.375rem 0.75rem;
@@ -73,7 +77,7 @@ class Categories extends Component {
     this.state = {
       categoryName: "",
       categoryShort: "",
-      categoryColor: "",
+      categoryColor: "#F29985",
       defaultCategory: "none"
     };
   }
@@ -99,6 +103,11 @@ class Categories extends Component {
         boardId,
         category
       }
+    });
+
+    this.setState({
+      categoryName: "",
+      categoryShort: ""
     });
   };
 
@@ -212,24 +221,24 @@ class Categories extends Component {
             }
             key={category._id}
           >
-            <input
-              className="edit-category"
-              type="text"
-              value={this.state[`${category._id}-name`] || category.name}
+            <ExpandingInput
+              placeholder="Name"
               name="name"
+              value={this.state[`${category._id}-name`] || category.name}
               onChange={e =>
                 this.handleEditCategoryChange(e, category._id, "name")
               }
+              max="140"
             />
             <div className="right-form-section">
-              <input
-                className="edit-category short"
-                type="text"
-                value={this.state[`${category._id}-short`] || category.short}
+              <ExpandingInput
+                placeholder="Name"
                 name="short"
+                value={this.state[`${category._id}-short`] || category.short}
                 onChange={e =>
                   this.handleEditCategoryChange(e, category._id, "short")
                 }
+                max="30"
               />
               <ColorPicker
                 handleColorChange={categoryColor =>
@@ -254,30 +263,30 @@ class Categories extends Component {
 
         <h3>Add a New Category:</h3>
         <form onSubmit={this.handleSubmit} className="new-category-form">
-          <label htmlFor="categoryName">Name:</label>
-          <input
-            className="new-input"
-            type="text"
-            name="categoryName"
-            value={categoryName}
-            onChange={this.handleNewCategoryChange}
-            id="categoryName"
-          />
-          <label htmlFor="categoryShort">Short:</label>
-          <input
-            className="new-input"
-            type="text"
-            name="categoryShort"
-            value={categoryShort}
-            onChange={this.handleNewCategoryChange}
-            id="categoryShort"
-          />
-          <ColorPicker
-            handleColorChange={categoryColor =>
-              this.setState({ categoryColor })
-            }
-          />
-          <ButtonStyles>Add Category</ButtonStyles>
+          <div className="input-areas">
+            <ExpandingInput
+              placeholder="Name"
+              name="categoryName"
+              value={categoryName}
+              onChange={this.handleNewCategoryChange}
+              max=""
+            />
+            <ExpandingInput
+              placeholder="Short"
+              name="categoryShort"
+              value={categoryShort}
+              onChange={this.handleNewCategoryChange}
+            />
+          </div>
+
+          <div className="buttons">
+            <ColorPicker
+              handleColorChange={categoryColor =>
+                this.setState({ categoryColor })
+              }
+            />
+            <ButtonStyles>Add Category</ButtonStyles>
+          </div>
         </form>
       </CategoriesStyles>
     );
