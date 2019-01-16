@@ -1,15 +1,12 @@
 import styled from "styled-components";
 
 const HeaderButtonStyles = styled.button`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   padding: 8px 10px 8px 10px;
   border-radius: 3px;
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.colors.negativeText};
   transition: background 0.1s;
   cursor: pointer;
-	background: transparent;
+  background: ${props => props.theme.colors.text};
 
   &:hover,
   &:focus {
