@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { FiSettings } from "react-icons/fi";
-import slugify from "slugify";
+import CheeseburgerMenu from "../Settings/CheeseburgerMenu";
 import HeaderButtonStyles from "../styles/HeaderButtonStyles";
+import Settings from "../Settings/Settings";
 
 class BoardSettings extends Component {
   static propTypes = {
@@ -15,23 +16,36 @@ class BoardSettings extends Component {
     dispatch: PropTypes.func.isRequired
   };
 
-  handleSelection = () => {
-    const { match, history, boardTitle } = this.props;
-    const { boardId } = match.params;
+  constructor(props) {
+    super(props);
 
-    history.push(
-      `/b/${boardId}/${slugify(boardTitle, {
-        lower: true
-      })}/settings`
-    );
+    this.state = {
+      menuOpen: false
+    };
+  }
+
+  openMenu = () => {
+    this.setState({ menuOpen: true });
+  };
+
+  closeMenu = () => {
+    this.setState({ menuOpen: false });
   };
 
   render = () => (
-    <HeaderButtonStyles onClick={this.handleSelection}>
-      <div className="modal-icon">
+    <>
+      <CheeseburgerMenu
+        isOpen={this.state.menuOpen}
+        closeCallback={this.closeMenu}
+        right
+        width={350}
+      >
+        <Settings closeMenu={this.closeMenu} />
+      </CheeseburgerMenu>
+      <HeaderButtonStyles onClick={this.openMenu}>
         <FiSettings />
-      </div>
-    </HeaderButtonStyles>
+      </HeaderButtonStyles>
+    </>
   );
 }
 

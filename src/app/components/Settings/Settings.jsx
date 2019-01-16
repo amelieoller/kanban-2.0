@@ -3,15 +3,32 @@ import styled from "styled-components";
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import slugify from "slugify";
+import { FiX, FiTrash2 } from "react-icons/fi";
 import Categories from "../Categories/Categories";
-import BoardDeleter from "./BoardDeleter";
+import ToolTip from "../ToolTip/ToolTip";
+import ButtonStyles from "../styles/ButtonStyles";
 
 const SettingsStyles = styled.div`
   background-color: ${props => props.theme.colors.mainBackground};
   color: ${props => props.theme.colors.text};
   width: 100%;
-  padding: 40px;
+  min-height: 100%;
+  padding: 20px;
+
+  .close-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 20px;
+    font-size: 25px;
+    color: ${props => props.theme.colors.monotoneAccent};
+    cursor: pointer;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
   button {
     padding: 5px 10px;
     color: ${props => props.theme.colors.backgroundAccent};
@@ -19,8 +36,12 @@ const SettingsStyles = styled.div`
     cursor: pointer;
     border-radius: ${props => props.theme.sizes.borderRadius};
   }
-  .eventCalendarInput {
+  .event-calendar-input {
     width: 200px;
+  }
+
+  .delete-button {
+    width: 30px;
   }
 `;
 
@@ -42,17 +63,6 @@ class Settings extends Component {
     };
   }
 
-  handleSelection = () => {
-    const { match, history, boardTitle } = this.props;
-    const { boardId } = match.params;
-
-    history.push(
-      `/b/${boardId}/${slugify(boardTitle, {
-        lower: true
-      })}`
-    );
-  };
-
   handleChange = e => {
     this.setState({
       eventCalendarId: e.target.value
@@ -71,13 +81,20 @@ class Settings extends Component {
     });
   };
 
+  handleDeleteBoard = () => {
+    const { dispatch, match, history } = this.props;
+    const { boardId } = match.params;
+    dispatch({ type: "DELETE_BOARD", payload: { boardId } });
+    history.push("/");
+  };
+
   render = () => {
-    const { dispatch } = this.props;
+    const { dispatch, closeMenu } = this.props;
     const { eventCalendarId } = this.state;
 
     return (
       <SettingsStyles>
-        <button onClick={this.handleSelection}>Back</button>
+        <FiX className="close-button" onClick={closeMenu} />
         <h1>Settings</h1>
         <Categories dispatch={dispatch} />
         <h2>Change Event Calendar:</h2>
@@ -85,13 +102,21 @@ class Settings extends Component {
         <form action="" onSubmit={this.handleSubmit}>
           <input
             type="text"
-            className="eventCalendarInput"
+            className="event-calendar-input"
             value={eventCalendarId}
             onChange={this.handleChange}
           />
-          <input type="submit" value="Change Calendar" />
+          <ButtonStyles>Change Calendar</ButtonStyles>
         </form>
-				Delete this board: <BoardDeleter />
+        <h2>Delete this board:</h2>
+        <ToolTip
+          message="Are you sure?"
+          button={<button onClick={this.handleDeleteBoard}>Delete</button>}
+        >
+          <ButtonStyles>
+            <FiTrash2 />
+          </ButtonStyles>
+        </ToolTip>
       </SettingsStyles>
     );
   };
