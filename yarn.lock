@@ -6281,6 +6281,13 @@ react-dom@^16.2.0:
     prop-types "^15.6.2"
     scheduler "^0.12.0"
 
+react-easy-swipe@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/react-easy-swipe/-/react-easy-swipe-0.0.17.tgz#029aae58c7f0ebe0056f19b8da3ee6e63c863055"
+  integrity sha512-+4486duR/1Gq16o4+eRkDLG/uKWur+aZ6TOLq4p8GvdHmQblZLbgEaN+Cr6U8P7Dcnou5gA3shMr9B3gq+AD7w==
+  dependencies:
+    prop-types "^15.5.8"
+
 react-head@^2.1.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-head/-/react-head-2.2.0.tgz#2364c52a75db5867fccafd8a933785f45acb632e"
