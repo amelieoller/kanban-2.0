@@ -1,8 +1,8 @@
 import React from "react";
+import styled from "styled-components";
 import BoardTitle from "./BoardTitle";
 import BoardSettings from "./BoardSettings";
 import LightDarkMode from "./LightDarkMode";
-import styled from "styled-components";
 
 const BoardHeaderStyles = styled.div`
   display: flex;
@@ -11,6 +11,7 @@ const BoardHeaderStyles = styled.div`
   box-sizing: border-box;
   color: ${props => props.theme.colors.white};
   z-index: 1;
+	position: relative;
 
   .board-header-right {
     display: flex;
