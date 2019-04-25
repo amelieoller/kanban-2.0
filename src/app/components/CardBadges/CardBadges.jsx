@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import format from "date-fns/format";
-import differenceInCalendarDays from "date-fns/difference_in_calendar_days";
-import { FiClock, FiBell, FiCheck } from "react-icons/fi";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import format from 'date-fns/format';
+import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
+import { FiClock, FiBell, FiCheck } from 'react-icons/fi';
+import styled from 'styled-components';
 
 const CardBadgesStyles = styled.div`
   display: flex;
@@ -43,7 +43,8 @@ class CardBadges extends Component {
       color: PropTypes.string.isRequired
     }),
     dispatch: PropTypes.func,
-    cardId: PropTypes.string
+    cardId: PropTypes.string,
+    toggleCategoryModal: PropTypes.func
   };
 
   renderDueDate = () => {
@@ -57,22 +58,22 @@ class CardBadges extends Component {
     if (dueDateFromToday < -1) {
       dueDateString = `${Math.abs(dueDateFromToday)} days ago`;
     } else if (dueDateFromToday === -1) {
-      dueDateString = "Yesterday";
+      dueDateString = 'Yesterday';
     } else if (dueDateFromToday === 0) {
-      dueDateString = "Today";
+      dueDateString = 'Today';
     } else if (dueDateFromToday === 1) {
-      dueDateString = "Tomorrow";
+      dueDateString = 'Tomorrow';
     } else {
-      dueDateString = format(date, "D MMM");
+      dueDateString = format(date, 'D MMM');
     }
 
     let dueDateColor;
     if (dueDateFromToday < 0) {
-      dueDateColor = "red";
+      dueDateColor = 'red';
     } else if (dueDateFromToday === 0) {
-      dueDateColor = "#d60";
+      dueDateColor = '#d60';
     } else {
-      dueDateColor = "green";
+      dueDateColor = 'green';
     }
 
     return (
@@ -84,16 +85,18 @@ class CardBadges extends Component {
     );
   };
 
-  // Render badge showing amoung of checkboxes that are checked
+  // Render badge showing amount of checkboxes that are checked
   renderTaskProgress = () => {
-    const { total, checked } = this.props.checkboxes;
+    const {
+      checkboxes: { total, checked }
+    } = this.props;
     if (total === 0) {
       return null;
     }
     return (
       <div
         className="badge"
-        style={{ background: checked === total ? "green" : "#444" }}
+        style={{ background: checked === total ? 'green' : '#444' }}
       >
         <FiCheck className="badge-icon" />
         &nbsp;
@@ -124,11 +127,11 @@ class CardBadges extends Component {
 
   handleMinuteChange = e => {
     const { dispatch, minutes, cardId } = this.props;
-    const newMinutes = parseInt(e.target.value);
+    const newMinutes = parseInt(e.target.value, 10);
 
     if (minutes !== newMinutes) {
       dispatch({
-        type: "CHANGE_CARD_MINUTES",
+        type: 'CHANGE_CARD_MINUTES',
         payload: { minutes: newMinutes, cardId }
       });
     }

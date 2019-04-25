@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Draggable } from "react-beautiful-dnd";
-import classnames from "classnames";
-import { FiCheck } from "react-icons/fi";
-import later from "later";
-import CardModal from "../CardModal/CardModal";
-import CardBadges from "../CardBadges/CardBadges";
-import { findCheckboxes } from "../utils";
-import formatMarkdown from "./formatMarkdown";
-import CategoryModal from "../CardModal/CategoryModal";
-import CardStyles from "../styles/CardStyles";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Draggable } from 'react-beautiful-dnd';
+import classnames from 'classnames';
+import { FiCheck } from 'react-icons/fi';
+import later from 'later';
+import CardModal from '../CardModal/CardModal';
+import CardBadges from '../CardBadges/CardBadges';
+import { findCheckboxes } from '../utils';
+import formatMarkdown from './formatMarkdown';
+import CategoryModal from '../CardModal/CategoryModal';
+import CardStyles from '../styles/CardStyles';
 
 class Card extends Component {
   static propTypes = {
@@ -49,12 +49,12 @@ class Card extends Component {
 
   handleClick = e => {
     const { tagName, checked, id } = e.target;
-    if (tagName.toLowerCase() === "input") {
+    if (tagName.toLowerCase() === 'input') {
       // The id is a string that describes which number in the order of checkboxes this particular checkbox has
       this.toggleCheckbox(checked, parseInt(id, 10));
     } else if (
-      tagName.toLowerCase() !== "a" &&
-      !e.target.classList.contains("badge")
+      tagName.toLowerCase() !== 'a' &&
+      !e.target.classList.contains('badge')
     ) {
       this.toggleCardEditor(e);
     }
@@ -62,7 +62,7 @@ class Card extends Component {
 
   handleKeyDown = e => {
     // Only open card on enter since spacebar is used by react-beautiful-dnd for keyboard dragging
-    if (e.keyCode === 13 && e.target.tagName.toLowerCase() !== "a") {
+    if (e.keyCode === 13 && e.target.tagName.toLowerCase() !== 'a') {
       e.preventDefault();
       this.toggleCardEditor();
     }
@@ -76,7 +76,7 @@ class Card extends Component {
     const newText = card.text.replace(/\[(\s|x)\]/g, match => {
       let newString;
       if (i === j) {
-        newString = checked ? "[x]" : "[ ]";
+        newString = checked ? '[x]' : '[ ]';
       } else {
         newString = match;
       }
@@ -85,7 +85,7 @@ class Card extends Component {
     });
 
     dispatch({
-      type: "CHANGE_CARD_TEXT",
+      type: 'CHANGE_CARD_TEXT',
       payload: { cardId: card._id, cardText: newText }
     });
   };
@@ -97,19 +97,19 @@ class Card extends Component {
       const nextDate = later.schedule(card.schedule).next();
 
       dispatch({
-        type: "CHANGE_CARD_SCHEDULE",
+        type: 'CHANGE_CARD_SCHEDULE',
         payload: { cardId: card._id, nextDate }
       });
     } else {
       const completedAt = Date.now();
 
       dispatch({
-        type: "CHANGE_CARD_COMPLETED_AT",
+        type: 'CHANGE_CARD_COMPLETED_AT',
         payload: { cardId: card._id, completedAt }
       });
 
       dispatch({
-        type: "COMPLETE_CARD",
+        type: 'COMPLETE_CARD',
         payload: { cardId: card._id, listId }
       });
     }
@@ -119,14 +119,14 @@ class Card extends Component {
     const { dispatch, card } = this.props;
 
     if (card.category !== category) {
-      if (category.color === "white") {
+      if (category.color === 'white') {
         dispatch({
-          type: "DELETE_CARD_CATEGORY",
+          type: 'DELETE_CARD_CATEGORY',
           payload: { cardId: card._id }
         });
       } else {
         dispatch({
-          type: "CHANGE_CARD_CATEGORY",
+          type: 'CHANGE_CARD_CATEGORY',
           payload: { categoryId: category._id, cardId: card._id }
         });
       }
@@ -156,9 +156,9 @@ class Card extends Component {
                   <div
                     className={classnames(
                       `difficulty-${card.difficulty}`,
-                      "card-title",
+                      'card-title',
                       {
-                        "card-title--drag": snapshot.isDragging
+                        'card-title--drag': snapshot.isDragging
                       }
                     )}
                     ref={ref => {
@@ -179,33 +179,35 @@ class Card extends Component {
                       ...provided.draggableProps.style
                     }}
                   >
-                    <div className="card-title-top">
-                      <div
-                        className="card-title-html"
-                        dangerouslySetInnerHTML={{
-                          __html: formatMarkdown(card.text)
-                        }}
-                      />
-                      <div className="checkmark" onClick={this.completeCard}>
-                        <FiCheck />
+                    <div className="card-left">
+                      <div className="card-title-top">
+                        <div
+                          className="card-title-html"
+                          dangerouslySetInnerHTML={{
+                            __html: formatMarkdown(card.text)
+                          }}
+                        />
                       </div>
+                      {(card.date ||
+                        checkboxes.total > 0 ||
+                        card.minutes ||
+                        card.category) && (
+                        <CardBadges
+                          date={card.date}
+                          checkboxes={checkboxes}
+                          minutes={card.minutes}
+                          category={categories.find(
+                            cat => cat._id === card.categoryId
+                          )}
+                          toggleCategoryModal={this.toggleCategoryModal}
+                          dispatch={dispatch}
+                          cardId={card._id}
+                        />
+                      )}
                     </div>
-                    {(card.date ||
-                      checkboxes.total > 0 ||
-                      card.minutes ||
-                      card.category) && (
-                      <CardBadges
-                        date={card.date}
-                        checkboxes={checkboxes}
-                        minutes={card.minutes}
-                        category={categories.find(
-                          cat => cat._id === card.categoryId
-                        )}
-                        toggleCategoryModal={this.toggleCategoryModal}
-                        dispatch={dispatch}
-                        cardId={card._id}
-                      />
-                    )}
+                    <div className="checkmark" onClick={this.completeCard}>
+                      <FiCheck />
+                    </div>
                   </div>
                   {/* Remove placeholder when not dragging over to reduce snapping */}
                   {isDraggingOver && provided.placeholder}

@@ -1,16 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import Modal from "react-modal";
-import { FiBell, FiFlag, FiTag, FiCheck, FiTrash2 } from "react-icons/fi";
-import later from "later";
-import styled from "styled-components";
-import Calendar from "./Calendar";
-import Picker from "../Picker/Picker";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+import { FiBell, FiFlag, FiTag, FiCheck, FiTrash2 } from 'react-icons/fi';
+import later from 'later';
+import styled from 'styled-components';
+import Calendar from './Calendar';
+import Picker from '../Picker/Picker';
 
 const CardOptionsStyles = styled.div`
   .options-list {
     margin: 0 8px;
+    display: flex;
+    flex-direction: column;
 
     @media (max-width: 550px) {
       flex-direction: row;
@@ -35,11 +37,11 @@ const CardOptionsStyles = styled.div`
     cursor: pointer;
 
     &.minutes {
-			max-width: 85px;
+      max-width: 85px;
     }
 
     &.recurring {
-			max-width: 130px;
+      max-width: 130px;
     }
   }
 
@@ -120,15 +122,15 @@ class CardOptions extends Component {
 
     this.state = {
       isCalendarOpen: false,
-      minutes: card.minutes || "",
-      recurringText: card.recurringText || ""
+      minutes: card.minutes || '',
+      recurringText: card.recurringText || ''
     };
   }
 
   deleteCard = () => {
     const { dispatch, listId, card } = this.props;
     dispatch({
-      type: "DELETE_CARD",
+      type: 'DELETE_CARD',
       payload: { cardId: card._id, listId }
     });
   };
@@ -139,19 +141,19 @@ class CardOptions extends Component {
       const nextDate = later.schedule(card.schedule).next();
 
       dispatch({
-        type: "CHANGE_CARD_SCHEDULE",
+        type: 'CHANGE_CARD_SCHEDULE',
         payload: { cardId: card._id, nextDate }
       });
     } else {
       const completedAt = Date.now();
 
       dispatch({
-        type: "CHANGE_CARD_COMPLETED_AT",
+        type: 'CHANGE_CARD_COMPLETED_AT',
         payload: { cardId: card._id, completedAt }
       });
 
       dispatch({
-        type: "COMPLETE_CARD",
+        type: 'COMPLETE_CARD',
         payload: { cardId: card._id, listId }
       });
     }
@@ -161,19 +163,19 @@ class CardOptions extends Component {
     const { dispatch, card, togglePicker } = this.props;
 
     if (card.category !== category) {
-      if (category.color === "white") {
+      if (category.color === 'white') {
         dispatch({
-          type: "DELETE_CARD_CATEGORY",
+          type: 'DELETE_CARD_CATEGORY',
           payload: { cardId: card._id }
         });
       } else {
         dispatch({
-          type: "CHANGE_CARD_CATEGORY",
+          type: 'CHANGE_CARD_CATEGORY',
           payload: { categoryId: category._id, cardId: card._id }
         });
       }
     }
-    togglePicker("Category");
+    togglePicker('Category');
     this.colorPickerButton.focus();
   };
 
@@ -181,11 +183,11 @@ class CardOptions extends Component {
     const { dispatch, card, togglePicker } = this.props;
     if (card.difficulty !== difficulty) {
       dispatch({
-        type: "CHANGE_CARD_DIFFICULTY",
+        type: 'CHANGE_CARD_DIFFICULTY',
         payload: { difficulty, cardId: card._id }
       });
     }
-    togglePicker("Difficulty");
+    togglePicker('Difficulty');
     this.colorPickerButton.focus();
   };
 
@@ -198,7 +200,7 @@ class CardOptions extends Component {
   };
 
   handleMinuteChange = e => {
-    const minutes = e.target.value !== "" ? parseInt(e.target.value, 10) : "";
+    const minutes = e.target.value !== '' ? parseInt(e.target.value, 10) : '';
 
     this.setState({
       [e.target.name]: minutes
@@ -212,7 +214,7 @@ class CardOptions extends Component {
 
     if (card.minutes !== minutes) {
       dispatch({
-        type: "CHANGE_CARD_MINUTES",
+        type: 'CHANGE_CARD_MINUTES',
         payload: { minutes, cardId: card._id }
       });
     }
@@ -233,7 +235,7 @@ class CardOptions extends Component {
       const nextDate = later.schedule(schedule).next();
 
       dispatch({
-        type: "CHANGE_CARD_RECURRING",
+        type: 'CHANGE_CARD_RECURRING',
         payload: { recurringText, cardId: card._id, nextDate, schedule }
       });
     }
@@ -267,8 +269,8 @@ class CardOptions extends Component {
     const calendarMobileStyle = {
       content: {
         top: 110,
-        left: "50%",
-        transform: "translateX(-50%)"
+        left: '50%',
+        transform: 'translateX(-50%)'
       }
     };
     return (
@@ -276,22 +278,20 @@ class CardOptions extends Component {
         <div
           className="options-list"
           style={{
-            alignItems: isCardNearRightBorder ? "flex-end" : "flex-start"
+            alignItems: isCardNearRightBorder ? 'flex-end' : 'flex-start'
           }}
         >
           {/* Complete */}
-          <div>
-            <button
-              type="submit"
-              onClick={this.completeCard}
-              className="options-list-button"
-            >
-              <div className="modal-icon">
-                <FiCheck />
-              </div>
-              &nbsp;Done
-            </button>
-          </div>
+          <button
+            type="submit"
+            onClick={this.completeCard}
+            className="options-list-button"
+          >
+            <div className="modal-icon">
+              <FiCheck />
+            </div>
+            &nbsp;Done
+          </button>
 
           {/* Minutes */}
           <form onSubmit={this.handleMinuteSubmit}>

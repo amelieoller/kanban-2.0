@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 // import { media } from "../Theme";
 
 // Header position has to fixed as the user scrolls to the right. Because of a limitation in react-beautiful-dnd library
@@ -28,7 +28,7 @@ const HeaderStyles = styled.header`
     font-size: 22px;
     font-weight: 700;
     text-decoration: none;
-    font-family: "Pacifico", cursive;
+    font-family: 'Pacifico', cursive;
 
     @media ${props => props.theme.media.tablet} {
       font-size: 20px;
