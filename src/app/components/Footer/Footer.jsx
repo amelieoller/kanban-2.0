@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import Pomodoro from "../Pomodoro/Pomodoro";
-import Calendar from "../Calendar/Calendar";
-import TaskStats from "../TaskStats/TaskStats";
-import RepeatingTasks from "../RepeatingTasks/RepeatingTasks";
-import Habits from "../Habits/Habits";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import Pomodoro from '../Pomodoro/Pomodoro';
+import Calendar from '../Calendar/Calendar';
+import TaskStats from '../TaskStats/TaskStats';
+import RepeatingTasks from '../RepeatingTasks/RepeatingTasks';
+import Habits from '../Habits/Habits';
 
 const FooterStyles = styled.footer`
   height: ${props => `${props.theme.sizes.footerHeight}px`};
@@ -14,6 +14,8 @@ const FooterStyles = styled.footer`
   display: flex;
   justify-content: space-evenly;
   border-top: 1px solid ${props => props.theme.colors.borderColor};
+  position: fixed;
+
   @media ${props => props.theme.media.tablet} {
     display: none;
   }

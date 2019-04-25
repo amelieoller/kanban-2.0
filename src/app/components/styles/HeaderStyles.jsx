@@ -11,7 +11,7 @@ const HeaderStyles = styled.header`
   align-items: center;
   flex-shrink: 0;
   box-sizing: border-box;
-  width: 100%;
+  width: 100vw;
   height: ${props => `${props.theme.sizes.headerHeight}px`};
   padding: 5px;
   background: #555;
@@ -19,6 +19,7 @@ const HeaderStyles = styled.header`
   transition: background 0.3s;
   box-shadow: ${props => props.theme.common.bs};
   background: ${props => props.theme.colors.headerBackground};
+  position: fixed;
 
   .header-title {
     display: inline-flex;

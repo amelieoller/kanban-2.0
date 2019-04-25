@@ -1,97 +1,66 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Title } from "react-head";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import styled from "styled-components";
-import List from "../List/List";
-import ListAdder from "../ListAdder/ListAdder";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import MobileFooter from "../MobileFooter/MobileFooter";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Title } from 'react-head';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import styled from 'styled-components';
+import List from '../List/List';
+import ListAdder from '../ListAdder/ListAdder';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import MobileFooter from '../MobileFooter/MobileFooter';
 
 const BoardStyles = styled.div`
-	width: 100%;
-	height: 100%;
-	overflow-y: scroll;
-	display: grid;
-	grid-template-columns: 1fr;
-	align-content: space-between;
-	background: ${props => props.theme.colors.mainBackground};
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  align-content: space-between;
+  background: ${props => props.theme.colors.mainBackground};
 
   .lists {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: 10px;
-    grid-template-rows: minmax(calc(100vh - ${props =>
-      `${props.theme.sizes.headerHeight +
-        props.theme.sizes.footerHeight}px`}), 1fr);
+    grid-template-rows: minmax(
+      calc(
+        100vh -
+          ${props =>
+            `${props.theme.sizes.headerHeight +
+              props.theme.sizes.footerHeight}px`}
+      ),
+      1fr
+    );
     grid-auto-flow: column;
     grid-auto-columns: ${props => props.theme.sizes.listWidth};
-    overflow-x: scroll;
     scroll-snap-type: x proximity;
-		margin: 0;
+    margin: 0;
+    max-height: calc(100vh - 220px);
+    margin-top: 40px;
 
-		@media (max-width: 768px) {
-      grid-template-rows: minmax(calc(100vh - ${props =>
-        `${
-          props.footerIsExpanded
-            ? props.theme.sizes.headerHeight +
-              props.theme.sizes.mobileFooterHeight +
-              props.theme.sizes.mobileFooterHeightExpanded
-            : props.theme.sizes.headerHeight +
-              props.theme.sizes.mobileFooterHeight
-        }px`}), 1fr);
+    @media (max-width: 768px) {
+      grid-template-rows: minmax(
+        calc(
+          100vh -
+            ${props =>
+              `${
+                props.footerIsExpanded
+                  ? props.theme.sizes.headerHeight +
+                    props.theme.sizes.mobileFooterHeight +
+                    props.theme.sizes.mobileFooterHeightExpanded
+                  : props.theme.sizes.headerHeight +
+                    props.theme.sizes.mobileFooterHeight
+              }px`}
+        ),
+        1fr
+      );
     }
   }
 
   .lists:before,
   .lists:after {
-    content: "";
+    content: '';
     width: 10px;
   }
-
-  /* main {
-    height: calc(
-      100vh -
-        ${props =>
-          `${
-            props.footerIsExpanded
-              ? props.theme.sizes.footerHeight + props.theme.sizes.headerHeight
-              : 40 + props.theme.sizes.headerHeight
-          }px`}
-    );
-    display: inline-flex;
-    padding: 15px 5px;
-    margin-top: ${props => `${props.theme.sizes.headerHeight}px`};
-
-    @media (min-width: 768px) {
-      height: calc(
-        100vh -
-          ${props =>
-            `${props.theme.sizes.footerHeight +
-              props.theme.sizes.headerHeight}px`}
-      );
-    }
-  }
-
-  .board-underlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
-    transition: background 0.3s;
-    background: ${props => props.theme.colors.mainBackground};
-  }
-
-  .lists {
-    display: inline-flex;
-    align-items: flex-start;
-    height: 100%;
-    user-select: none;
-  } */
 `;
 
 class Board extends Component {
@@ -101,7 +70,6 @@ class Board extends Component {
     ).isRequired,
     boardId: PropTypes.string.isRequired,
     boardTitle: PropTypes.string.isRequired,
-    boardColor: PropTypes.string.isRequired,
     pomodoro: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
   };
@@ -119,7 +87,7 @@ class Board extends Component {
   componentDidMount = () => {
     const { boardId, dispatch } = this.props;
     dispatch({
-      type: "PUT_BOARD_ID_IN_REDUX",
+      type: 'PUT_BOARD_ID_IN_REDUX',
       payload: { boardId }
     });
   };
@@ -129,7 +97,7 @@ class Board extends Component {
     const checkinDate = new Date();
 
     dispatch({
-      type: "CHANGE_LAST_CHECKIN",
+      type: 'CHANGE_LAST_CHECKIN',
       payload: { boardId, checkinDate }
     });
   };
@@ -142,11 +110,11 @@ class Board extends Component {
     const { dispatch, boardId, completedListId, habitsListId } = this.props;
 
     // Move list
-    if (type === "COLUMN") {
+    if (type === 'COLUMN') {
       // Prevent update if nothing has changed
       if (source.index !== destination.index) {
         dispatch({
-          type: "MOVE_LIST",
+          type: 'MOVE_LIST',
           payload: {
             oldListIndex: source.index,
             newListIndex: destination.index,
@@ -164,7 +132,7 @@ class Board extends Component {
       source.droppableId !== destination.droppableId
     ) {
       dispatch({
-        type: "MOVE_CARD",
+        type: 'MOVE_CARD',
         payload: {
           sourceListId: source.droppableId,
           destListId: destination.droppableId,
@@ -178,11 +146,11 @@ class Board extends Component {
 
   // The following three methods implement dragging of the board by holding down the mouse
   handleMouseDown = ({ target, clientX }) => {
-    if (target.className !== "list-wrapper" && target.className !== "lists") {
+    if (target.className !== 'list-wrapper' && target.className !== 'lists') {
       return;
     }
-    window.addEventListener("mousemove", this.handleMouseMove);
-    window.addEventListener("mouseup", this.handleMouseUp);
+    window.addEventListener('mousemove', this.handleMouseMove);
+    window.addEventListener('mouseup', this.handleMouseUp);
     this.setState({
       startX: clientX,
       startScrollX: window.scrollX
@@ -206,8 +174,8 @@ class Board extends Component {
   handleMouseUp = () => {
     const { startX } = this.state;
     if (startX) {
-      window.removeEventListener("mousemove", this.handleMouseMove);
-      window.removeEventListener("mouseup", this.handleMouseUp);
+      window.removeEventListener('mousemove', this.handleMouseMove);
+      window.removeEventListener('mouseup', this.handleMouseUp);
       this.setState({ startX: null, startScrollX: null });
     }
   };
@@ -215,10 +183,10 @@ class Board extends Component {
   handleWheel = ({ target, deltaY }) => {
     // Scroll page right or left as long as the mouse is not hovering a card-list (which could have vertical scroll)
     if (
-      target.className !== "list-wrapper" &&
-      target.className !== "lists" &&
-      target.className !== "open-composer-button" &&
-      target.className !== "list-title-button"
+      target.className !== 'list-wrapper' &&
+      target.className !== 'lists' &&
+      target.className !== 'open-composer-button' &&
+      target.className !== 'list-title-button'
     ) {
       return;
     }
@@ -256,20 +224,6 @@ class Board extends Component {
         <Title>{boardTitle} | Kanban 2.0</Title>
         <Header changeTheme={changeTheme} setBoardColor={setBoardColor} />
 
-        {/* <div className="lists">
-          <div className="list">test</div>
-          <div className="list">test</div>
-          <div className="list">test</div>
-          <div className="list">test</div>
-          <div className="list">test</div>
-          <div className="list">test</div>
-        </div> */}
-
-        {/* <main
-          className="lists-wrapper"
-          onMouseDown={this.handleMouseDown}
-          onWheel={this.handleWheel}
-        > */}
         <DragDropContext onDragEnd={this.handleDragEnd}>
           <Droppable droppableId={boardId} type="COLUMN" direction="horizontal">
             {provided => (
@@ -296,44 +250,6 @@ class Board extends Component {
           boardId={boardId}
           changeContentHeight={this.changeContentHeight}
         />
-
-        {/* <Title>{boardTitle} | Kanban 2.0</Title>
-        <Header changeTheme={changeTheme} setBoardColor={setBoardColor} />
-        <main
-          className="lists-wrapper"
-          onMouseDown={this.handleMouseDown}
-          onWheel={this.handleWheel}
-        >
-          <DragDropContext onDragEnd={this.handleDragEnd}>
-            <Droppable
-              droppableId={boardId}
-              type="COLUMN"
-              direction="horizontal"
-            >
-              {provided => (
-                <div className="lists" ref={provided.innerRef}>
-                  {otherLists.map((list, index) => (
-                    <List
-                      list={list}
-                      boardId={boardId}
-                      index={index}
-                      key={list._id}
-                    />
-                  ))}
-                  {provided.placeholder}
-                  <ListAdder boardId={boardId} />
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </main>
-        <Footer pomodoro={pomodoro} boardId={boardId} />
-        <MobileFooter
-          pomodoro={pomodoro}
-          boardId={boardId}
-          changeContentHeight={this.changeContentHeight}
-        />
-        <div className="board-underlay" /> */}
       </BoardStyles>
     );
   };
@@ -341,8 +257,9 @@ class Board extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { board } = ownProps;
-  const completedListId = state.boardsById[board._id].settings.completedListId;
-  const habitsListId = state.boardsById[board._id].settings.habitsListId;
+  const { completedListId, habitsListId } = state.boardsById[
+    board._id
+  ].settings;
 
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
