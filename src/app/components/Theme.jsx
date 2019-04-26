@@ -98,6 +98,7 @@ const sizes = {
   boardMargin: 5,
   headerHeight: 40,
   footerHeight: 180,
+  sidebarWidth: 210,
   mobileFooterHeight: 40,
   mobileFooterHeightExpanded: 140
 };
