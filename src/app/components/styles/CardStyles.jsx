@@ -40,15 +40,8 @@ const CardStyles = styled.div`
   }
 
   .checkmark {
-    color: ${props => props.theme.colors.lighterGrey};
+    color: ${props => props.theme.colors.lightestGrey};
     padding: 9px;
-    background-color: white;
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(197, 198, 197, 0.15870098039215685) 44%,
-      rgba(197, 198, 197, 0.5060399159663865) 100%
-    );
   }
 
   .card-title:hover {
@@ -57,11 +50,6 @@ const CardStyles = styled.div`
 
   .checkmark:hover {
     color: ${props => props.theme.colors.success};
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(0, 173, 69, 0.42) 100%
-    );
   }
 
   .card-title:focus {
