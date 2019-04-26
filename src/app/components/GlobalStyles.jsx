@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 	html {
@@ -22,6 +22,10 @@ const GlobalStyles = createGlobalStyle`
 
 	*, *:before, *:after {
 		box-sizing: inherit;
+	}
+
+	* {
+		outline: none;
 	}
 
 	body {

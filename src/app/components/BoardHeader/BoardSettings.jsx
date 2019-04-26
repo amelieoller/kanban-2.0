@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { FiSettings } from "react-icons/fi";
-import SlideMenu from "../Settings/SlideMenu";
-import HeaderButtonStyles from "../styles/HeaderButtonStyles";
-import Settings from "../Settings/Settings";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { FiSettings } from 'react-icons/fi';
+import SlideMenu from '../Settings/SlideMenu';
+import HeaderButtonStyles from '../styles/HeaderButtonStyles';
+import Settings from '../Settings/Settings';
 
 class BoardSettings extends Component {
   static propTypes = {
@@ -42,7 +42,7 @@ class BoardSettings extends Component {
       >
         <Settings closeMenu={this.closeMenu} />
       </SlideMenu>
-      <HeaderButtonStyles onClick={this.openMenu}>
+      <HeaderButtonStyles onClick={this.openMenu} className="no-focus-mode">
         <FiSettings />
       </HeaderButtonStyles>
     </>

@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Draggable } from "react-beautiful-dnd";
-import classnames from "classnames";
-import styled from "styled-components";
-import ListHeader from "./ListHeader";
-import Cards from "./Cards";
-import CardAdder from "../CardAdder/CardAdder";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Draggable } from 'react-beautiful-dnd';
+import classnames from 'classnames';
+import styled from 'styled-components';
+import ListHeader from './ListHeader';
+import Cards from './Cards';
+import CardAdder from '../CardAdder/CardAdder';
 
 const ListStyles = styled.div`
   display: inline-flex;
@@ -74,10 +74,15 @@ class List extends Component {
       >
         {(provided, snapshot) => (
           <>
-            <ListStyles ref={provided.innerRef} {...provided.draggableProps}>
+            <ListStyles
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              className={`no-focus-mode ${list._id}`}
+              name={list._id}
+            >
               <div
-                className={classnames("list", {
-                  "list--drag": snapshot.isDragging
+                className={classnames('list', {
+                  'list--drag': snapshot.isDragging
                 })}
               >
                 <ListHeader

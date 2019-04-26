@@ -322,7 +322,7 @@ class Pomodoro extends Component {
 
     return (
       <StyledPomodoro percentage={circleDisplay}>
-        <div className="bar-wrapper">
+        <div className="bar-wrapper focus-mode">
           <div className="pomodoro-inside">
             <div className="start-countdown-wrapper">
               <span onClick={() => this.startCountdown()}>

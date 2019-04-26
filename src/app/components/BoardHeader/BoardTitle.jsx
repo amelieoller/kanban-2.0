@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 
 const BoardTitleInput = styled.input`
   width: 100%;
@@ -72,10 +72,10 @@ class BoardTitle extends Component {
   submitTitle = () => {
     const { dispatch, boardId, boardTitle } = this.props;
     const { newTitle } = this.state;
-    if (newTitle === "") return;
+    if (newTitle === '') return;
     if (boardTitle !== newTitle) {
       dispatch({
-        type: "CHANGE_BOARD_TITLE",
+        type: 'CHANGE_BOARD_TITLE',
         payload: {
           boardTitle: newTitle,
           boardId
@@ -115,9 +115,14 @@ class BoardTitle extends Component {
         onBlur={this.revertTitle}
         onFocus={this.handleFocus}
         spellCheck={false}
+        className="no-focus-mode"
       />
     ) : (
-      <BoardTitleButton type="submit" onClick={this.handleClick}>
+      <BoardTitleButton
+        type="submit"
+        onClick={this.handleClick}
+        className="no-focus-mode"
+      >
         <h1 className="board-title-text">{boardTitle}</h1>
       </BoardTitleButton>
     );

@@ -45,7 +45,7 @@ class Habits extends Component {
     const { cards, habitsListId, habitStats, dispatch, boardId } = this.props;
 
     return (
-      <HabitsStyles>
+      <HabitsStyles className="no-focus-mode">
         <HabitStats boardId={boardId} />
         <ul>
           {cards &&

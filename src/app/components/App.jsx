@@ -1,29 +1,36 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Route, Redirect, Switch, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { ThemeProvider } from "styled-components";
-import Home from "./Home/Home";
-import BoardContainer from "./Board/BoardContainer";
-import LandingPage from "./LandingPage/LandingPage";
-import Settings from "./Settings/Settings";
-import GlobalStyles from "./GlobalStyles";
-import { light, dark } from "./Theme";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+import Home from './Home/Home';
+import BoardContainer from './Board/BoardContainer';
+import LandingPage from './LandingPage/LandingPage';
+import Settings from './Settings/Settings';
+import GlobalStyles from './GlobalStyles';
+import { light, dark } from './Theme';
 
 class App extends Component {
   state = {
-    isLight: true
+    isLight: true,
+    focusMode: false
   };
 
   setBoardColor = boardColor => {
     this.setState({
-      isLight: boardColor === "light"
+      isLight: boardColor === 'light'
+    });
+  };
+
+  changeFocusMode = () => {
+    this.setState({
+      focusMode: !this.state.focusMode
     });
   };
 
   render() {
     const { user, isGuest } = this.props;
-    const { isLight } = this.state;
+    const { isLight, focusMode } = this.state;
 
     return (
       <ThemeProvider theme={isLight ? light : dark}>
@@ -47,6 +54,8 @@ class App extends Component {
                       })
                     }
                     setBoardColor={boardColor => this.setBoardColor(boardColor)}
+                    focusMode={focusMode}
+                    changeFocusMode={this.changeFocusMode}
                   />
                 )}
               />

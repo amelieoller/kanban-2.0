@@ -120,7 +120,7 @@ class Calendar extends Component {
     const nextEventText = moment(nextEventTime).fromNow();
 
     return (
-      <CalendarStyles>
+      <CalendarStyles className="no-focus-mode">
         <span className="header">Events </span>
         {events.length !== 0 && (
           <span className="cursive-header pomodori-left">

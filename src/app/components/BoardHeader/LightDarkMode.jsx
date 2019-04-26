@@ -30,7 +30,7 @@ class LightDarkMode extends Component {
   render() {
     const { boardColor } = this.props;
     return (
-      <HeaderButtonStyles onClick={this.changeBoardColor}>
+      <HeaderButtonStyles onClick={this.changeBoardColor} className="no-focus-mode">
         {boardColor === "light" ? <FiMoon /> : <FiSun />}
       </HeaderButtonStyles>
     );

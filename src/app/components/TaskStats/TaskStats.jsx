@@ -193,7 +193,7 @@ class TaskStats extends Component {
         .reduce((accumulator, currentValue) => accumulator + currentValue);
 
     return (
-      <TaskStatsStyled>
+      <TaskStatsStyled className="no-focus-mode">
         <div className="header">
           Task Stats · <span className="number">{accumulated || 0}</span>
         </div>

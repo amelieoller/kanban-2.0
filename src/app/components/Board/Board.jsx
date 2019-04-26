@@ -7,8 +7,7 @@ import styled from 'styled-components';
 import List from '../List/List';
 import ListAdder from '../ListAdder/ListAdder';
 import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import MobileFooter from '../MobileFooter/MobileFooter';
+import Sidebar from '../Sidebar/Sidebar';
 
 const BoardStyles = styled.div`
   width: 100%;
@@ -17,17 +16,16 @@ const BoardStyles = styled.div`
   align-content: space-between;
   background: ${props => props.theme.colors.mainBackground};
 
+  .no-focus-mode:not([name='9PnQYLMlW']) {
+    filter: ${props => (props.focusMode ? 'blur(3px)' : 'none')};
+  }
+
   .lists {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: 10px;
     grid-template-rows: minmax(
-      calc(
-        100vh -
-          ${props =>
-            `${props.theme.sizes.headerHeight +
-              props.theme.sizes.footerHeight}px`}
-      ),
+      calc(100vh - ${props => `${props.theme.sizes.headerHeight + 15}px`}),
       1fr
     );
     grid-auto-flow: column;
@@ -35,25 +33,8 @@ const BoardStyles = styled.div`
     scroll-snap-type: x proximity;
     margin: 0;
     max-height: calc(100vh - 220px);
-    margin-top: 40px;
-
-    @media (max-width: 768px) {
-      grid-template-rows: minmax(
-        calc(
-          100vh -
-            ${props =>
-              `${
-                props.footerIsExpanded
-                  ? props.theme.sizes.headerHeight +
-                    props.theme.sizes.mobileFooterHeight +
-                    props.theme.sizes.mobileFooterHeightExpanded
-                  : props.theme.sizes.headerHeight +
-                    props.theme.sizes.mobileFooterHeight
-              }px`}
-        ),
-        1fr
-      );
-    }
+    margin-top: ${props => `${props.theme.sizes.headerHeight}px`};
+    margin-left: ${props => `${props.theme.sizes.sidebarWidth}px`};
   }
 
   .lists:before,
@@ -78,8 +59,7 @@ class Board extends Component {
     super(props);
     this.state = {
       startX: null,
-      startScrollX: null,
-      footerIsExpanded: false
+      startScrollX: null
     };
   }
 
@@ -198,12 +178,6 @@ class Board extends Component {
     }
   };
 
-  changeContentHeight = footerIsExpanded => {
-    this.setState({
-      footerIsExpanded
-    });
-  };
-
   render = () => {
     const {
       lists,
@@ -213,16 +187,23 @@ class Board extends Component {
       completedListId,
       habitsListId,
       changeTheme,
-      setBoardColor
+      setBoardColor,
+      focusMode,
+      changeFocusMode
     } = this.props;
     const otherLists = lists.filter(
       list => list && list._id !== completedListId && list._id !== habitsListId
     );
 
     return (
-      <BoardStyles footerIsExpanded={this.state.footerIsExpanded}>
+      <BoardStyles focusMode={focusMode}>
         <Title>{boardTitle} | Kanban 2.0</Title>
-        <Header changeTheme={changeTheme} setBoardColor={setBoardColor} />
+        <Header
+          changeTheme={changeTheme}
+          setBoardColor={setBoardColor}
+          focusMode={focusMode}
+          changeFocusMode={changeFocusMode}
+        />
 
         <DragDropContext onDragEnd={this.handleDragEnd}>
           <Droppable droppableId={boardId} type="COLUMN" direction="horizontal">
@@ -244,12 +225,7 @@ class Board extends Component {
         </DragDropContext>
         {/* </main> */}
 
-        <Footer pomodoro={pomodoro} boardId={boardId} />
-        <MobileFooter
-          pomodoro={pomodoro}
-          boardId={boardId}
-          changeContentHeight={this.changeContentHeight}
-        />
+        <Sidebar pomodoro={pomodoro} boardId={boardId} />
       </BoardStyles>
     );
   };

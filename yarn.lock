@@ -6295,10 +6295,12 @@ react-head@^2.1.0:
   dependencies:
     "@babel/runtime" "7.0.0-beta.51"
 
-react-icons@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.2.2.tgz#7b1dc795004a119a35175e62ecef91e5c9c90962"
-  integrity sha512-0DiXTcECUNoMvze2zcFwYYrHAFgQ2rBM0+HIHfaECKRfE1NZYwfuUSbwyg9s1uVPuy7o/KqQKSwBGMWQFvdrhQ==
+react-icons@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.6.1.tgz#794da15fff7788907e0390237e13a50692bffd00"
+  integrity sha512-TpdkxqS2zohHjMjO58AfMB3aW4HE6Hn2FWX2HhIbfCptHpPzW3fIrXRBSOhkzsm59CZUr7M5v2F/j3eBwws95Q==
+  dependencies:
+    camelcase "^5.0.0"
 
 react-is@^16.3.2, react-is@^16.6.0:
   version "16.7.0"
