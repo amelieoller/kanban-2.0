@@ -1,10 +1,33 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import Pomodoro from "../Pomodoro/Pomodoro";
-import Calendar from "../Calendar/Calendar";
-import TaskStats from "../TaskStats/TaskStats";
-import SidebarStyles from "../styles/SidebarStyles";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import Pomodoro from '../Pomodoro/Pomodoro';
+import Calendar from '../Calendar/Calendar';
+import TaskStats from '../TaskStats/TaskStats';
+import RepeatingTasks from '../RepeatingTasks/RepeatingTasks';
+import Habits from '../Habits/Habits';
+
+const SidebarStyles = styled.div`
+  width: ${props => `${props.theme.sizes.sidebarWidth}px`};
+  height: 100vw;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid ${props => props.theme.colors.borderColor};
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: ${props => `${props.theme.sizes.headerHeight}px`};
+  overflow: scroll;
+  border-right: 1px solid ${props => props.theme.colors.borderColor};
+
+  & > div {
+    background: ${props => props.theme.colors.negativeText};
+    padding: 10px 10px 25px 10px;
+    width: 100%;
+    height: 100%;
+  }
+`;
 
 class Sidebar extends Component {
   static propTypes = {
@@ -51,6 +74,8 @@ class Sidebar extends Component {
           dispatch={dispatch}
           categories={categories}
         />
+        <Habits boardId={boardId} />
+        <RepeatingTasks pomodoro={pomodoro} boardId={boardId} />
       </SidebarStyles>
     );
   };
