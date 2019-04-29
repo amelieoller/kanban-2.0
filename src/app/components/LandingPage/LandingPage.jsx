@@ -132,11 +132,11 @@ class LandingPage extends Component {
       <div className="login-area">
         <h1 className="landing-page-heading">Kanban 2.0</h1>
         <div className="signin-buttons">
-          <GoogleAuth />
-          {/* <a href="/auth/google" className="google-button">
+          {/* <GoogleAuth dispatch={this.props.dispatch} /> */}
+          <a href="/auth/google" className="google-button">
             <img className="button-icon" src={googleLogo} alt="google logo" />
             <span className="button-text">Sign in with Google</span>
-          </a> */}
+          </a>
           <button
             type="submit"
             onClick={this.enterAsGuest}
