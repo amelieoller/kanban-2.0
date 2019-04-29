@@ -5,6 +5,7 @@ import { Title } from "react-head";
 import { FiUser, FiGithub } from "react-icons/fi";
 import styled from "styled-components";
 import googleLogo from "../../../assets/images/google-logo.svg";
+import GoogleAuth from "../../../server/googleAuth";
 
 const LandingPageStyles = styled.div`
   height: 100vh;
@@ -131,10 +132,11 @@ class LandingPage extends Component {
       <div className="login-area">
         <h1 className="landing-page-heading">Kanban 2.0</h1>
         <div className="signin-buttons">
-          <a href="/auth/google" className="google-button">
+          <GoogleAuth />
+          {/* <a href="/auth/google" className="google-button">
             <img className="button-icon" src={googleLogo} alt="google logo" />
             <span className="button-text">Sign in with Google</span>
-          </a>
+          </a> */}
           <button
             type="submit"
             onClick={this.enterAsGuest}

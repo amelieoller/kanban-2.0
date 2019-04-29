@@ -52,6 +52,7 @@
 		"react-day-picker": "^7.1.9",
 		"react-dom": "^16.2.0",
 		"react-easy-swipe": "^0.0.17",
+		"react-google-login": "^5.0.4",
 		"react-head": "^2.1.0",
 		"react-icons": "^3.6.1",
 		"react-modal": "^3.4.4",
