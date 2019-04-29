@@ -1,13 +1,13 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { FiX, FiTrash2 } from "react-icons/fi";
-import Categories from "../Categories/Categories";
-import ToolTip from "../ToolTip/ToolTip";
-import ButtonStyles from "../styles/ButtonStyles";
-import ExpandingInput from "../ExpandingInput/ExpandingInput";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { FiX, FiTrash2 } from 'react-icons/fi';
+import Categories from '../Categories/Categories';
+import ToolTip from '../ToolTip/ToolTip';
+import ButtonStyles from '../styles/ButtonStyles';
+import ExpandingInput from '../ExpandingInput/ExpandingInput';
 
 const SettingsStyles = styled.div`
   background-color: ${props => props.theme.colors.mainBackground};
@@ -53,45 +53,54 @@ class Settings extends Component {
     }).isRequired,
     history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
     dispatch: PropTypes.func.isRequired,
-    eventCalendarId: PropTypes.string
+    eventCalendarId: PropTypes.string,
+    eventFilter: PropTypes.string
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      eventCalendarId: this.props.eventCalendarId || ""
+      eventCalendarId: props.eventCalendarId || '',
+      eventFilter: props.eventFilter || ''
     };
   }
 
   handleChange = e => {
     this.setState({
-      eventCalendarId: e.target.value
+      [e.target.name]: e.target.value
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     const { match, dispatch } = this.props;
-    const { eventCalendarId } = this.state;
+    const { eventCalendarId, eventFilter } = this.state;
     const { boardId } = match.params;
 
-    dispatch({
-      type: "CHANGE_EVENT_CALENDAR_ID",
-      payload: { boardId, eventCalendarId }
-    });
+    if (e.target.name === 'eventCalendarId') {
+      dispatch({
+        type: 'CHANGE_EVENT_CALENDAR_ID',
+        payload: { boardId, eventCalendarId }
+      });
+    } else {
+      dispatch({
+        type: 'CHANGE_EVENT_CALENDAR_FILTER',
+        payload: { boardId, eventFilter }
+      });
+    }
   };
 
   handleDeleteBoard = () => {
     const { dispatch, match, history } = this.props;
     const { boardId } = match.params;
-    dispatch({ type: "DELETE_BOARD", payload: { boardId } });
-    history.push("/");
+    dispatch({ type: 'DELETE_BOARD', payload: { boardId } });
+    history.push('/');
   };
 
   render = () => {
     const { dispatch, closeMenu } = this.props;
-    const { eventCalendarId } = this.state;
+    const { eventCalendarId, eventFilter } = this.state;
 
     return (
       <SettingsStyles>
@@ -99,18 +108,30 @@ class Settings extends Component {
         <h1>Settings</h1>
         <Categories dispatch={dispatch} />
         <hr />
-        <h2>Change Event Calendar:</h2>
+        <h2>Events:</h2>
+        <h2>Change Event Calendar</h2>
         <p>This is your email address associate with a google calendar</p>
         <form action="" onSubmit={this.handleSubmit}>
           <ExpandingInput
-            placeholder="Name"
-            name="name"
+            placeholder="Event Calendar"
+            name="eventCalendarId"
             value={eventCalendarId}
             onChange={this.handleChange}
-            max=""
           />
           <ButtonStyles>Change Calendar</ButtonStyles>
         </form>
+
+        <h3>Add a Keyword By Which to Filter Events:</h3>
+        <form action="" onSubmit={this.handleSubmit}>
+          <ExpandingInput
+            placeholder="Event Filter"
+            name="eventFilter"
+            value={eventFilter}
+            onChange={this.handleChange}
+          />
+          <ButtonStyles>Change Filter</ButtonStyles>
+        </form>
+
         <hr />
         <h2>Delete this board:</h2>
         <ToolTip
@@ -130,7 +151,8 @@ const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
   return {
     boardTitle: state.boardsById[boardId].title,
-    eventCalendarId: state.boardsById[boardId].settings.eventCalendarId
+    eventCalendarId: state.boardsById[boardId].settings.eventCalendarId,
+    eventFilter: state.boardsById[boardId].settings.eventFilter
   };
 };
 

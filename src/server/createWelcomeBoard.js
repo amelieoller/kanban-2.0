@@ -1,9 +1,9 @@
-import shortid from "shortid";
+import shortid from 'shortid';
 
 // Give every card in a list an _id and the color white UNLESS those properties already exist
 const appendAttributes = list =>
   list.map(card => ({
-    color: "white",
+    color: 'white',
     _id: shortid.generate(),
     ...card
   }));
@@ -11,12 +11,12 @@ const appendAttributes = list =>
 // Generate the initial showcase board that every user and guest gets when they first log in
 const createWelcomeBoard = userId => {
   const list1 = [
-    { text: "### An open source application inspired by Trello" },
+    { text: '### An open source application inspired by Trello' },
     {
       text: `![Octocat](https://assets-cdn.github.com/images/modules/logos_page/Octocat.png)
 Check out the [source code on GitHub](https://github.com/yogaboll/react-kanban)
 `,
-      color: "#6df"
+      color: '#6df'
     }
   ];
 
@@ -46,7 +46,7 @@ Unlike a certain other website...`
 [x] Colors
 [x] Deadlines
 [x] Checkboxes`,
-      color: "#ff6",
+      color: '#ff6',
       date: new Date()
     }
   ];
@@ -90,35 +90,35 @@ Since you are not signed in, your changes will not persist after you leave the w
 
   return {
     _id: shortid.generate(),
-    title: "Tutorial board",
-    color: "blue",
+    title: 'Tutorial board',
+    color: 'blue',
     lists: [
       {
         _id: shortid.generate(),
-        title: "Welcome to React Kanban!",
+        title: 'Welcome to React Kanban!',
         cards: appendAttributes(list1)
       },
       {
         _id: shortid.generate(),
-        title: "Features",
+        title: 'Features',
         cards: appendAttributes(list2)
       },
       {
         _id: shortid.generate(),
-        title: "How to use",
+        title: 'How to use',
         cards: appendAttributes(list3)
-			},
-			{
-				_id: habitsListId,
-				title: "Habits",
-				cards: [],
-				special: "habits"
-			},
+      },
+      {
+        _id: habitsListId,
+        title: 'Habits',
+        cards: [],
+        special: 'habits'
+      },
       {
         _id: completedListId,
-        title: "Completed",
+        title: 'Completed',
         cards: [],
-        special: "completed"
+        special: 'completed'
       }
     ],
     users: userId ? [userId] : [],
@@ -128,10 +128,11 @@ Since you are not signed in, your changes will not persist after you leave the w
       goals: {
         habits: 0
       },
-      categories: [{ name: "", short: "", color: "white", _id: categoryId }],
-      defaultCategory: "none",
-      eventCalendarId: "",
-      color: "grey",
+      categories: [{ name: '', short: '', color: 'white', _id: categoryId }],
+      defaultCategory: 'none',
+      eventCalendarId: '',
+      eventFilter: '',
+      color: 'grey',
       completedListId,
       habitsListId
     }

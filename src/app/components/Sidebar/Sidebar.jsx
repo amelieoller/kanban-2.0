@@ -10,7 +10,7 @@ import Habits from '../Habits/Habits';
 
 const SidebarStyles = styled.div`
   width: ${props => `${props.theme.sizes.sidebarWidth}px`};
-  height: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   border-top: 1px solid ${props => props.theme.colors.borderColor};
@@ -55,17 +55,19 @@ class Sidebar extends Component {
       user,
       completedListId,
       categories,
-      eventCalendarId
+      eventCalendarId,
+      eventFilter
     } = this.props;
 
     return (
       <SidebarStyles>
         <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
-        {user && (
+        {user && eventCalendarId && (
           <Calendar
             user={user}
             dispatch={dispatch}
             eventCalendarId={eventCalendarId}
+            eventFilter={eventFilter}
           />
         )}
         <TaskStats
@@ -92,7 +94,9 @@ const mapStateToProps = (state, ownProps) => {
     completedListId,
     user: state.user,
     categories: state.boardsById[ownProps.boardId].settings.categories,
-    eventCalendarId: state.boardsById[ownProps.boardId].settings.eventCalendarId
+    eventCalendarId:
+      state.boardsById[ownProps.boardId].settings.eventCalendarId,
+    eventFilter: state.boardsById[ownProps.boardId].settings.eventFilter
   };
 };
 export default connect(mapStateToProps)(Sidebar);

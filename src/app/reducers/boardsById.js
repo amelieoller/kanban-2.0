@@ -1,6 +1,6 @@
 const boardsById = (state = {}, action) => {
   switch (action.type) {
-    case "ADD_LIST": {
+    case 'ADD_LIST': {
       const { boardId, listId } = action.payload;
       return {
         ...state,
@@ -10,7 +10,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "MOVE_LIST": {
+    case 'MOVE_LIST': {
       const {
         oldListIndex,
         newListIndex,
@@ -39,7 +39,7 @@ const boardsById = (state = {}, action) => {
         [boardId]: { ...state[boardId], lists: newLists }
       };
     }
-    case "DELETE_LIST": {
+    case 'DELETE_LIST': {
       const { listId: newListId, boardId } = action.payload;
       return {
         ...state,
@@ -49,7 +49,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "ADD_BOARD": {
+    case 'ADD_BOARD': {
       const {
         boardTitle,
         boardId,
@@ -73,18 +73,18 @@ const boardsById = (state = {}, action) => {
               habits: 0
             },
             categories: [
-              { name: "", short: "", color: "white", _id: categoryId }
+              { name: '', short: '', color: 'white', _id: categoryId }
             ],
-            defaultCategory: "none",
-            eventCalendarId: "",
-            color: "light",
+            defaultCategory: 'none',
+            eventCalendarId: '',
+            color: 'light',
             completedListId,
             habitsListId
           }
         }
       };
     }
-    case "CHANGE_BOARD_TITLE": {
+    case 'CHANGE_BOARD_TITLE': {
       const { boardTitle, boardId } = action.payload;
       return {
         ...state,
@@ -94,7 +94,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_BOARD_COLOR": {
+    case 'CHANGE_BOARD_COLOR': {
       const { boardId, color } = action.payload;
       return {
         ...state,
@@ -107,7 +107,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_HABIT_STATS": {
+    case 'CHANGE_HABIT_STATS': {
       const { boardId, habit } = action.payload;
       let newHabits = {};
 
@@ -140,7 +140,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_SETTING": {
+    case 'CHANGE_SETTING': {
       const { boardId, checkinDate } = action.payload;
       return {
         ...state,
@@ -153,7 +153,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_LAST_CHECKIN": {
+    case 'CHANGE_LAST_CHECKIN': {
       const { boardId, checkinDate } = action.payload;
       return {
         ...state,
@@ -166,7 +166,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_POMODORO_SETTING": {
+    case 'CHANGE_POMODORO_SETTING': {
       const { boardId, type, value } = action.payload;
 
       return {
@@ -183,7 +183,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_GOAL_SETTING": {
+    case 'CHANGE_GOAL_SETTING': {
       const { boardId, type, value } = action.payload;
 
       return {
@@ -200,7 +200,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "ADD_CATEGORY": {
+    case 'ADD_CATEGORY': {
       const { boardId, category } = action.payload;
 
       return {
@@ -214,7 +214,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "DELETE_CATEGORY": {
+    case 'DELETE_CATEGORY': {
       const { boardId, categoryId } = action.payload;
       return {
         ...state,
@@ -229,7 +229,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_DEFAULT_CATEGORY": {
+    case 'CHANGE_DEFAULT_CATEGORY': {
       const { boardId, categoryId } = action.payload;
       return {
         ...state,
@@ -242,24 +242,23 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_CATEGORY": {
-			const { boardId, categoryId, name, short, color } = action.payload;
-			// debugger
+    case 'CHANGE_CATEGORY': {
+      const { boardId, categoryId, name, short, color } = action.payload;
+
       return {
         ...state,
         [boardId]: {
           ...state[boardId],
           settings: {
             ...state[boardId].settings,
-            categories: state[boardId].settings.categories.map(
-              cat =>
-								cat._id == categoryId ? { ...cat, name, short, color } : cat
+            categories: state[boardId].settings.categories.map(cat =>
+              cat._id == categoryId ? { ...cat, name, short, color } : cat
             )
           }
         }
       };
     }
-    case "CHANGE_EVENT_CALENDAR_ID": {
+    case 'CHANGE_EVENT_CALENDAR_ID': {
       const { boardId, eventCalendarId } = action.payload;
       return {
         ...state,
@@ -272,7 +271,20 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case "DELETE_BOARD": {
+    case 'CHANGE_EVENT_CALENDAR_FILTER': {
+      const { boardId, eventFilter } = action.payload;
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            eventFilter
+          }
+        }
+      };
+    }
+    case 'DELETE_BOARD': {
       const { boardId } = action.payload;
       const { [boardId]: deletedBoard, ...restOfBoards } = state;
       return restOfBoards;

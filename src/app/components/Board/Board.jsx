@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Title } from 'react-head';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
+import { CSSTransitionGroup } from 'react-transition-group';
 import List from '../List/List';
 import ListAdder from '../ListAdder/ListAdder';
 import Header from '../Header/Header';
@@ -197,35 +198,47 @@ class Board extends Component {
 
     return (
       <BoardStyles focusMode={focusMode}>
-        <Title>{boardTitle} | Kanban 2.0</Title>
-        <Header
-          changeTheme={changeTheme}
-          setBoardColor={setBoardColor}
-          focusMode={focusMode}
-          changeFocusMode={changeFocusMode}
-        />
+        <CSSTransitionGroup
+          transitionName="fade"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnter={false}
+          transitionLeave={false}
+        >
+          <Title>{boardTitle} | Kanban 2.0</Title>
+          <Header
+            changeTheme={changeTheme}
+            setBoardColor={setBoardColor}
+            focusMode={focusMode}
+            changeFocusMode={changeFocusMode}
+          />
 
-        <DragDropContext onDragEnd={this.handleDragEnd}>
-          <Droppable droppableId={boardId} type="COLUMN" direction="horizontal">
-            {provided => (
-              <main className="lists" ref={provided.innerRef}>
-                {otherLists.map((list, index) => (
-                  <List
-                    list={list}
-                    boardId={boardId}
-                    index={index}
-                    key={list._id}
-                  />
-                ))}
-                {provided.placeholder}
-                <ListAdder boardId={boardId} />
-              </main>
-            )}
-          </Droppable>
-        </DragDropContext>
-        {/* </main> */}
+          <DragDropContext onDragEnd={this.handleDragEnd}>
+            <Droppable
+              droppableId={boardId}
+              type="COLUMN"
+              direction="horizontal"
+            >
+              {provided => (
+                <main className="lists" ref={provided.innerRef}>
+                  {otherLists.map((list, index) => (
+                    <List
+                      list={list}
+                      boardId={boardId}
+                      index={index}
+                      key={list._id}
+                    />
+                  ))}
+                  {provided.placeholder}
+                  <ListAdder boardId={boardId} />
+                </main>
+              )}
+            </Droppable>
+          </DragDropContext>
+          {/* </main> */}
 
-        <Sidebar pomodoro={pomodoro} boardId={boardId} />
+          <Sidebar pomodoro={pomodoro} boardId={boardId} />
+        </CSSTransitionGroup>
       </BoardStyles>
     );
   };

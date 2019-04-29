@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import { FiClock, FiCoffee } from 'react-icons/fi';
 import PropTypes from 'prop-types';
 import Alarm from '../../../assets/sounds/alarm.mp3';
-import PomodoroStyles from '../styles/PomodoroStyles';
 import Coffee from '../../../assets/images/coffee.png';
 import Code from '../../../assets/images/code.png';
 
 const StyledPomodoro = styled.div`
   text-align: center;
-  font-weight: 300;
+  font-weight: 200;
   color: ${props => props.theme.colors.text};
 
   .bar-wrapper {

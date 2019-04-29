@@ -1,6 +1,8 @@
-import React, { Component } from "react";
-import moment from "moment";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import moment from 'moment';
+import styled from 'styled-components';
+import { CSSTransitionGroup } from 'react-transition-group';
+import Loading from '../Loading/Loading';
 
 const CalendarStyles = styled.div`
   .event-title {
@@ -26,17 +28,18 @@ class Calendar extends Component {
 
     this.state = {
       events: [],
-      nextEventTime: ""
+      nextEventTime: ''
     };
   }
 
   componentDidMount = () => {
     const { user } = this.props;
     // If access token is expired use refresh token to get new access token
+
     if (
       moment()
-        .subtract(user.expiryDate, "s")
-        .format("X") > -300
+        .subtract(user.expiryDate, 's')
+        .format('X') > -300
     ) {
       this.refreshAccessToken();
     } else {
@@ -45,18 +48,34 @@ class Calendar extends Component {
   };
 
   fetchEvents = () => {
-    const { eventCalendarId } = this.props;
+    const { eventCalendarId, eventFilter } = this.props;
     if (!eventCalendarId) return;
 
     fetch(
       `https://www.googleapis.com/calendar/v3/calendars/${eventCalendarId}/events?access_token=${
         this.props.user.accessToken
-      }&timeMin=${new Date().toISOString()}&showDeleted=false&singleEvents=true&maxResults=5&orderBy=startTime`
+      }&timeMin=${new Date().toISOString()}&showDeleted=false&singleEvents=true&maxResults=15&orderBy=startTime`
     )
       .then(response => response.json())
       .then(data => {
+        let events = data.items;
+
+        // Filter all day events
+        events = events.filter(event => event.start.dateTime);
+
+        // Filter by eventFilter keyword
+        events =
+          eventFilter && events.filter(event => event.summary !== eventFilter);
+
+        // Filter declined events
+        events = events.filter(
+          event =>
+            !event.attendees ||
+            !event.attendees.every(att => att.responseStatus === 'declined')
+        );
+
         this.setState({
-          events: data.items.filter(item => item.start.dateTime)
+          events
         });
       })
       .then(() => {
@@ -73,21 +92,21 @@ class Calendar extends Component {
         this.props.user.refreshToken
       }&grant_type=refresh_token`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
         }
       }
     )
       .then(response => response.json())
       .then(data => {
         const expiryDate = moment()
-          .add(data.expires_in, "s")
-          .format("X");
+          .add(data.expires_in, 's')
+          .format('X');
 
         this.props.dispatch({
-          type: "UPDATE_USER",
+          type: 'UPDATE_USER',
           payload: {
             accessToken: data.access_token,
             expiryDate
@@ -120,27 +139,46 @@ class Calendar extends Component {
     const nextEventText = moment(nextEventTime).fromNow();
 
     return (
-      <CalendarStyles className="no-focus-mode">
+      <CalendarStyles className="focus-mode">
         <span className="header">Events </span>
         {events.length !== 0 && (
-          <span className="cursive-header pomodori-left">
-            {pomodoriToEvent === 1
-              ? ` · ${pomodoriToEvent} Pomodoro`
-              : ` · ${pomodoriToEvent} Pomodori`}
-          </span>
+          <CSSTransitionGroup
+            transitionName="fade"
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnter={false}
+            transitionLeave={false}
+          >
+            <span className="cursive-header pomodori-left">
+              {pomodoriToEvent === 1
+                ? ` · ${pomodoriToEvent} Pomodoro`
+                : ` · ${pomodoriToEvent} Pomodori`}
+            </span>
+          </CSSTransitionGroup>
         )}
         <hr />
-        {events.length !== 0 && (
-          <div className="cursive-header next-meeting">{`Next meeting is ${nextEventText}.`}</div>
+        {events.length !== 0 ? (
+          <CSSTransitionGroup
+            transitionName="fade"
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnter={false}
+            transitionLeave={false}
+          >
+            <div className="cursive-header next-meeting">{`Next meeting is ${nextEventText}.`}</div>
+            <ul>
+              {events &&
+                events.slice(0, 5).map(event => (
+                  <li key={event.id} className="event-title">
+                    {event.summary} -{' '}
+                    {moment(event.start.dateTime).format('LT')}
+                  </li>
+                ))}
+            </ul>
+          </CSSTransitionGroup>
+        ) : (
+          <Loading text="Fetching Events" />
         )}
-        <ul>
-          {events &&
-            events.map(event => (
-              <li key={event.id} className="event-title">
-                {event.summary} - {moment(event.start.dateTime).format("LT")}
-              </li>
-            ))}
-        </ul>
       </CalendarStyles>
     );
   }
