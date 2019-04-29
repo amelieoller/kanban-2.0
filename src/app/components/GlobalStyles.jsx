@@ -108,6 +108,33 @@ const GlobalStyles = createGlobalStyle`
 		border-radius: ${props => props.theme.sizes.borderRadius};
 		color: ${props => props.theme.colors.backgroundAccent};
   }
+
+	.fade-enter {
+		opacity: 0.01;
+	}
+
+	.fade-enter.fade-enter-active {
+		opacity: 1;
+		transition: opacity 500ms ease-in;
+	}
+
+	.fade-leave {
+		opacity: 1;
+	}
+
+	.fade-leave.fade-leave-active {
+		opacity: 0.01;
+		transition: opacity 300ms ease-in;
+	}
+
+	.fade-appear {
+		opacity: 0.01;
+	}
+
+	.fade-appear.fade-appear-active {
+		opacity: 1;
+		transition: opacity .5s ease-in;
+	}
 `;
 
 export default GlobalStyles;
