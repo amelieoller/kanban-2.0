@@ -1,13 +1,13 @@
-const path = require("path");
-const CopyPlugin = require("copy-webpack-plugin");
-const ManifestPlugin = require("webpack-manifest-plugin");
-const CleanPlugin = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ZopfliPlugin = require("zopfli-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const autoprefixer = require("autoprefixer");
-const webpack = require("webpack");
-const dotenv = require("dotenv");
+const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ZopfliPlugin = require('zopfli-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const env = dotenv.config().parsed;
 
@@ -17,20 +17,23 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 }, {});
 
 module.exports = {
-  name: "client",
-  target: "web",
-  entry: "./src/client.jsx",
+  name: 'client',
+  target: 'web',
+  entry: './src/client.jsx',
   output: {
-    path: path.join(__dirname, "dist/public"),
-    publicPath: "/static/",
-    filename: "bundle.[hash:6].js"
+    path: path.join(__dirname, 'dist/public'),
+    publicPath: '/static/',
+    filename: 'bundle.[hash:6].js'
+  },
+  optimization: {
+    minimizer: [new TerserPlugin()]
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         use: {
-          loader: "babel-loader"
+          loader: 'babel-loader'
         },
         exclude: /node_modules/
       },
@@ -39,36 +42,36 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               importLoaders: 1
             }
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
-              ident: "postcss",
+              ident: 'postcss',
               plugins: [autoprefixer()]
             }
           },
           {
-            loader: "sass-loader"
+            loader: 'sass-loader'
           }
         ]
       },
       {
         test: /\.(woff|woff2|eot|ttf)$/,
-        loader: "url-loader?limit=100000"
+        loader: 'url-loader?limit=100000'
       },
       {
         test: /\.(png|jpg|gif|mp3)$/,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               limit: 4096,
-              name: "[name].[hash:6].[ext]",
-              outputPath: "images/"
+              name: '[name].[hash:6].[ext]',
+              outputPath: 'images/'
             }
           }
         ]
@@ -76,12 +79,12 @@ module.exports = {
       {
         test: /\.svg$/,
         use: {
-          loader: "svg-url-loader",
+          loader: 'svg-url-loader',
           options: {
             noquotes: true,
             limit: 4096,
-            name: "[name].[hash:6].[ext]",
-            outputPath: "images/"
+            name: '[name].[hash:6].[ext]',
+            outputPath: 'images/'
           }
         }
       }
@@ -89,25 +92,16 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin(envKeys),
-    new CleanPlugin(["dist"]),
-    new CopyPlugin([{ from: "src/assets/favicons", to: "favicons" }]),
+    new CleanPlugin(['dist']),
+    new CopyPlugin([{ from: 'src/assets/favicons', to: 'favicons' }]),
     new ManifestPlugin(),
     new MiniCssExtractPlugin(),
     new ZopfliPlugin(),
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(true)
-    }),
-    new UglifyJsPlugin({
-      sourceMap: true,
-      uglifyOptions: {
-        ecma: 8,
-        compress: {
-          warnings: false
-        }
-      }
     })
   ],
   resolve: {
-    extensions: [".js", ".jsx"]
+    extensions: ['.js', '.jsx']
   }
 };
