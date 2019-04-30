@@ -20,6 +20,7 @@ const SidebarStyles = styled.div`
   margin-top: ${props => `${props.theme.sizes.headerHeight}px`};
   overflow: scroll;
   border-right: 1px solid ${props => props.theme.colors.borderColor};
+  box-shadow: 5px 0 10px 0px #55555529;
 
   & > div {
     background: ${props => props.theme.colors.negativeText};

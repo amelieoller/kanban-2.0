@@ -91,6 +91,8 @@ class CardAdder extends Component {
       payload: { cardText: newText, cardId, listId, createdAt, categoryId }
     });
     this.setState({ newText: "" });
+
+    console.log("If you're getting an error here it has to do with LastPass.")
   };
 
   render() {

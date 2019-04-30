@@ -20,6 +20,7 @@ const HeaderStyles = styled.header`
   box-shadow: ${props => props.theme.common.bs};
   background: ${props => props.theme.colors.headerBackground};
   position: fixed;
+  box-shadow: 0 5px 10px 0px #55555529;
 
   .header-title {
     display: inline-flex;
