@@ -48,7 +48,7 @@ class Calendar extends Component {
   };
 
   fetchEvents = () => {
-    const { eventCalendarId, eventFilter } = this.props;
+    const { eventCalendarId } = this.props;
     if (!eventCalendarId) return;
 
     fetch(
@@ -59,14 +59,14 @@ class Calendar extends Component {
       .then(response => response.json())
       .then(data => {
         let events = data.items;
+        const { eventFilter } = this.props;
 
         // Filter all day events
         events = events.filter(event => event.start.dateTime);
-
         // Filter by eventFilter keyword
-        events =
-          eventFilter && events.filter(event => event.summary !== eventFilter);
-
+        if (eventFilter) {
+          events = events.filter(event => event.summary !== eventFilter);
+        }
         // Filter declined events
         events = events.filter(
           event =>
@@ -141,7 +141,7 @@ class Calendar extends Component {
     return (
       <CalendarStyles className="focus-mode">
         <span className="header">Events </span>
-        {events.length !== 0 && (
+        {events && events.length !== 0 && (
           <CSSTransitionGroup
             transitionName="fade"
             transitionAppear
@@ -157,7 +157,7 @@ class Calendar extends Component {
           </CSSTransitionGroup>
         )}
         <hr />
-        {events.length !== 0 ? (
+        {events && events.length !== 0 ? (
           <CSSTransitionGroup
             transitionName="fade"
             transitionAppear
