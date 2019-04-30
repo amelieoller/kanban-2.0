@@ -24,7 +24,7 @@ const SidebarStyles = styled.div`
 
   & > div {
     background: ${props => props.theme.colors.negativeText};
-    padding: 10px 10px 25px 10px;
+    padding: 10px;
     width: 100%;
     height: 100%;
   }

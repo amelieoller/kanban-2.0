@@ -15,7 +15,7 @@ const StyledPomodoro = styled.div`
     position: relative;
     cursor: pointer;
     z-index: 2;
-    margin-bottom: 15px;
+    margin-bottom: 35px;
 
     .pomodoro-inside {
       position: absolute;
