@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { FiClock, FiCoffee } from 'react-icons/fi';
+import { FiClock, FiCoffee, FiSun } from 'react-icons/fi';
 import PropTypes from 'prop-types';
 import Alarm from '../../../assets/sounds/alarm.mp3';
 import Coffee from '../../../assets/images/coffee.png';
@@ -54,6 +54,10 @@ const StyledPomodoro = styled.div`
           justify-content: center;
           align-items: flex-end;
 
+          svg:not(:last-child) {
+            margin-right: 2px;
+          }
+
           svg {
             font-size: 1.5rem;
             background-color: transparent;
@@ -62,10 +66,25 @@ const StyledPomodoro = styled.div`
             border: 1px solid ${props => props.theme.colors.borderColor};
             transition: background 0.5s;
 
+            &.selected {
+              background-color: ${props => props.theme.colors.mainAccent};
+              color: ${props => props.theme.colors.white};
+            }
+
             &:hover {
               background-color: ${props => props.theme.colors.mainAccent};
               color: ${props => props.theme.colors.white};
             }
+          }
+        }
+
+        .pomodori-increase {
+          input[type='number'] {
+            border: 1px solid #f4f3f3;
+            height: 22px;
+            width: 30px;
+            text-align: center;
+            border-radius: 3px;
           }
         }
       }
@@ -75,12 +94,20 @@ const StyledPomodoro = styled.div`
   & .background {
     stroke: ${props => props.theme.colors.mainBackground};
   }
+`;
 
-  & .bar {
-    transition: stroke-dashoffset 1s cubic-bezier(0.6, 0, 0.4, 1);
-    stroke: ${props => props.theme.colors.mainAccent};
-    stroke-dashoffset: ${props => props.percentage};
-  }
+const ProgressBar = styled.path.attrs(props => ({
+  strokeDashoffset: props.percentage
+}))`
+  transition: stroke-dashoffset 1s cubic-bezier(0.6, 0, 0.4, 1);
+  stroke: ${props => props.theme.colors.mainAccent};
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 2;
+  stroke-dasharray: 269;
+  stroke-opacity: 1;
 `;
 
 class Pomodoro extends Component {
@@ -88,10 +115,10 @@ class Pomodoro extends Component {
     dispatch: PropTypes.func.isRequired,
     boardId: PropTypes.string.isRequired,
     pomodoro: PropTypes.shape({
-      audio: PropTypes.boolean,
-      notification: PropTypes.boolean,
+      audio: PropTypes.bool,
+      notification: PropTypes.bool,
       pomodori: PropTypes.number,
-      showDayPomo: PropTypes.boolean
+      showDayPomo: PropTypes.bool
     }).isRequired
   };
 
@@ -251,16 +278,14 @@ class Pomodoro extends Component {
     });
   };
 
-  stopCountdown(newTime) {
-    this.resetInterval();
-    this.setState({
-      sessionLength: newTime,
-      pausedTime: 0,
-      timePaused: false,
-      endTime: 0,
-      countdownDisplay: `${newTime}:00`
+  handleSettingsChange = (type, value) => {
+    const { dispatch, boardId } = this.props;
+
+    dispatch({
+      type: 'CHANGE_POMODORO_SETTING',
+      payload: { boardId, type, value }
     });
-  }
+  };
 
   alert = () => {
     // audio
@@ -300,14 +325,16 @@ class Pomodoro extends Component {
     }
   };
 
-  handleSettingsChange = (type, value) => {
-    const { dispatch, boardId } = this.props;
-
-    dispatch({
-      type: 'CHANGE_POMODORO_SETTING',
-      payload: { boardId, type, value }
+  stopCountdown(newTime) {
+    this.resetInterval();
+    this.setState({
+      sessionLength: newTime,
+      pausedTime: 0,
+      timePaused: false,
+      endTime: 0,
+      countdownDisplay: `${newTime}:00`
     });
-  };
+  }
 
   render() {
     const {
@@ -316,11 +343,13 @@ class Pomodoro extends Component {
       countdownDisplay,
       circleDisplay,
       sessionLength,
-      timePaused
+      timePaused,
+      pomodori
     } = this.state;
+    const { pomodoro } = this.props;
 
     return (
-      <StyledPomodoro percentage={circleDisplay}>
+      <StyledPomodoro>
         <div className="bar-wrapper focus-mode">
           <div className="pomodoro-inside">
             <div className="start-countdown-wrapper">
@@ -360,10 +389,43 @@ class Pomodoro extends Component {
                       onClick={() => this.stopCountdown(25)}
                     />
                   )}
+                  <FiSun
+                    className="pomodoro-icon"
+                    className={
+                      pomodoro.showDayPomo
+                        ? 'pomodoro-icon selected'
+                        : 'pomodoro-icon'
+                    }
+                    onClick={() =>
+                      this.handleSettingsChange(
+                        'showDayPomo',
+                        !pomodoro.showDayPomo
+                      )
+                    }
+                  />
+                  <form
+                    onSubmit={e => {
+                      e.preventDefault();
+                      this.handleSettingsChange('pomodori', pomodori);
+                    }}
+                    className="pomodori-increase"
+                  >
+                    <input
+                      type="number"
+                      id="pomodori"
+                      placeholder="Pomodori"
+                      value={pomodori}
+                      onChange={e =>
+                        this.setState({
+                          pomodori: parseInt(e.target.value)
+                        })
+                      }
+                    />
+                  </form>
                 </div>
               ) : (
                 <div className="cursive-header">
-                  {this.formatType(this.state.sessionLength)}
+                  {this.formatType(sessionLength)}
                 </div>
               )}
             </div>
@@ -373,19 +435,6 @@ class Pomodoro extends Component {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <defs>
-              <filter id="dropshadow" height="130%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
-                <feOffset dx="0" dy="2" result="offsetblur" />
-                <feComponentTransfer xmlns="http://www.w3.org/2000/svg">
-                  <feFuncA type="linear" slope="0.2" />
-                </feComponentTransfer>
-                <feMerge>
-                  <feMergeNode />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
             <g transform="translate(5,-397.02499)">
               <path
                 className="background"
@@ -401,20 +450,9 @@ class Pomodoro extends Component {
                   strokeOpacity: 1
                 }}
               />
-              <path
-                className="bar"
+              <ProgressBar
+                percentage={circleDisplay}
                 d="M 23.740374,504.26854 C 12.067324,494.12718 4.6867337,479.17383 4.6867337,462.49666 c 0,-30.54868 24.7610903,-55.31327 55.3132603,-55.31327 30.54868,0 55.313266,24.76459 55.313266,55.31327 0,16.69132 -7.39313,31.65589 -19.083366,41.79769"
-                style={{
-                  filter: 'url(#dropshadow)',
-                  fill: 'none',
-                  strokeWidth: 5,
-                  strokeLinecap: 'round',
-                  strokeLinejoin: 'round',
-                  strokeMiterlimit: 2,
-                  strokeDasharray: 269,
-                  strokeOpacity: 1
-                }}
-                data-percent={circleDisplay}
               />
             </g>
           </svg>

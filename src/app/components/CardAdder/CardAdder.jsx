@@ -8,7 +8,7 @@ import ClickOutside from "../ClickOutside/ClickOutside";
 
 const CardAdderStyles = styled.div`
   .card-adder-textarea-wrapper {
-    margin: 6px 13px 0 13px;
+    margin-top: 6px;
   }
 
   .card-adder-textarea {
