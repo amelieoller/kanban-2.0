@@ -25,7 +25,7 @@ const ListStyles = styled.div`
     font-size: 14px;
     transition: box-shadow 0.15s, background 0.3s;
     background: ${props => props.theme.colors.listBackground};
-		padding: 6px;
+    padding: 6px;
   }
 
   .list--drag {
@@ -37,18 +37,6 @@ const ListStyles = styled.div`
     overflow-y: auto;
     overflow-x: hidden;
   }
-
-  /* .cards-wrapper::-webkit-scrollbar {
-    width: 8px;
-    border-radius: 2px;
-    background-color: ${props => props.theme.colors.transparentBlack};
-		margin-left: 3px;
-  }
-
-  .cards-wrapper::-webkit-scrollbar-thumb {
-    border-radius: 2px;
-    background: ${props => props.theme.colors.transparentWhite};
-  } */
 
   .cards {
     min-height: 1px;
@@ -62,6 +50,34 @@ class List extends Component {
     index: PropTypes.number.isRequired,
     list: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired,
     defaultCategory: PropTypes.string.isRequired
+  };
+
+  withinPomodoroTime = () => {
+    const { cards, pomodoro } = this.props;
+
+    let total = 0;
+    const selectedCards = [];
+    let time = 25;
+
+    if (pomodoro.showDayPomo && pomodoro.pomodori) {
+      time *= pomodoro.pomodori;
+    }
+
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i];
+      const minutes = parseInt(card.minutes);
+
+      if (minutes && card.minutes > time) {
+        selectedCards.push(cards[0]._id);
+        return selectedCards;
+      }
+      if (minutes && total + minutes <= time) {
+        total += minutes;
+        selectedCards.push(card._id);
+      }
+    }
+
+    return selectedCards;
   };
 
   render = () => {
@@ -93,7 +109,11 @@ class List extends Component {
                   boardId={boardId}
                 />
                 <div className="cards-wrapper">
-                  <Cards listId={list._id} categories={categories} />
+                  <Cards
+                    listId={list._id}
+                    categories={categories}
+                    withinPomodoroCards={this.withinPomodoroTime()}
+                  />
                 </div>
               </div>
               <CardAdder listId={list._id} defaultCategory={defaultCategory} />
