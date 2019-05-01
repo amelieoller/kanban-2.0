@@ -43,7 +43,7 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "prop-types": "^15.6.1",
-    "react": "^16.2.0",
+    "react": "^16.8.1",
     "react-aria-menubutton": "^6.1.0",
     "react-beautiful-dnd": "github:yogaboll/react-beautiful-dnd#include-generated",
     "react-burger-menu": "^2.5.4",
