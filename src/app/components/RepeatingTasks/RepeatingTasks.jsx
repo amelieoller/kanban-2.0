@@ -1,10 +1,16 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import SidebarStyles from "../styles/SidebarStyles";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 const RepeatingTasksStyles = styled.div`
+  background-color: ${props => props.theme.colors.backgroundAccent};
+  padding: 10px;
+  box-shadow: ${props => props.theme.common.bs};
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
   .recurring-task-item {
     margin-bottom: 5px;
 
@@ -43,7 +49,7 @@ class RepeatingTasks extends Component {
 
         if (!card.active && lastCheckin > new Date(card.nextDate)) {
           dispatch({
-            type: "CHANGE_CARD_ACTIVE",
+            type: 'CHANGE_CARD_ACTIVE',
             payload: { cardId: card._id, active: true }
           });
         }
@@ -73,7 +79,7 @@ class RepeatingTasks extends Component {
         toCheckDate.getMinutes() === today.getMinutes()
       ) {
         dispatch({
-          type: "CHANGE_CARD_ACTIVE",
+          type: 'CHANGE_CARD_ACTIVE',
           payload: { cardId: card._id, active: true }
         });
       }
@@ -84,21 +90,19 @@ class RepeatingTasks extends Component {
     const { cards } = this.props;
 
     return (
-      <SidebarStyles>
-        <RepeatingTasksStyles>
-          <div className="header">Repeating Tasks</div>
-          <hr />
-          <ul>
-            {cards.map(card => (
-              <li key={card._id} className="recurring-task-item">
-                <span className="recurring-tasks-title">{card.text}</span>
-                <hr />
-                <span className="recurring-time">{card.recurringText}</span>
-              </li>
-            ))}
-          </ul>
-        </RepeatingTasksStyles>
-      </SidebarStyles>
+      <RepeatingTasksStyles>
+        <div className="header">Repeating Tasks</div>
+        <hr />
+        <ul>
+          {cards.map(card => (
+            <li key={card._id} className="recurring-task-item">
+              <span className="recurring-tasks-title">{card.text}</span>
+              <hr />
+              <span className="recurring-time">{card.recurringText}</span>
+            </li>
+          ))}
+        </ul>
+      </RepeatingTasksStyles>
     );
   };
 }

@@ -7,7 +7,7 @@ import slugify from "slugify";
 import classnames from "classnames";
 import Header from "../Header/Header";
 import BoardAdder from "./BoardAdder";
-import HomeStyles from "../styles/HomeStyles";
+import HomeStyles from "./HomeStyles";
 
 class Home extends Component {
   static propTypes = {
