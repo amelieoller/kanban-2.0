@@ -26,6 +26,10 @@ const ListStyles = styled.div`
     transition: box-shadow 0.15s, background 0.3s;
     background: ${props => props.theme.colors.listBackground};
     padding: 6px;
+
+    @media ${props => props.theme.media.tablet} {
+      max-height: calc(100vh - 310px);
+    }
   }
 
   .list--drag {

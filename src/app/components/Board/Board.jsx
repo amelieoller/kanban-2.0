@@ -36,6 +36,10 @@ const BoardStyles = styled.div`
     max-height: calc(100vh - 220px);
     margin-top: ${props => `${props.theme.sizes.headerHeight}px`};
     margin-left: ${props => `${props.theme.sizes.sidebarWidth}px`};
+
+    @media ${props => props.theme.media.tablet} {
+      margin-left: 0;
+    }
   }
 
   .lists:before,
@@ -60,7 +64,9 @@ class Board extends Component {
     super(props);
     this.state = {
       startX: null,
-      startScrollX: null
+      startScrollX: null,
+      width: '',
+      height: ''
     };
   }
 
@@ -71,6 +77,9 @@ class Board extends Component {
       type: 'PUT_BOARD_ID_IN_REDUX',
       payload: { boardId }
     });
+
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
   };
 
   componentWillUnmount = () => {
@@ -81,6 +90,12 @@ class Board extends Component {
       type: 'CHANGE_LAST_CHECKIN',
       payload: { boardId, checkinDate }
     });
+
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  };
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
 
   handleDragEnd = ({ source, destination, type }) => {
@@ -192,6 +207,7 @@ class Board extends Component {
       focusMode,
       changeFocusMode
     } = this.props;
+    const { width } = this.state;
     const otherLists = lists.filter(
       list => list && list._id !== completedListId && list._id !== habitsListId
     );

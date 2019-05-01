@@ -14,6 +14,8 @@ const StyledPomodoro = styled.div`
     position: relative;
     z-index: 2;
     margin-bottom: 35px;
+    max-width: 200px;
+    margin: 0 auto 1rem auto;
 
     .pomodoro-inside {
       position: absolute;

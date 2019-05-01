@@ -22,11 +22,24 @@ const SidebarStyles = styled.div`
   border-right: 1px solid ${props => props.theme.colors.borderColor};
   box-shadow: 5px 0 10px 0px #55555529;
 
+  @media ${props => props.theme.media.tablet} {
+    width: 100vw;
+    height: ${props => `${props.theme.sizes.footerHeight}px`};
+    bottom: 0;
+    top: auto;
+  }
+
   & > div {
     background: ${props => props.theme.colors.negativeText};
     padding: 10px;
     width: 100%;
     height: 100%;
+
+    &:first-child {
+      @media ${props => props.theme.media.tablet} {
+        padding-top: 0;
+      }
+    }
   }
 `;
 

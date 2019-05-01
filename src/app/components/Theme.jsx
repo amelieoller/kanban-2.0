@@ -98,7 +98,8 @@ const sizes = {
   boardMargin: 5,
   headerHeight: 40,
   footerHeight: 180,
-  sidebarWidth: 210
+  sidebarWidth: 210,
+  footerHeight: 210
 };
 
 const media = {
