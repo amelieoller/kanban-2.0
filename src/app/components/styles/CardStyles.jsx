@@ -16,7 +16,7 @@ const CardStyles = styled.div`
     user-select: none;
     cursor: pointer !important;
     border-right: 3px solid ${props => props.theme.colors.mainBackground};
-    /* border-left: 3px solid transparent; */
+    border-left: 3px solid #eaecee;
     display: flex;
     justify-content: space-between;
   }
@@ -92,6 +92,10 @@ const CardStyles = styled.div`
       padding: 4px 2px;
       background: rgba(100, 100, 100, 0.08);
     }
+  }
+
+  .within-pomodoro.card-title {
+    border-left: 3px solid ${props => props.theme.colors.success};
   }
 `;
 

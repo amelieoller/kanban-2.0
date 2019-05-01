@@ -141,7 +141,8 @@ class Card extends Component {
       listId,
       isDraggingOver,
       dispatch,
-      categories
+      categories,
+      withinPomodoroCard
     } = this.props;
     const { isModalOpen, categoryModalIsOpen } = this.state;
     const checkboxes = findCheckboxes(card.text);
@@ -159,7 +160,8 @@ class Card extends Component {
                       'card-title',
                       {
                         'card-title--drag': snapshot.isDragging
-                      }
+                      },
+                      withinPomodoroCard && 'within-pomodoro'
                     )}
                     ref={ref => {
                       provided.innerRef(ref);

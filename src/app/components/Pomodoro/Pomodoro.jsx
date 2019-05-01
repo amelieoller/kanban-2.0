@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { FiClock, FiCoffee } from 'react-icons/fi';
+import { FiClock, FiCoffee, FiSun } from 'react-icons/fi';
 import PropTypes from 'prop-types';
-import Alarm from '../../../assets/sounds/alarm.mp3';
-import Coffee from '../../../assets/images/coffee.png';
-import Code from '../../../assets/images/code.png';
+import ProgressCircle from './ProgressCircle';
+import pomodoroAlert from './pomodoroAlert';
 
 const StyledPomodoro = styled.div`
   text-align: center;
@@ -13,7 +12,6 @@ const StyledPomodoro = styled.div`
 
   .bar-wrapper {
     position: relative;
-    cursor: pointer;
     z-index: 2;
     margin-bottom: 35px;
 
@@ -26,6 +24,8 @@ const StyledPomodoro = styled.div`
       margin-top: -1.6rem;
 
       .start-countdown-wrapper {
+        cursor: pointer;
+
         .current-pomodoro-icon {
           margin-top: 0.5rem;
         }
@@ -54,6 +54,10 @@ const StyledPomodoro = styled.div`
           justify-content: center;
           align-items: flex-end;
 
+          svg:not(:last-child) {
+            margin-right: 2px;
+          }
+
           svg {
             font-size: 1.5rem;
             background-color: transparent;
@@ -62,24 +66,29 @@ const StyledPomodoro = styled.div`
             border: 1px solid ${props => props.theme.colors.borderColor};
             transition: background 0.5s;
 
+            &.selected {
+              background-color: ${props => props.theme.colors.mainAccent};
+              color: ${props => props.theme.colors.white};
+            }
+
             &:hover {
               background-color: ${props => props.theme.colors.mainAccent};
               color: ${props => props.theme.colors.white};
             }
           }
         }
+
+        .pomodori-increase {
+          input[type='number'] {
+            border: 1px solid #f4f3f3;
+            height: 22px;
+            width: 30px;
+            text-align: center;
+            border-radius: 3px;
+          }
+        }
       }
     }
-  }
-
-  & .background {
-    stroke: ${props => props.theme.colors.mainBackground};
-  }
-
-  & .bar {
-    transition: stroke-dashoffset 1s cubic-bezier(0.6, 0, 0.4, 1);
-    stroke: ${props => props.theme.colors.mainAccent};
-    stroke-dashoffset: ${props => props.percentage};
   }
 `;
 
@@ -88,10 +97,10 @@ class Pomodoro extends Component {
     dispatch: PropTypes.func.isRequired,
     boardId: PropTypes.string.isRequired,
     pomodoro: PropTypes.shape({
-      audio: PropTypes.boolean,
-      notification: PropTypes.boolean,
+      audio: PropTypes.bool,
+      notification: PropTypes.bool,
       pomodori: PropTypes.number,
-      showDayPomo: PropTypes.boolean
+      showDayPomo: PropTypes.bool
     }).isRequired
   };
 
@@ -108,8 +117,7 @@ class Pomodoro extends Component {
       timeInterval: false,
       pausedTime: 0,
       timePaused: false,
-      countdownDisplay: '25:00',
-      circleDisplay: 269,
+      timePassedMs: false,
       endTime: 0,
       pomodoriDone: pomodoriDone || 0,
       pomodori: pomodoro.pomodori || 0
@@ -125,16 +133,10 @@ class Pomodoro extends Component {
     { type: 'Coffee', sessionLength: 5 }
   ];
 
-  formatType = timeType => {
-    const timeTypes = this.getFormatTypes();
-    for (let i = 0; i < timeTypes.length; i += 1) {
-      const timeObj = timeTypes[i];
-      if (timeObj.sessionLength === timeType) {
-        return timeObj.type;
-      }
-    }
-    return null;
-  };
+  formatType = timeType =>
+    this.getFormatTypes().filter(
+      timeObj => timeObj.sessionLength === timeType
+    )[0].type;
 
   startCountdown = () => {
     const { timeInterval, timePaused, pausedTime } = this.state;
@@ -146,9 +148,6 @@ class Pomodoro extends Component {
       // Set start and end time with system time and convert to
       // milliseconds to correctly measure time elapsed
       const newStartTime = new Date().getTime();
-      this.setState({
-        startTime: newStartTime
-      });
       // Check if pomodoro has just been un-paused
       if (timePaused === false) {
         // First time starting pomodoro
@@ -170,22 +169,17 @@ class Pomodoro extends Component {
   };
 
   updateCountdown = () => {
-    const { endTime, sessionLength } = this.state;
+    const { endTime } = this.state;
 
     // Get difference between the current time and the
     // end time in milliseconds. difference = remaining time
     const difference = endTime - new Date().getTime();
-    // Convert remaining milliseconds into minutes and seconds
-    const seconds = Math.floor((difference / 1000) % 60);
-    const minutes = Math.floor((difference / 1000 / 60) % 60);
+
     // Display remaining minutes and seconds, unless there is less than 1 second
     // left on timer. Then change to next session.
     if (difference > 1000) {
       this.setState({
-        countdownDisplay: `${minutes}:${
-          seconds < 10 ? `0${seconds}` : seconds
-        }`,
-        circleDisplay: ((minutes * 60 + seconds) / (60 * sessionLength)) * 269
+        timePassedMs: difference
       });
     } else {
       this.changeSessions();
@@ -207,7 +201,10 @@ class Pomodoro extends Component {
     this.resetInterval();
 
     // Notification
-    this.alert();
+    const {
+      pomodoro: { audio, notification }
+    } = this.props;
+    pomodoroAlert(sessionLength, audio, notification);
 
     if (sessionLength === 25) {
       const today = new Date();
@@ -221,14 +218,14 @@ class Pomodoro extends Component {
       this.handleSettingsChange('pomodoriDone', pomodoriDoneObject);
 
       this.setState({
-        countdownDisplay: '5:00',
         sessionLength: 5,
-        pomodoriDone: pomodoriDone + 1
+        pomodoriDone: pomodoriDone + 1,
+        timePassedMs: false
       });
     } else {
       this.setState({
-        countdownDisplay: '25:00',
-        sessionLength: 25
+        sessionLength: 25,
+        timePassedMs: false
       });
     }
   };
@@ -251,55 +248,6 @@ class Pomodoro extends Component {
     });
   };
 
-  stopCountdown(newTime) {
-    this.resetInterval();
-    this.setState({
-      sessionLength: newTime,
-      pausedTime: 0,
-      timePaused: false,
-      endTime: 0,
-      countdownDisplay: `${newTime}:00`
-    });
-  }
-
-  alert = () => {
-    // audio
-    if (this.props.pomodoro.audio) {
-      const audio = new Audio(Alarm);
-      const playPromise = audio.play();
-
-      // In browsers that don’t yet support this functionality,
-      // playPromise won’t be defined.
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            // Automatic playback started!
-            setTimeout(() => audio.pause(), 2500);
-          })
-          .catch(error => {
-            // Automatic playback failed.
-            // Show a UI element to let the user manually start playback.
-          });
-      }
-    }
-    // notification
-    if (this.props.pomodoro.notification) {
-      if (this.state.sessionLength === 25) {
-        const notification = new Notification('Relax :)', {
-          icon: Coffee,
-          lang: 'en',
-          body: 'Go talk or drink a coffee.'
-        });
-      } else {
-        const notification = new Notification('The time is over!', {
-          icon: Code,
-          lang: 'en',
-          body: 'Hey, back to work!'
-        });
-      }
-    }
-  };
-
   handleSettingsChange = (type, value) => {
     const { dispatch, boardId } = this.props;
 
@@ -309,34 +257,54 @@ class Pomodoro extends Component {
     });
   };
 
+  stopCountdown(newTime) {
+    this.resetInterval();
+    this.setState({
+      sessionLength: newTime,
+      pausedTime: 0,
+      timePaused: false,
+      endTime: 0,
+      timePassedMs: false
+    });
+  }
+
   render() {
     const {
       timeInterval,
       pomodoriDone,
-      countdownDisplay,
-      circleDisplay,
       sessionLength,
-      timePaused
+      timePaused,
+      pomodori,
+      timePassedMs
     } = this.state;
+    const { pomodoro } = this.props;
+    const time =
+      timePassedMs !== false ? timePassedMs : sessionLength * 60 * 1000;
+    const seconds = Math.floor((time / 1000) % 60);
+    const minutes = Math.floor((time / 1000 / 60) % 60);
 
     return (
-      <StyledPomodoro percentage={circleDisplay}>
+      <StyledPomodoro>
         <div className="bar-wrapper focus-mode">
           <div className="pomodoro-inside">
-            <div className="start-countdown-wrapper">
-              <span onClick={() => this.startCountdown()}>
-                {countdownDisplay}
-              </span>
+            <div
+              className="start-countdown-wrapper"
+              onClick={() => this.startCountdown()}
+              onKeyDown={() => this.startCountdown()}
+              tabIndex={0}
+              role="button"
+            >
+              <span>{`${minutes}:${
+                seconds < 10 ? `0${seconds}` : seconds
+              }`}</span>
               <div className="current-pomodoro-icon">
                 {sessionLength === 25 ? (
                   <FiClock
                     className="pomodoro-icon"
-                    onClick={() => this.startCountdown()}
                   />
                 ) : (
                   <FiCoffee
                     className="pomodoro-icon"
-                    onClick={() => this.startCountdown()}
                   />
                 )}
               </div>
@@ -360,64 +328,51 @@ class Pomodoro extends Component {
                       onClick={() => this.stopCountdown(25)}
                     />
                   )}
+                  <FiSun
+                    className={
+                      pomodoro.showDayPomo
+                        ? 'pomodoro-icon selected'
+                        : 'pomodoro-icon'
+                    }
+                    onClick={() =>
+                      this.handleSettingsChange(
+                        'showDayPomo',
+                        !pomodoro.showDayPomo
+                      )
+                    }
+                  />
+                  <form
+                    onSubmit={e => {
+                      e.preventDefault();
+                      this.handleSettingsChange('pomodori', pomodori);
+                    }}
+                    className="pomodori-increase"
+                  >
+                    <input
+                      type="number"
+                      id="pomodori"
+                      placeholder="Pomodori"
+                      value={pomodori}
+                      onChange={e =>
+                        this.setState({
+                          pomodori: parseInt(e.target.value, 10)
+                        })
+                      }
+                    />
+                  </form>
                 </div>
               ) : (
                 <div className="cursive-header">
-                  {this.formatType(this.state.sessionLength)}
+                  {this.formatType(sessionLength)}
                 </div>
               )}
             </div>
           </div>
-          <svg
-            viewBox="0 0 130 117"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <filter id="dropshadow" height="130%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
-                <feOffset dx="0" dy="2" result="offsetblur" />
-                <feComponentTransfer xmlns="http://www.w3.org/2000/svg">
-                  <feFuncA type="linear" slope="0.2" />
-                </feComponentTransfer>
-                <feMerge>
-                  <feMergeNode />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            <g transform="translate(5,-397.02499)">
-              <path
-                className="background"
-                d="M 23.740374,504.26854 C 12.067324,494.12718 4.6867337,479.17383 4.6867337,462.49666 c 0,-30.54868 24.7645903,-55.31327 55.3132603,-55.31327 30.54868,0 55.313266,24.76459 55.313266,55.31327 0,16.69132 -7.39313,31.65589 -19.083366,41.79769"
-                style={{
-                  fill: 'none',
-                  strokeWidth: 5,
-                  strokeLinecap: 'round',
-                  strokeLinejoin: 'round',
-                  strokeMiterlimit: 2,
-                  strokeDasharray: 269,
-                  strokeDashoffset: 0,
-                  strokeOpacity: 1
-                }}
-              />
-              <path
-                className="bar"
-                d="M 23.740374,504.26854 C 12.067324,494.12718 4.6867337,479.17383 4.6867337,462.49666 c 0,-30.54868 24.7610903,-55.31327 55.3132603,-55.31327 30.54868,0 55.313266,24.76459 55.313266,55.31327 0,16.69132 -7.39313,31.65589 -19.083366,41.79769"
-                style={{
-                  filter: 'url(#dropshadow)',
-                  fill: 'none',
-                  strokeWidth: 5,
-                  strokeLinecap: 'round',
-                  strokeLinejoin: 'round',
-                  strokeMiterlimit: 2,
-                  strokeDasharray: 269,
-                  strokeOpacity: 1
-                }}
-                data-percent={circleDisplay}
-              />
-            </g>
-          </svg>
+          <ProgressCircle
+            time={time}
+            sessionLength={sessionLength}
+            degrees={269}
+          />
         </div>
       </StyledPomodoro>
     );
