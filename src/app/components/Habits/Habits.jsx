@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import CardAdder from "../CardAdder";
 import Habit from "./Habit";
-import HabitStats from "../HabitStats/HabitStats";
+import HabitStats from "./HabitStats";
 
 const HabitsStyles = styled.div`
   .card-title-html {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FiSettings } from 'react-icons/fi';
-import SlideMenu from '../Settings/SlideMenu';
+import SlideOutMenu from '../Settings/SlideOutMenu';
 import HeaderButtonStyles from '../styles/HeaderButtonStyles';
 import Settings from '../Settings/Settings';
 
@@ -34,14 +34,14 @@ class BoardSettings extends Component {
 
   render = () => (
     <>
-      <SlideMenu
+      <SlideOutMenu
         isOpen={this.state.menuOpen}
         closeCallback={this.closeMenu}
         right
         width={350}
       >
         <Settings closeMenu={this.closeMenu} />
-      </SlideMenu>
+      </SlideOutMenu>
       <HeaderButtonStyles onClick={this.openMenu} className="no-focus-mode">
         <FiSettings />
       </HeaderButtonStyles>

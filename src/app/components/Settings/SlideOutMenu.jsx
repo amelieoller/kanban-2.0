@@ -72,7 +72,7 @@ const IDLE = "idle";
 const VERTICAL = "vertical";
 const HORIZONTAL = "horizontal";
 
-class SlideMenu extends Component {
+class SlideOutMenu extends Component {
   constructor() {
     super();
     this.state = {
@@ -235,7 +235,7 @@ class SlideMenu extends Component {
   }
 }
 
-SlideMenu.propTypes = {
+SlideOutMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeCallback: PropTypes.func.isRequired,
   right: PropTypes.bool,
@@ -246,4 +246,4 @@ SlideMenu.propTypes = {
   children: PropTypes.node
 };
 
-export default SlideMenu;
+export default SlideOutMenu;

@@ -7,7 +7,7 @@ import shortid from "shortid";
 import { FiX } from "react-icons/fi";
 import ColorPicker from "./ColorPicker";
 import ButtonStyles from "../styles/ButtonStyles";
-import ExpandingInput from "../ExpandingInput/ExpandingInput";
+import ExpandingInput from "../ExpandingInput";
 
 const CategoriesStyles = styled.div`
   .edit-category-form {
