@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { CSSTransitionGroup } from 'react-transition-group';
-import Loading from '../Loading/Loading';
+import Loading from '../Loading';
 
 const CalendarStyles = styled.div`
   .event-title {

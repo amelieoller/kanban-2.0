@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { FiX, FiCheckCircle, FiFlag } from "react-icons/fi";
 import styled from "styled-components";
-import Picker from "../Picker/Picker";
+import Picker from "../Picker";
 import formatMarkdown from "../Card/formatMarkdown";
 
 const bgColorChooser = cardDifficulty => {

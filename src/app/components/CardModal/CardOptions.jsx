@@ -6,7 +6,7 @@ import { FiBell, FiFlag, FiTag, FiCheck, FiTrash2 } from 'react-icons/fi';
 import later from 'later';
 import styled from 'styled-components';
 import Calendar from './Calendar';
-import Picker from '../Picker/Picker';
+import Picker from '../Picker';
 
 const CardOptionsStyles = styled.div`
   .options-list {
