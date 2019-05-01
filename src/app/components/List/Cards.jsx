@@ -15,6 +15,7 @@ class Cards extends Component {
   // componentDidUpdate = prevProps => {
   //   // Scroll to bottom of list if a new card has been added
   //   const { cards } = this.props;
+  //   debugger
   //   if (
   //     cards[cards.length - 2] === prevProps.cards[prevProps.cards.length - 1]
   //   ) {
@@ -25,20 +26,6 @@ class Cards extends Component {
   // scrollToBottom = () => {
   //   this.listEnd.scrollIntoView();
   // };
-
-  // calculateTimeAvailable = () => {
-  //   const {cards, timeAvailable} = this.props
-  //   let totalTime = 0
-
-  //   cards.map(card => {
-  //     if (totalTime < timeAvailable) {
-  //       card.inPomodoro = true
-  //       totalTime += card.minutes
-  //     }
-  //   })
-
-  //   return cards
-  // }
 
   render() {
     const { listId, cards, categories, withinPomodoroCards } = this.props;
