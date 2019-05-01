@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { CSSTransitionGroup } from 'react-transition-group';
 import List from '../List/List';
 import ListAdder from '../ListAdder/ListAdder';
-import Header from '../Header/Header';
+import Header from '../Header';
 import Sidebar from '../Sidebar/Sidebar';
 
 const BoardStyles = styled.div`

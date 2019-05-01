@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Title } from "react-head";
 import { FiUser, FiGithub } from "react-icons/fi";
 import styled from "styled-components";
-import googleLogo from "../../../assets/images/google-logo.svg";
+import googleLogo from "../../assets/images/google-logo.svg";
 
 const LandingPageStyles = styled.div`
   height: 100vh;

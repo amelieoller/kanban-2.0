@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import Home from './Home/Home';
 import BoardContainer from './Board/BoardContainer';
-import LandingPage from './LandingPage/LandingPage';
+import LandingPage from './LandingPage';
 import Settings from './Settings/Settings';
 import GlobalStyles from './GlobalStyles';
 import { light, dark } from './Theme';

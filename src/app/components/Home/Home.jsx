@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Title } from "react-head";
 import slugify from "slugify";
 import classnames from "classnames";
-import Header from "../Header/Header";
+import Header from "../Header";
 import BoardAdder from "./BoardAdder";
 import HomeStyles from "./HomeStyles";
 

@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FiUser, FiLogOut, FiLogIn } from 'react-icons/fi';
 import { withRouter } from 'react-router-dom';
-import kanbanLogo from '../../../assets/images/logo.png';
-import BoardHeader from '../BoardHeader/BoardHeader';
-import HeaderStyles from '../styles/HeaderStyles';
-import HeaderButtonStyles from '../styles/HeaderButtonStyles';
+import kanbanLogo from '../../assets/images/logo.png';
+import BoardHeader from './BoardHeader/BoardHeader';
+import HeaderStyles from './styles/HeaderStyles';
+import HeaderButtonStyles from './styles/HeaderButtonStyles';
 
 class Header extends Component {
   static propTypes = { user: PropTypes.object };
