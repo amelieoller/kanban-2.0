@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import CardAdder from "../CardAdder/CardAdder";
+import CardAdder from "../CardAdder";
 import Habit from "./Habit";
 import HabitStats from "../HabitStats/HabitStats";
 

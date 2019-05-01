@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import styled from 'styled-components';
 import ListHeader from './ListHeader';
 import Cards from './Cards';
-import CardAdder from '../CardAdder/CardAdder';
+import CardAdder from '../CardAdder';
 
 const ListStyles = styled.div`
   display: inline-flex;
