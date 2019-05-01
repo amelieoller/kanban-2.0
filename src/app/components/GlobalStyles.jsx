@@ -135,6 +135,19 @@ const GlobalStyles = createGlobalStyle`
 		opacity: 1;
 		transition: opacity .5s ease-in;
 	}
+
+	.alert {
+		padding: .6rem 1rem;
+    margin: .5rem 0;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+	}
+
+	.alert-error {
+    background-color: #ffeeeb;
+    border-color: #ffded9;
+    color: ${props => props.theme.colors.mainAccent};
+	}
 `;
 
 export default GlobalStyles;

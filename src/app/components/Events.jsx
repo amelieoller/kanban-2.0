@@ -28,7 +28,8 @@ class Events extends Component {
 
     this.state = {
       events: [],
-      nextEventTime: ''
+      nextEventTime: '',
+      error: ''
     };
   }
 
@@ -48,13 +49,15 @@ class Events extends Component {
   };
 
   fetchEvents = () => {
-    const { eventCalendarId } = this.props;
+    const {
+      user: { accessToken },
+      dispatch,
+      eventCalendarId
+    } = this.props;
     if (!eventCalendarId) return;
 
     fetch(
-      `https://www.googleapis.com/calendar/v3/calendars/${eventCalendarId}/events?access_token=${
-        this.props.user.accessToken
-      }&timeMin=${new Date().toISOString()}&showDeleted=false&singleEvents=true&maxResults=15&orderBy=startTime`
+      `https://www.googleapis.com/calendar/v3/calendars/${eventCalendarId}/events?access_token=${accessToken}&timeMin=${new Date().toISOString()}&showDeleted=false&singleEvents=true&maxResults=15&orderBy=startTime`
     )
       .then(response => response.json())
       .then(data => {
@@ -81,16 +84,26 @@ class Events extends Component {
       .then(() => {
         this.nextEventTime();
         setInterval(this.nextEventTime, 55 * 1000);
+      })
+      .catch(error => {
+        this.setState({
+          error
+        });
       });
   };
 
   refreshAccessToken = () => {
+    const {
+      user: { refreshToken },
+      dispatch
+    } = this.props;
+
     fetch(
       `https://www.googleapis.com/oauth2/v4/token?client_id=${
         process.env.GOOGLE_CLIENT_ID
-      }&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&refresh_token=${
-        this.props.user.refreshToken
-      }&grant_type=refresh_token`,
+      }&client_secret=${
+        process.env.GOOGLE_CLIENT_SECRET
+      }&refresh_token=${refreshToken}&grant_type=refresh_token`,
       {
         method: 'POST',
         headers: {
@@ -105,7 +118,7 @@ class Events extends Component {
           .add(data.expires_in, 's')
           .format('X');
 
-        this.props.dispatch({
+        dispatch({
           type: 'UPDATE_USER',
           payload: {
             accessToken: data.access_token,
@@ -132,11 +145,43 @@ class Events extends Component {
   };
 
   render() {
-    const { events, nextEventTime } = this.state;
+    const { events, nextEventTime, error } = this.state;
     const pomodoriToEvent = Math.floor(
       (new Date(nextEventTime) - new Date()) / 60000 / 30
     );
     const nextEventText = moment(nextEventTime).fromNow();
+
+    let eventInfo;
+    if (error) {
+      eventInfo = (
+        <div className="alert alert-error">
+          <strong>Error fetching events!</strong> Please try logging out and
+          back in.
+        </div>
+      );
+    } else if (events && events.length !== 0) {
+      eventInfo = (
+        <CSSTransitionGroup
+          transitionName="fade"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnter={false}
+          transitionLeave={false}
+        >
+          <div className="cursive-header next-meeting">{`Next meeting is ${nextEventText}.`}</div>
+          <ul>
+            {events &&
+              events.slice(0, 5).map(event => (
+                <li key={event.id} className="event-title">
+                  {event.summary} - {moment(event.start.dateTime).format('LT')}
+                </li>
+              ))}
+          </ul>
+        </CSSTransitionGroup>
+      );
+    } else {
+      eventInfo = <Loading text="Fetching Events" />;
+    }
 
     return (
       <EventsStyles className="focus-mode">
@@ -157,28 +202,8 @@ class Events extends Component {
           </CSSTransitionGroup>
         )}
         <hr />
-        {events && events.length !== 0 ? (
-          <CSSTransitionGroup
-            transitionName="fade"
-            transitionAppear
-            transitionAppearTimeout={500}
-            transitionEnter={false}
-            transitionLeave={false}
-          >
-            <div className="cursive-header next-meeting">{`Next meeting is ${nextEventText}.`}</div>
-            <ul>
-              {events &&
-                events.slice(0, 5).map(event => (
-                  <li key={event.id} className="event-title">
-                    {event.summary} -{' '}
-                    {moment(event.start.dateTime).format('LT')}
-                  </li>
-                ))}
-            </ul>
-          </CSSTransitionGroup>
-        ) : (
-          <Loading text="Fetching Events" />
-        )}
+
+        {eventInfo}
       </EventsStyles>
     );
   }
