@@ -12,7 +12,6 @@ const StyledPomodoro = styled.div`
 
   .bar-wrapper {
     position: relative;
-    cursor: pointer;
     z-index: 2;
     margin-bottom: 15px;
 
@@ -25,6 +24,8 @@ const StyledPomodoro = styled.div`
       margin-top: -1.6rem;
 
       .start-countdown-wrapper {
+        cursor: pointer;
+
         .current-pomodoro-icon {
           margin-top: 0.5rem;
         }
@@ -132,16 +133,10 @@ class Pomodoro extends Component {
     { type: 'Coffee', sessionLength: 5 }
   ];
 
-  formatType = timeType => {
-    const timeTypes = this.getFormatTypes();
-    for (let i = 0; i < timeTypes.length; i += 1) {
-      const timeObj = timeTypes[i];
-      if (timeObj.sessionLength === timeType) {
-        return timeObj.type;
-      }
-    }
-    return null;
-  };
+  formatType = timeType =>
+    this.getFormatTypes().filter(
+      timeObj => timeObj.sessionLength === timeType
+    )[0].type;
 
   startCountdown = () => {
     const { timeInterval, timePaused, pausedTime } = this.state;
@@ -292,23 +287,24 @@ class Pomodoro extends Component {
       <StyledPomodoro>
         <div className="bar-wrapper focus-mode">
           <div className="pomodoro-inside">
-            <div className="start-countdown-wrapper">
-              <span
-                onClick={() => this.startCountdown()}
-                onKeyDown={() => this.startCountdown()}
-                tabIndex={0}
-                role="button"
-              >{`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</span>
+            <div
+              className="start-countdown-wrapper"
+              onClick={() => this.startCountdown()}
+              onKeyDown={() => this.startCountdown()}
+              tabIndex={0}
+              role="button"
+            >
+              <span>{`${minutes}:${
+                seconds < 10 ? `0${seconds}` : seconds
+              }`}</span>
               <div className="current-pomodoro-icon">
                 {sessionLength === 25 ? (
                   <FiClock
                     className="pomodoro-icon"
-                    onClick={() => this.startCountdown()}
                   />
                 ) : (
                   <FiCoffee
                     className="pomodoro-icon"
-                    onClick={() => this.startCountdown()}
                   />
                 )}
               </div>
