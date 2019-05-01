@@ -6,9 +6,9 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { CSSTransitionGroup } from 'react-transition-group';
 import List from '../List/List';
-import ListAdder from '../ListAdder/ListAdder';
+import ListAdder from '../ListAdder';
 import Header from '../Header';
-import Sidebar from '../Sidebar/Sidebar';
+import Sidebar from '../Sidebar';
 
 const BoardStyles = styled.div`
   width: 100%;

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FiX, FiTrash2 } from 'react-icons/fi';
 import Categories from '../Categories/Categories';
-import ToolTip from '../ToolTip/ToolTip';
+import ToolTip from '../ToolTip';
 import ButtonStyles from '../styles/ButtonStyles';
 import ExpandingInput from '../ExpandingInput';
 

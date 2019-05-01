@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Textarea from "react-textarea-autosize";
 import shortid from "shortid";
 import styled from "styled-components";
-import ClickOutside from "./ClickOutside/ClickOutside";
+import ClickOutside from "./ClickOutside";
 
 const CardAdderStyles = styled.div`
   .card-adder-textarea-wrapper {

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import Pomodoro from '../Pomodoro/Pomodoro';
-import Events from '../Events';
-import TaskStats from '../TaskStats/TaskStats';
-import RepeatingTasks from '../RepeatingTasks/RepeatingTasks';
-import Habits from '../Habits/Habits';
+import Pomodoro from './Pomodoro/Pomodoro';
+import Events from './Events';
+import TaskStats from './TaskStats';
+import RepeatingTasks from './RepeatingTasks';
+import Habits from './Habits/Habits';
 
 const SidebarStyles = styled.div`
   width: ${props => `${props.theme.sizes.sidebarWidth}px`};

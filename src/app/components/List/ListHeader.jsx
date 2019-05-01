@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Textarea from "react-textarea-autosize";
 import { FiTrash2 } from "react-icons/fi";
 import styled from "styled-components";
-import ToolTip from "../ToolTip/ToolTip";
+import ToolTip from "../ToolTip";
 
 const ListHeaderStyles = styled.div`
   .list-title-button {

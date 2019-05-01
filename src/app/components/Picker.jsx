@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import ClickOutside from "./ClickOutside/ClickOutside";
+import ClickOutside from "./ClickOutside";
 
 const PickerStyles = styled.div`
   position: relative;
