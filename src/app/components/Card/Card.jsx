@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { FiCheck } from 'react-icons/fi';
 import later from 'later';
 import CardModal from '../CardModal/CardModal';
-import CardBadges from '../CardBadges/CardBadges';
+import CardBadges from '../CardBadges';
 import { findCheckboxes } from '../utils';
 import formatMarkdown from './formatMarkdown';
 import CategoryModal from '../CardModal/CategoryModal';
