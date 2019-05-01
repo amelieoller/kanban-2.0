@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { FiClock, FiCoffee, FiSun } from 'react-icons/fi';
 import PropTypes from 'prop-types';
-import Alarm from '../../../assets/sounds/alarm.mp3';
-import Coffee from '../../../assets/images/coffee.png';
-import Code from '../../../assets/images/code.png';
 import ProgressCircle from './ProgressCircle';
+import pomodoroAlert from './pomodoroAlert';
 
 const StyledPomodoro = styled.div`
   text-align: center;
@@ -208,7 +206,10 @@ class Pomodoro extends Component {
     this.resetInterval();
 
     // Notification
-    this.alert();
+    const {
+      pomodoro: { audio, notification }
+    } = this.props;
+    pomodoroAlert(sessionLength, audio, notification);
 
     if (sessionLength === 25) {
       const today = new Date();
@@ -259,50 +260,6 @@ class Pomodoro extends Component {
       type: 'CHANGE_POMODORO_SETTING',
       payload: { boardId, type, value }
     });
-  };
-
-  alert = () => {
-    const { sessionLength } = this.state;
-    const {
-      pomodoro: { audio, notification }
-    } = this.props;
-
-    // audio
-    if (audio) {
-      const newAudio = new Audio(Alarm);
-      const playPromise = newAudio.play();
-
-      // In browsers that don’t yet support this functionality,
-      // playPromise won’t be defined.
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            // Automatic playback started!
-            setTimeout(() => newAudio.pause(), 2500);
-          })
-          .catch(error => {
-            // Automatic playback failed.
-            // Show a UI element to let the user manually start playback.
-            console.log(error);
-          });
-      }
-    }
-    // notification
-    if (notification) {
-      if (sessionLength === 25) {
-        const newNotification = new Notification('Relax :)', {
-          icon: Coffee,
-          lang: 'en',
-          body: 'Relax, have a coffee.'
-        });
-      } else {
-        const newNotification = new Notification('The time is over!', {
-          icon: Code,
-          lang: 'en',
-          body: 'Hey, back to work!'
-        });
-      }
-    }
   };
 
   stopCountdown(newTime) {
