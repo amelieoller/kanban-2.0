@@ -10,7 +10,7 @@ import CardBadges from '../CardBadges';
 import { findCheckboxes } from '../utils';
 import formatMarkdown from './formatMarkdown';
 import CategoryModal from '../CardModal/CategoryModal';
-import CardStyles from '../styles/CardStyles';
+import CardStyles from './CardStyles';
 
 class Card extends Component {
   static propTypes = {

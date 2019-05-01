@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import DayPicker from "react-day-picker";
-import DayPickerStyles from "../styles/DayPickerStyles";
+import DayPickerStyles from "./DayPickerStyles";
 
 class Calendar extends Component {
   static propTypes = {
