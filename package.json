@@ -55,6 +55,7 @@
     "react-head": "^2.1.0",
     "react-icons": "^3.6.1",
     "react-modal": "^3.4.4",
+    "react-new-window": "^0.0.12",
     "react-onclickoutside": "^6.7.1",
     "react-redux": "^5.1.0",
     "react-router": "^4.2.0",
@@ -73,7 +74,6 @@
     "typeface-roboto": "0.0.54"
   },
   "devDependencies": {
-    "terser-webpack-plugin": "^1.2.3",
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "^7.1.2",
@@ -111,6 +111,7 @@
     "prettier": "^1.14.3",
     "sass-loader": "^7.1.0",
     "svg-url-loader": "^2.3.2",
+    "terser-webpack-plugin": "^1.2.3",
     "url-loader": "^1.1.2",
     "webpack": "4.28.2",
     "webpack-bundle-analyzer": "^3.0.2",

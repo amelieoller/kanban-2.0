@@ -26,7 +26,7 @@ const ProgressBackground = styled(StyledProgressCircle)`
 
 const ProgressCircle = ({ time, sessionLength, degrees }) => (
   <svg viewBox="0 0 130 117" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(5,-397.02499)">
+    <g transform="translate(5,-402)">
       <ProgressBackground
         degrees={degrees}
         d="M 23.740374,504.26854 C 12.067324,494.12718 4.6867337,479.17383 4.6867337,462.49666 c 0,-30.54868 24.7645903,-55.31327 55.3132603,-55.31327 30.54868,0 55.313266,24.76459 55.313266,55.31327 0,16.69132 -7.39313,31.65589 -19.083366,41.79769"

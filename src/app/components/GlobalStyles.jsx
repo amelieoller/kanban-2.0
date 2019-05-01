@@ -148,6 +148,26 @@ const GlobalStyles = createGlobalStyle`
     border-color: #ffded9;
     color: ${props => props.theme.colors.mainAccent};
 	}
+
+	.small-button {
+		font-size: 1.5rem;
+		background-color: transparent;
+		padding: 3px 4px;
+		border-radius: 3px;
+		border: 1px solid ${props => props.theme.colors.borderColor};
+		transition: background 0.5s;
+		cursor: pointer;
+
+		&.selected {
+			background-color: ${props => props.theme.colors.mainAccent};
+			color: ${props => props.theme.colors.white};
+		}
+
+		&:hover {
+			background-color: ${props => props.theme.colors.mainAccent};
+			color: ${props => props.theme.colors.white};
+		}
+	}
 `;
 
 export default GlobalStyles;

@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import CardAdder from "../CardAdder";
-import Habit from "./Habit";
-import HabitStats from "./HabitStats";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import CardAdder from '../CardAdder';
+import Habit from './Habit';
+import HabitStats from './HabitStats';
 
 const HabitsStyles = styled.div`
   .card-title-html {
@@ -20,6 +20,10 @@ const HabitsStyles = styled.div`
 
   ul {
     margin-top: 0;
+  }
+
+  .add-card-button {
+    margin: 0 0 2rem 0;
   }
 `;
 
