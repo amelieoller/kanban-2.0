@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -10,70 +10,73 @@ import Settings from './Settings/Settings';
 import GlobalStyles from './GlobalStyles';
 import { light, dark } from './Theme';
 
-class App extends Component {
-  state = {
+const App = ({ user, isGuest }) => {
+  const [state, setState] = useState({
     isLight: true,
     focusMode: false
-  };
+  });
 
-  setBoardColor = boardColor => {
-    this.setState({
+  const setBoardColor = boardColor => {
+    setState({
+      ...state,
       isLight: boardColor === 'light'
     });
   };
 
-  changeFocusMode = () => {
-    this.setState({
-      focusMode: !this.state.focusMode
+  const changeFocusMode = () => {
+    setState({
+      ...state,
+      focusMode: !state.focusMode
     });
   };
 
-  render() {
-    const { user, isGuest } = this.props;
-    const { isLight, focusMode } = this.state;
+  const { isLight, focusMode } = state;
 
-    return (
-      <ThemeProvider theme={isLight ? light : dark}>
-        <>
-          <GlobalStyles />
-          {user || isGuest ? (
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route
-                path="/b/:boardId/:boardTitle/settings"
-                component={Settings}
-              />
-              <Route
-                path="/b/:boardId"
-                render={props => (
-                  <BoardContainer
-                    {...props}
-                    changeTheme={() =>
-                      this.setState({
-                        isLight: !this.state.isLight
-                      })
-                    }
-                    setBoardColor={boardColor => this.setBoardColor(boardColor)}
-                    focusMode={focusMode}
-                    changeFocusMode={this.changeFocusMode}
-                  />
-                )}
-              />
-              <Redirect to="/" />
-            </Switch>
-          ) : (
-            <Switch>
-              <Route exact path="/" component={LandingPage} />
-              <Redirect to="/" />
-            </Switch>
-          )}
-        </>
-      </ThemeProvider>
-    );
-  }
-}
+  return (
+    <ThemeProvider theme={isLight ? light : dark}>
+      <>
+        <GlobalStyles />
+        {user || isGuest ? (
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route
+              path="/b/:boardId/:boardTitle/settings"
+              component={Settings}
+            />
+            <Route
+              path="/b/:boardId"
+              render={props => (
+                <BoardContainer
+                  {...props}
+                  changeTheme={() =>
+                    setState({
+                      ...state,
+                      isLight: !state.isLight
+                    })
+                  }
+                  setBoardColor={boardColor => setBoardColor(boardColor)}
+                  focusMode={focusMode}
+                  changeFocusMode={changeFocusMode}
+                />
+              )}
+            />
+            <Redirect to="/" />
+          </Switch>
+        ) : (
+          <Switch>
+            <Route exact path="/" component={LandingPage} />
+            <Redirect to="/" />
+          </Switch>
+        )}
+      </>
+    </ThemeProvider>
+  );
+};
 
-App.propTypes = { user: PropTypes.object, isGuest: PropTypes.bool.isRequired };
+App.propTypes = {
+  user: PropTypes.object,
+  isGuest: PropTypes.bool.isRequired
+};
 
 const mapStateToProps = state => ({
   user: state.user,
