@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Pomodoro from '../Pomodoro/Pomodoro';
-import Calendar from '../Calendar/Calendar';
+import Events from '../Events';
 import TaskStats from '../TaskStats/TaskStats';
 import RepeatingTasks from '../RepeatingTasks/RepeatingTasks';
 import Habits from '../Habits/Habits';
@@ -64,7 +64,7 @@ class Sidebar extends Component {
       <SidebarStyles>
         <Pomodoro pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
         {user && eventCalendarId && (
-          <Calendar
+          <Events
             user={user}
             dispatch={dispatch}
             eventCalendarId={eventCalendarId}

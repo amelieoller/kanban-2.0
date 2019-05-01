@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { CSSTransitionGroup } from 'react-transition-group';
-import Loading from '../Loading';
+import Loading from './Loading';
 
-const CalendarStyles = styled.div`
+const EventsStyles = styled.div`
   .event-title {
     font-size: 14px;
     color: ${props => props.theme.colors.text};
@@ -22,7 +22,7 @@ const CalendarStyles = styled.div`
   }
 `;
 
-class Calendar extends Component {
+class Events extends Component {
   constructor() {
     super();
 
@@ -139,7 +139,7 @@ class Calendar extends Component {
     const nextEventText = moment(nextEventTime).fromNow();
 
     return (
-      <CalendarStyles className="focus-mode">
+      <EventsStyles className="focus-mode">
         <span className="header">Events </span>
         {events && events.length !== 0 && (
           <CSSTransitionGroup
@@ -179,9 +179,9 @@ class Calendar extends Component {
         ) : (
           <Loading text="Fetching Events" />
         )}
-      </CalendarStyles>
+      </EventsStyles>
     );
   }
 }
 
-export default Calendar;
+export default Events;
