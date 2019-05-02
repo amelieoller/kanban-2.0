@@ -8,48 +8,104 @@ const appendAttributes = list =>
     ...card
   }));
 
-// Generate the initial showcase board that every user and guest gets when they first log in
-const createWelcomeBoard = userId => {
-  const list1 = [
-    { text: '### An open source application inspired by Trello' },
-    {
-      text: `![Octocat](https://assets-cdn.github.com/images/modules/logos_page/Octocat.png)
-Check out the [source code on GitHub](https://github.com/yogaboll/react-kanban)
-`,
-      color: '#6df'
-    }
-  ];
+const completedListId = shortid.generate();
+const habitsListId = shortid.generate();
+const listId1 = shortid.generate();
+const categoryId1 = shortid.generate();
+const categoryId2 = shortid.generate();
+const categoryId3 = shortid.generate();
 
-  const list2 = [
-    {
-      text: `### Supports GitHub flavored markdown
-Featuring cutting edge HTML features like
-* Headings
-* Bullet points
-* **Bold** and *italic* text
-* Links
-* Images
-* \`\`\`
-() => {
+const category1 = {
+  name: '',
+  short: '',
+  color: 'white',
+  _id: categoryId1
+};
+
+const category2 = {
+  name: 'Todo',
+  short: 'T',
+  color: 'rgba(233, 141, 90, 1)',
+  _id: categoryId2
+};
+
+const category3 = {
+  name: 'Work',
+  short: 'W',
+  color: 'rgba(0, 163, 192, 1)',
+  _id: categoryId3
+};
+
+const item1 = {
+  text: '### A kanban application with extra sauce',
+  _id: shortid.generate(),
+  difficulty: 1,
+  minutes: 5
+};
+
+const item2 = {
+  text: `Check out the [source code on GitHub](https://github.com/amelieoller/kanban-2.0)`,
+  _id: shortid.generate(),
+  difficulty: 1,
+  minutes: 20,
+  categoryId: categoryId2
+};
+
+const item3 = {
+  text: 'With Pomodoro Timer',
+  _id: shortid.generate(),
+  difficulty: 1,
+  minutes: 0,
+  categoryId: categoryId3
+};
+
+const item4 = {
+  text: `### Supports GitHub flavored markdown
+  Featuring cutting edge HTML features like
+  * Headings
+  * Bullet points
+  * **Bold** and *italic* text
+  * Links
+  * Images
+  * \`\`\`
+  () => {
     // Code blocks
-}
-\`\`\`
+  }
+  \`\`\`
+  
+  Watch out, Netscape navigator 2.0!`,
+  _id: shortid.generate(),
+  difficulty: 1,
+  minutes: 0,
+  categoryId: categoryId1
+};
 
-Watch out, Netscape navigator 2.0!`
-    },
-    {
-      text: `### Works on mobile devices
-Unlike a certain other website...`
-    },
-    {
-      text: `### And more!
-[x] Colors
-[x] Deadlines
-[x] Checkboxes`,
-      color: '#ff6',
-      date: new Date()
-    }
-  ];
+const item5 = {
+  text: `### Works on mobile devices
+  More or less...`,
+  _id: shortid.generate(),
+  difficulty: 1,
+  minutes: 0,
+  categoryId: categoryId1
+};
+
+const item6 = {
+  text: `### And more!
+  [x] Categories
+  [x] Colors
+  [x] Deadlines
+  [x] Minutes
+  [x] Checkboxes`,
+  date: new Date(),
+  _id: shortid.generate(),
+  difficulty: 3,
+  minutes: 10,
+  categoryId: categoryId3
+};
+
+const createWelcomeBoard = userId => {
+  const list1 = [item1, item2, item3];
+  const list2 = [item4, item5, item6];
 
   const list3 = [
     {
@@ -84,28 +140,23 @@ Since you are not signed in, your changes will not persist after you leave the w
     });
   }
 
-  const completedListId = shortid.generate();
-  const habitsListId = shortid.generate();
-  const categoryId = shortid.generate();
-
   return {
     _id: shortid.generate(),
     title: 'Tutorial board',
-    color: 'blue',
     lists: [
       {
-        _id: shortid.generate(),
-        title: 'Welcome to React Kanban!',
+        _id: listId1,
+        title: 'Today',
         cards: appendAttributes(list1)
       },
       {
         _id: shortid.generate(),
-        title: 'Features',
+        title: 'Tomorrow',
         cards: appendAttributes(list2)
       },
       {
         _id: shortid.generate(),
-        title: 'How to use',
+        title: 'Inbox',
         cards: appendAttributes(list3)
       },
       {
@@ -122,18 +173,18 @@ Since you are not signed in, your changes will not persist after you leave the w
       }
     ],
     users: userId ? [userId] : [],
-    stats: { habits: 0 },
+    stats: { habits: {} },
     settings: {
       pomodoro: { notification: true, audio: true },
       goals: {
         habits: 0
       },
-      categories: [{ name: '', short: '', color: 'white', _id: categoryId }],
+      categories: [category1, category2, category3],
       defaultCategory: 'none',
       eventCalendarId: '',
       eventFilter: '',
-      defaultList: '',
-      color: 'grey',
+      defaultList: listId1,
+      color: 'light',
       completedListId,
       habitsListId
     }
