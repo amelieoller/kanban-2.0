@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FiX, FiTrash2 } from 'react-icons/fi';
@@ -46,36 +46,25 @@ const SettingsStyles = styled.div`
   }
 `;
 
-class Settings extends Component {
-  static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({ boardId: PropTypes.string })
-    }).isRequired,
-    history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
-    dispatch: PropTypes.func.isRequired,
-    eventCalendarId: PropTypes.string,
-    eventFilter: PropTypes.string
+const Settings = ({
+  eventCalendarId,
+  eventFilter,
+  match,
+  dispatch,
+  closeMenu,
+  history
+}) => {
+  const [state, setState] = useState({
+    eventCalendarId: eventCalendarId || '',
+    eventFilter: eventFilter || ''
+  });
+
+  const handleChange = e => {
+    setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      eventCalendarId: props.eventCalendarId || '',
-      eventFilter: props.eventFilter || ''
-    };
-  }
-
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { match, dispatch } = this.props;
-    const { eventCalendarId, eventFilter } = this.state;
     const { boardId } = match.params;
 
     if (e.target.name === 'eventCalendarId') {
@@ -91,61 +80,70 @@ class Settings extends Component {
     }
   };
 
-  handleDeleteBoard = () => {
-    const { dispatch, match, history } = this.props;
+  const handleDeleteBoard = () => {
     const { boardId } = match.params;
     dispatch({ type: 'DELETE_BOARD', payload: { boardId } });
     history.push('/');
   };
 
-  render = () => {
-    const { dispatch, closeMenu } = this.props;
-    const { eventCalendarId, eventFilter } = this.state;
+  return (
+    <SettingsStyles>
+      <FiX className="close-button" onClick={closeMenu} />
+      <h1>Settings</h1>
+      <Categories dispatch={dispatch} />
+      <hr />
+      <h2>Events:</h2>
+      <h2>Change Event Calendar</h2>
+      <p>This is your email address associate with a google calendar</p>
+      <form action="" onSubmit={handleSubmit}>
+        <ExpandingInput
+          placeholder="Event Calendar"
+          name="eventCalendarId"
+          value={eventCalendarId}
+          onChange={handleChange}
+        />
+        <ButtonStyles>Change Calendar</ButtonStyles>
+      </form>
 
-    return (
-      <SettingsStyles>
-        <FiX className="close-button" onClick={closeMenu} />
-        <h1>Settings</h1>
-        <Categories dispatch={dispatch} />
-        <hr />
-        <h2>Events:</h2>
-        <h2>Change Event Calendar</h2>
-        <p>This is your email address associate with a google calendar</p>
-        <form action="" onSubmit={this.handleSubmit}>
-          <ExpandingInput
-            placeholder="Event Calendar"
-            name="eventCalendarId"
-            value={eventCalendarId}
-            onChange={this.handleChange}
-          />
-          <ButtonStyles>Change Calendar</ButtonStyles>
-        </form>
+      <h3>Add a Keyword By Which to Filter Events:</h3>
+      <form action="" onSubmit={handleSubmit}>
+        <ExpandingInput
+          placeholder="Event Filter"
+          name="eventFilter"
+          value={eventFilter}
+          onChange={handleChange}
+        />
+        <ButtonStyles>Change Filter</ButtonStyles>
+      </form>
 
-        <h3>Add a Keyword By Which to Filter Events:</h3>
-        <form action="" onSubmit={this.handleSubmit}>
-          <ExpandingInput
-            placeholder="Event Filter"
-            name="eventFilter"
-            value={eventFilter}
-            onChange={this.handleChange}
-          />
-          <ButtonStyles>Change Filter</ButtonStyles>
-        </form>
+      <hr />
+      <h2>Delete this board:</h2>
+      <ToolTip
+        message="Are you sure?"
+        button={
+          <button type="button" onClick={handleDeleteBoard}>
+            Delete
+          </button>
+        }
+      >
+        <ButtonStyles>
+          <FiTrash2 />
+        </ButtonStyles>
+      </ToolTip>
+    </SettingsStyles>
+  );
+};
 
-        <hr />
-        <h2>Delete this board:</h2>
-        <ToolTip
-          message="Are you sure?"
-          button={<button onClick={this.handleDeleteBoard}>Delete</button>}
-        >
-          <ButtonStyles>
-            <FiTrash2 />
-          </ButtonStyles>
-        </ToolTip>
-      </SettingsStyles>
-    );
-  };
-}
+Settings.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({ boardId: PropTypes.string })
+  }).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  eventCalendarId: PropTypes.string,
+  eventFilter: PropTypes.string,
+  closeMenu: PropTypes.func
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
