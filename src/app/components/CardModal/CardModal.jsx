@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import Textarea from "react-textarea-autosize";
-import Modal from "react-modal";
-import CardBadges from "../CardBadges";
-import CardOptions from "./CardOptions";
-import { findCheckboxes } from "../utils";
-import "./CardModal.scss";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Textarea from 'react-textarea-autosize';
+import Modal from 'react-modal';
+import CardBadges from '../CardBadges';
+import CardOptions from './CardOptions';
+import { findCheckboxes } from '../utils';
+import './CardModal.scss';
 
 class CardModal extends Component {
   static propTypes = {
@@ -34,8 +34,8 @@ class CardModal extends Component {
       isDifficultyPickerOpen: false,
       isTextareaFocused: true
     };
-    if (typeof document !== "undefined") {
-      Modal.setAppElement("#app");
+    if (typeof document !== 'undefined') {
+      Modal.setAppElement('#app');
     }
   }
 
@@ -53,11 +53,11 @@ class CardModal extends Component {
   submitCard = () => {
     const { newText } = this.state;
     const { card, listId, dispatch, toggleCardEditor } = this.props;
-    if (newText === "") {
+    if (newText === '') {
       this.deleteCard();
     } else if (newText !== card.text) {
       dispatch({
-        type: "CHANGE_CARD_TEXT",
+        type: 'CHANGE_CARD_TEXT',
         payload: {
           cardText: newText,
           cardId: card._id,
@@ -75,9 +75,9 @@ class CardModal extends Component {
   togglePicker = type => {
     const picker = `is${type}PickerOpen`;
 
-    this.setState({
-      [picker]: !this.state[picker]
-    });
+    this.setState(prevState => ({
+      [picker]: !prevState[picker]
+    }));
   };
 
   handleRequestClose = () => {
@@ -95,7 +95,7 @@ class CardModal extends Component {
       isDifficultyPickerOpen,
       isTextareaFocused
     } = this.state;
-		const { cardElement, card, listId, isOpen, categories } = this.props;
+    const { cardElement, card, listId, isOpen, categories } = this.props;
     if (!cardElement) {
       return null;
     }
@@ -129,14 +129,14 @@ class CardModal extends Component {
         right: isCardNearRightBorder
           ? window.innerWidth - boundingRect.right
           : null,
-        flexDirection: isCardNearRightBorder ? "row-reverse" : "row"
+        flexDirection: isCardNearRightBorder ? 'row-reverse' : 'row'
       }
     };
 
     // For layouts that are less wide than 550px, let the modal take up the entire width at the top of the screen
     const mobileStyle = {
       content: {
-        flexDirection: "column",
+        flexDirection: 'column',
         top: 3,
         left: 3,
         right: 3
@@ -158,10 +158,10 @@ class CardModal extends Component {
         <div
           className="modal-textarea-wrapper"
           style={{
-            minHeight: isThinDisplay ? "none" : boundingRect.height,
-            width: isThinDisplay ? "100%" : boundingRect.width,
+            minHeight: isThinDisplay ? 'none' : boundingRect.height,
+            width: isThinDisplay ? '100%' : boundingRect.width,
             boxShadow: isTextareaFocused
-              ? "0px 0px 3px 2px rgb(0, 180, 255)"
+              ? '0px 0px 3px 2px rgb(0, 180, 255)'
               : null,
             background: card.color
           }}
@@ -185,7 +185,7 @@ class CardModal extends Component {
               date={card.date}
               checkboxes={checkboxes}
               minutes={card.minutes}
-							category={categories.find(cat => cat._id === card.categoryId)}
+              category={categories.find(cat => cat._id === card.categoryId)}
             />
           )}
         </div>
