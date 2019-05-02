@@ -40,6 +40,7 @@ const ListStyles = styled.div`
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    padding-top: 3px;
   }
 
   .cards {
@@ -50,10 +51,14 @@ const ListStyles = styled.div`
 
 class List extends Component {
   static propTypes = {
-    boardId: PropTypes.string.isRequired,
+    boardId: PropTypes.string,
     index: PropTypes.number.isRequired,
     list: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired,
-    defaultCategory: PropTypes.string.isRequired
+    defaultCategory: PropTypes.string.isRequired,
+    cards: PropTypes.array,
+    pomodoro: PropTypes.object,
+    categories: PropTypes.array,
+    defaultList: PropTypes.string
   };
 
   withinPomodoroTime = () => {
@@ -67,9 +72,9 @@ class List extends Component {
       time *= pomodoro.pomodori;
     }
 
-    for (let i = 0; i < cards.length; i++) {
+    for (let i = 0; i < cards.length; i += 1) {
       const card = cards[i];
-      const minutes = parseInt(card.minutes);
+      const minutes = parseInt(card.minutes, 10);
 
       if (minutes && card.minutes > time) {
         selectedCards.push(cards[0]._id);
@@ -85,7 +90,15 @@ class List extends Component {
   };
 
   render = () => {
-    const { list, boardId, index, categories, defaultCategory } = this.props;
+    const {
+      list,
+      boardId,
+      index,
+      categories,
+      defaultCategory,
+      defaultList
+    } = this.props;
+
     return (
       <Draggable
         draggableId={list._id}
@@ -97,7 +110,9 @@ class List extends Component {
             <ListStyles
               ref={provided.innerRef}
               {...provided.draggableProps}
-              className={`no-focus-mode ${list._id}`}
+              className={
+                defaultList === list._id ? 'focus-mode' : 'no-focus-mode'
+              }
               name={list._id}
             >
               <div
@@ -132,14 +147,16 @@ class List extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const cardIds = ownProps.list.cards;
+  const { boardId } = ownProps;
 
   return {
     cards: cardIds
       .map(id => state.cardsById[id])
       .filter(card => card.active !== false),
-    pomodoro: state.boardsById[ownProps.boardId].settings.pomodoro,
-    categories: state.boardsById[ownProps.boardId].settings.categories,
-    defaultCategory: state.boardsById[ownProps.boardId].settings.defaultCategory
+    pomodoro: state.boardsById[boardId].settings.pomodoro,
+    categories: state.boardsById[boardId].settings.categories,
+    defaultCategory: state.boardsById[boardId].settings.defaultCategory,
+    defaultList: state.boardsById[boardId].settings.defaultList
   };
 };
 

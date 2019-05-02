@@ -40,7 +40,7 @@ class BoardSettings extends Component {
         right
         width={350}
       >
-        <Settings closeMenu={this.closeMenu} />
+        <Settings closeMenu={this.closeMenu} listsById={this.props.listsById} />
       </SlideOutMenu>
       <HeaderButtonStyles onClick={this.openMenu} className="no-focus-mode">
         <FiSettings />
@@ -51,8 +51,10 @@ class BoardSettings extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
+
   return {
-    boardTitle: state.boardsById[boardId].title
+    boardTitle: state.boardsById[boardId].title,
+    listsById: state.listsById,
   };
 };
 

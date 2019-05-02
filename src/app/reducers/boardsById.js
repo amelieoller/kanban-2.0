@@ -252,38 +252,53 @@ const boardsById = (state = {}, action) => {
           settings: {
             ...state[boardId].settings,
             categories: state[boardId].settings.categories.map(cat =>
-              cat._id == categoryId ? { ...cat, name, short, color } : cat
+              cat._id === categoryId ? { ...cat, name, short, color } : cat
             )
           }
         }
       };
     }
     case 'CHANGE_EVENT_CALENDAR_ID': {
-      const { boardId, eventCalendarId } = action.payload;
+      const { boardId, newEventCalendarId } = action.payload;
       return {
         ...state,
         [boardId]: {
           ...state[boardId],
           settings: {
             ...state[boardId].settings,
-            eventCalendarId
+            eventCalendarId: newEventCalendarId
           }
         }
       };
     }
     case 'CHANGE_EVENT_CALENDAR_FILTER': {
-      const { boardId, eventFilter } = action.payload;
+      const { boardId, newEventFilter } = action.payload;
       return {
         ...state,
         [boardId]: {
           ...state[boardId],
           settings: {
             ...state[boardId].settings,
-            eventFilter
+            eventFilter: newEventFilter
           }
         }
       };
     }
+    case 'CHANGE_DEFAULT_LIST': {
+      const { boardId, newDefaultList } = action.payload;
+
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            defaultList: newDefaultList
+          }
+        }
+      };
+    }
+
     case 'DELETE_BOARD': {
       const { boardId } = action.payload;
       const { [boardId]: deletedBoard, ...restOfBoards } = state;

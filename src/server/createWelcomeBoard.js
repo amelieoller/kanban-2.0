@@ -132,6 +132,7 @@ Since you are not signed in, your changes will not persist after you leave the w
       defaultCategory: 'none',
       eventCalendarId: '',
       eventFilter: '',
+      defaultList: '',
       color: 'grey',
       completedListId,
       habitsListId

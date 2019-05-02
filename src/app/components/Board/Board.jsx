@@ -17,7 +17,7 @@ const BoardStyles = styled.div`
   align-content: space-between;
   background: ${props => props.theme.colors.mainBackground};
 
-  .no-focus-mode:not([name='9PnQYLMlW']) {
+  .no-focus-mode {
     filter: ${props => (props.focusMode ? 'blur(3px)' : 'none')};
   }
 
@@ -57,16 +57,20 @@ class Board extends Component {
     boardId: PropTypes.string.isRequired,
     boardTitle: PropTypes.string.isRequired,
     pomodoro: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    completedListId: PropTypes.string,
+    habitsListId: PropTypes.string,
+    changeTheme: PropTypes.func,
+    setBoardColor: PropTypes.func,
+    focusMode: PropTypes.bool,
+    changeFocusMode: PropTypes.func
   };
 
   constructor(props) {
     super(props);
     this.state = {
       startX: null,
-      startScrollX: null,
-      width: '',
-      height: ''
+      startScrollX: null
     };
   }
 
@@ -77,25 +81,15 @@ class Board extends Component {
       type: 'PUT_BOARD_ID_IN_REDUX',
       payload: { boardId }
     });
-
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
   };
 
   componentWillUnmount = () => {
     // const { dispatch, boardId } = this.props;
     // const checkinDate = new Date();
-
     // dispatch({
     //   type: 'CHANGE_LAST_CHECKIN',
     //   payload: { boardId, checkinDate }
     // });
-
-    window.removeEventListener('resize', this.updateWindowDimensions);
-  };
-
-  updateWindowDimensions = () => {
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
 
   handleDragEnd = ({ source, destination, type }) => {
@@ -207,7 +201,6 @@ class Board extends Component {
       focusMode,
       changeFocusMode
     } = this.props;
-    const { width } = this.state;
     const otherLists = lists.filter(
       list => list && list._id !== completedListId && list._id !== habitsListId
     );
@@ -251,8 +244,6 @@ class Board extends Component {
               )}
             </Droppable>
           </DragDropContext>
-          {/* </main> */}
-
           <Sidebar pomodoro={pomodoro} boardId={boardId} />
         </CSSTransitionGroup>
       </BoardStyles>
