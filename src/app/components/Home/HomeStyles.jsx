@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const HomeStyles = styled.div`
   width: 100%;
@@ -10,12 +10,7 @@ const HomeStyles = styled.div`
   background: ${props => props.theme.colors.mainBackground};
 
   .main-content {
-		padding: 20px;
-
-  .main-content h1 {
-    margin: 20px 5px;
-    font-size: 22px;
-  }
+		padding: 60px 20px;
 
   .boards {
     display: flex;
