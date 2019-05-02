@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FiX, FiTrash2 } from 'react-icons/fi';
 import Categories from '../Categories/Categories';
-import ToolTip from '../ToolTip';
 import ButtonStyles from '../styles/ButtonStyles';
 import ExpandingInput from '../ExpandingInput';
 
@@ -43,6 +42,7 @@ const SettingsStyles = styled.div`
 
   .delete-button {
     width: 30px;
+    cursor: pointer;
   }
 `;
 
@@ -118,18 +118,17 @@ const Settings = ({
 
       <hr />
       <h2>Delete this board:</h2>
-      <ToolTip
-        message="Are you sure?"
-        button={
-          <button type="button" onClick={handleDeleteBoard}>
-            Delete
-          </button>
-        }
-      >
-        <ButtonStyles>
-          <FiTrash2 />
-        </ButtonStyles>
-      </ToolTip>
+      <FiTrash2
+        role="button"
+        tabIndex={0}
+        className="delete-button"
+        onClick={() => {
+          if (window.confirm('Are you sure?')) handleDeleteBoard();
+        }}
+        onKeyDown={() => {
+          if (window.confirm('Are you sure?')) handleDeleteBoard();
+        }}
+      />
     </SettingsStyles>
   );
 };

@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import Textarea from "react-textarea-autosize";
-import shortid from "shortid";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Textarea from 'react-textarea-autosize';
+import shortid from 'shortid';
+import styled from 'styled-components';
 
 const ListAdderButton = styled.div`
   margin: 10px 0;
@@ -13,7 +13,7 @@ const ListAdderButton = styled.div`
     flex-shrink: 0;
     width: ${props => props.theme.sizes.listWidth};
     margin: 0 5px 0 5px;
-    padding: 10px;
+    padding: 13.5px 10px;
     border: none;
     border-radius: ${props => props.theme.sizes.borderRadius};
     color: ${props => props.theme.colors.backgroundAccent};
@@ -38,19 +38,18 @@ const ListAdderTextArea = styled.div`
   border-radius: ${props => props.theme.sizes.borderRadius};
   font-size: 14px;
   transition: box-shadow 0.15s, background 0.3s;
-  box-shadow: ${props => props.theme.common.bs};
 
   .list-adder-textarea {
     float: left;
     box-sizing: border-box;
     width: 100%;
-    padding: 6px 10px;
+    padding: 10px;
     border: 0;
     border-radius: 3px;
     color: ${props => props.theme.colors.text};
     font-family: inherit;
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
     overflow: hidden;
     resize: none;
     text-transform: uppercase;
@@ -58,75 +57,74 @@ const ListAdderTextArea = styled.div`
   }
 `;
 
-class ListAdder extends Component {
-  static propTypes = {
-    boardId: PropTypes.string.isRequired,
-    dispatch: PropTypes.func.isRequired
+const ListAdder = ({ dispatch, boardId }) => {
+  const [state, setState] = useState({
+    isOpen: false,
+    listTitle: ''
+  });
+
+  const handleBlur = () => {
+    setState({ ...state, isOpen: false });
   };
 
-  constructor() {
-    super();
-    this.state = {
-      isOpen: false,
-      listTitle: ""
-    };
-  }
-
-  handleBlur = () => {
-    this.setState({ isOpen: false });
+  const handleChange = e => {
+    setState({ ...state, listTitle: e.target.value });
   };
 
-  handleChange = e => {
-    this.setState({ listTitle: e.target.value });
-  };
-
-  handleKeyDown = e => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      this.handleSubmit();
-    } else if (e.keyCode === 27) {
-      this.setState({ isOpen: false, listTitle: "" });
-    }
-  };
-
-  handleSubmit = () => {
-    const { dispatch, boardId } = this.props;
-    const { listTitle } = this.state;
+  const handleSubmit = () => {
+    const { listTitle } = state;
     const listId = shortid.generate();
-    if (listTitle === "") return;
+    if (listTitle === '') return;
     dispatch({
-      type: "ADD_LIST",
+      type: 'ADD_LIST',
       payload: { listTitle, listId, boardId }
     });
-    this.setState({ isOpen: false, listTitle: "" });
+    setState({ ...state, isOpen: false, listTitle: '' });
   };
 
-  render = () => {
-    const { isOpen, listTitle } = this.state;
-    if (!isOpen) {
-      return (
-        <ListAdderButton>
-          <button type="submit" onClick={() => this.setState({ isOpen: true })}>
-            Add a new list...
-          </button>
-        </ListAdderButton>
-      );
+  const handleKeyDown = e => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      handleSubmit();
+    } else if (e.keyCode === 27) {
+      setState({ ...state, isOpen: false, listTitle: '' });
     }
-    return (
-      <ListAdderTextArea>
-        <Textarea
-          autoFocus
-          useCacheForDOMMeasurements
-          value={listTitle}
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
-          className="list-adder-textarea"
-          onBlur={this.handleBlur}
-          spellCheck={false}
-        />
-      </ListAdderTextArea>
-    );
   };
-}
+
+  const { isOpen, listTitle } = state;
+
+  if (!isOpen) {
+    return (
+      <ListAdderButton>
+        <button
+          type="submit"
+          onClick={() => setState({ ...state, isOpen: true })}
+        >
+          Add a new list...
+        </button>
+      </ListAdderButton>
+    );
+  }
+
+  return (
+    <ListAdderTextArea>
+      <Textarea
+        autoFocus
+        useCacheForDOMMeasurements
+        value={listTitle}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        className="list-adder-textarea"
+        onBlur={handleBlur}
+        spellCheck={false}
+      />
+    </ListAdderTextArea>
+  );
+};
+
+ListAdder.propTypes = {
+  boardId: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired
+};
 
 export default connect()(ListAdder);

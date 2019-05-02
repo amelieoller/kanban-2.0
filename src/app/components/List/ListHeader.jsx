@@ -1,16 +1,15 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import Textarea from "react-textarea-autosize";
-import { FiTrash2 } from "react-icons/fi";
-import styled from "styled-components";
-import ToolTip from "../ToolTip";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Textarea from 'react-textarea-autosize';
+import { FiTrash2 } from 'react-icons/fi';
+import styled from 'styled-components';
 
 const ListHeaderStyles = styled.div`
   .list-title-button {
     flex-grow: 1;
     min-width: 50%;
-    padding: 4px;
+    padding-top: 5px;
     border: none;
     border-top-left-radius: inherit;
     color: ${props => props.theme.colors.text};
@@ -19,29 +18,26 @@ const ListHeaderStyles = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     text-transform: uppercase;
   }
 
   .list-title-textarea-wrapper {
     width: 100%;
-    padding: 4px 4px 4px 4px;
+    padding: 3px;
   }
 
   .list-title-textarea {
     float: left;
     box-sizing: border-box;
     width: 100%;
-    padding: 6px;
-    border-radius: 3px;
-    border: 0;
+    padding-top: 2px;
+    border: none;
     color: ${props => props.theme.colors.grey};
-    font-family: inherit;
-    font-size: 20px;
+    font-size: 1rem;
     text-transform: uppercase;
     font-weight: 400;
-    line-height: inherit;
     overflow: hidden;
     resize: none;
     text-align: center;
@@ -52,6 +48,7 @@ const ListHeaderStyles = styled.div`
     cursor: pointer;
     padding-left: 6px;
     color: ${props => props.theme.colors.monotoneAccent};
+    padding-bottom: 2px;
   }
 
   .delete-list-button:hover,
@@ -94,10 +91,10 @@ class ListTitle extends Component {
   handleSubmit = () => {
     const { newTitle } = this.state;
     const { listTitle, listId, dispatch } = this.props;
-    if (newTitle === "") return;
+    if (newTitle === '') return;
     if (newTitle !== listTitle) {
       dispatch({
-        type: "CHANGE_LIST_TITLE",
+        type: 'CHANGE_LIST_TITLE',
         payload: { listTitle: newTitle, listId }
       });
     }
@@ -112,7 +109,7 @@ class ListTitle extends Component {
   deleteList = () => {
     const { listId, cards, boardId, dispatch } = this.props;
     dispatch({
-      type: "DELETE_LIST",
+      type: 'DELETE_LIST',
       payload: { cards, listId, boardId }
     });
   };
@@ -131,6 +128,7 @@ class ListTitle extends Component {
   render() {
     const { isOpen, newTitle } = this.state;
     const { dragHandleProps, listTitle } = this.props;
+
     return (
       <ListHeaderStyles>
         {isOpen ? (
@@ -159,12 +157,17 @@ class ListTitle extends Component {
             className="list-title-button"
           >
             {listTitle}
-            <ToolTip
-              message="Are you sure?"
-              button={<button onClick={this.deleteList}>Delete</button>}
-            >
-              <FiTrash2 className="delete-list-button" />
-            </ToolTip>
+            <FiTrash2
+              role="button"
+              tabIndex={0}
+              className="delete-list-button"
+              onClick={() => {
+                if (window.confirm('Are you sure?')) this.deleteList();
+              }}
+              onKeyDown={() => {
+                if (window.confirm('Are you sure?')) this.deleteList();
+              }}
+            />
           </div>
         )}
       </ListHeaderStyles>

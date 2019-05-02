@@ -83,13 +83,13 @@ class Board extends Component {
   };
 
   componentWillUnmount = () => {
-    const { dispatch, boardId } = this.props;
-    const checkinDate = new Date();
+    // const { dispatch, boardId } = this.props;
+    // const checkinDate = new Date();
 
-    dispatch({
-      type: 'CHANGE_LAST_CHECKIN',
-      payload: { boardId, checkinDate }
-    });
+    // dispatch({
+    //   type: 'CHANGE_LAST_CHECKIN',
+    //   payload: { boardId, checkinDate }
+    // });
 
     window.removeEventListener('resize', this.updateWindowDimensions);
   };
