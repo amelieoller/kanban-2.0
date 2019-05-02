@@ -44,7 +44,7 @@ class RepeatingTasks extends Component {
       }).isRequired
     ).isRequired,
     dispatch: PropTypes.func.isRequired,
-    lastCheckinDate: PropTypes.string.isRequired
+    lastCheckinDate: PropTypes.string
   };
 
   componentDidMount() {

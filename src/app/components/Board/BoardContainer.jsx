@@ -25,7 +25,13 @@ const BoardContainer = ({
     <Redirect to="/" />
   );
 
-BoardContainer.propTypes = { board: PropTypes.object };
+BoardContainer.propTypes = {
+  board: PropTypes.object,
+  changeTheme: PropTypes.func.isRequired,
+  setBoardColor: PropTypes.func.isRequired,
+  focusMode: PropTypes.bool.isRequired,
+  changeFocusMode: PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
