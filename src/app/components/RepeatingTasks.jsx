@@ -30,12 +30,21 @@ class RepeatingTasks extends Component {
   static propTypes = {
     cards: PropTypes.arrayOf(
       PropTypes.shape({
-        _id: PropTypes.string.isRequired,
+        active: PropTypes.bool.isRequired,
+        categoryId: PropTypes.string,
+        createdAt: PropTypes.number.isRequired,
+        difficulty: PropTypes.number.isRequired,
+        inPomodoro: PropTypes.bool,
+        minutes: PropTypes.number.isRequired,
+        nextDate: PropTypes.string.isRequired,
+        recurringText: PropTypes.string.isRequired,
+        schedule: PropTypes.object.isRequired,
         text: PropTypes.string.isRequired,
-        difficulty: PropTypes.number.isRequired
+        _id: PropTypes.string.isRequired
       }).isRequired
     ).isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    lastCheckinDate: PropTypes.string.isRequired
   };
 
   componentDidMount() {
@@ -44,7 +53,7 @@ class RepeatingTasks extends Component {
     const lastCheckin = new Date(lastCheckinDate);
 
     if (lastCheckin < today) {
-      for (let i = 0; i < cards.length; i++) {
+      for (let i = 0; i < cards.length; i += 1) {
         const card = cards[i];
 
         if (!card.active && lastCheckin > new Date(card.nextDate)) {

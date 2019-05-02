@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { FiX, FiStar, FiRepeat } from "react-icons/fi";
-import differenceInCalendarDays from "date-fns/difference_in_calendar_days";
-import classnames from "classnames";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { FiX, FiStar, FiRepeat } from 'react-icons/fi';
+import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
+import classnames from 'classnames';
+import styled from 'styled-components';
 
 const TaskStatsStyled = styled.div`
   width: 20%;
@@ -81,14 +81,16 @@ class TaskStats extends Component {
         difficulty: PropTypes.number.isRequired
       }).isRequired
     ),
-    completedListId: PropTypes.string.isRequired
+    completedListId: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired
   };
 
   constructor() {
     super();
 
     this.state = {
-      hoverTask: ""
+      hoverTask: ''
     };
   }
 
@@ -97,7 +99,7 @@ class TaskStats extends Component {
     const listId = completedListId;
 
     dispatch({
-      type: "DELETE_CARD",
+      type: 'DELETE_CARD',
       payload: { cardId, listId }
     });
   };
@@ -107,7 +109,7 @@ class TaskStats extends Component {
     const results = [];
     let accumulated;
 
-    for (let i = 0; i < categories.length; i++) {
+    for (let i = 0; i < categories.length; i += 1) {
       accumulated = cards
         .filter(
           ca => differenceInCalendarDays(ca.completedAt, new Date()) === 0
@@ -132,7 +134,7 @@ class TaskStats extends Component {
     const { dispatch } = this.props;
 
     dispatch({
-      type: "CHANGE_CARD_STAR",
+      type: 'CHANGE_CARD_STAR',
       payload: { cardId }
     });
   };
@@ -154,11 +156,11 @@ class TaskStats extends Component {
               className="completed-task-wrapper"
               style={{
                 borderLeft: `2px solid ${
-                  card.category ? card.category.color : "light-grey"
+                  card.category ? card.category.color : 'light-grey'
                 }`
               }}
               onMouseEnter={() => this.setState({ hoverTask: card._id })}
-              onMouseLeave={() => this.setState({ hoverTask: "" })}
+              onMouseLeave={() => this.setState({ hoverTask: '' })}
             >
               <span className="completed-task-text">{card.text}</span>
 
@@ -173,7 +175,7 @@ class TaskStats extends Component {
               )}
               <FiStar
                 className={
-                  card.starred ? "card-icon card-icon-starred" : "card-icon"
+                  card.starred ? 'card-icon card-icon-starred' : 'card-icon'
                 }
                 onClick={() => this.handleStarClick(card._id)}
               />
@@ -207,7 +209,7 @@ class TaskStats extends Component {
                     category.minutes !== 0 && (
                       <div className="minute-badges" key={category.name}>
                         <div
-                          className={classnames("minute-badge", "badge")}
+                          className={classnames('minute-badge', 'badge')}
                           style={{ background: category.color }}
                         >
                           {category.minutes} min
@@ -217,12 +219,12 @@ class TaskStats extends Component {
                 )}
               </div>
 
-              {this.renderCompletedDateSection(cards, 0, "Today")}
-              {this.renderCompletedDateSection(cards, -1, "Yesterday")}
+              {this.renderCompletedDateSection(cards, 0, 'Today')}
+              {this.renderCompletedDateSection(cards, -1, 'Yesterday')}
               {this.renderCompletedDateSection(
                 cards,
                 -2,
-                "The Day Before Yesterday"
+                'The Day Before Yesterday'
               )}
             </>
           ))}
