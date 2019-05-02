@@ -1,71 +1,66 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import DayPicker from "react-day-picker";
-import DayPickerStyles from "./DayPickerStyles";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import DayPicker from 'react-day-picker';
+import DayPickerStyles from './DayPickerStyles';
 
-class Calendar extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    cardId: PropTypes.string.isRequired,
-    date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
-    toggleCalendar: PropTypes.func.isRequired
-  };
+const Calendar = ({ toggleCalendar, date, dispatch, cardId }) => {
+  const [state, setState] = useState({
+    selectedDay: date ? new Date(date) : undefined
+  });
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedDay: props.date ? new Date(props.date) : undefined
-    };
-  }
-
-  handleDayClick = (selectedDay, { selected, disabled }) => {
+  const handleDayClick = (selectedDay, { selected, disabled }) => {
     if (disabled) {
       return;
     }
     if (selected) {
-      // Unselect the day if already selected
-      this.setState({ selectedDay: undefined });
+      // Deselect the day if already selected
+      setState({ ...state, selectedDay: undefined });
       return;
     }
-    this.setState({ selectedDay });
+    setState({ ...state, selectedDay });
   };
 
-  handleSave = () => {
-    const { selectedDay } = this.state;
-    const { dispatch, cardId, toggleCalendar } = this.props;
+  const handleSave = () => {
+    const { selectedDay } = state;
+
     dispatch({
-      type: "CHANGE_CARD_DATE",
+      type: 'CHANGE_CARD_DATE',
       payload: { date: selectedDay, cardId }
     });
     toggleCalendar();
   };
 
-  render() {
-    const { selectedDay } = this.state;
-    const { toggleCalendar } = this.props;
-    return (
-      <DayPickerStyles>
-        <DayPicker
-          onDayClick={this.handleDayClick}
-          selectedDays={selectedDay}
-          disabledDays={{ before: new Date() }}
-        />
-        <div className="calendar-buttons">
-          <button
-            type="submit"
-            onClick={this.handleSave}
-            className="calendar-save-button"
-          >
-            Save
-          </button>
-          <button type="submit" onClick={toggleCalendar}>
-            Cancel
-          </button>
-        </div>
-      </DayPickerStyles>
-    );
-  }
-}
+  const { selectedDay } = state;
+
+  return (
+    <DayPickerStyles>
+      <DayPicker
+        onDayClick={handleDayClick}
+        selectedDays={selectedDay}
+        disabledDays={{ before: new Date() }}
+      />
+      <div className="calendar-buttons">
+        <button
+          type="submit"
+          onClick={handleSave}
+          className="calendar-save-button"
+        >
+          Save
+        </button>
+        <button type="submit" onClick={toggleCalendar}>
+          Cancel
+        </button>
+      </div>
+    </DayPickerStyles>
+  );
+};
+
+Calendar.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  cardId: PropTypes.string.isRequired,
+  date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+  toggleCalendar: PropTypes.func.isRequired
+};
 
 export default connect()(Calendar);
