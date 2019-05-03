@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
@@ -29,26 +29,16 @@ const CardBadgesStyles = styled.div`
   }
 `;
 
-class CardBadges extends Component {
-  static propTypes = {
-    date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
-    checkboxes: PropTypes.shape({
-      total: PropTypes.number.isRequired,
-      checked: PropTypes.number.isRequired
-    }).isRequired,
-    minutes: PropTypes.number,
-    category: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      short: PropTypes.string.isRequired,
-      color: PropTypes.string.isRequired
-    }),
-    dispatch: PropTypes.func,
-    cardId: PropTypes.string,
-    toggleCategoryModal: PropTypes.func
-  };
-
-  renderDueDate = () => {
-    const { date } = this.props;
+const CardBadges = ({
+  dispatch,
+  minutes,
+  cardId,
+  category,
+  toggleCategoryModal,
+  date,
+  checkboxes: { total, checked }
+}) => {
+  const renderDueDate = () => {
     if (!date) {
       return null;
     }
@@ -86,10 +76,7 @@ class CardBadges extends Component {
   };
 
   // Render badge showing amount of checkboxes that are checked
-  renderTaskProgress = () => {
-    const {
-      checkboxes: { total, checked }
-    } = this.props;
+  const renderTaskProgress = () => {
     if (total === 0) {
       return null;
     }
@@ -105,9 +92,7 @@ class CardBadges extends Component {
     );
   };
 
-  renderCategory = () => {
-    const { category, toggleCategoryModal } = this.props;
-
+  const renderCategory = () => {
     if (!category) {
       return null;
     }
@@ -116,17 +101,19 @@ class CardBadges extends Component {
       <div
         className="badge badge-category"
         onClick={toggleCategoryModal}
+        onKeyDown={toggleCategoryModal}
         style={{
           background: category.color
         }}
+        role="button"
+        tabIndex={0}
       >
         {category.short}
       </div>
     );
   };
 
-  handleMinuteChange = e => {
-    const { dispatch, minutes, cardId } = this.props;
+  const handleMinuteChange = e => {
     const newMinutes = parseInt(e.target.value, 10);
 
     if (minutes !== newMinutes) {
@@ -137,9 +124,7 @@ class CardBadges extends Component {
     }
   };
 
-  renderMinutes = () => {
-    const { minutes } = this.props;
-
+  const renderMinutes = () => {
     if (!minutes) {
       return null;
     }
@@ -149,7 +134,7 @@ class CardBadges extends Component {
         <FiClock className="badge-icon" />
         &nbsp;
         <input
-          onChange={e => this.handleMinuteChange(e)}
+          onChange={e => handleMinuteChange(e)}
           type="text"
           value={minutes}
         />
@@ -158,16 +143,31 @@ class CardBadges extends Component {
     );
   };
 
-  render() {
-    return (
-      <CardBadgesStyles>
-        {this.renderCategory()}
-        {this.renderDueDate()}
-        {this.renderMinutes()}
-        {this.renderTaskProgress()}
-      </CardBadgesStyles>
-    );
-  }
-}
+  return (
+    <CardBadgesStyles>
+      {renderCategory()}
+      {renderDueDate()}
+      {renderMinutes()}
+      {renderTaskProgress()}
+    </CardBadgesStyles>
+  );
+};
+
+CardBadges.propTypes = {
+  date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+  checkboxes: PropTypes.shape({
+    total: PropTypes.number.isRequired,
+    checked: PropTypes.number.isRequired
+  }).isRequired,
+  minutes: PropTypes.number,
+  category: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    short: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired
+  }),
+  dispatch: PropTypes.func,
+  cardId: PropTypes.string,
+  toggleCategoryModal: PropTypes.func
+};
 
 export default CardBadges;

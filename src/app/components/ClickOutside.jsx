@@ -1,17 +1,12 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
-import onClickOutside from "react-onclickoutside";
+import onClickOutside from 'react-onclickoutside';
 
-// Wrap component in this component to handle click outisde of that component
-class ClickOutsideWrapper extends Component {
-  static propTypes = {
-    handleClickOutside: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired
-  };
+const Menu = ({ toggleOpen, children }) => {
+  Menu.handleClickOutside = () => toggleOpen();
+  return children;
+};
 
-  handleClickOutside = () => this.props.handleClickOutside();
+const clickOutsideConfig = {
+  handleClickOutside: () => Menu.handleClickOutside
+};
 
-  render = () => this.props.children;
-}
-
-export default onClickOutside(ClickOutsideWrapper);
+export default onClickOutside(Menu, clickOutsideConfig);

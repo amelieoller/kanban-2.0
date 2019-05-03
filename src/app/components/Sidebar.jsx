@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -43,63 +43,62 @@ const SidebarStyles = styled.div`
   }
 `;
 
-class Sidebar extends Component {
-  static propTypes = {
-    cards: PropTypes.arrayOf(
-      PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired,
-        difficulty: PropTypes.number.isRequired
-      }).isRequired
-    ),
-    pomodoro: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    boardId: PropTypes.string.isRequired,
-    completedListId: PropTypes.string.isRequired,
-    user: PropTypes.object,
-    categories: PropTypes.array
-  };
+const Sidebar = ({
+  cards,
+  pomodoro,
+  dispatch,
+  boardId,
+  user,
+  completedListId,
+  categories,
+  eventCalendarId,
+  eventFilter
+}) => (
+  <SidebarStyles>
+    <PomodoroWrapper
+      pomodoro={pomodoro}
+      dispatch={dispatch}
+      boardId={boardId}
+    />
+    {user && eventCalendarId && (
+      <Events
+        user={user}
+        dispatch={dispatch}
+        eventCalendarId={eventCalendarId}
+        eventFilter={eventFilter}
+      />
+    )}
+    <TaskStats
+      cards={cards}
+      completedListId={completedListId}
+      dispatch={dispatch}
+      categories={categories}
+    />
+    <Habits boardId={boardId} />
+    <RepeatingTasks pomodoro={pomodoro} boardId={boardId} />
+  </SidebarStyles>
+);
 
-  render = () => {
-    const {
-      cards,
-      pomodoro,
-      dispatch,
-      boardId,
-      user,
-      completedListId,
-      categories,
-      eventCalendarId,
-      eventFilter
-    } = this.props;
-
-    return (
-      <SidebarStyles>
-        <PomodoroWrapper pomodoro={pomodoro} dispatch={dispatch} boardId={boardId} />
-        {user && eventCalendarId && (
-          <Events
-            user={user}
-            dispatch={dispatch}
-            eventCalendarId={eventCalendarId}
-            eventFilter={eventFilter}
-          />
-        )}
-        <TaskStats
-          cards={cards}
-          completedListId={completedListId}
-          dispatch={dispatch}
-          categories={categories}
-        />
-        <Habits boardId={boardId} />
-        <RepeatingTasks pomodoro={pomodoro} boardId={boardId} />
-      </SidebarStyles>
-    );
-  };
-}
+Sidebar.propTypes = {
+  cards: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      difficulty: PropTypes.number.isRequired
+    }).isRequired
+  ),
+  pomodoro: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  boardId: PropTypes.string.isRequired,
+  completedListId: PropTypes.string.isRequired,
+  user: PropTypes.object,
+  categories: PropTypes.array,
+  eventCalendarId: PropTypes.string,
+  eventFilter: PropTypes.string
+};
 
 const mapStateToProps = (state, ownProps) => {
-  const completedListId =
-    state.boardsById[ownProps.boardId].settings.completedListId;
+  const { completedListId } = state.boardsById[ownProps.boardId].settings;
 
   return {
     cards: state.listsById[completedListId].cards.map(
@@ -113,4 +112,5 @@ const mapStateToProps = (state, ownProps) => {
     eventFilter: state.boardsById[ownProps.boardId].settings.eventFilter
   };
 };
+
 export default connect(mapStateToProps)(Sidebar);

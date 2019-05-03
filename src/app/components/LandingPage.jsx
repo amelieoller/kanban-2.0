@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Title } from "react-head";
-import { FiUser, FiGithub } from "react-icons/fi";
-import styled from "styled-components";
-import googleLogo from "../../assets/images/google-logo.svg";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Title } from 'react-head';
+import { FiUser, FiGithub } from 'react-icons/fi';
+import styled from 'styled-components';
+import googleLogo from '../../assets/images/google-logo.svg';
 
 const LandingPageStyles = styled.div`
   height: 100vh;
@@ -19,7 +19,7 @@ const LandingPageStyles = styled.div`
     justify-content: space-between;
 
     .landing-page-heading {
-      font-family: "Pacifico";
+      font-family: 'Pacifico';
       color: ${props => props.theme.colors.mainAccent};
       font-size: 30px;
     }
@@ -77,13 +77,13 @@ const LandingPageStyles = styled.div`
         padding: 0 24px;
         font-size: 14px;
         font-weight: bold;
-        font-family: "Roboto", arial, sans-serif;
+        font-family: 'Roboto', arial, sans-serif;
       }
     }
   }
 
   .image-area {
-    background-image: url("https://images.unsplash.com/photo-1471455558438-c1e9d5854d85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
+    background-image: url('https://images.unsplash.com/photo-1471455558438-c1e9d5854d85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80');
     background-size: cover;
     background-position: center;
 
@@ -115,48 +115,41 @@ const LandingPageStyles = styled.div`
   }
 `;
 
-class LandingPage extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired
-  };
-
-  enterAsGuest = () => {
-    const { dispatch } = this.props;
-    dispatch({ type: "ENTER_AS_GUEST" });
-  };
-
-  render = () => (
-    <LandingPageStyles>
-      <Title>Sign in | React Kanban</Title>
-      <div className="login-area">
-        <h1 className="landing-page-heading">Kanban 2.0</h1>
-        <div className="signin-buttons">
-          <a href="/auth/google" className="google-button">
-            <img className="button-icon" src={googleLogo} alt="google logo" />
-            <span className="button-text">Sign in with Google</span>
-          </a>
-          <button
-            type="submit"
-            onClick={this.enterAsGuest}
-            className="guest-button"
-          >
-            <FiUser className="button-icon" />
-            <span className="button-text">Sign in as Guest</span>
-          </button>
-        </div>
-      </div>
-      <div className="image-area">
-        <a
-          href="https://github.com/amelieoller/kanban-2.0"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="github-icon"
-        >
-          <FiGithub />
+const LandingPage = ({ dispatch }) => (
+  <LandingPageStyles>
+    <Title>Sign in | React Kanban</Title>
+    <div className="login-area">
+      <h1 className="landing-page-heading">Kanban 2.0</h1>
+      <div className="signin-buttons">
+        <a href="/auth/google" className="google-button">
+          <img className="button-icon" src={googleLogo} alt="google logo" />
+          <span className="button-text">Sign in with Google</span>
         </a>
+        <button
+          type="submit"
+          onClick={() => dispatch({ type: 'ENTER_AS_GUEST' })}
+          className="guest-button"
+        >
+          <FiUser className="button-icon" />
+          <span className="button-text">Sign in as Guest</span>
+        </button>
       </div>
-    </LandingPageStyles>
-  );
-}
+    </div>
+    <div className="image-area">
+      <a
+        href="https://github.com/amelieoller/kanban-2.0"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="github-icon"
+      >
+        <FiGithub />
+      </a>
+    </div>
+  </LandingPageStyles>
+);
+
+LandingPage.propTypes = {
+  dispatch: PropTypes.func.isRequired
+};
 
 export default connect()(LandingPage);

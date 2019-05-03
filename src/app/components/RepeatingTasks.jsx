@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -26,55 +26,11 @@ const RepeatingTasksStyles = styled.div`
   }
 `;
 
-class RepeatingTasks extends Component {
-  static propTypes = {
-    cards: PropTypes.arrayOf(
-      PropTypes.shape({
-        active: PropTypes.bool.isRequired,
-        categoryId: PropTypes.string,
-        createdAt: PropTypes.number.isRequired,
-        difficulty: PropTypes.number.isRequired,
-        inPomodoro: PropTypes.bool,
-        minutes: PropTypes.number.isRequired,
-        nextDate: PropTypes.string.isRequired,
-        recurringText: PropTypes.string.isRequired,
-        schedule: PropTypes.object.isRequired,
-        text: PropTypes.string.isRequired,
-        _id: PropTypes.string.isRequired
-      }).isRequired
-    ).isRequired,
-    dispatch: PropTypes.func.isRequired,
-    lastCheckinDate: PropTypes.string
-  };
+const RepeatingTasks = ({ lastCheckinDate, dispatch, cards }) => {
+  const [stateInterval, setStateInterval] = useState('');
 
-  componentDidMount() {
-    const { lastCheckinDate, dispatch, cards } = this.props;
-    const today = new Date();
-    const lastCheckin = new Date(lastCheckinDate);
-
-    if (lastCheckin < today) {
-      for (let i = 0; i < cards.length; i += 1) {
-        const card = cards[i];
-
-        if (!card.active && lastCheckin > new Date(card.nextDate)) {
-          dispatch({
-            type: 'CHANGE_CARD_ACTIVE',
-            payload: { cardId: card._id, active: true }
-          });
-        }
-      }
-    }
-
-    this.interval = setInterval(() => this.recurringCalculator(), 20000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
-  recurringCalculator() {
+  const recurringCalculator = () => {
     // Check if there is a recurring card every 30 seconds that needs to be added to a list
-    const { cards, dispatch } = this.props;
     const today = new Date();
     // if today === any of the times in each cards nextDate
     cards.forEach(card => {
@@ -93,28 +49,68 @@ class RepeatingTasks extends Component {
         });
       }
     });
-  }
-
-  render = () => {
-    const { cards } = this.props;
-
-    return (
-      <RepeatingTasksStyles>
-        <div className="header">Repeating Tasks</div>
-        <hr />
-        <ul>
-          {cards.map(card => (
-            <li key={card._id} className="recurring-task-item">
-              <span className="recurring-tasks-title">{card.text}</span>
-              <hr />
-              <span className="recurring-time">{card.recurringText}</span>
-            </li>
-          ))}
-        </ul>
-      </RepeatingTasksStyles>
-    );
   };
-}
+
+  useEffect(() => {
+    const today = new Date();
+    const lastCheckin = new Date(lastCheckinDate);
+
+    if (lastCheckin < today) {
+      for (let i = 0; i < cards.length; i += 1) {
+        const card = cards[i];
+
+        if (!card.active && lastCheckin > new Date(card.nextDate)) {
+          dispatch({
+            type: 'CHANGE_CARD_ACTIVE',
+            payload: { cardId: card._id, active: true }
+          });
+        }
+      }
+    }
+
+    setStateInterval(setInterval(() => recurringCalculator(), 20000));
+
+    return () => {
+      clearInterval(stateInterval);
+    };
+  }, []);
+
+  return (
+    <RepeatingTasksStyles>
+      <div className="header">Repeating Tasks</div>
+      <hr />
+      <ul>
+        {cards.map(card => (
+          <li key={card._id} className="recurring-task-item">
+            <span className="recurring-tasks-title">{card.text}</span>
+            <hr />
+            <span className="recurring-time">{card.recurringText}</span>
+          </li>
+        ))}
+      </ul>
+    </RepeatingTasksStyles>
+  );
+};
+
+RepeatingTasks.propTypes = {
+  cards: PropTypes.arrayOf(
+    PropTypes.shape({
+      active: PropTypes.bool.isRequired,
+      categoryId: PropTypes.string,
+      createdAt: PropTypes.number.isRequired,
+      difficulty: PropTypes.number.isRequired,
+      inPomodoro: PropTypes.bool,
+      minutes: PropTypes.number.isRequired,
+      nextDate: PropTypes.string.isRequired,
+      recurringText: PropTypes.string.isRequired,
+      schedule: PropTypes.object.isRequired,
+      text: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired
+    }).isRequired
+  ).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  lastCheckinDate: PropTypes.string
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { cardsById, boardsById } = state;

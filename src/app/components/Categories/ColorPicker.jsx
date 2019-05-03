@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import { TwitterPicker } from "react-color";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import { TwitterPicker } from 'react-color';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const ColorPickerStyles = styled.span`
   .color {
@@ -33,85 +34,90 @@ const ColorPickerStyles = styled.span`
   }
 `;
 
-export default class ColorPicker extends Component {
-  constructor(props) {
-    super(props);
-    let colorObject;
-    if (props.previousColor) {
-      const color = props.previousColor;
-      const removeRgba = color.slice(4, 4) + color.slice(5, color.length - 1);
-      const calculatedColor = removeRgba.split(", ");
-      colorObject = {
-        r: calculatedColor[0],
-        g: calculatedColor[1],
-        b: calculatedColor[2],
-        a: calculatedColor[3]
-      };
-    } else {
-      colorObject = {
-        r: "242",
-        g: "153",
-        b: "133",
-        a: "1"
-      };
-    }
-
-    this.state = {
-      displayColorPicker: false,
-      color: colorObject
+const ColorPicker = ({ handleColorChange, previousColor }) => {
+  let colorObject;
+  if (previousColor) {
+    const color = previousColor;
+    const removeRgba = color.slice(4, 4) + color.slice(5, color.length - 1);
+    const calculatedColor = removeRgba.split(', ');
+    colorObject = {
+      r: calculatedColor[0],
+      g: calculatedColor[1],
+      b: calculatedColor[2],
+      a: calculatedColor[3]
+    };
+  } else {
+    colorObject = {
+      r: '242',
+      g: '153',
+      b: '133',
+      a: '1'
     };
   }
 
-  handleClick = () => {
-    this.setState({ displayColorPicker: !this.state.displayColorPicker });
-  };
+  const [showPicker, setShowPicker] = useState(false);
+  const [color, setColor] = useState(colorObject);
 
-  handleClose = () => {
-    this.setState({ displayColorPicker: false });
-  };
+  const handleChange = changedColor => {
+    setColor(changedColor.rgb);
 
-  handleChange = color => {
-    this.setState({ color: color.rgb });
-    this.props.handleColorChange(
-      `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`
+    handleColorChange(
+      `rgba(${changedColor.rgb.r}, ${changedColor.rgb.g}, ${
+        changedColor.rgb.b
+      }, ${changedColor.rgb.a})`
     );
   };
 
-  render() {
-    const { color } = this.state;
-
-    return (
-      <ColorPickerStyles color={color}>
-        <div className="swatch" onClick={this.handleClick}>
-          <div className="color" />
+  return (
+    <ColorPickerStyles color={color}>
+      <div
+        className="swatch"
+        role="button"
+        onKeyDown={() => setShowPicker(!showPicker)}
+        onClick={() => setShowPicker(!showPicker)}
+        tabIndex={0}
+      >
+        <div className="color" />
+      </div>
+      {showPicker ? (
+        <div className="popover">
+          <div
+            className="cover"
+            role="button"
+            onClick={() => setShowPicker(false)}
+            onKeyDown={() => setShowPicker(false)}
+            tabIndex={0}
+          />
+          <TwitterPicker
+            color={color}
+            colors={[
+              '#555555',
+              '#898999',
+              '#E98D5A',
+              '#F29985',
+              '#FFC461',
+              '#FFCD7B',
+              '#8AC476',
+              '#6AD08D',
+              '#00BF96',
+              '#00A3C0',
+              '#0075A3',
+              '#3A81CD',
+              '#7AB6FF',
+              '#5367CB',
+              '#9C55A4'
+            ]}
+            onChange={handleChange}
+          />
         </div>
-        {this.state.displayColorPicker ? (
-          <div className="popover">
-            <div className="cover" onClick={this.handleClose} />
-            <TwitterPicker
-              color={this.state.color}
-              colors={[
-                "#555555",
-                "#898999",
-                "#E98D5A",
-                "#F29985",
-                "#FFC461",
-                "#FFCD7B",
-                "#8AC476",
-                "#6AD08D",
-                "#00BF96",
-                "#00A3C0",
-                "#0075A3",
-                "#3A81CD",
-                "#7AB6FF",
-                "#5367CB",
-                "#9C55A4",
-              ]}
-              onChange={this.handleChange}
-            />
-          </div>
-        ) : null}
-      </ColorPickerStyles>
-    );
-  }
-}
+      ) : null}
+    </ColorPickerStyles>
+  );
+};
+
+ColorPicker.propTypes = {
+  handleColorChange: PropTypes.func.isRequired,
+  previousColor: PropTypes.string
+};
+
+export default ColorPicker;

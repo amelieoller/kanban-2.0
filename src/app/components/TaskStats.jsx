@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FiX, FiStar, FiRepeat } from 'react-icons/fi';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
@@ -72,30 +72,10 @@ const TaskStatsStyled = styled.div`
   }
 `;
 
-class TaskStats extends Component {
-  static propTypes = {
-    cards: PropTypes.arrayOf(
-      PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired,
-        difficulty: PropTypes.number.isRequired
-      }).isRequired
-    ),
-    completedListId: PropTypes.string.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
-  };
+const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
+  const [hoverTask, setHoverTask] = useState('');
 
-  constructor() {
-    super();
-
-    this.state = {
-      hoverTask: ''
-    };
-  }
-
-  deleteCard = cardId => {
-    const { dispatch, completedListId } = this.props;
+  const deleteCard = cardId => {
     const listId = completedListId;
 
     dispatch({
@@ -104,13 +84,12 @@ class TaskStats extends Component {
     });
   };
 
-  renderCategorySummary = cards => {
-    const { categories } = this.props;
+  const renderCategorySummary = renderCards => {
     const results = [];
     let accumulated;
 
     for (let i = 0; i < categories.length; i += 1) {
-      accumulated = cards
+      accumulated = renderCards
         .filter(
           ca => differenceInCalendarDays(ca.completedAt, new Date()) === 0
         )
@@ -130,107 +109,112 @@ class TaskStats extends Component {
     return results;
   };
 
-  handleStarClick = cardId => {
-    const { dispatch } = this.props;
-
+  const handleStarClick = cardId => {
     dispatch({
       type: 'CHANGE_CARD_STAR',
       payload: { cardId }
     });
   };
 
-  renderCompletedDateSection = (cards, dateOffset, text) => {
-    const filteredCards = cards.filter(
+  const renderCompletedDateSection = (renderCards, dateOffset, text) => {
+    const filteredCards = renderCards.filter(
       c => differenceInCalendarDays(c.completedAt, new Date()) === dateOffset
     );
 
-    if (filteredCards.length === 0) return;
+    if (filteredCards.length !== 0) {
+      return (
+        <>
+          <p className="cursive-header">{text}</p>
+          <ul>
+            {filteredCards.map(card => (
+              <li
+                key={card._id}
+                className="completed-task-wrapper"
+                style={{
+                  borderLeft: `2px solid ${
+                    card.category ? card.category.color : 'light-grey'
+                  }`
+                }}
+                onMouseEnter={() => setHoverTask(card._id)}
+                onMouseLeave={() => setHoverTask('')}
+              >
+                <span className="completed-task-text">{card.text}</span>
 
-    return (
-      <>
-        <p className="cursive-header">{text}</p>
-        <ul>
-          {filteredCards.map(card => (
-            <li
-              key={card._id}
-              className="completed-task-wrapper"
-              style={{
-                borderLeft: `2px solid ${
-                  card.category ? card.category.color : 'light-grey'
-                }`
-              }}
-              onMouseEnter={() => this.setState({ hoverTask: card._id })}
-              onMouseLeave={() => this.setState({ hoverTask: '' })}
-            >
-              <span className="completed-task-text">{card.text}</span>
-
-              {this.state.hoverTask === card._id && (
-                <>
-                  <FiRepeat className="card-icon" />
-                  <FiX
-                    className="card-icon"
-                    onClick={() => this.deleteCard(card._id)}
-                  />
-                </>
-              )}
-              <FiStar
-                className={
-                  card.starred ? 'card-icon card-icon-starred' : 'card-icon'
-                }
-                onClick={() => this.handleStarClick(card._id)}
-              />
-            </li>
-          ))}
-        </ul>
-      </>
-    );
-  };
-
-  render = () => {
-    const { cards } = this.props;
-    const accumulated =
-      cards.length !== 0 &&
-      cards
-        .map(card => card.difficulty)
-        .reduce((accumulator, currentValue) => accumulator + currentValue);
-
-    return (
-      <TaskStatsStyled className="no-focus-mode">
-        <div className="header">
-          Task Stats · <span className="number">{accumulated || 0}</span>
-        </div>
-        <hr />
-        {cards &&
-          (cards.length !== 0 && (
-            <>
-              <div className="stat-badges">
-                {this.renderCategorySummary(cards).map(
-                  category =>
-                    category.minutes !== 0 && (
-                      <div className="minute-badges" key={category.name}>
-                        <div
-                          className={classnames('minute-badge', 'badge')}
-                          style={{ background: category.color }}
-                        >
-                          {category.minutes} min
-                        </div>
-                      </div>
-                    )
+                {hoverTask === card._id && (
+                  <>
+                    <FiRepeat className="card-icon" />
+                    <FiX
+                      className="card-icon"
+                      onClick={() => deleteCard(card._id)}
+                    />
+                  </>
                 )}
-              </div>
-
-              {this.renderCompletedDateSection(cards, 0, 'Today')}
-              {this.renderCompletedDateSection(cards, -1, 'Yesterday')}
-              {this.renderCompletedDateSection(
-                cards,
-                -2,
-                'The Day Before Yesterday'
-              )}
-            </>
-          ))}
-      </TaskStatsStyled>
-    );
+                <FiStar
+                  className={
+                    card.starred ? 'card-icon card-icon-starred' : 'card-icon'
+                  }
+                  onClick={() => handleStarClick(card._id)}
+                />
+              </li>
+            ))}
+          </ul>
+        </>
+      );
+    }
+    return true;
   };
-}
+
+  const accumulated =
+    cards.length !== 0 &&
+    cards
+      .map(card => card.difficulty)
+      .reduce((accumulator, currentValue) => accumulator + currentValue);
+
+  return (
+    <TaskStatsStyled className="no-focus-mode">
+      <div className="header">
+        Task Stats · <span className="number">{accumulated || 0}</span>
+      </div>
+      <hr />
+      {cards &&
+        (cards.length !== 0 && (
+          <>
+            <div className="stat-badges">
+              {renderCategorySummary(cards).map(
+                category =>
+                  category.minutes !== 0 && (
+                    <div className="minute-badges" key={category.name}>
+                      <div
+                        className={classnames('minute-badge', 'badge')}
+                        style={{ background: category.color }}
+                      >
+                        {category.minutes} min
+                      </div>
+                    </div>
+                  )
+              )}
+            </div>
+
+            {renderCompletedDateSection(cards, 0, 'Today')}
+            {renderCompletedDateSection(cards, -1, 'Yesterday')}
+            {renderCompletedDateSection(cards, -2, 'The Day Before Yesterday')}
+          </>
+        ))}
+    </TaskStatsStyled>
+  );
+};
+
+TaskStats.propTypes = {
+  cards: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      difficulty: PropTypes.number.isRequired
+    }).isRequired
+  ),
+  completedListId: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired
+};
 
 export default TaskStats;

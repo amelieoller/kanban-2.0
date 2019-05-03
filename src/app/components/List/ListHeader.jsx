@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
@@ -57,40 +57,22 @@ const ListHeaderStyles = styled.div`
   }
 `;
 
-class ListTitle extends Component {
-  static propTypes = {
-    listTitle: PropTypes.string.isRequired,
-    listId: PropTypes.string.isRequired,
-    boardId: PropTypes.string.isRequired,
-    cards: PropTypes.arrayOf(PropTypes.string).isRequired,
-    dragHandleProps: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired
+const ListTitle = ({
+  listTitle,
+  dragHandleProps,
+  listId,
+  dispatch,
+  cards,
+  boardId
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [newTitle, setNewTitle] = useState(listTitle);
+
+  const handleChange = e => {
+    setNewTitle(e.target.value);
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-      newTitle: props.listTitle
-    };
-  }
-
-  handleChange = e => {
-    this.setState({ newTitle: e.target.value });
-  };
-
-  handleKeyDown = e => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      this.handleSubmit();
-    } else if (e.keyCode === 27) {
-      this.revertTitle();
-    }
-  };
-
-  handleSubmit = () => {
-    const { newTitle } = this.state;
-    const { listTitle, listId, dispatch } = this.props;
+  const handleSubmit = () => {
     if (newTitle === '') return;
     if (newTitle !== listTitle) {
       dispatch({
@@ -98,81 +80,93 @@ class ListTitle extends Component {
         payload: { listTitle: newTitle, listId }
       });
     }
-    this.setState({ isOpen: false });
+    setIsOpen(false);
   };
 
-  revertTitle = () => {
-    const { listTitle } = this.props;
-    this.setState({ newTitle: listTitle, isOpen: false });
+  const revertTitle = () => {
+    setNewTitle(listTitle);
+    setIsOpen(false);
   };
 
-  deleteList = () => {
-    const { listId, cards, boardId, dispatch } = this.props;
+  const handleKeyDown = e => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      handleSubmit();
+    } else if (e.keyCode === 27) {
+      revertTitle();
+    }
+  };
+
+  const deleteList = () => {
     dispatch({
       type: 'DELETE_LIST',
       payload: { cards, listId, boardId }
     });
   };
 
-  openTitleEditor = () => {
-    this.setState({ isOpen: true });
+  const openTitleEditor = () => {
+    setIsOpen(true);
   };
 
-  handleButtonKeyDown = e => {
+  const handleButtonKeyDown = e => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      this.openTitleEditor();
+      openTitleEditor();
     }
   };
 
-  render() {
-    const { isOpen, newTitle } = this.state;
-    const { dragHandleProps, listTitle } = this.props;
-
-    return (
-      <ListHeaderStyles>
-        {isOpen ? (
-          <div className="list-title-textarea-wrapper">
-            <Textarea
-              autoFocus
-              useCacheForDOMMeasurements
-              value={newTitle}
-              onChange={this.handleChange}
-              onKeyDown={this.handleKeyDown}
-              className="list-title-textarea"
-              onBlur={this.handleSubmit}
-              spellCheck={false}
-            />
-          </div>
-        ) : (
-          <div
-            {...dragHandleProps}
+  return (
+    <ListHeaderStyles>
+      {isOpen ? (
+        <div className="list-title-textarea-wrapper">
+          <Textarea
+            autoFocus
+            useCacheForDOMMeasurements
+            value={newTitle}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            className="list-title-textarea"
+            onBlur={handleSubmit}
+            spellCheck={false}
+          />
+        </div>
+      ) : (
+        <div
+          {...dragHandleProps}
+          role="button"
+          tabIndex={0}
+          onClick={openTitleEditor}
+          onKeyDown={event => {
+            handleButtonKeyDown(event);
+            dragHandleProps.onKeyDown(event);
+          }}
+          className="list-title-button"
+        >
+          {listTitle}
+          <FiTrash2
             role="button"
             tabIndex={0}
-            onClick={this.openTitleEditor}
-            onKeyDown={event => {
-              this.handleButtonKeyDown(event);
-              dragHandleProps.onKeyDown(event);
+            className="delete-list-button"
+            onClick={() => {
+              if (window.confirm('Are you sure?')) deleteList();
             }}
-            className="list-title-button"
-          >
-            {listTitle}
-            <FiTrash2
-              role="button"
-              tabIndex={0}
-              className="delete-list-button"
-              onClick={() => {
-                if (window.confirm('Are you sure?')) this.deleteList();
-              }}
-              onKeyDown={() => {
-                if (window.confirm('Are you sure?')) this.deleteList();
-              }}
-            />
-          </div>
-        )}
-      </ListHeaderStyles>
-    );
-  }
-}
+            onKeyDown={() => {
+              if (window.confirm('Are you sure?')) deleteList();
+            }}
+          />
+        </div>
+      )}
+    </ListHeaderStyles>
+  );
+};
+
+ListTitle.propTypes = {
+  listTitle: PropTypes.string.isRequired,
+  listId: PropTypes.string.isRequired,
+  boardId: PropTypes.string.isRequired,
+  cards: PropTypes.arrayOf(PropTypes.string).isRequired,
+  dragHandleProps: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
+};
 
 export default connect()(ListTitle);

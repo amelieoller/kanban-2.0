@@ -1,13 +1,13 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import shortid from "shortid";
-import { FiX } from "react-icons/fi";
-import ColorPicker from "./ColorPicker";
-import ButtonStyles from "../styles/ButtonStyles";
-import ExpandingInput from "../ExpandingInput";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import shortid from 'shortid';
+import { FiX } from 'react-icons/fi';
+import ColorPicker from './ColorPicker';
+import ButtonStyles from '../styles/ButtonStyles';
+import ExpandingInput from '../ExpandingInput';
 
 const CategoriesStyles = styled.div`
   .edit-category-form {
@@ -62,32 +62,19 @@ const CategoriesStyles = styled.div`
   }
 `;
 
-class Categories extends Component {
-  static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({ boardId: PropTypes.string })
-    }).isRequired,
-    history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
-    dispatch: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
-  };
+const Categories = ({ categories, defaultCategory, match, dispatch }) => {
+  const [state, setState] = useState({
+    categoryName: '',
+    categoryShort: '',
+    categoryColor: '#F29985',
+    defaultCategory: 'none'
+  });
 
-  constructor() {
-    super();
-    this.state = {
-      categoryName: "",
-      categoryShort: "",
-      categoryColor: "#F29985",
-      defaultCategory: "none"
-    };
-  }
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { categoryName, categoryShort, categoryColor } = this.state;
+    const { categoryName, categoryShort, categoryColor } = state;
     if (!categoryName || !categoryShort || !categoryColor) return;
 
-    const { match, dispatch } = this.props;
     const { boardId } = match.params;
     const categoryId = shortid.generate();
     const category = {
@@ -98,46 +85,42 @@ class Categories extends Component {
     };
 
     dispatch({
-      type: "ADD_CATEGORY",
+      type: 'ADD_CATEGORY',
       payload: {
         boardId,
         category
       }
     });
 
-    this.setState({
-      categoryName: "",
-      categoryShort: ""
-    });
+    setState({ ...state, categoryName: '', categoryShort: '' });
   };
 
-  handleNewCategoryChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
+  const handleNewCategoryChange = e => {
+    setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  handleEditCategoryChange = (e, id, type) => {
-    this.setState({
-      [`${id}-${type}`]: e.target.value
-    });
+  const handleEditCategoryChange = (e, id, type) => {
+    setState({ ...state, [`${id}-${type}`]: e.target.value });
   };
 
-  handleEditCategoryColorChange = (color, id) => {
-    this.setState({
-      [`${id}-color`]: color
-    });
+  const handleEditCategoryColorChange = (color, id) => {
+    setState({ ...state, [`${id}-color`]: color });
   };
 
-  handleEditCategorySubmit = (e, categoryId, oldName, oldShort, oldColor) => {
+  const handleEditCategorySubmit = (
+    e,
+    categoryId,
+    oldName,
+    oldShort,
+    oldColor
+  ) => {
     e.preventDefault();
-    const { match, dispatch } = this.props;
     const { boardId } = match.params;
-    const name = this.state[`${categoryId}-name`] || oldName;
-    const short = this.state[`${categoryId}-short`] || oldShort;
-    const color = this.state[`${categoryId}-color`] || oldColor;
+    const name = state[`${categoryId}-name`] || oldName;
+    const short = state[`${categoryId}-short`] || oldShort;
+    const color = state[`${categoryId}-color`] || oldColor;
     dispatch({
-      type: "CHANGE_CATEGORY",
+      type: 'CHANGE_CATEGORY',
       payload: {
         boardId,
         categoryId,
@@ -148,11 +131,10 @@ class Categories extends Component {
     });
   };
 
-  handleDelete = categoryId => {
-    const { match, dispatch } = this.props;
+  const handleDelete = categoryId => {
     const { boardId } = match.params;
     dispatch({
-      type: "DELETE_CATEGORY",
+      type: 'DELETE_CATEGORY',
       payload: {
         boardId,
         categoryId
@@ -160,11 +142,10 @@ class Categories extends Component {
     });
   };
 
-  handleDefaultCategoryChange = categoryId => {
-    const { match, dispatch } = this.props;
+  const handleDefaultCategoryChange = categoryId => {
     const { boardId } = match.params;
     dispatch({
-      type: "CHANGE_DEFAULT_CATEGORY",
+      type: 'CHANGE_DEFAULT_CATEGORY',
       payload: {
         boardId,
         categoryId
@@ -172,126 +153,124 @@ class Categories extends Component {
     });
   };
 
-  render = () => {
-    const { categoryName, categoryShort } = this.state;
-    const { categories, defaultCategory } = this.props;
-    const filteredCategories = categories.filter(
-      category => category.name !== ""
-    );
+  const { categoryName, categoryShort } = state;
+  const filteredCategories = categories.filter(
+    category => category.name !== ''
+  );
 
-    return (
-      <CategoriesStyles>
-        <h2>Categories</h2>
-        <h3>Set Default Category:</h3>
-        <form className="category-list">
-          {filteredCategories.map(category => (
-            <label key={category._id}>
-              <input
-                type="radio"
-                value={category._id}
-                checked={defaultCategory === category._id}
-                onChange={() => this.handleDefaultCategoryChange(category._id)}
-              />
-              {category.name}
-            </label>
-          ))}
-          <label key="none">
+  return (
+    <CategoriesStyles>
+      <h2>Categories</h2>
+      <h3>Set Default Category:</h3>
+      <form className="category-list">
+        {filteredCategories.map(category => (
+          <label key={category._id}>
             <input
               type="radio"
-              value="none"
-              checked={defaultCategory === "none"}
-              onChange={() => this.handleDefaultCategoryChange("none")}
+              value={category._id}
+              checked={defaultCategory === category._id}
+              onChange={() => handleDefaultCategoryChange(category._id)}
             />
-            none
+            {category.name}
           </label>
-        </form>
-        <h3>Edit Categories:</h3>
-        {filteredCategories.map(category => (
-          <form
-            action=""
-            className="edit-category-form"
-            onSubmit={e =>
-              this.handleEditCategorySubmit(
-                e,
-                category._id,
-                category.name,
-                category.short,
-                category.color
-              )
-            }
-            key={category._id}
-          >
-            <ExpandingInput
-              placeholder="Name"
-              name="name"
-              value={this.state[`${category._id}-name`] || category.name}
-              onChange={e =>
-                this.handleEditCategoryChange(e, category._id, "name")
-              }
-              max="140"
-            />
-            <div className="right-form-section">
-              <ExpandingInput
-                placeholder="Name"
-                name="short"
-                value={this.state[`${category._id}-short`] || category.short}
-                onChange={e =>
-                  this.handleEditCategoryChange(e, category._id, "short")
-                }
-                max="30"
-              />
-              <ColorPicker
-                handleColorChange={categoryColor =>
-                  this.handleEditCategoryColorChange(
-                    categoryColor,
-                    category._id
-                  )
-                }
-                previousColor={
-                  this.state[`${category._id}-color`] || category.color
-                }
-              />
-
-              <FiX
-                className="delete-button"
-                onClick={() => this.handleDelete(category._id)}
-              />
-              <ButtonStyles>Save</ButtonStyles>
-            </div>
-          </form>
         ))}
-
-        <h3>Add a New Category:</h3>
-        <form onSubmit={this.handleSubmit} className="new-category-form">
-          <div className="input-areas">
+        <label key="none">
+          <input
+            type="radio"
+            value="none"
+            checked={defaultCategory === 'none'}
+            onChange={() => handleDefaultCategoryChange('none')}
+          />
+          none
+        </label>
+      </form>
+      <h3>Edit Categories:</h3>
+      {filteredCategories.map(category => (
+        <form
+          action=""
+          className="edit-category-form"
+          onSubmit={e =>
+            handleEditCategorySubmit(
+              e,
+              category._id,
+              category.name,
+              category.short,
+              category.color
+            )
+          }
+          key={category._id}
+        >
+          <ExpandingInput
+            placeholder="Name"
+            name="name"
+            value={state[`${category._id}-name`] || category.name}
+            onChange={e => handleEditCategoryChange(e, category._id, 'name')}
+            max="140"
+          />
+          <div className="right-form-section">
             <ExpandingInput
               placeholder="Name"
-              name="categoryName"
-              value={categoryName}
-              onChange={this.handleNewCategoryChange}
-              max=""
+              name="short"
+              value={state[`${category._id}-short`] || category.short}
+              onChange={e => handleEditCategoryChange(e, category._id, 'short')}
+              max="30"
             />
-            <ExpandingInput
-              placeholder="Short"
-              name="categoryShort"
-              value={categoryShort}
-              onChange={this.handleNewCategoryChange}
-            />
-          </div>
-
-          <div className="buttons">
             <ColorPicker
               handleColorChange={categoryColor =>
-                this.setState({ categoryColor })
+                handleEditCategoryColorChange(categoryColor, category._id)
               }
+              previousColor={state[`${category._id}-color`] || category.color}
             />
-            <ButtonStyles>Add Category</ButtonStyles>
+
+            <FiX
+              className="delete-button"
+              onClick={() => handleDelete(category._id)}
+            />
+            <ButtonStyles>Save</ButtonStyles>
           </div>
         </form>
-      </CategoriesStyles>
-    );
-  };
-}
+      ))}
+
+      <h3>Add a New Category:</h3>
+      <form onSubmit={handleSubmit} className="new-category-form">
+        <div className="input-areas">
+          <ExpandingInput
+            placeholder="Name"
+            name="categoryName"
+            value={categoryName}
+            onChange={handleNewCategoryChange}
+            max=""
+          />
+          <ExpandingInput
+            placeholder="Short"
+            name="categoryShort"
+            value={categoryShort}
+            onChange={handleNewCategoryChange}
+          />
+        </div>
+
+        <div className="buttons">
+          <ColorPicker
+            handleColorChange={categoryColor =>
+              setState({ ...state, categoryColor })
+            }
+          />
+          <ButtonStyles>Add Category</ButtonStyles>
+        </div>
+      </form>
+    </CategoriesStyles>
+  );
+};
+
+Categories.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({ boardId: PropTypes.string })
+  }).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+  defaultCategory: PropTypes.string
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
