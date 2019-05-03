@@ -14,6 +14,7 @@ const ListStyles = styled.div`
   user-select: none;
   scroll-snap-align: center;
   margin: 10px 0;
+  width: ${props => props.theme.sizes.listWidth};
 
   .list {
     display: inline-flex;

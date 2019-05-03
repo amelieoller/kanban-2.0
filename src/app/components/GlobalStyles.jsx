@@ -86,7 +86,6 @@ const GlobalStyles = createGlobalStyle`
 	}
 
 	.cursive-header {
-    font-size: 16px;
     font-family: "Pacifico", cursive;
     color: ${props => props.theme.colors.text};
 	}
@@ -157,6 +156,7 @@ const GlobalStyles = createGlobalStyle`
 		border: 1px solid ${props => props.theme.colors.borderColor};
 		transition: background 0.5s;
 		cursor: pointer;
+		min-width: 24px;
 
 		&.selected {
 			background-color: ${props => props.theme.colors.mainAccent};

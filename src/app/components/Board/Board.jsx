@@ -30,7 +30,6 @@ const BoardStyles = styled.div`
       1fr
     );
     grid-auto-flow: column;
-    grid-auto-columns: ${props => props.theme.sizes.listWidth};
     scroll-snap-type: x proximity;
     margin: 0;
     max-height: calc(100vh - 220px);

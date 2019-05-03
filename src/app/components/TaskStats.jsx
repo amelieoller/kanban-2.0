@@ -197,7 +197,7 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
 
             {renderCompletedDateSection(cards, 0, 'Today')}
             {renderCompletedDateSection(cards, -1, 'Yesterday')}
-            {renderCompletedDateSection(cards, -2, 'The Day Before Yesterday')}
+            {/* {renderCompletedDateSection(cards, -2, 'The Day Before Yesterday')} */}
           </>
         ))}
     </TaskStatsStyled>

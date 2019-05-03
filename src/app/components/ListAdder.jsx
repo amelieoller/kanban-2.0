@@ -95,7 +95,7 @@ const ListAdder = ({ dispatch, boardId }) => {
 
   if (!isOpen) {
     return (
-      <ListAdderButton>
+      <ListAdderButton className="no-focus-mode">
         <button
           type="submit"
           onClick={() => setState({ ...state, isOpen: true })}
