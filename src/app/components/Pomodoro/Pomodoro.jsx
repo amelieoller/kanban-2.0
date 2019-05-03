@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FiClock, FiCoffee, FiSun, FiExternalLink } from 'react-icons/fi';
+import { FiClock, FiCoffee } from 'react-icons/fi';
 import PropTypes from 'prop-types';
 import ProgressCircle from './ProgressCircle';
 
@@ -11,7 +11,7 @@ const StyledPomodoro = styled.div`
   max-width: 200px;
   text-align: center;
   margin: 0 auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 
   .pomodoro-inside {
     position: absolute;
@@ -35,11 +35,8 @@ const StyledPomodoro = styled.div`
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      margin-top: 0.2rem;
 
-      .pop-out-button {
-        font-size: 0.9rem;
-        margin-left: 0.3rem;
+      .session-text {
         cursor: pointer;
       }
 
@@ -74,18 +71,18 @@ const StyledPomodoro = styled.div`
   }
 `;
 
+const setFocus = () => {
+  window.open('', 'pomodoroPopOut').focus();
+};
+
 const Pomodoro = ({
-  pomodoro,
   timeInterval,
   pomodoriDone,
   sessionLength,
   timePaused,
-  pomodori,
   timePassedMs,
   stopCountdown,
-  handleSettingsChange,
   startCountdown,
-  handlePomodoriChange,
   formatType,
   toggleOpened,
   opened
@@ -129,35 +126,18 @@ const Pomodoro = ({
                 onClick={() => stopCountdown(25)}
               />
             )}
-            <FiSun
-              className={
-                pomodoro.showDayPomo ? 'small-button selected' : 'small-button'
-              }
-              onClick={() =>
-                handleSettingsChange('showDayPomo', !pomodoro.showDayPomo)
-              }
-            />
-            <input
-              className="pomodori-increase-input"
-              type="number"
-              id="pomodori"
-              placeholder="Pomodori"
-              value={pomodori}
-              onChange={e => {
-                handlePomodoriChange(e);
-                handleSettingsChange('pomodori', parseInt(e.target.value, 10));
-              }}
-            />
           </div>
         ) : (
           <div className="pomodoro-footer">
-            <span className="cursive-header">{formatType(sessionLength)}</span>
-            {!opened && (
-              <FiExternalLink
-                className="pop-out-button"
-                onClick={() => toggleOpened(true)}
-              />
-            )}
+            <span
+              className="cursive-header session-text"
+              role="button"
+              onKeyDown={opened ? setFocus : () => toggleOpened(true)}
+              onClick={opened ? setFocus : () => toggleOpened(true)}
+              tabIndex={0}
+            >
+              {formatType(sessionLength)}
+            </span>
           </div>
         )}
       </div>
@@ -167,22 +147,13 @@ const Pomodoro = ({
 };
 
 Pomodoro.propTypes = {
-  pomodoro: PropTypes.shape({
-    audio: PropTypes.bool,
-    notification: PropTypes.bool,
-    pomodori: PropTypes.number,
-    showDayPomo: PropTypes.bool
-  }).isRequired,
   timeInterval: PropTypes.number,
   pomodoriDone: PropTypes.number,
   sessionLength: PropTypes.number,
   timePaused: PropTypes.bool,
-  pomodori: PropTypes.number,
   timePassedMs: PropTypes.number,
   stopCountdown: PropTypes.func,
-  handleSettingsChange: PropTypes.func,
   startCountdown: PropTypes.func,
-  handlePomodoriChange: PropTypes.func,
   formatType: PropTypes.func,
   toggleOpened: PropTypes.func,
   opened: PropTypes.bool

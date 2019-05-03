@@ -6,6 +6,7 @@ const PomodoroPopOut = ({ children, toggleOpened }) => (
   <NewWindow
     onUnload={() => toggleOpened(false)}
     features={{ left: 0, top: 0, width: 250, height: 250 }}
+    name="pomodoroPopOut"
   >
     {children}
   </NewWindow>
