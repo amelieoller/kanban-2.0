@@ -1,43 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PomodoroWrapper from './Pomodoro/PomodoroWrapper';
-import Events from './Events';
+import Events from './Events/Events';
 import TaskStats from './TaskStats';
-import RepeatingTasks from './RepeatingTasks';
+// import RepeatingTasks from './RepeatingTasks';
 import Habits from './Habits/Habits';
 
 const SidebarStyles = styled.div`
-  width: ${props => `${props.theme.sizes.sidebarWidth}px`};
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid ${props => props.theme.colors.borderColor};
+  height: 100%;
+  min-height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
   margin-top: ${props => `${props.theme.sizes.headerHeight}px`};
   overflow: scroll;
-  border-right: 1px solid ${props => props.theme.colors.borderColor};
   box-shadow: 5px 0 10px 0px #55555529;
+  background: ${props => props.theme.colors.negativeText};
+  display: grid;
+  grid-template-columns: ${props => `${props.theme.sizes.sidebarWidth}px`};
 
   @media ${props => props.theme.media.tablet} {
     width: 100vw;
+    min-height: auto;
     height: ${props => `${props.theme.sizes.footerHeight}px`};
     bottom: 0;
     top: auto;
+    grid-template-columns: 50% 50%;
+  }
+
+  @media ${props => props.theme.media.phone} {
+    grid-template-columns: 100%;
   }
 
   & > div {
-    background: ${props => props.theme.colors.negativeText};
     padding: 10px;
     width: 100%;
     height: 100%;
 
-    &:first-child {
-      @media ${props => props.theme.media.tablet} {
-        padding-top: 0;
+    @media ${props => props.theme.media.tablet} {
+      &:nth-child(odd) {
+        border-right: 1px solid ${props => props.theme.colors.borderColor};
       }
     }
   }
@@ -53,31 +57,42 @@ const Sidebar = ({
   categories,
   eventCalendarId,
   eventFilter
-}) => (
-  <SidebarStyles>
-    <PomodoroWrapper
-      pomodoro={pomodoro}
-      dispatch={dispatch}
-      boardId={boardId}
-    />
-    {user && eventCalendarId && (
-      <Events
-        user={user}
+}) => {
+  const [pomodoriToEvent, setPomodoriToEvent] = useState(false);
+
+  return (
+    <SidebarStyles>
+      <PomodoroWrapper
+        pomodoro={pomodoro}
         dispatch={dispatch}
-        eventCalendarId={eventCalendarId}
-        eventFilter={eventFilter}
+        boardId={boardId}
+        pomodoriToEvent={pomodoriToEvent}
       />
-    )}
-    <TaskStats
-      cards={cards}
-      completedListId={completedListId}
-      dispatch={dispatch}
-      categories={categories}
-    />
-    <Habits boardId={boardId} />
-    <RepeatingTasks pomodoro={pomodoro} boardId={boardId} />
-  </SidebarStyles>
-);
+      {user && eventCalendarId ? (
+        <Events
+          user={user}
+          dispatch={dispatch}
+          eventCalendarId={eventCalendarId}
+          eventFilter={eventFilter}
+          setPomodoriToEvent={setPomodoriToEvent}
+        />
+      ) : (
+        <p>
+          In order to use event features, make sure you are signed in and have
+          added a Calendar ID in the setting panel.
+        </p>
+      )}
+      <TaskStats
+        cards={cards}
+        completedListId={completedListId}
+        dispatch={dispatch}
+        categories={categories}
+      />
+      <Habits boardId={boardId} />
+      {/* <RepeatingTasks pomodoro={pomodoro} boardId={boardId} /> */}
+    </SidebarStyles>
+  );
+};
 
 Sidebar.propTypes = {
   cards: PropTypes.arrayOf(

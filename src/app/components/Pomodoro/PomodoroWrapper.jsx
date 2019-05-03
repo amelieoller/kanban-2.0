@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransitionGroup } from 'react-transition-group';
 import PomodoroPopOut from './PomodoroPopOut';
 import Pomodoro from './Pomodoro';
 import pomodoroAlert from './pomodoroAlert';
+import PomodoroEventSettings from './PomodoroEventSettings';
 
 class PomodoroWrapper extends Component {
   static propTypes = {
@@ -13,7 +15,8 @@ class PomodoroWrapper extends Component {
       notification: PropTypes.bool,
       pomodori: PropTypes.number,
       showDayPomo: PropTypes.bool
-    }).isRequired
+    }).isRequired,
+    pomodoriToEvent: PropTypes.oneOfType([PropTypes.bool, PropTypes.number])
   };
 
   constructor(props) {
@@ -181,8 +184,6 @@ class PomodoroWrapper extends Component {
 
   toggleOpened = bool => {
     this.setState({ opened: bool });
-
-    // this.setState(prevState => ({ opened: !prevState.opened }));
   };
 
   handlePomodoriChange = e => {
@@ -212,24 +213,20 @@ class PomodoroWrapper extends Component {
       timePassedMs,
       opened
     } = this.state;
-    const { pomodoro } = this.props;
+    const { pomodoro, pomodoriToEvent } = this.props;
 
     return (
       <div>
         {opened && (
           <PomodoroPopOut toggleOpened={this.toggleOpened}>
             <Pomodoro
-              pomodoro={pomodoro}
               timeInterval={timeInterval}
               pomodoriDone={pomodoriDone}
               sessionLength={sessionLength}
               timePaused={timePaused}
-              pomodori={pomodori}
               timePassedMs={timePassedMs}
               stopCountdown={this.stopCountdown}
-              handleSettingsChange={this.handleSettingsChange}
               startCountdown={this.startCountdown}
-              handlePomodoriChange={this.handlePomodoriChange}
               formatType={this.formatType}
               toggleOpened={this.toggleOpened}
               opened={opened}
@@ -237,21 +234,34 @@ class PomodoroWrapper extends Component {
           </PomodoroPopOut>
         )}
         <Pomodoro
-          pomodoro={pomodoro}
           timeInterval={timeInterval}
           pomodoriDone={pomodoriDone}
           sessionLength={sessionLength}
           timePaused={timePaused}
-          pomodori={pomodori}
           timePassedMs={timePassedMs}
           stopCountdown={this.stopCountdown}
-          handleSettingsChange={this.handleSettingsChange}
           startCountdown={this.startCountdown}
-          handlePomodoriChange={this.handlePomodoriChange}
           formatType={this.formatType}
           toggleOpened={this.toggleOpened}
           opened={opened}
         />
+        {(timePaused || !timeInterval) && (
+          <CSSTransitionGroup
+            transitionName="fade"
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnter={false}
+            transitionLeave={false}
+          >
+            <PomodoroEventSettings
+              pomodoro={pomodoro}
+              pomodori={pomodori}
+              handleSettingsChange={this.handleSettingsChange}
+              handlePomodoriChange={this.handlePomodoriChange}
+              pomodoriToEvent={pomodoriToEvent}
+            />
+          </CSSTransitionGroup>
+        )}
       </div>
     );
   }
