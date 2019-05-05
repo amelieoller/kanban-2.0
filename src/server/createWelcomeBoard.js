@@ -11,9 +11,25 @@ const appendAttributes = list =>
 const completedListId = shortid.generate();
 const habitsListId = shortid.generate();
 const listId1 = shortid.generate();
+
 const categoryId1 = shortid.generate();
 const categoryId2 = shortid.generate();
 const categoryId3 = shortid.generate();
+
+const habitId1 = shortid.generate();
+const habitId2 = shortid.generate();
+const habitId3 = shortid.generate();
+
+const today = new Date();
+const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
+const twoDaysAgo = new Date(new Date().setDate(new Date().getDate() - 2));
+const threeDaysAgo = new Date(new Date().setDate(new Date().getDate() - 3));
+const fourDaysAgo = new Date(new Date().setDate(new Date().getDate() - 4));
+
+const dateToSring = date =>
+  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+const dateToTimeMs = date => date.getTime();
 
 const category1 = {
   name: '',
@@ -72,8 +88,7 @@ const item4 = {
     // Code blocks
   }
   \`\`\`
-  
-  Watch out, Netscape navigator 2.0!`,
+`,
   _id: shortid.generate(),
   difficulty: 1,
   minutes: 0,
@@ -96,11 +111,71 @@ const item6 = {
   [x] Deadlines
   [x] Minutes
   [x] Checkboxes`,
-  date: new Date(),
+  date: today,
   _id: shortid.generate(),
   difficulty: 3,
   minutes: 10,
   categoryId: categoryId3
+};
+
+const completed1 = {
+  text: `Take out trash`,
+  completedAt: dateToTimeMs(today),
+  _id: shortid.generate(),
+  difficulty: 3,
+  minutes: 10,
+  categoryId: categoryId3
+};
+
+const completed2 = {
+  text: `Send birthday card`,
+  completedAt: dateToTimeMs(today),
+  _id: shortid.generate(),
+  difficulty: 3,
+  minutes: 10,
+  categoryId: categoryId2
+};
+
+const completed3 = {
+  text: `Do laundry`,
+  completedAt: dateToTimeMs(today),
+  _id: shortid.generate(),
+  difficulty: 3,
+  minutes: 10,
+  categoryId: categoryId3
+};
+
+const completed4 = {
+  text: `Finish proposal`,
+  completedAt: dateToTimeMs(yesterday),
+  _id: shortid.generate(),
+  difficulty: 3,
+  minutes: 10,
+  categoryId: categoryId3
+};
+
+const habit1 = {
+  text: 'Exercise',
+  _id: habitId1,
+  difficulty: 3,
+  minutes: 5,
+  createdAt: dateToTimeMs(today)
+};
+
+const habit2 = {
+  text: 'Read 30 min',
+  _id: habitId2,
+  difficulty: 2,
+  minutes: 5,
+  createdAt: dateToTimeMs(today)
+};
+
+const habit3 = {
+  text: '[Browse Reddit](https://www.reddit.com/)',
+  _id: habitId3,
+  difficulty: 1,
+  minutes: 5,
+  createdAt: dateToTimeMs(today)
 };
 
 const createWelcomeBoard = userId => {
@@ -128,7 +203,7 @@ For a task that has many sub-tasks, you can create a checklist with markdown.
     },
     {
       text: `### Change the board
-You can edit the title of the board by clicking it. You can also change the color of the board by clicking the button in the top right corner.`
+You can edit the title of the board by clicking it.`
     }
   ];
 
@@ -162,22 +237,36 @@ Since you are not signed in, your changes will not persist after you leave the w
       {
         _id: habitsListId,
         title: 'Habits',
-        cards: [],
+        cards: [habit1, habit2, habit3],
         special: 'habits'
       },
       {
         _id: completedListId,
         title: 'Completed',
-        cards: [],
+        cards: [completed1, completed2, completed3, completed4],
         special: 'completed'
       }
     ],
     users: userId ? [userId] : [],
-    stats: { habits: {} },
+    stats: {
+      habits: {
+        [dateToSring(today)]: [habitId1, habitId2, habitId3, habitId3],
+        [dateToSring(yesterday)]: [
+          habitId1,
+          habitId2,
+          habitId2,
+          habitId3,
+          habitId3
+        ],
+        [dateToSring(twoDaysAgo)]: [habitId1, habitId2, habitId3],
+        [dateToSring(threeDaysAgo)]: [habitId2],
+        [dateToSring(fourDaysAgo)]: [habitId1, habitId2]
+      }
+    },
     settings: {
       pomodoro: { notification: true, audio: true },
       goals: {
-        habits: 0
+        habits: 8
       },
       categories: [category1, category2, category3],
       defaultCategory: 'none',
