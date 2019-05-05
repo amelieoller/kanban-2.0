@@ -98,7 +98,8 @@ class CardOptions extends Component {
     boundingRect: PropTypes.object.isRequired,
     togglePicker: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    toggleDifficultyPicker: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -295,7 +296,7 @@ class CardOptions extends Component {
           </form>
 
           {/* Recurring */}
-          <form onSubmit={this.handleRecurringSubmit}>
+          {/* <form onSubmit={this.handleRecurringSubmit}>
             <input
               className="options-list-button recurring"
               onKeyDown={this.handleKeyDownTime}
@@ -305,7 +306,7 @@ class CardOptions extends Component {
               value={recurringText}
               onChange={this.handleRecurringChange}
             />
-          </form>
+          </form> */}
 
           {/* Category */}
           <Picker
