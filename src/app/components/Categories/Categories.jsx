@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
-import { FiX } from 'react-icons/fi';
-import ColorPicker from './ColorPicker';
-import ButtonStyles from '../styles/ButtonStyles';
-import ExpandingInput from '../ExpandingInput';
+import CategoryEdit from './CategoryEdit';
 
 const CategoriesStyles = styled.div`
   .edit-category-form {
@@ -18,16 +15,18 @@ const CategoriesStyles = styled.div`
     .right-form-section {
       display: flex;
       align-items: center;
+
+      > * {
+        margin-left: 4px;
+      }
     }
+
     .edit-category {
       background: transparent;
       border: none;
       font-size: 16px;
       max-width: 140px;
       color: ${props => props.theme.colors.text};
-    }
-    .short {
-      max-width: 40px;
     }
   }
 
@@ -62,202 +61,65 @@ const CategoriesStyles = styled.div`
   }
 `;
 
-const Categories = ({ categories, defaultCategory, match, dispatch }) => {
-  const [state, setState] = useState({
-    categoryName: '',
-    categoryShort: '',
-    categoryColor: '#F29985',
-    defaultCategory: 'none'
-  });
-
-  const handleSubmit = e => {
+const Categories = ({ categories, defaultCategory, dispatch, boardId }) => {
+  const handleSubmit = (e, category) => {
     e.preventDefault();
-    const { categoryName, categoryShort, categoryColor } = state;
-    if (!categoryName || !categoryShort || !categoryColor) return;
+    const { name, short, color, _id } = category;
 
-    const { boardId } = match.params;
-    const categoryId = shortid.generate();
-    const category = {
-      name: categoryName,
-      short: categoryShort,
-      color: categoryColor,
-      _id: categoryId
-    };
-
-    dispatch({
-      type: 'ADD_CATEGORY',
-      payload: {
-        boardId,
-        category
-      }
-    });
-
-    setState({ ...state, categoryName: '', categoryShort: '' });
-  };
-
-  const handleNewCategoryChange = e => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
-
-  const handleEditCategoryChange = (e, id, type) => {
-    setState({ ...state, [`${id}-${type}`]: e.target.value });
-  };
-
-  const handleEditCategoryColorChange = (color, id) => {
-    setState({ ...state, [`${id}-color`]: color });
-  };
-
-  const handleEditCategorySubmit = (
-    e,
-    categoryId,
-    oldName,
-    oldShort,
-    oldColor
-  ) => {
-    e.preventDefault();
-    const { boardId } = match.params;
-    const name = state[`${categoryId}-name`] || oldName;
-    const short = state[`${categoryId}-short`] || oldShort;
-    const color = state[`${categoryId}-color`] || oldColor;
-    dispatch({
-      type: 'CHANGE_CATEGORY',
-      payload: {
-        boardId,
-        categoryId,
+    if (_id) {
+      dispatch({
+        type: 'CHANGE_CATEGORY',
+        payload: {
+          boardId,
+          _id,
+          name,
+          short,
+          color
+        }
+      });
+    } else {
+      const newCategory = {
         name,
         short,
-        color
-      }
-    });
+        color,
+        _id: shortid.generate()
+      };
+
+      dispatch({
+        type: 'ADD_CATEGORY',
+        payload: {
+          boardId,
+          category: newCategory
+        }
+      });
+    }
   };
 
-  const handleDelete = categoryId => {
-    const { boardId } = match.params;
-    dispatch({
-      type: 'DELETE_CATEGORY',
-      payload: {
-        boardId,
-        categoryId
-      }
-    });
-  };
-
-  const handleDefaultCategoryChange = categoryId => {
-    const { boardId } = match.params;
-    dispatch({
-      type: 'CHANGE_DEFAULT_CATEGORY',
-      payload: {
-        boardId,
-        categoryId
-      }
-    });
-  };
-
-  const { categoryName, categoryShort } = state;
   const filteredCategories = categories.filter(
-    category => category.name !== ''
+    category => category.short !== ''
   );
 
   return (
     <CategoriesStyles>
       <h2>Categories</h2>
-      <h3>Set Default Category:</h3>
-      <form className="category-list">
-        {filteredCategories.map(category => (
-          <label key={category._id}>
-            <input
-              type="radio"
-              value={category._id}
-              checked={defaultCategory === category._id}
-              onChange={() => handleDefaultCategoryChange(category._id)}
-            />
-            {category.name}
-          </label>
-        ))}
-        <label key="none">
-          <input
-            type="radio"
-            value="none"
-            checked={defaultCategory === 'none'}
-            onChange={() => handleDefaultCategoryChange('none')}
-          />
-          none
-        </label>
-      </form>
-      <h3>Edit Categories:</h3>
       {filteredCategories.map(category => (
-        <form
-          action=""
-          className="edit-category-form"
-          onSubmit={e =>
-            handleEditCategorySubmit(
-              e,
-              category._id,
-              category.name,
-              category.short,
-              category.color
-            )
-          }
+        <CategoryEdit
+          category={category}
+          boardId={boardId}
+          defaultCategory={defaultCategory}
+          dispatch={dispatch}
           key={category._id}
-        >
-          <ExpandingInput
-            placeholder="Name"
-            name="name"
-            value={state[`${category._id}-name`] || category.name}
-            onChange={e => handleEditCategoryChange(e, category._id, 'name')}
-            max="140"
-          />
-          <div className="right-form-section">
-            <ExpandingInput
-              placeholder="Name"
-              name="short"
-              value={state[`${category._id}-short`] || category.short}
-              onChange={e => handleEditCategoryChange(e, category._id, 'short')}
-              max="30"
-            />
-            <ColorPicker
-              handleColorChange={categoryColor =>
-                handleEditCategoryColorChange(categoryColor, category._id)
-              }
-              previousColor={state[`${category._id}-color`] || category.color}
-            />
-
-            <FiX
-              className="delete-button"
-              onClick={() => handleDelete(category._id)}
-            />
-            <ButtonStyles>Save</ButtonStyles>
-          </div>
-        </form>
+          handleSubmit={handleSubmit}
+        />
       ))}
 
-      <h3>Add a New Category:</h3>
-      <form onSubmit={handleSubmit} className="new-category-form">
-        <div className="input-areas">
-          <ExpandingInput
-            placeholder="Name"
-            name="categoryName"
-            value={categoryName}
-            onChange={handleNewCategoryChange}
-            max=""
-          />
-          <ExpandingInput
-            placeholder="Short"
-            name="categoryShort"
-            value={categoryShort}
-            onChange={handleNewCategoryChange}
-          />
-        </div>
-
-        <div className="buttons">
-          <ColorPicker
-            handleColorChange={categoryColor =>
-              setState({ ...state, categoryColor })
-            }
-          />
-          <ButtonStyles>Add Category</ButtonStyles>
-        </div>
-      </form>
+      <CategoryEdit
+        category={{ name: '', short: '', color: '', _id: '' }}
+        boardId={boardId}
+        defaultCategory={defaultCategory}
+        dispatch={dispatch}
+        handleSubmit={handleSubmit}
+      />
     </CategoriesStyles>
   );
 };
@@ -269,15 +131,26 @@ Categories.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   dispatch: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
-  defaultCategory: PropTypes.string
+  defaultCategory: PropTypes.string,
+  boardId: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
+  const {
+    boardsById: {
+      [boardId]: {
+        title,
+        settings: { categories, defaultCategory }
+      }
+    }
+  } = state;
+
   return {
-    boardTitle: state.boardsById[boardId].title,
-    categories: state.boardsById[boardId].settings.categories,
-    defaultCategory: state.boardsById[boardId].settings.defaultCategory
+    boardTitle: title,
+    categories,
+    defaultCategory,
+    boardId
   };
 };
 
