@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FiX, FiStar, FiRepeat } from 'react-icons/fi';
+import { FiX, FiStar } from 'react-icons/fi';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
 import classnames from 'classnames';
 import styled from 'styled-components';
@@ -142,7 +142,7 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
 
                 {hoverTask === card._id && (
                   <>
-                    <FiRepeat className="card-icon" />
+                    {/* <FiRepeat className="card-icon" /> */}
                     <FiX
                       className="card-icon"
                       onClick={() => deleteCard(card._id)}
