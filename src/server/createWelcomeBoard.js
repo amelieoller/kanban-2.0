@@ -273,6 +273,7 @@ Since you are not signed in, your changes will not persist after you leave the w
       eventCalendarId: '',
       eventFilter: '',
       defaultList: listId1,
+      defaultCardTime: 0,
       color: 'light',
       completedListId,
       habitsListId

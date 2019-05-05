@@ -243,7 +243,7 @@ const boardsById = (state = {}, action) => {
       };
     }
     case 'CHANGE_CATEGORY': {
-      const { boardId, categoryId, name, short, color } = action.payload;
+      const { boardId, _id, name, short, color } = action.payload;
 
       return {
         ...state,
@@ -252,7 +252,7 @@ const boardsById = (state = {}, action) => {
           settings: {
             ...state[boardId].settings,
             categories: state[boardId].settings.categories.map(cat =>
-              cat._id === categoryId ? { ...cat, name, short, color } : cat
+              cat._id === _id ? { ...cat, name, short, color } : cat
             )
           }
         }
@@ -294,6 +294,20 @@ const boardsById = (state = {}, action) => {
           settings: {
             ...state[boardId].settings,
             defaultList: newDefaultList
+          }
+        }
+      };
+    }
+    case 'CHANGE_DEFAULT_CARD_TIME': {
+      const { boardId, newDefaultCardTime } = action.payload;
+
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            defaultCardTime: newDefaultCardTime
           }
         }
       };

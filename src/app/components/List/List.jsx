@@ -59,7 +59,8 @@ class List extends Component {
     cards: PropTypes.array,
     pomodoro: PropTypes.object,
     categories: PropTypes.array,
-    defaultList: PropTypes.string
+    defaultList: PropTypes.string,
+    defaultCardTime: PropTypes.string
   };
 
   withinPomodoroTime = () => {
@@ -97,7 +98,8 @@ class List extends Component {
       index,
       categories,
       defaultCategory,
-      defaultList
+      defaultList,
+      defaultCardTime
     } = this.props;
 
     return (
@@ -136,7 +138,11 @@ class List extends Component {
                   />
                 </div>
               </div>
-              <CardAdder listId={list._id} defaultCategory={defaultCategory} />
+              <CardAdder
+                listId={list._id}
+                defaultCategory={defaultCategory}
+                defaultCardTime={defaultCardTime}
+              />
             </ListStyles>
             {provided.placeholder}
           </>
@@ -157,7 +163,8 @@ const mapStateToProps = (state, ownProps) => {
     pomodoro: state.boardsById[boardId].settings.pomodoro,
     categories: state.boardsById[boardId].settings.categories,
     defaultCategory: state.boardsById[boardId].settings.defaultCategory,
-    defaultList: state.boardsById[boardId].settings.defaultList
+    defaultList: state.boardsById[boardId].settings.defaultList,
+    defaultCardTime: state.boardsById[boardId].settings.defaultCardTime
   };
 };
 

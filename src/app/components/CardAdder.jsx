@@ -45,7 +45,7 @@ const CardAdderStyles = styled.div`
   }
 `;
 
-const CardAdder = ({ listId, dispatch, defaultCategory }) => {
+const CardAdder = ({ listId, dispatch, defaultCategory, defaultCardTime }) => {
   const [newText, setNewText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -60,10 +60,18 @@ const CardAdder = ({ listId, dispatch, defaultCategory }) => {
     const cardId = shortid.generate();
     const createdAt = Date.now();
     const categoryId = defaultCategory;
+    const minutes = defaultCardTime;
 
     dispatch({
       type: 'ADD_CARD',
-      payload: { cardText: newText, cardId, listId, createdAt, categoryId }
+      payload: {
+        cardText: newText,
+        cardId,
+        listId,
+        createdAt,
+        categoryId,
+        minutes
+      }
     });
     setNewText('');
 
@@ -87,7 +95,7 @@ const CardAdder = ({ listId, dispatch, defaultCategory }) => {
               autoFocus
               useCacheForDOMMeasurements
               minRows={1}
-              onChange={(e) => setNewText(e.target.value)}
+              onChange={e => setNewText(e.target.value)}
               onKeyDown={handleKeyDown}
               value={newText}
               className="card-adder-textarea"
@@ -113,7 +121,8 @@ const CardAdder = ({ listId, dispatch, defaultCategory }) => {
 CardAdder.propTypes = {
   listId: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
-  defaultCategory: PropTypes.string
+  defaultCategory: PropTypes.string,
+  defaultCardTime: PropTypes.string
 };
 
 export default connect()(CardAdder);
