@@ -20,6 +20,15 @@ const SidebarStyles = styled.div`
   background: ${props => props.theme.colors.negativeText};
   display: grid;
   grid-template-columns: ${props => `${props.theme.sizes.sidebarWidth}px`};
+  grid-auto-rows: max-content;
+
+  .no-calendar {
+    color: ${props => props.theme.colors.text};
+    font-size: 0.8rem;
+    font-style: italic;
+    margin: 0;
+    padding: 10px;
+  }
 
   @media ${props => props.theme.media.tablet} {
     width: 100vw;
@@ -77,17 +86,21 @@ const Sidebar = ({
           setPomodoriToEvent={setPomodoriToEvent}
         />
       ) : (
-        <p>
+        <p className="no-calendar">
           In order to use event features, make sure you are signed in and have
-          added a Calendar ID in the setting panel.
+          added a Calendar ID in the settings panel.
         </p>
       )}
-      <TaskStats
-        cards={cards}
-        completedListId={completedListId}
-        dispatch={dispatch}
-        categories={categories}
-      />
+
+      {cards.length !== 0 && (
+        <TaskStats
+          cards={cards}
+          completedListId={completedListId}
+          dispatch={dispatch}
+          categories={categories}
+        />
+      )}
+
       <Habits boardId={boardId} />
       {/* <RepeatingTasks pomodoro={pomodoro} boardId={boardId} /> */}
     </SidebarStyles>
