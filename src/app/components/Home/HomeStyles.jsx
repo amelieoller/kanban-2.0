@@ -10,12 +10,13 @@ const HomeStyles = styled.div`
   background: ${props => props.theme.colors.mainBackground};
 
   .main-content {
-		padding: 60px 20px;
+    padding: 60px 20px;
+  }
 
   .boards {
     display: flex;
     flex-direction: row;
-		flex-wrap: wrap;
+    flex-wrap: wrap;
   }
 
   .board-link {
@@ -35,7 +36,7 @@ const HomeStyles = styled.div`
     overflow-wrap: break-word;
     text-decoration: none;
     background: ${props => props.theme.colors.mainBackground};
-		border: 1px solid ${props => props.theme.colors.white};
+    border: 1px solid ${props => props.theme.colors.white};
   }
 
   .board-link:hover,

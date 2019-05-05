@@ -258,7 +258,6 @@ const ExpandingInput = ({ placeholder, onChange, name, value, max }) => (
     style={{
       background: "#eee",
       borderRadius: 5,
-      padding: 5
     }}
     name={name}
     inputStyle={{

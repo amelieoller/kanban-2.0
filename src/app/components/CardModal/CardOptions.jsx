@@ -99,7 +99,7 @@ class CardOptions extends Component {
     togglePicker: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
-    toggleDifficultyPicker: PropTypes.func.isRequired
+    toggleDifficultyPicker: PropTypes.func
   };
 
   constructor(props) {

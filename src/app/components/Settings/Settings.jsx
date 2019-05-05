@@ -29,19 +29,12 @@ const SettingsStyles = styled.div`
     margin: 0;
   }
 
-  button {
-    padding: 5px 10px;
-    color: ${props => props.theme.colors.backgroundAccent};
-    background: ${props => props.theme.colors.monotoneAccent};
-    cursor: pointer;
-    border-radius: ${props => props.theme.sizes.borderRadius};
-  }
   .event-calendar-input {
     width: 200px;
   }
 
   .delete-button {
-    width: 30px;
+    width: 18px;
     cursor: pointer;
   }
 `;
@@ -54,12 +47,16 @@ const Settings = ({
   closeMenu,
   history,
   defaultList,
-  listsById
+  listsById,
+  defaultCardTime,
+  categories,
+  defaultCategory
 }) => {
   const [state, setState] = useState({
     eventCalendarId: eventCalendarId || '',
     eventFilter: eventFilter || '',
-    defaultList: defaultList || ''
+    defaultList: defaultList || '',
+    defaultCardTime: defaultCardTime || ''
   });
 
   const handleChange = e => {
@@ -91,6 +88,13 @@ const Settings = ({
         type: 'CHANGE_DEFAULT_LIST',
         payload: { boardId, newDefaultList }
       });
+    } else if (type === 'defaultCardTime') {
+      const newDefaultCardTime = parseInt(state.defaultCardTime, 10);
+
+      dispatch({
+        type: 'CHANGE_DEFAULT_CARD_TIME',
+        payload: { boardId, newDefaultCardTime }
+      });
     }
   };
 
@@ -100,15 +104,53 @@ const Settings = ({
     history.push('/');
   };
 
+  const handleDefaultCategoryChange = e => {
+    const { boardId } = match.params;
+    const categoryId = e.target.value;
+
+    dispatch({
+      type: 'CHANGE_DEFAULT_CATEGORY',
+      payload: {
+        boardId,
+        categoryId
+      }
+    });
+  };
+
   return (
     <SettingsStyles>
       <FiX className="close-button" onClick={closeMenu} />
       <h1>Settings</h1>
+      <h2>Card Defaults</h2>
+      Cateogory:
+      <select
+        name="defaultCategory"
+        onChange={e => handleDefaultCategoryChange(e)}
+        value={defaultCategory}
+      >
+        {categories.map(category => (
+          <option value={category._id} key={category._id}>
+            {category.name}
+          </option>
+        ))}
+      </select>
+      <form action="" onSubmit={e => handleSubmit(e, 'defaultCardTime')}>
+        <ExpandingInput
+          placeholder="Minutes"
+          name="defaultCardTime"
+          value={state.defaultCardTime}
+          onChange={handleChange}
+          type="number"
+        />
+        <ButtonStyles>Change Default Card Time</ButtonStyles>
+      </form>
       <Categories dispatch={dispatch} />
       <hr />
-      <h2>Events:</h2>
-      <h2>Change Event Calendar</h2>
-      <p>This is your email address associate with a google calendar</p>
+      <h2>Events</h2>
+      <p>
+        Change your event calendar here (your email address associate with a
+        google calendar)
+      </p>
       <form action="" onSubmit={e => handleSubmit(e, 'eventCalendarId')}>
         <ExpandingInput
           placeholder="Event Calendar"
@@ -118,8 +160,7 @@ const Settings = ({
         />
         <ButtonStyles>Change Calendar</ButtonStyles>
       </form>
-
-      <h3>Add a Keyword By Which to Filter Events:</h3>
+      <p>Add a keyword By which to filter events</p>
       <form action="" onSubmit={e => handleSubmit(e, 'eventFilter')}>
         <ExpandingInput
           placeholder="Event Filter"
@@ -129,8 +170,8 @@ const Settings = ({
         />
         <ButtonStyles>Change Filter</ButtonStyles>
       </form>
-
-      <h3>Choose a Default List:</h3>
+      <h2>Focus Mode</h2>
+      <p>Choose a default list</p>
       <form>
         {Object.keys(listsById).map(list => (
           <label key={listsById[list]._id}>
@@ -155,31 +196,26 @@ const Settings = ({
           none
         </label>
       </form>
-
-      {/* <h3>Choose a Default List:</h3>
-      <form action="" onSubmit={e => handleSubmit(e, 'defaultList')}>
-        <ExpandingInput
-          placeholder="Choose Default List"
-          name="defaultList"
-          value={state.defaultList}
-          onChange={handleChange}
-        />
-        <ButtonStyles>Change List</ButtonStyles>
-      </form> */}
-
+      <input type="checkbox" name="pomodoro-focus" id="pomodoro-focus" />
+      <label htmlFor="pomodoro-focus">
+        Turn on focus mode when Pomodoro starts
+      </label>
       <hr />
-      <h2>Delete this board:</h2>
-      <FiTrash2
-        role="button"
-        tabIndex={0}
-        className="delete-button"
-        onClick={() => {
-          if (window.confirm('Are you sure?')) handleDeleteBoard();
-        }}
-        onKeyDown={() => {
-          if (window.confirm('Are you sure?')) handleDeleteBoard();
-        }}
-      />
+      <h2>Danger Zone</h2>
+      <p>
+        Delete this board{' '}
+        <FiTrash2
+          role="button"
+          tabIndex={0}
+          className="delete-button"
+          onClick={() => {
+            if (window.confirm('Are you sure?')) handleDeleteBoard();
+          }}
+          onKeyDown={() => {
+            if (window.confirm('Are you sure?')) handleDeleteBoard();
+          }}
+        />
+      </p>
     </SettingsStyles>
   );
 };
@@ -194,16 +230,36 @@ Settings.propTypes = {
   eventFilter: PropTypes.string,
   closeMenu: PropTypes.func,
   defaultList: PropTypes.string,
-  listsById: PropTypes.object
+  defaultCardTime: PropTypes.string,
+  listsById: PropTypes.object,
+  categories: PropTypes.array,
+  defaultCategory: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
+  const {
+    boardsById: {
+      [boardId]: {
+        settings: {
+          eventCalendarId,
+          eventFilter,
+          defaultList,
+          defaultCardTime,
+          categories,
+          defaultCategory
+        }
+      }
+    }
+  } = state;
+
   return {
-    boardTitle: state.boardsById[boardId].title,
-    eventCalendarId: state.boardsById[boardId].settings.eventCalendarId,
-    eventFilter: state.boardsById[boardId].settings.eventFilter,
-    defaultList: state.boardsById[boardId].settings.defaultList
+    eventCalendarId,
+    eventFilter,
+    defaultList,
+    defaultCardTime,
+    categories,
+    defaultCategory
   };
 };
 

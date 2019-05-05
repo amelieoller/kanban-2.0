@@ -5,26 +5,30 @@ import PropTypes from 'prop-types';
 
 const ColorPickerStyles = styled.span`
   .color {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 2px;
     background: ${props =>
       `rgba(${props.color.r}, ${props.color.g}, ${props.color.b}, ${
         props.color.a
       })`};
   }
+
   .swatch {
-    padding: 3px;
+    padding: 2px;
     background: #fff;
     border-radius: 1px;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
     display: inline-block;
     cursor: pointer;
   }
+
   .popover {
     position: absolute;
+    right: 0;
     z-index: 2;
   }
+
   .cover {
     position: fixed;
     top: 0px;
@@ -108,6 +112,7 @@ const ColorPicker = ({ handleColorChange, previousColor }) => {
               '#9C55A4'
             ]}
             onChange={handleChange}
+            triangle="hide"
           />
         </div>
       ) : null}
