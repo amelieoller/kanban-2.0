@@ -45,11 +45,12 @@ const CardAdderStyles = styled.div`
   }
 `;
 
-const CardAdder = ({ listId, dispatch, defaultCategory, defaultCardTime }) => {
+const CardAdder = ({ listId, dispatch, defaultCategory, defaultCardTime, toggleIsKeyboardOpen }) => {
   const [newText, setNewText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleCardComposer = () => {
+    toggleIsKeyboardOpen(!isOpen)
     setIsOpen(!isOpen);
   };
 

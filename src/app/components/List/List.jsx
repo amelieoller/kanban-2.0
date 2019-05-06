@@ -31,6 +31,10 @@ const ListStyles = styled.div`
     @media ${props => props.theme.media.tablet} {
       max-height: calc(100vh - 310px);
     }
+
+    @media ${props => props.theme.media.phone} {
+      max-height: ${props => props.isKeyboardOpen ? 'calc(100vh - 40px)' : 'calc(100vh - 380px)'};
+    }
   }
 
   .list--drag {
@@ -99,7 +103,9 @@ class List extends Component {
       categories,
       defaultCategory,
       defaultList,
-      defaultCardTime
+      defaultCardTime,
+      toggleIsKeyboardOpen,
+      isKeyboardOpen
     } = this.props;
 
     return (
@@ -117,6 +123,7 @@ class List extends Component {
                 defaultList === list._id ? 'focus-mode' : 'no-focus-mode'
               }
               name={list._id}
+              isKeyboardOpen={isKeyboardOpen}
             >
               <div
                 className={classnames('list', {
@@ -142,6 +149,7 @@ class List extends Component {
                 listId={list._id}
                 defaultCategory={defaultCategory}
                 defaultCardTime={defaultCardTime}
+                toggleIsKeyboardOpen={toggleIsKeyboardOpen}
               />
             </ListStyles>
             {provided.placeholder}

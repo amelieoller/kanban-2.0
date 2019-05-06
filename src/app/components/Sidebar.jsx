@@ -40,6 +40,7 @@ const SidebarStyles = styled.div`
   }
 
   @media ${props => props.theme.media.phone} {
+    display: ${props => (props.isKeyboardOpen ? 'none' : 'grid')};
     grid-template-columns: 100%;
   }
 
@@ -67,12 +68,13 @@ const Sidebar = ({
   eventCalendarId,
   eventFilter,
   changeFocusMode,
-  pomodoroFocusMode
+  pomodoroFocusMode,
+  isKeyboardOpen
 }) => {
   const [pomodoriToEvent, setPomodoriToEvent] = useState(false);
 
   return (
-    <SidebarStyles>
+    <SidebarStyles isKeyboardOpen={isKeyboardOpen}>
       <PomodoroWrapper
         pomodoro={pomodoro}
         dispatch={dispatch}

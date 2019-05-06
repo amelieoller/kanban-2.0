@@ -16,6 +16,7 @@ const BoardStyles = styled.div`
   overflow-y: scroll;
   align-content: space-between;
   background: ${props => props.theme.colors.mainBackground};
+  max-height: 100vh;
 
   .no-focus-mode {
     filter: ${props => (props.focusMode ? 'blur(3px)' : 'none')};
@@ -26,7 +27,7 @@ const BoardStyles = styled.div`
     grid-gap: 10px;
     grid-template-columns: 10px;
     grid-template-rows: minmax(
-      calc(100vh - ${props => `${props.theme.sizes.headerHeight + 15}px`}),
+      calc(100vh - ${props => `${props.theme.sizes.headerHeight + 20}px`}),
       1fr
     );
     grid-auto-flow: column;
@@ -69,7 +70,8 @@ class Board extends Component {
     super(props);
     this.state = {
       startX: null,
-      startScrollX: null
+      startScrollX: null,
+      isKeyboardOpen: false
     };
   }
 
@@ -187,6 +189,12 @@ class Board extends Component {
     }
   };
 
+  toggleIsKeyboardOpen = isOpen => {
+    this.setState({
+      isKeyboardOpen: isOpen
+    });
+  };
+
   render = () => {
     const {
       lists,
@@ -203,6 +211,7 @@ class Board extends Component {
     const otherLists = lists.filter(
       list => list && list._id !== completedListId && list._id !== habitsListId
     );
+    const { isKeyboardOpen } = this.state;
 
     return (
       <BoardStyles focusMode={focusMode}>
@@ -235,6 +244,8 @@ class Board extends Component {
                       boardId={boardId}
                       index={index}
                       key={list._id}
+                      toggleIsKeyboardOpen={this.toggleIsKeyboardOpen}
+                      isKeyboardOpen={isKeyboardOpen}
                     />
                   ))}
                   {provided.placeholder}
@@ -247,6 +258,7 @@ class Board extends Component {
             pomodoro={pomodoro}
             boardId={boardId}
             changeFocusMode={changeFocusMode}
+            isKeyboardOpen={isKeyboardOpen}
           />
         </CSSTransitionGroup>
       </BoardStyles>
