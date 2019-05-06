@@ -12,20 +12,20 @@ class Cards extends Component {
     categories: PropTypes.array.isRequired
   };
 
-  // componentDidUpdate = prevProps => {
-  //   // Scroll to bottom of list if a new card has been added
-  //   const { cards } = this.props;
-  //   debugger
-  //   if (
-  //     cards[cards.length - 2] === prevProps.cards[prevProps.cards.length - 1]
-  //   ) {
-  //     this.scrollToBottom();
-  //   }
-  // };
+  componentDidUpdate = prevProps => {
+    // Scroll to bottom of list if a new card has been added
+    const { cards } = this.props;
+    if (
+      cards.length !== 0 &&
+      cards[cards.length - 2] === prevProps.cards[prevProps.cards.length - 1]
+    ) {
+      this.scrollToBottom();
+    }
+  };
 
-  // scrollToBottom = () => {
-  //   this.listEnd.scrollIntoView();
-  // };
+  scrollToBottom = () => {
+    this.listEnd.scrollIntoView();
+  };
 
   render() {
     const { listId, cards, categories, withinPomodoroCards } = this.props;
