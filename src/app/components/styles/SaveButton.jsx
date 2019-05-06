@@ -5,16 +5,14 @@ import { FiSave } from 'react-icons/fi';
 
 const StyledSaveButton = styled.button`
   cursor: pointer;
-  color: ${props => props.theme.colors.backgroundAccent};
-  background: ${props =>
+  color: ${props =>
     props.changed
       ? props.theme.colors.mainAccent
       : props.theme.colors.monotoneAccent};
-  padding: 2px 4px;
-  border-radius: ${props => props.theme.sizes.borderRadius};
+  background: transparent;
 
   &:hover {
-    background: ${props => props.theme.colors.success};
+    color: ${props => props.theme.colors.success};
   }
 `;
 
