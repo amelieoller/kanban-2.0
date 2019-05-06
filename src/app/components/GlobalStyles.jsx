@@ -167,6 +167,10 @@ const GlobalStyles = createGlobalStyle`
 			background-color: ${props => props.theme.colors.mainAccent};
 			color: ${props => props.theme.colors.white};
 		}
+
+		@media ${props => props.theme.media.phone} {
+			font-size: 1.8rem;
+		}
 	}
 
   .calendar-modal {

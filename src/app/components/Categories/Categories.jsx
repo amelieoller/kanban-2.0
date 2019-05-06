@@ -11,6 +11,7 @@ const CategoriesStyles = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 0.1rem;
 
     .right-form-section {
       display: flex;
@@ -101,7 +102,6 @@ const Categories = ({ categories, defaultCategory, dispatch, boardId }) => {
 
   return (
     <CategoriesStyles>
-      <h2>Categories</h2>
       {filteredCategories.map(category => (
         <CategoryEdit
           category={category}

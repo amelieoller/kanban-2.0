@@ -13,6 +13,10 @@ const StyledPomodoro = styled.div`
   margin: 0 auto;
   margin-bottom: 1.2rem;
 
+  @media ${props => props.theme.media.phone} {
+    max-width: 180px;
+  }
+
   .pomodoro-inside {
     position: absolute;
     width: 100%;
@@ -21,6 +25,10 @@ const StyledPomodoro = styled.div`
     .start-countdown-wrapper {
       cursor: pointer;
       font-size: 3rem;
+
+      @media ${props => props.theme.media.phone} {
+        font-size: 2.7rem;
+      }
 
       .countdown-timer {
         font-weight: 200;
