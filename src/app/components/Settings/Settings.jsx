@@ -5,8 +5,10 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FiX, FiTrash2 } from 'react-icons/fi';
 import Categories from '../Categories/Categories';
-import ButtonStyles from '../styles/ButtonStyles';
 import ExpandingInput from '../ExpandingInput';
+import Dropdown from '../Dropdown';
+import SaveButton from '../styles/SaveButton';
+import Checkbox from '../styles/Checkbox';
 
 const SettingsStyles = styled.div`
   background-color: ${props => props.theme.colors.mainBackground};
@@ -20,13 +22,32 @@ const SettingsStyles = styled.div`
     right: 0;
     top: 0;
     margin: 20px;
-    font-size: 25px;
+    font-size: 28px;
     color: ${props => props.theme.colors.monotoneAccent};
     cursor: pointer;
+    padding: 4px;
+    background: ${props => props.theme.colors.mainBackground};
   }
 
   h1 {
     margin: 0;
+  }
+
+  h2 {
+    margin-bottom: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  p {
+    font-style: italic;
+    font-size: 0.9rem;
+    line-height: 1rem;
+    margin-top: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  h2 + p {
+    margin-top: 0.3rem;
   }
 
   .event-calendar-input {
@@ -36,6 +57,14 @@ const SettingsStyles = styled.div`
   .delete-button {
     width: 18px;
     cursor: pointer;
+  }
+
+  form button {
+    margin-left: 0.5rem;
+  }
+
+  .check-box {
+    margin-top: 1rem;
   }
 `;
 
@@ -81,15 +110,8 @@ const Settings = ({
         type: 'CHANGE_EVENT_CALENDAR_FILTER',
         payload: { boardId, newEventFilter }
       });
-    } else if (type === 'defaultList') {
-      const newDefaultList = e.target.value;
-
-      dispatch({
-        type: 'CHANGE_DEFAULT_LIST',
-        payload: { boardId, newDefaultList }
-      });
     } else if (type === 'defaultCardTime') {
-      const newDefaultCardTime = parseInt(state.defaultCardTime, 10);
+      const newDefaultCardTime = state.defaultCardTime;
 
       dispatch({
         type: 'CHANGE_DEFAULT_CARD_TIME',
@@ -117,23 +139,35 @@ const Settings = ({
     });
   };
 
+  const handleDefaultListChange = e => {
+    const { boardId } = match.params;
+    const newDefaultList = e.target.value;
+
+    dispatch({
+      type: 'CHANGE_DEFAULT_LIST',
+      payload: { boardId, newDefaultList }
+    });
+  };
+
   return (
     <SettingsStyles>
       <FiX className="close-button" onClick={closeMenu} />
       <h1>Settings</h1>
       <h2>Card Defaults</h2>
-      Cateogory:
-      <select
+      <p>Choose a default category to be added to each new card</p>
+      <Dropdown
         name="defaultCategory"
-        onChange={e => handleDefaultCategoryChange(e)}
         value={defaultCategory}
+        onChange={handleDefaultCategoryChange}
+        items={categories}
       >
         {categories.map(category => (
           <option value={category._id} key={category._id}>
             {category.name}
           </option>
         ))}
-      </select>
+      </Dropdown>
+      <p>Choose a default time to be added to each new card</p>
       <form action="" onSubmit={e => handleSubmit(e, 'defaultCardTime')}>
         <ExpandingInput
           placeholder="Minutes"
@@ -142,13 +176,12 @@ const Settings = ({
           onChange={handleChange}
           type="number"
         />
-        <ButtonStyles>Change Default Card Time</ButtonStyles>
+        <SaveButton changed={defaultCardTime !== state.defaultCardTime} />
       </form>
       <Categories dispatch={dispatch} />
-      <hr />
       <h2>Events</h2>
       <p>
-        Change your event calendar here (your email address associate with a
+        Change your event calendar (enter email address associate with your
         google calendar)
       </p>
       <form action="" onSubmit={e => handleSubmit(e, 'eventCalendarId')}>
@@ -158,9 +191,9 @@ const Settings = ({
           value={state.eventCalendarId}
           onChange={handleChange}
         />
-        <ButtonStyles>Change Calendar</ButtonStyles>
+        <SaveButton changed={eventCalendarId !== state.eventCalendarId} />
       </form>
-      <p>Add a keyword By which to filter events</p>
+      <p>Add a keyword by which to filter events</p>
       <form action="" onSubmit={e => handleSubmit(e, 'eventFilter')}>
         <ExpandingInput
           placeholder="Event Filter"
@@ -168,39 +201,24 @@ const Settings = ({
           value={state.eventFilter}
           onChange={handleChange}
         />
-        <ButtonStyles>Change Filter</ButtonStyles>
+        <SaveButton changed={eventFilter !== state.eventFilter} />
       </form>
       <h2>Focus Mode</h2>
-      <p>Choose a default list</p>
-      <form>
+      <p>Choose a default list to focus on</p>
+      <Dropdown
+        name="defaultList"
+        value={defaultList}
+        onChange={handleDefaultListChange}
+        items={categories}
+      >
         {Object.keys(listsById).map(list => (
-          <label key={listsById[list]._id}>
-            <input
-              type="radio"
-              name="defaultList"
-              id={listsById[list]._id}
-              onChange={e => handleSubmit(e, 'defaultList')}
-              checked={defaultList === listsById[list]._id}
-              value={listsById[list]._id}
-            />
+          <option value={listsById[list]._id} key={listsById[list]._id}>
             {listsById[list].title}
-          </label>
+          </option>
         ))}
-        <label key="none">
-          <input
-            type="radio"
-            value="none"
-            checked={defaultList === 'none'}
-            onChange={e => handleSubmit(e, 'defaultList')}
-          />
-          none
-        </label>
-      </form>
-      <input type="checkbox" name="pomodoro-focus" id="pomodoro-focus" />
-      <label htmlFor="pomodoro-focus">
-        Turn on focus mode when Pomodoro starts
-      </label>
-      <hr />
+      </Dropdown>
+      <Checkbox label="Activate focus mode when time starts" />
+
       <h2>Danger Zone</h2>
       <p>
         Delete this board{' '}
