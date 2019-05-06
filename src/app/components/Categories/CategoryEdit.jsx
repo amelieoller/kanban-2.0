@@ -1,24 +1,9 @@
 import React, { useState } from 'react';
-import { FiX, FiSave } from 'react-icons/fi';
+import { FiX } from 'react-icons/fi';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import ColorPicker from './ColorPicker';
 import ExpandingInput from '../ExpandingInput';
-
-const SaveButton = styled.button`
-  cursor: pointer;
-  color: ${props => props.theme.colors.backgroundAccent};
-  background: ${props =>
-    props.changed
-      ? props.theme.colors.mainAccent
-      : props.theme.colors.monotoneAccent};
-  padding: 2px 6px;
-  border-radius: ${props => props.theme.sizes.borderRadius};
-
-  &:hover {
-    background: ${props => props.theme.colors.success};
-  }
-`;
+import SaveButton from '../styles/SaveButton';
 
 const CategoryEdit = ({ category, boardId, dispatch, handleSubmit }) => {
   const [state, setState] = useState({
@@ -37,6 +22,11 @@ const CategoryEdit = ({ category, boardId, dispatch, handleSubmit }) => {
   };
 
   const handleDelete = categoryId => {
+    if (!state._id) {
+      setState({ name: '', short: '', color: '', _id: '' });
+      return;
+    }
+
     dispatch({
       type: 'DELETE_CATEGORY',
       payload: {
@@ -89,11 +79,11 @@ const CategoryEdit = ({ category, boardId, dispatch, handleSubmit }) => {
           onClick={() => handleDelete(category._id)}
         />
         <SaveButton
-          type="submit"
-          changed={JSON.stringify(category) !== JSON.stringify(state)}
-        >
-          <FiSave />
-        </SaveButton>
+          changed={
+            JSON.stringify(category) !== JSON.stringify(state) &&
+            state.name !== ''
+          }
+        />
       </div>
     </form>
   );
