@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 const sizerStyle = {
-  position: "absolute",
+  position: 'absolute',
   top: 0,
   left: 0,
-  visibility: "hidden",
+  visibility: 'hidden',
   height: 0,
-  overflow: "scroll",
-  whiteSpace: "pre"
+  overflow: 'scroll',
+  whiteSpace: 'pre'
 };
 
 const INPUT_PROPS_BLACKLIST = [
-  "extraWidth",
-  "injectStyles",
-  "inputClassName",
-  "inputRef",
-  "inputStyle",
-  "minWidth",
-  "onAutosize",
-  "placeholderIsMinWidth"
+  'extraWidth',
+  'injectStyles',
+  'inputClassName',
+  'inputRef',
+  'inputStyle',
+  'minWidth',
+  'onAutosize',
+  'placeholderIsMinWidth'
 ];
 
 const cleanInputProps = inputProps => {
@@ -37,7 +37,7 @@ const copyStyles = (styles, node) => {
 };
 
 const isIE =
-  typeof window !== "undefined" && window.navigator
+  typeof window !== 'undefined' && window.navigator
     ? /MSIE |Trident\/|Edge\//.test(window.navigator.userAgent)
     : false;
 
@@ -66,15 +66,19 @@ class AutosizeInput extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { id } = nextProps;
+
     if (id !== this.props.id) {
       this.setState({ inputId: id || generateId() });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.inputWidth !== this.state.inputWidth) {
-      if (typeof this.props.onAutosize === "function") {
-        this.props.onAutosize(this.state.inputWidth);
+    const { onAutosize } = this.props;
+    const { inputWidth } = this.state;
+
+    if (prevState.inputWidth !== inputWidth) {
+      if (typeof onAutosize === 'function') {
+        onAutosize(inputWidth);
       }
     }
     this.updateInputWidth();
@@ -85,15 +89,19 @@ class AutosizeInput extends Component {
   }
 
   inputRef = el => {
+    const { inputRef } = this.props;
+
     this.input = el;
-    if (typeof this.props.inputRef === "function") {
-      this.props.inputRef(el);
+    if (typeof inputRef === 'function') {
+      inputRef(el);
     }
   };
 
   placeHolderSizerRef = el => {
     this.placeHolderSizer = el;
   };
+
+  getInput = () => this.input;
 
   sizerRef = el => {
     this.sizer = el;
@@ -117,39 +125,40 @@ class AutosizeInput extends Component {
     if (
       !this.mounted ||
       !this.sizer ||
-      typeof this.sizer.scrollWidth === "undefined"
+      typeof this.sizer.scrollWidth === 'undefined'
     ) {
       return;
     }
     let newInputWidth;
-    if (
-      this.props.placeholder &&
-      (!this.props.value ||
-        (this.props.value && this.props.placeholderIsMinWidth))
-    ) {
+    const {
+      placeholder,
+      value,
+      placeholderIsMinWidth,
+      type,
+      extraWidth,
+      minWidth
+    } = this.props;
+    if (placeholder && (!value || (value && placeholderIsMinWidth))) {
       newInputWidth =
         Math.max(this.sizer.scrollWidth, this.placeHolderSizer.scrollWidth) + 2;
     } else {
       newInputWidth = this.sizer.scrollWidth + 2;
     }
     // add extraWidth to the detected width. for number types, this defaults to 16 to allow for the stepper UI
-    const extraWidth =
-      this.props.type === "number" && this.props.extraWidth === undefined
+    const newExtraWidth =
+      type === 'number' && extraWidth === undefined
         ? 16
-        : parseInt(this.props.extraWidth) || 0;
-    newInputWidth += extraWidth;
-    if (newInputWidth < this.props.minWidth) {
-      newInputWidth = this.props.minWidth;
+        : parseInt(extraWidth) || 0;
+    newInputWidth += newExtraWidth;
+    if (newInputWidth < minWidth) {
+      newInputWidth = minWidth;
     }
-    if (newInputWidth !== this.state.inputWidth) {
+    const { inputWidth } = this.state;
+    if (newInputWidth !== inputWidth) {
       this.setState({
         inputWidth: newInputWidth
       });
     }
-  }
-
-  getInput() {
-    return this.input;
   }
 
   focus() {
@@ -169,17 +178,30 @@ class AutosizeInput extends Component {
     // with input size detection. the stylesheet is only injected when the
     // browser is IE, and can also be disabled by the `injectStyles` prop.
     const { injectStyles } = this.props;
+    const { inputId } = this.state;
+
     return isIE && injectStyles ? (
       <style
         dangerouslySetInnerHTML={{
-          __html: `input#${this.state.inputId}::-ms-clear {display: none;}`
+          __html: `input#${inputId}::-ms-clear {display: none;}`
         }}
       />
     ) : null;
   }
 
   render() {
-    const sizerValue = [this.props.defaultValue, this.props.value, ""].reduce(
+    const {
+      defaultValue,
+      value,
+      style,
+      inputStyle,
+      inputClassName,
+      className,
+      placeholder
+    } = this.props;
+    const { inputWidth, inputId } = this.state;
+
+    const sizerValue = [defaultValue, value, ''].reduce(
       (previousValue, currentValue) => {
         if (previousValue !== null && previousValue !== undefined) {
           return previousValue;
@@ -188,31 +210,32 @@ class AutosizeInput extends Component {
       }
     );
 
-    const wrapperStyle = { ...this.props.style };
-    if (!wrapperStyle.display) wrapperStyle.display = "inline-block";
+    const wrapperStyle = { ...style };
+    if (!wrapperStyle.display) wrapperStyle.display = 'inline-block';
 
-    const inputStyle = {
-      boxSizing: "content-box",
-      width: `${this.state.inputWidth}px`,
-      ...this.props.inputStyle
+    const newInputStyle = {
+      boxSizing: 'content-box',
+      width: `${inputWidth}px`,
+      ...inputStyle,
+      color: '#51575D'
     };
 
     const { ...inputProps } = this.props;
     cleanInputProps(inputProps);
-    inputProps.className = this.props.inputClassName;
-    inputProps.id = this.state.inputId;
-    inputProps.style = inputStyle;
+    inputProps.className = inputClassName;
+    inputProps.id = inputId;
+    inputProps.style = newInputStyle;
 
     return (
-      <div className={this.props.className} style={wrapperStyle}>
+      <div className={className} style={wrapperStyle}>
         {this.renderStyles()}
         <input {...inputProps} ref={this.inputRef} />
         <div ref={this.sizerRef} style={sizerStyle}>
           {sizerValue}
         </div>
-        {this.props.placeholder ? (
+        {placeholder ? (
           <div ref={this.placeHolderSizerRef} style={sizerStyle}>
-            {this.props.placeholder}
+            {placeholder}
           </div>
         ) : null}
       </div>
@@ -256,20 +279,28 @@ const ExpandingInput = ({ placeholder, onChange, name, value, max }) => (
     value={value}
     onChange={onChange}
     style={{
-      background: "#eee",
-      borderRadius: 5,
+      background: '#eee',
+      borderRadius: 5
     }}
     name={name}
     inputStyle={{
-      border: "none",
-      borderBottom: "1px solid #999",
+      border: 'none',
+      borderBottom: '1px solid #999',
       padding: 2,
       fontSize: 16,
-      background: "transparent",
-      outline: "none",
+      background: 'transparent',
+      outline: 'none',
       maxWidth: `${max}px`
     }}
   />
 );
+
+ExpandingInput.propTypes = {
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  max: PropTypes.string
+};
 
 export default ExpandingInput;
