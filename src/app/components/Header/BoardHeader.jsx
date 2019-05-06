@@ -54,13 +54,6 @@ const BoardHeader = ({
         boardId={boardId}
       />
     </div>
-
-    {/* <BoardTitle />
-    <div className="board-header-right">
-      <FocusMode focusMode={focusMode} changeFocusMode={changeFocusMode} />
-      <BoardSettings />
-      <LightDarkMode changeTheme={changeTheme} setBoardColor={setBoardColor} />
-    </div> */}
   </BoardHeaderStyles>
 );
 
