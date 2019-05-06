@@ -85,13 +85,15 @@ const Settings = ({
   listsById,
   defaultCardTime,
   categories,
-  defaultCategory
+  defaultCategory,
+  pomodoroFocusMode
 }) => {
   const [state, setState] = useState({
     eventCalendarId: eventCalendarId || '',
     eventFilter: eventFilter || '',
     defaultList: defaultList || '',
-    defaultCardTime: defaultCardTime || ''
+    defaultCardTime: defaultCardTime || '',
+    pomodoroFocusMode: pomodoroFocusMode ? 'checked' : ''
   });
 
   const handleChange = e => {
@@ -170,9 +172,7 @@ const Settings = ({
       <p>Keyword by which to filter events:</p>
       <form
         action=""
-        onSubmit={e =>
-          handleSettingChange(e, state.eventFilter, 'eventFilter')
-        }
+        onSubmit={e => handleSettingChange(e, state.eventFilter, 'eventFilter')}
       >
         <ExpandingInput
           placeholder="Event Filter"
@@ -196,7 +196,12 @@ const Settings = ({
           </option>
         ))}
       </Dropdown>
-      <Checkbox label="Activate focus mode when time starts" />
+      <Checkbox
+        label="Activate focus mode when time starts"
+        onChange={handleSettingChange}
+        checked={pomodoroFocusMode}
+        name="focusIsChecked"
+      />
 
       <h2>Danger Zone</h2>
       <p>
@@ -230,7 +235,8 @@ Settings.propTypes = {
   defaultCardTime: PropTypes.string,
   listsById: PropTypes.object,
   categories: PropTypes.array,
-  defaultCategory: PropTypes.string
+  defaultCategory: PropTypes.string,
+  pomodoroFocusMode: PropTypes.bool
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -244,7 +250,8 @@ const mapStateToProps = (state, ownProps) => {
           defaultList,
           defaultCardTime,
           categories,
-          defaultCategory
+          defaultCategory,
+          pomodoroFocusMode
         }
       }
     }
@@ -256,7 +263,8 @@ const mapStateToProps = (state, ownProps) => {
     defaultList,
     defaultCardTime,
     categories,
-    defaultCategory
+    defaultCategory,
+    pomodoroFocusMode
   };
 };
 

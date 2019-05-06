@@ -65,7 +65,9 @@ const Sidebar = ({
   completedListId,
   categories,
   eventCalendarId,
-  eventFilter
+  eventFilter,
+  changeFocusMode,
+  pomodoroFocusMode
 }) => {
   const [pomodoriToEvent, setPomodoriToEvent] = useState(false);
 
@@ -76,6 +78,8 @@ const Sidebar = ({
         dispatch={dispatch}
         boardId={boardId}
         pomodoriToEvent={pomodoriToEvent}
+        changeFocusMode={changeFocusMode}
+        pomodoroFocusMode={pomodoroFocusMode}
       />
       {user && eventCalendarId ? (
         <Events
@@ -122,22 +126,37 @@ Sidebar.propTypes = {
   user: PropTypes.object,
   categories: PropTypes.array,
   eventCalendarId: PropTypes.string,
-  eventFilter: PropTypes.string
+  eventFilter: PropTypes.string,
+  changeFocusMode: PropTypes.func,
+  pomodoroFocusMode: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
   const { completedListId } = state.boardsById[ownProps.boardId].settings;
+  const {
+    user,
+    boardsById: {
+      [ownProps.boardId]: {
+        settings: {
+          categories,
+          eventCalendarId,
+          eventFilter,
+          pomodoroFocusMode
+        }
+      }
+    }
+  } = state;
 
   return {
     cards: state.listsById[completedListId].cards.map(
       cardId => state.cardsById[cardId]
     ),
     completedListId,
-    user: state.user,
-    categories: state.boardsById[ownProps.boardId].settings.categories,
-    eventCalendarId:
-      state.boardsById[ownProps.boardId].settings.eventCalendarId,
-    eventFilter: state.boardsById[ownProps.boardId].settings.eventFilter
+    user,
+    categories,
+    eventCalendarId,
+    eventFilter,
+    pomodoroFocusMode
   };
 };
 
