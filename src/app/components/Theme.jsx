@@ -2,7 +2,6 @@ const colors = {
   white: '#FFFFFF',
   lightestGrey: '#F6F6F8',
   lighterGrey: '#EAECEE',
-  // lightGrey: "#C9CFD3",
   lightGrey: '#C6C7C6',
   grey: '#73777b',
   darkGrey: '#51575D',

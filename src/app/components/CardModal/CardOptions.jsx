@@ -89,7 +89,7 @@ class CardOptions extends Component {
     isDifficultyPickerOpen: PropTypes.bool.isRequired,
     card: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      minutes: PropTypes.number,
+      minutes: PropTypes.string,
       recurringText: PropTypes.string
     }).isRequired,
     listId: PropTypes.string.isRequired,
@@ -186,7 +186,7 @@ class CardOptions extends Component {
   };
 
   handleMinuteChange = e => {
-    const minutes = e.target.value !== '' ? parseInt(e.target.value, 10) : '';
+    const minutes = e.target.value;
 
     this.setState({
       [e.target.name]: minutes

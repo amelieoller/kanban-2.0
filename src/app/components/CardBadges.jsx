@@ -114,7 +114,7 @@ const CardBadges = ({
   };
 
   const handleMinuteChange = e => {
-    const newMinutes = parseInt(e.target.value, 10);
+    const newMinutes = e.target.value;
 
     if (minutes !== newMinutes) {
       dispatch({
@@ -159,7 +159,7 @@ CardBadges.propTypes = {
     total: PropTypes.number.isRequired,
     checked: PropTypes.number.isRequired
   }).isRequired,
-  minutes: PropTypes.number,
+  minutes: PropTypes.string,
   category: PropTypes.shape({
     name: PropTypes.string.isRequired,
     short: PropTypes.string.isRequired,
