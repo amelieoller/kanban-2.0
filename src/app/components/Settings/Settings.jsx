@@ -29,13 +29,19 @@ const SettingsStyles = styled.div`
     background: ${props => props.theme.colors.mainBackground};
   }
 
+  h1,
+  h2,
+  h3 {
+    font-weight: 400;
+  }
+
   h1 {
     margin: 0;
   }
 
   h2 {
     margin-bottom: 0.5rem;
-    margin-top: 2rem;
+    margin-top: 2.2rem;
   }
 
   p {
@@ -92,32 +98,14 @@ const Settings = ({
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e, type) => {
+  const handleSettingChange = (e, setting, type) => {
     e.preventDefault();
     const { boardId } = match.params;
 
-    if (type === 'eventCalendarId') {
-      const newEventCalendarId = state.eventCalendarId;
-
-      dispatch({
-        type: 'CHANGE_EVENT_CALENDAR_ID',
-        payload: { boardId, newEventCalendarId }
-      });
-    } else if (type === 'eventFilter') {
-      const newEventFilter = state.eventFilter;
-
-      dispatch({
-        type: 'CHANGE_EVENT_CALENDAR_FILTER',
-        payload: { boardId, newEventFilter }
-      });
-    } else if (type === 'defaultCardTime') {
-      const newDefaultCardTime = state.defaultCardTime;
-
-      dispatch({
-        type: 'CHANGE_DEFAULT_CARD_TIME',
-        payload: { boardId, newDefaultCardTime }
-      });
-    }
+    dispatch({
+      type: 'CHANGE_SETTING',
+      payload: { boardId, setting, type }
+    });
   };
 
   const handleDeleteBoard = () => {
@@ -126,39 +114,16 @@ const Settings = ({
     history.push('/');
   };
 
-  const handleDefaultCategoryChange = e => {
-    const { boardId } = match.params;
-    const categoryId = e.target.value;
-
-    dispatch({
-      type: 'CHANGE_DEFAULT_CATEGORY',
-      payload: {
-        boardId,
-        categoryId
-      }
-    });
-  };
-
-  const handleDefaultListChange = e => {
-    const { boardId } = match.params;
-    const newDefaultList = e.target.value;
-
-    dispatch({
-      type: 'CHANGE_DEFAULT_LIST',
-      payload: { boardId, newDefaultList }
-    });
-  };
-
   return (
     <SettingsStyles>
       <FiX className="close-button" onClick={closeMenu} />
       <h1>Settings</h1>
-      <h2>Card Defaults</h2>
-      <p>Choose a default category to be added to each new card</p>
+      <h2>Card Presets</h2>
+      <p>Default category to be added to each new card:</p>
       <Dropdown
         name="defaultCategory"
         value={defaultCategory}
-        onChange={handleDefaultCategoryChange}
+        onChange={e => handleSettingChange(e, e.target.value, e.target.name)}
         items={categories}
       >
         {categories.map(category => (
@@ -167,8 +132,13 @@ const Settings = ({
           </option>
         ))}
       </Dropdown>
-      <p>Choose a default time to be added to each new card</p>
-      <form action="" onSubmit={e => handleSubmit(e, 'defaultCardTime')}>
+      <p>Default time to be added to each new card:</p>
+      <form
+        action=""
+        onSubmit={e =>
+          handleSettingChange(e, state.defaultCardTime, 'defaultCardTime')
+        }
+      >
         <ExpandingInput
           placeholder="Minutes"
           name="defaultCardTime"
@@ -181,10 +151,14 @@ const Settings = ({
       <Categories dispatch={dispatch} />
       <h2>Events</h2>
       <p>
-        Change your event calendar (enter email address associate with your
-        google calendar)
+        Events calendar (email address associated with your google calendar):
       </p>
-      <form action="" onSubmit={e => handleSubmit(e, 'eventCalendarId')}>
+      <form
+        action=""
+        onSubmit={e =>
+          handleSettingChange(e, state.eventCalendarId, 'eventCalendarId')
+        }
+      >
         <ExpandingInput
           placeholder="Event Calendar"
           name="eventCalendarId"
@@ -193,8 +167,13 @@ const Settings = ({
         />
         <SaveButton changed={eventCalendarId !== state.eventCalendarId} />
       </form>
-      <p>Add a keyword by which to filter events</p>
-      <form action="" onSubmit={e => handleSubmit(e, 'eventFilter')}>
+      <p>Keyword by which to filter events:</p>
+      <form
+        action=""
+        onSubmit={e =>
+          handleSettingChange(e, state.eventFilter, 'eventFilter')
+        }
+      >
         <ExpandingInput
           placeholder="Event Filter"
           name="eventFilter"
@@ -204,11 +183,11 @@ const Settings = ({
         <SaveButton changed={eventFilter !== state.eventFilter} />
       </form>
       <h2>Focus Mode</h2>
-      <p>Choose a default list to focus on</p>
+      <p>Default list to focus on:</p>
       <Dropdown
         name="defaultList"
         value={defaultList}
-        onChange={handleDefaultListChange}
+        onChange={e => handleSettingChange(e, e.target.value, 'defaultList')}
         items={categories}
       >
         {Object.keys(listsById).map(list => (
@@ -221,7 +200,7 @@ const Settings = ({
 
       <h2>Danger Zone</h2>
       <p>
-        Delete this board{' '}
+        Delete this board:{' '}
         <FiTrash2
           role="button"
           tabIndex={0}

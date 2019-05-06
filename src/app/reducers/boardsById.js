@@ -10,6 +10,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
+
     case 'MOVE_LIST': {
       const {
         oldListIndex,
@@ -39,6 +40,7 @@ const boardsById = (state = {}, action) => {
         [boardId]: { ...state[boardId], lists: newLists }
       };
     }
+
     case 'DELETE_LIST': {
       const { listId: newListId, boardId } = action.payload;
       return {
@@ -49,6 +51,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
+
     case 'ADD_BOARD': {
       const {
         boardTitle,
@@ -84,6 +87,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
+
     case 'CHANGE_BOARD_TITLE': {
       const { boardTitle, boardId } = action.payload;
       return {
@@ -94,19 +98,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case 'CHANGE_BOARD_COLOR': {
-      const { boardId, color } = action.payload;
-      return {
-        ...state,
-        [boardId]: {
-          ...state[boardId],
-          settings: {
-            ...state[boardId].settings,
-            color
-          }
-        }
-      };
-    }
+
     case 'CHANGE_HABIT_STATS': {
       const { boardId, habit } = action.payload;
       let newHabits = {};
@@ -140,32 +132,35 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
+
     case 'CHANGE_SETTING': {
-      const { boardId, checkinDate } = action.payload;
+      const { boardId, type, setting } = action.payload;
       return {
         ...state,
         [boardId]: {
           ...state[boardId],
           settings: {
             ...state[boardId].settings,
-            checkinDate
+            [type]: setting
           }
         }
       };
     }
-    case 'CHANGE_LAST_CHECKIN': {
-      const { boardId, checkinDate } = action.payload;
-      return {
-        ...state,
-        [boardId]: {
-          ...state[boardId],
-          settings: {
-            ...state[boardId].settings,
-            checkinDate
-          }
-        }
-      };
-    }
+
+    // case 'CHANGE_LAST_CHECKIN': {
+    //   const { boardId, checkinDate } = action.payload;
+    //   return {
+    //     ...state,
+    //     [boardId]: {
+    //       ...state[boardId],
+    //       settings: {
+    //         ...state[boardId].settings,
+    //         checkinDate
+    //       }
+    //     }
+    //   };
+    // }
+
     case 'CHANGE_POMODORO_SETTING': {
       const { boardId, type, value } = action.payload;
 
@@ -183,6 +178,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
+
     case 'CHANGE_GOAL_SETTING': {
       const { boardId, type, value } = action.payload;
 
@@ -200,6 +196,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
+
     case 'ADD_CATEGORY': {
       const { boardId, category } = action.payload;
 
@@ -214,6 +211,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
+
     case 'DELETE_CATEGORY': {
       const { boardId, categoryId } = action.payload;
       return {
@@ -229,19 +227,7 @@ const boardsById = (state = {}, action) => {
         }
       };
     }
-    case 'CHANGE_DEFAULT_CATEGORY': {
-      const { boardId, categoryId } = action.payload;
-      return {
-        ...state,
-        [boardId]: {
-          ...state[boardId],
-          settings: {
-            ...state[boardId].settings,
-            defaultCategory: categoryId
-          }
-        }
-      };
-    }
+
     case 'CHANGE_CATEGORY': {
       const { boardId, _id, name, short, color } = action.payload;
 
@@ -254,60 +240,6 @@ const boardsById = (state = {}, action) => {
             categories: state[boardId].settings.categories.map(cat =>
               cat._id === _id ? { ...cat, name, short, color } : cat
             )
-          }
-        }
-      };
-    }
-    case 'CHANGE_EVENT_CALENDAR_ID': {
-      const { boardId, newEventCalendarId } = action.payload;
-      return {
-        ...state,
-        [boardId]: {
-          ...state[boardId],
-          settings: {
-            ...state[boardId].settings,
-            eventCalendarId: newEventCalendarId
-          }
-        }
-      };
-    }
-    case 'CHANGE_EVENT_CALENDAR_FILTER': {
-      const { boardId, newEventFilter } = action.payload;
-      return {
-        ...state,
-        [boardId]: {
-          ...state[boardId],
-          settings: {
-            ...state[boardId].settings,
-            eventFilter: newEventFilter
-          }
-        }
-      };
-    }
-    case 'CHANGE_DEFAULT_LIST': {
-      const { boardId, newDefaultList } = action.payload;
-
-      return {
-        ...state,
-        [boardId]: {
-          ...state[boardId],
-          settings: {
-            ...state[boardId].settings,
-            defaultList: newDefaultList
-          }
-        }
-      };
-    }
-    case 'CHANGE_DEFAULT_CARD_TIME': {
-      const { boardId, newDefaultCardTime } = action.payload;
-
-      return {
-        ...state,
-        [boardId]: {
-          ...state[boardId],
-          settings: {
-            ...state[boardId].settings,
-            defaultCardTime: newDefaultCardTime
           }
         }
       };

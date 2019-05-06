@@ -16,10 +16,12 @@ const LightDarkMode = ({
 
   const changeBoardColor = () => {
     changeTheme();
+    const setting = boardColor === 'light' ? 'dark' : 'light';
+    const type = 'color';
 
     dispatch({
-      type: 'CHANGE_BOARD_COLOR',
-      payload: { boardId, color: boardColor === 'light' ? 'dark' : 'light' }
+      type: 'CHANGE_SETTING',
+      payload: { boardId, setting, type }
     });
   };
 
