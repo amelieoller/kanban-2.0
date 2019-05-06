@@ -3,7 +3,15 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FiX, FiTrash2 } from 'react-icons/fi';
+import {
+  FiX,
+  FiTrash2,
+  FiEye,
+  FiCalendar,
+  FiAlertCircle,
+  FiHeart,
+  FiList
+} from 'react-icons/fi';
 import Categories from '../Categories/Categories';
 import ExpandingInput from '../ExpandingInput';
 import Dropdown from '../Dropdown';
@@ -41,7 +49,12 @@ const SettingsStyles = styled.div`
 
   h2 {
     margin-bottom: 0.5rem;
-    margin-top: 2.2rem;
+    margin-top: 2.3rem;
+    display: flex;
+
+    svg {
+      margin-right: 0.5rem;
+    }
   }
 
   p {
@@ -120,7 +133,10 @@ const Settings = ({
     <SettingsStyles>
       <FiX className="close-button" onClick={closeMenu} />
       <h1>Settings</h1>
-      <h2>Card Presets</h2>
+      <h2>
+        <FiHeart />
+        Card Presets
+      </h2>
       <p>Default category to be added to each new card:</p>
       <Dropdown
         name="defaultCategory"
@@ -150,8 +166,15 @@ const Settings = ({
         />
         <SaveButton changed={defaultCardTime !== state.defaultCardTime} />
       </form>
+      <h2>
+        <FiList />
+        Categories
+      </h2>
       <Categories dispatch={dispatch} />
-      <h2>Events</h2>
+      <h2>
+        <FiCalendar />
+        Events
+      </h2>
       <p>
         Events calendar (email address associated with your google calendar):
       </p>
@@ -182,7 +205,9 @@ const Settings = ({
         />
         <SaveButton changed={eventFilter !== state.eventFilter} />
       </form>
-      <h2>Focus Mode</h2>
+      <h2>
+        <FiEye /> Focus Mode
+      </h2>
       <p>Default list to focus on:</p>
       <Dropdown
         name="defaultList"
@@ -197,13 +222,15 @@ const Settings = ({
         ))}
       </Dropdown>
       <Checkbox
-        label="Activate focus mode when time starts"
+        label="Activate when time starts"
         onChange={handleSettingChange}
         checked={pomodoroFocusMode}
         name="focusIsChecked"
       />
-
-      <h2>Danger Zone</h2>
+      <h2>
+        <FiAlertCircle />
+        Danger Zone
+      </h2>
       <p>
         Delete this board:{' '}
         <FiTrash2
