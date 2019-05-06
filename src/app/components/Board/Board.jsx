@@ -243,7 +243,11 @@ class Board extends Component {
               )}
             </Droppable>
           </DragDropContext>
-          <Sidebar pomodoro={pomodoro} boardId={boardId} changeFocusMode={changeFocusMode} />
+          <Sidebar
+            pomodoro={pomodoro}
+            boardId={boardId}
+            changeFocusMode={changeFocusMode}
+          />
         </CSSTransitionGroup>
       </BoardStyles>
     );

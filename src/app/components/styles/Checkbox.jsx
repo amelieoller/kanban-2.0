@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -64,15 +64,34 @@ const StyledCheckbox = styled.div`
   }
 `;
 
-const Checkbox = ({ label }) => (
-  <StyledCheckbox className="check-box">
-    <input type="checkbox" name="checkbox" id="checkbox" />
-    <label htmlFor="checkbox">{label}</label>
-  </StyledCheckbox>
-);
+const Checkbox = ({ label, onChange, checked, name }) => {
+  const [isChecked, setIsChecked] = useState(checked);
+
+  const handleCheck = e => {
+    onChange(e, !checked, 'pomodoroFocusMode');
+    setIsChecked(!checked);
+  };
+
+  return (
+    <StyledCheckbox className="check-box">
+      <input
+        type="checkbox"
+        name={name}
+        onClick={handleCheck}
+        defaultChecked={isChecked}
+      />
+      <label htmlFor="checkbox" onClick={handleCheck}>
+        {label}
+      </label>
+    </StyledCheckbox>
+  );
+};
 
 Checkbox.propTypes = {
-  label: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  checked: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 export default Checkbox;
