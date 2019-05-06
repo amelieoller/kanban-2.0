@@ -96,7 +96,7 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
         .filter(
           card => card.categoryId && card.categoryId === categories[i]._id
         )
-        .map(c => c.minutes)
+        .map(c => parseInt(c.minutes, 10))
         .reduce((a, b) => a + b, 0);
 
       results.push({
