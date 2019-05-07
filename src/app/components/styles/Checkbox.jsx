@@ -32,7 +32,7 @@ const StyledCheckbox = styled.div`
     }
 
     &:after {
-      top: calc(1.2rem / 2);
+      top: calc(1.1rem / 2);
       left: calc(1rem / 2);
       width: 0.8rem;
       border: 0.1rem solid white;

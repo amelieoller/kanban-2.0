@@ -1,58 +1,37 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import ClickOutside from "./ClickOutside";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import ClickOutside from './ClickOutside';
 
 const PickerStyles = styled.div`
   position: relative;
-
-  .options-list-button {
-    display: flex;
-    align-items: center;
-    height: 33px;
-    margin: 0 3px 4px 3px;
-    padding: 0 6px;
-    border: 0;
-    border-radius: 3px;
-    color: black;
-    background: rgba(255, 255, 255, 0.8);
-    font-size: inherit;
-    cursor: pointer;
-  }
-
-  .options-list-button:hover,
-  .options-list-button:focus {
-    background: white;
-  }
 
   .modal-icon {
     flex-shrink: 0;
   }
 
-  .modal-color-picker {
+  .picker-wrapper {
     z-index: 2;
     position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-wrap: wrap;
-    width: 120px;
-    margin-top: 4px;
-    border-radius: 3px;
-    color: black;
-    background: white;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
-    font-weight: 700;
-    text-align: center;
+    left: ${props => `${props.fromLeft}px`};
+    left: 6px;
+    padding: 0.3rem;
+    display: grid;
+    border-radius: ${props => props.theme.sizes.borderRadius};
+    background: ${props => props.theme.colors.white};
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .picker-button {
-    background: ${props => props.theme.colors.monotoneAccent};
+    width: ${props => props.isThinDisplay ? '50px' : '34px'};
+    height: ${props => props.isThinDisplay ? '50px' : '34px'};
+    margin: ${props => props.isThinDisplay ? '4px' : '2px'};
+    border: 1px ${props => props.theme.colors.monotoneAccent} solid;
     border-radius: ${props => props.theme.sizes.borderRadius};
-    padding: 5px 8px;
-    margin: 5px;
+    color: ${props => props.theme.colors.backgroundAccent};
+    cursor: pointer;
   }
 `;
 
@@ -94,14 +73,17 @@ class Picker extends Component {
       type,
       children,
       icon,
-      text
+      text,
+      className,
+      boundingRect,
+      isThinDisplay
     } = this.props;
 
     return (
-      <PickerStyles>
+      <PickerStyles boundingRect={boundingRect} isThinDisplay={isThinDisplay}>
         <button
           type="submit"
-          className="options-list-button"
+          className={className}
           onClick={() => togglePicker(type)}
           onKeyDown={this.handleKeyDown}
           ref={ref => {
@@ -119,7 +101,7 @@ class Picker extends Component {
             eventTypes="click"
             handleClickOutside={this.handleClickOutside}
           >
-            <div className="modal-color-picker" onKeyDown={this.handleKeyDown}>
+            <div className="picker-wrapper" onKeyDown={this.handleKeyDown}>
               {children}
             </div>
           </ClickOutside>

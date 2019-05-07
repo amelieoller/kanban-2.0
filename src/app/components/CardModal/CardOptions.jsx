@@ -23,17 +23,18 @@ const CardOptionsStyles = styled.div`
     }
   }
 
-  .options-list-button {
+  .modal-option {
     display: flex;
     align-items: center;
-    height: 33px;
-    margin: 0 3px 4px 3px;
-    padding: 0 6px;
+    height: ${props => (props.isThinDisplay ? '43px' : '32px')};
+    margin: ${props =>
+      props.isThinDisplay ? '0px 5px 10px 5px' : '0 3px 4px 3px'};
+    padding: ${props => (props.isThinDisplay ? '0 10px' : '0 6px')};
     border: 0;
     border-radius: 3px;
     color: black;
     background: rgba(255, 255, 255, 0.8);
-    font-size: inherit;
+    font-size: ${props => (props.isThinDisplay ? '1.2rem' : '1rem')};
     cursor: pointer;
 
     &.minutes {
@@ -232,6 +233,16 @@ class CardOptions extends Component {
     this.setState({ isCalendarOpen: !isCalendarOpen });
   };
 
+  difficultyColor = difficulty => {
+    if (difficulty === 3) {
+      return '#EA725B';
+    }
+    if (difficulty === 2) {
+      return '#0075A3';
+    }
+    return '#EAECEE';
+  };
+
   render() {
     const {
       isCardNearRightBorder,
@@ -259,8 +270,9 @@ class CardOptions extends Component {
         transform: 'translateX(-50%)'
       }
     };
+
     return (
-      <CardOptionsStyles>
+      <CardOptionsStyles isThinDisplay={isThinDisplay}>
         <div
           className="options-list"
           style={{
@@ -271,7 +283,7 @@ class CardOptions extends Component {
           <button
             type="submit"
             onClick={this.completeCard}
-            className="options-list-button"
+            className="modal-option"
           >
             <div className="modal-icon">
               <FiCheck />
@@ -282,7 +294,7 @@ class CardOptions extends Component {
           {/* Minutes */}
           <form onSubmit={this.handleMinuteSubmit}>
             <input
-              className="options-list-button minutes"
+              className="modal-option minutes"
               onKeyDown={this.handleKeyDownTime}
               ref={ref => {
                 this.colorPickerButton = ref;
@@ -298,7 +310,7 @@ class CardOptions extends Component {
           {/* Recurring */}
           {/* <form onSubmit={this.handleRecurringSubmit}>
             <input
-              className="options-list-button recurring"
+              className="modal-option recurring"
               onKeyDown={this.handleKeyDownTime}
               name="recurringText"
               type="text"
@@ -315,13 +327,16 @@ class CardOptions extends Component {
             type="Category"
             icon={<FiTag className="modal-icon" />}
             text="Category"
+            className="modal-option"
+            boundingRect={boundingRect}
+            isThinDisplay={isThinDisplay}
           >
             {categories.map(category => (
               <button
                 type="submit"
                 key={category.name}
                 style={{ background: category.color }}
-                className="picker"
+                className="picker-button"
                 onClick={() => this.changeCategory(category)}
               >
                 {category.short}
@@ -336,6 +351,9 @@ class CardOptions extends Component {
             type="Difficulty"
             icon={<FiFlag className="modal-icon" />}
             text="Difficulty"
+            className="modal-option"
+            boundingRect={boundingRect}
+            isThinDisplay={isThinDisplay}
           >
             {[1, 2, 3].map(difficulty => (
               <button
@@ -343,6 +361,7 @@ class CardOptions extends Component {
                 type="submit"
                 className="picker-button"
                 onClick={() => this.changeDifficulty(difficulty)}
+                style={{ background: this.difficultyColor(difficulty) }}
               >
                 {difficulty}
               </button>
@@ -354,7 +373,7 @@ class CardOptions extends Component {
             <button
               type="submit"
               onClick={this.toggleCalendar}
-              className="options-list-button"
+              className="modal-option"
             >
               <div className="modal-icon">
                 <FiBell />
@@ -381,7 +400,7 @@ class CardOptions extends Component {
             <button
               type="submit"
               onClick={this.deleteCard}
-              className="options-list-button"
+              className="modal-option"
             >
               <div className="modal-icon">
                 <FiTrash2 />

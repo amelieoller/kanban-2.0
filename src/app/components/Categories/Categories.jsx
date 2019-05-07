@@ -21,14 +21,6 @@ const CategoriesStyles = styled.div`
         margin-left: 4px;
       }
     }
-
-    .edit-category {
-      background: transparent;
-      border: none;
-      font-size: 16px;
-      max-width: 140px;
-      color: ${props => props.theme.colors.text};
-    }
   }
 
   .category-list {

@@ -114,6 +114,10 @@ class CardModal extends Component {
     const isCardNearRightBorder =
       window.innerWidth - boundingRect.right < boundingRect.left;
 
+    // Returns true if card is closer to the bottom than the top
+    const isCardNearBottomBorder =
+      window.innerHeight - boundingRect.top < boundingRect.bottom;
+
     // Check if the display is so thin that we need to trigger a centered, vertical layout
     // DO NOT CHANGE the number 550 without also changing related media-query in CardOptions.scss
     const isThinDisplay = window.innerWidth < 550;
@@ -121,15 +125,21 @@ class CardModal extends Component {
     // Position textarea at the same place as the card and position everything else away from closest edge
     const style = {
       content: {
-        top: Math.min(
-          boundingRect.top,
-          window.innerHeight - boundingRect.height - 18
-        ),
+        top: isCardNearBottomBorder
+          ? 'auto'
+          : Math.min(
+              boundingRect.top,
+              window.innerHeight - boundingRect.height - 18
+            ),
+        bottom: isCardNearBottomBorder
+          ? window.innerHeight - boundingRect.bottom - 18
+          : 'auto',
         left: isCardNearRightBorder ? null : boundingRect.left,
         right: isCardNearRightBorder
           ? window.innerWidth - boundingRect.right
           : null,
-        flexDirection: isCardNearRightBorder ? 'row-reverse' : 'row'
+        flexDirection: isCardNearRightBorder ? 'row-reverse' : 'row',
+        alignItems: isCardNearBottomBorder ? 'flex-end' : 'flex-start'
       }
     };
 

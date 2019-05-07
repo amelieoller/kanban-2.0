@@ -11,12 +11,12 @@ const GlobalStyles = createGlobalStyle`
 		&::-webkit-scrollbar {
 			width: 10px;
 			height: 10px;
-			background: ${props => props.theme.colors.monotoneAccent};
+			background: ${props => props.theme.colors.scrollbarBackground};
 		}
 
 		&::-webkit-scrollbar-thumb {
 			border-radius: 3px;
-			background: ${props => props.theme.colors.text};
+			background: ${props => props.theme.colors.scrollbarForeground};
 		}
 	}
 
@@ -157,6 +157,7 @@ const GlobalStyles = createGlobalStyle`
 		transition: background 0.5s;
 		cursor: pointer;
 		min-width: 24px;
+		color: ${props => props.theme.colors.text};
 
 		&.selected {
 			background-color: ${props => props.theme.colors.mainAccent};

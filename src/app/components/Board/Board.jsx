@@ -27,9 +27,16 @@ const BoardStyles = styled.div`
     grid-gap: 10px;
     grid-template-columns: 10px;
     grid-template-rows: minmax(
-      calc(100vh - ${props => `${props.theme.sizes.headerHeight + 20}px`}),
+      calc(100vh - ${props => `${props.theme.sizes.headerHeight + 15}px`}),
       1fr
     );
+
+    @media ${props => props.theme.media.tablet} {
+      grid-template-rows: minmax(
+        calc(100vh - ${props => `${props.theme.sizes.headerHeight + 60}px`}),
+        1fr
+      );
+    }
     grid-auto-flow: column;
     scroll-snap-type: x proximity;
     margin: 0;

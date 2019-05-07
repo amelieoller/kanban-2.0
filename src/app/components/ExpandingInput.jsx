@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const StyledAutosizeInput = styled.div`
+  input {
+    color: ${props => props.theme.colors.text};
+  }
+`;
 
 const sizerStyle = {
   position: 'absolute',
@@ -216,8 +223,7 @@ class AutosizeInput extends Component {
     const newInputStyle = {
       boxSizing: 'content-box',
       width: `${inputWidth}px`,
-      ...inputStyle,
-      color: '#51575D'
+      ...inputStyle
     };
 
     const { ...inputProps } = this.props;
@@ -227,7 +233,7 @@ class AutosizeInput extends Component {
     inputProps.style = newInputStyle;
 
     return (
-      <div className={className} style={wrapperStyle}>
+      <StyledAutosizeInput className={className} style={wrapperStyle}>
         {this.renderStyles()}
         <input {...inputProps} ref={this.inputRef} />
         <div ref={this.sizerRef} style={sizerStyle}>
@@ -238,7 +244,7 @@ class AutosizeInput extends Component {
             {placeholder}
           </div>
         ) : null}
-      </div>
+      </StyledAutosizeInput>
     );
   }
 }
@@ -268,6 +274,7 @@ AutosizeInput.propTypes = {
   style: PropTypes.object, // css styles for the outer element
   value: PropTypes.any // field value
 };
+
 AutosizeInput.defaultProps = {
   minWidth: 1,
   injectStyles: true
@@ -278,10 +285,6 @@ const ExpandingInput = ({ placeholder, onChange, name, value, max }) => (
     placeholder={placeholder}
     value={value}
     onChange={onChange}
-    style={{
-      background: '#eee',
-      borderRadius: 5
-    }}
     name={name}
     inputStyle={{
       border: 'none',

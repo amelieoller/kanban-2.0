@@ -5,8 +5,11 @@ const colors = {
   lightGrey: '#C6C7C6',
   grey: '#73777b',
   darkGrey: '#51575D',
+  darkerGrey: '#4A4C4E',
   black: '#272930',
   darkBlack: '#1C1C20',
+  darkerBlack: '#161615',
+  darkestBlack: '#111210',
   darkRed: '#a03f2c',
   red: '#EA725B',
   lightRed: '#E98D5A',
@@ -48,9 +51,10 @@ const lightColors = {
   negativeBackground: colors.darkGrey,
   listBackground: colors.white,
   borderColor: colors.lighterGrey,
-
   transparentBlack: 'rgba(0, 0, 0, 0.2)',
-  transparentWhite: 'rgba(255, 255, 255, 0.4)'
+  transparentWhite: 'rgba(255, 255, 255, 0.4)',
+  scrollbarBackground: colors.lightGrey,
+  scrollbarForeground: colors.darkGrey
 };
 
 const darkColors = {
@@ -66,18 +70,20 @@ const darkColors = {
   danger: colors.red,
   monotoneAccent: colors.lightGrey,
   mainBackground: colors.darkBlack,
-  backgroundAccent: '#36363bad',
+  backgroundAccent: colors.black,
   easyDifficulty: colors.lighterGrey,
   mediumDifficulty: colors.blue,
   highDifficulty: colors.lighterGrey,
   cardHover: colors.darkBlack,
-  headerBackground: colors.black,
+  headerBackground: colors.darkerBlack,
   cardButtonHover: colors.darkGrey,
   grey: colors.grey,
-  negativeText: '#36363bad',
+  negativeText: colors.darkerBlack,
   negativeBackground: colors.lightGrey,
-  listBackground: '#36363bad',
+  listBackground: colors.darkerBlack,
   borderColor: colors.darkBlack,
+  scrollbarBackground: colors.darkGrey,
+  scrollbarForeground: colors.black,
 
   transparentBlack: 'rgba(0, 0, 0, 0.2)',
   transparentWhite: 'rgba(255, 255, 255, 0.4)'

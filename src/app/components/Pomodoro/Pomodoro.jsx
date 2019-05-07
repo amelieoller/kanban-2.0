@@ -67,14 +67,6 @@ const StyledPomodoro = styled.div`
       svg:not(:last-child) {
         margin-right: 2px;
       }
-
-      .pomodori-increase-input {
-        border: 1px solid #f4f3f3;
-        width: 30px;
-        text-align: center;
-        border-radius: 3px;
-        padding: 4.5px 0px;
-      }
     }
   }
 `;

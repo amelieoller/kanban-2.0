@@ -30,7 +30,7 @@ const HeaderStyles = styled.header`
     align-items: center;
     color: white;
     font-size: 22px;
-    font-weight: 700;
+    font-weight: 100;
     text-decoration: none;
     font-family: 'Pacifico', cursive;
 
