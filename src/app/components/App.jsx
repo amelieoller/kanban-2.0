@@ -28,6 +28,20 @@ const App = ({ user, isGuest }) => {
       ...state,
       focusMode: !state.focusMode
     });
+
+    // const element = document.getElementsByName('CN8_QAFQF')[0];
+    // const headerOffset = 40;
+    // const elementPosition = element.getBoundingClientRect().left;
+    // const offsetPosition = elementPosition - headerOffset;
+    // debugger
+    // window.scrollTo({
+    //   left: offsetPosition,
+    //   behavior: 'smooth'
+    // });
+
+    // document
+    //   .getElementsByName('CN8_QAFQF')[0]
+    //   .scrollIntoView({ inline: 'center', behavior: 'smooth' });
   };
 
   const { isLight, focusMode } = state;
