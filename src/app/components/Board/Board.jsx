@@ -30,6 +30,7 @@ const BoardStyles = styled.div`
       calc(100vh - ${props => `${props.theme.sizes.headerHeight + 15}px`}),
       1fr
     );
+    justify-content: flex-start;
 
     @media ${props => props.theme.media.tablet} {
       grid-template-rows: minmax(
