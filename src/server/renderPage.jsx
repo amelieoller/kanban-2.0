@@ -1,21 +1,20 @@
-import { readFileSync } from "fs";
-import React from "react";
-import { renderToString } from "react-dom/server";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
-import { StaticRouter } from "react-router";
-import { HeadCollector } from "react-head";
-import { resetContext } from "react-beautiful-dnd";
-import App from "../app/components/App";
-import rootReducer from "../app/reducers";
+import { readFileSync } from 'fs';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { StaticRouter } from 'react-router';
+import { HeadCollector } from 'react-head';
+import { resetContext } from 'react-beautiful-dnd';
+import { ServerStyleSheet } from 'styled-components'; // <-- importing ServerStyleSheet
+import App from '../app/components/App';
+import rootReducer from '../app/reducers';
 
 // Get the manifest which contains the names of the generated files. The files contain hashes
 // that change every time they are updated, which enables aggressive caching.
 const manifest = JSON.parse(
-  readFileSync(`./dist/public/manifest.json`, "utf8")
+  readFileSync(`./dist/public/manifest.json`, 'utf8')
 );
-
-const css = readFileSync("./dist/public/main.css", "utf8");
 
 const renderPage = (req, res) => {
   // Put initialState (which contains board state) into a redux store that will be passed to the client
@@ -26,16 +25,22 @@ const renderPage = (req, res) => {
   const headTags = [];
   resetContext();
 
+  const sheet = new ServerStyleSheet(); // <-- creating stylesheet
+
   // This is where the magic happens
   const appString = renderToString(
-    <HeadCollector headTags={headTags}>
-      <Provider store={store}>
-        <StaticRouter location={req.url} context={context}>
-          <App />
-        </StaticRouter>
-      </Provider>
-    </HeadCollector>
+    sheet.collectStyles(
+      <HeadCollector headTags={headTags}>
+        <Provider store={store}>
+          <StaticRouter location={req.url} context={context}>
+            <App />
+          </StaticRouter>
+        </Provider>
+      </HeadCollector>
+    )
   );
+
+  const css = sheet.getStyleTags();
 
   const preloadedState = store.getState();
 
@@ -63,7 +68,7 @@ const renderPage = (req, res) => {
       <script>
         window.PRELOADED_STATE = ${JSON.stringify(preloadedState)}
       </script>
-      <script src=${manifest["main.js"]}></script>
+      <script src=${manifest['main.js']}></script>
     </html>
   `;
   res.send(html);
