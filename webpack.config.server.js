@@ -1,43 +1,43 @@
-const path = require("path");
-const nodeExternals = require("webpack-node-externals");
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  name: "server",
-  target: "node",
+  name: 'server',
+  target: 'node',
   externals: [nodeExternals()],
-  entry: "./src/server/server.js",
+  entry: './src/server/server.js',
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: "server.js",
-    libraryTarget: "commonjs2"
+    path: path.join(__dirname, 'dist'),
+    filename: 'server.js',
+    libraryTarget: 'commonjs2'
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         use: {
-          loader: "babel-loader"
+          loader: 'babel-loader'
         },
         exclude: /node_modules/
       },
       {
         test: /\.(css|scss)$/,
-        loader: "ignore-loader"
+        loader: 'ignore-loader'
       },
       {
-        test: /\.(woff|woff2|eot|ttf)$/,
-        loader: "url-loader?limit=100000"
+        test: /\.(woff|woff2|eot)$/,
+        loader: 'url-loader?limit=100000'
       },
       {
-        test: /\.(png|jpg|gif|mp3)$/,
+        test: /\.(png|jpg|gif|mp3|ttf)$/,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               emitFile: false,
               limit: 4096,
-              name: "[name].[hash:6].[ext]",
-              publicPath: "/static/images/"
+              name: '[name].[hash:6].[ext]',
+              publicPath: '/static/images/'
             }
           }
         ]
@@ -45,19 +45,19 @@ module.exports = {
       {
         test: /\.svg$/,
         use: {
-          loader: "svg-url-loader",
+          loader: 'svg-url-loader',
           options: {
             noquotes: true,
             emitFile: false,
             limit: 4096,
-            name: "[name].[hash:6].[ext]",
-            outputPath: "images/"
+            name: '[name].[hash:6].[ext]',
+            outputPath: 'images/'
           }
         }
       }
     ]
   },
   resolve: {
-    extensions: [".js", ".jsx"]
+    extensions: ['.js', '.jsx']
   }
 };

@@ -5,6 +5,8 @@ import { Title } from 'react-head';
 import { FiUser, FiGithub } from 'react-icons/fi';
 import styled from 'styled-components';
 import googleLogo from '../../assets/images/google-logo.svg';
+import backgroundImageLarge from '../../assets/images/background-image-large.jpg';
+import backgroundImageSmall from '../../assets/images/background-image-small.jpg';
 
 const LandingPageStyles = styled.div`
   height: 100vh;
@@ -83,9 +85,13 @@ const LandingPageStyles = styled.div`
   }
 
   .image-area {
-    background-image: url('https://images.unsplash.com/photo-1471455558438-c1e9d5854d85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80');
+    background-image: url(${backgroundImageLarge});
     background-size: cover;
-    background-position: center;
+    background-position: 55% 100%;
+
+    @media ${props => props.theme.media.tablet} {
+      background-image: url(${backgroundImageSmall});
+    }
 
     .github-icon {
       position: absolute;

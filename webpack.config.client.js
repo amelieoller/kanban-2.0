@@ -60,11 +60,11 @@ module.exports = {
         ]
       },
       {
-        test: /\.(woff|woff2|eot|ttf)$/,
+        test: /\.(woff|woff2|eot)$/,
         loader: 'url-loader?limit=100000'
       },
       {
-        test: /\.(png|jpg|gif|mp3)$/,
+        test: /\.(png|jpg|gif|mp3|ttf)$/,
         use: [
           {
             loader: 'url-loader',
