@@ -27,7 +27,7 @@ const HomeStyles = styled.div`
     padding: 10px;
     border-radius: 6px;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 500;
     transition: background 0.1s;
     cursor: pointer;
     display: inline-flex;
@@ -81,7 +81,7 @@ const HomeStyles = styled.div`
     padding: 10px;
     border-radius: 6px;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 500;
     transition: background 0.1s;
     cursor: pointer;
     margin-bottom: 20px;
@@ -116,7 +116,7 @@ const HomeStyles = styled.div`
     background: ${props => props.theme.colors.success};
     color: white;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 500;
     transition: background 0.2s;
     cursor: pointer;
   }
@@ -135,7 +135,7 @@ const HomeStyles = styled.div`
     color: inherit;
     font-family: inherit;
     font-size: inherit;
-    font-weight: 700;
+    font-weight: 500;
     overflow: hidden;
     resize: none;
   }

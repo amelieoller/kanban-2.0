@@ -7,8 +7,6 @@ import { BrowserRouter } from 'react-router-dom';
 import rootReducer from './app/reducers';
 import persistMiddleware from './app/middleware/persistMiddleware';
 import App from './app/components/App';
-import 'typeface-roboto';
-import 'typeface-pacifico';
 
 // Extract initial redux state received from the server
 const preloadedState = window.PRELOADED_STATE;

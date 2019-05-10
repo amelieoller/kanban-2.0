@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 import CardBadges from '../CardBadges';
 import CardOptions from './CardOptions';
 import { findCheckboxes } from '../utils';
-import './CardModal.scss';
 
 class CardModal extends Component {
   static propTypes = {

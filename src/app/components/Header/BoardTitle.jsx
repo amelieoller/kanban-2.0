@@ -9,7 +9,7 @@ const BoardTitleInput = styled.input`
   color: inherit;
   background: inherit;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
   font-family: inherit;
 `;
 
@@ -40,7 +40,7 @@ const BoardTitleButton = styled.button`
     text-overflow: ellipsis;
     overflow-wrap: break-word;
     white-space: nowrap;
-    font-weight: 300;
+    font-weight: 400;
   }
 `;
 

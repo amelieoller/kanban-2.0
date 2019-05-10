@@ -64,7 +64,7 @@ const CardOptionsStyles = styled.div`
       border: 0;
       border-radius: 3px;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 500;
       transition: background 0.2s;
       cursor: pointer;
     }

@@ -73,7 +73,7 @@ const HabitStyles = styled.li`
       position: relative;
       top: -5px;
       color: ${props => props.theme.colors.mainAccent};
-      font-weight: 700;
+      font-weight: 500;
     }
   }
 `;

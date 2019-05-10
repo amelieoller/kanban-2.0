@@ -7664,16 +7664,6 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeface-pacifico@^0.0.54:
-  version "0.0.54"
-  resolved "https://registry.yarnpkg.com/typeface-pacifico/-/typeface-pacifico-0.0.54.tgz#fe133a690bdf066ad14213c18939dc6c4e5e51e6"
-  integrity sha512-HLbWkc+EGRMLmExl1Z6wn84t5pZNIK93rtOh0B4ZgLnXgNh8Ev3uexXM8UrkHy7Jslhvw5X2Uj//rTPSNm9gEQ==
-
-typeface-roboto@0.0.54:
-  version "0.0.54"
-  resolved "https://registry.yarnpkg.com/typeface-roboto/-/typeface-roboto-0.0.54.tgz#8f02c9a18d1cfa7f49381a6ff0d21ff061f38ad2"
-  integrity sha512-sOFA1FXgP0gOgBYlS6irwq6hHYA370KE3dPlgYEJHL3PJd5X8gQE0RmL79ONif6fL5JZuGDj+rtOrFeOqz5IZQ==
-
 uid-safe@~2.1.5:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/uid-safe/-/uid-safe-2.1.5.tgz#2b3d5c7240e8fc2e58f8aa269e5ee49c0857bd3a"

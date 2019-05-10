@@ -18,7 +18,7 @@ const DayPickerStyles = styled.div`
       border: 0;
       border-radius: 3px;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 500;
       transition: background 0.2s;
       cursor: pointer;
     }
@@ -195,7 +195,7 @@ const DayPickerStyles = styled.div`
 
   .DayPicker-Day--today {
     color: #d0021b;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   .DayPicker-Day--outside {
