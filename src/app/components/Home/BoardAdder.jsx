@@ -85,12 +85,14 @@ const BoardAdder = ({ dispatch, history, userId }) => {
           onChange={handleChange}
           spellCheck={false}
         />
-        <input
-          type="submit"
-          value="Create"
+        <button
           className="submit-board-button"
+          type="button"
           disabled={title === ''}
-        />
+          aria-label="Create Board"
+        >
+          Create
+        </button>
       </form>
     </ClickOutside>
   ) : (

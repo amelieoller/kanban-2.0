@@ -105,7 +105,7 @@ const Header = ({
 }) => (
   <HeaderStyles>
     <Link to="/" className="header-title no-focus-mode">
-      <img src={kanbanLogo} alt="React Kanban logo" />
+      <img src={kanbanLogo} alt="Logo - Navigate Back to Board Overview" />
       &nbsp;Kanban 2.0
     </Link>
     <div className="header-right-side">
