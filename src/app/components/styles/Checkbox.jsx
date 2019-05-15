@@ -53,8 +53,8 @@ const StyledCheckbox = styled.div`
     &:checked {
       + label {
         &:before {
-          background-color: ${props => props.theme.colors.mainAccent};
-          border-color: ${props => props.theme.colors.mainAccent};
+          background-color: ${props => props.theme.colors.primary};
+          border-color: ${props => props.theme.colors.primary};
         }
         &:after {
           transform: scale(1, 1) rotate(-45deg) translateZ(0);

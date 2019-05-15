@@ -15,7 +15,7 @@ const BoardStyles = styled.div`
   height: 100%;
   overflow-y: scroll;
   align-content: space-between;
-  background: ${props => props.theme.colors.mainBackground};
+  background: ${props => props.theme.colors.background};
   max-height: 100vh;
 
   .no-focus-mode {

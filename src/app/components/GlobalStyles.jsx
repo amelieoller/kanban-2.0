@@ -36,6 +36,8 @@ const GlobalStyles = createGlobalStyle`
 		margin: 0;
 		font-family: 'Roboto', sans-serif;
 		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 
 	#app {
@@ -68,7 +70,7 @@ const GlobalStyles = createGlobalStyle`
     display: block;
     height: 1px;
     border: 0;
-    border-top: 1px solid ${props => props.theme.colors.mainBackground};
+    border-top: 1px solid ${props => props.theme.colors.background};
     padding: 0;
     margin: 2px 0;
 	}
@@ -81,7 +83,7 @@ const GlobalStyles = createGlobalStyle`
 		text-transform: uppercase;
 
 		.number {
-			color: ${props => props.theme.colors.mainAccent};
+			color: ${props => props.theme.colors.primary};
 			font-size: 17px;
 			font-family: "Pacifico", cursive;
 		}
@@ -147,7 +149,7 @@ const GlobalStyles = createGlobalStyle`
 	.alert-error {
     background-color: #ffeeeb;
     border-color: #ffded9;
-    color: ${props => props.theme.colors.mainAccent};
+    color: ${props => props.theme.colors.primary};
 	}
 
 	.small-button {
@@ -162,12 +164,12 @@ const GlobalStyles = createGlobalStyle`
 		color: ${props => props.theme.colors.text};
 
 		&.selected {
-			background-color: ${props => props.theme.colors.mainAccent};
+			background-color: ${props => props.theme.colors.primary};
 			color: ${props => props.theme.colors.white};
 		}
 
 		&:hover {
-			background-color: ${props => props.theme.colors.mainAccent};
+			background-color: ${props => props.theme.colors.primary};
 			color: ${props => props.theme.colors.white};
 		}
 

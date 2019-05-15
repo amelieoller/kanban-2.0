@@ -54,7 +54,7 @@ const StyledPomodoro = styled.div`
         padding-right: 10px;
 
         .done {
-          color: ${props => props.theme.colors.mainAccent};
+          color: ${props => props.theme.colors.primary};
           font-size: 25px;
           padding-right: 2px;
         }

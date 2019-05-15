@@ -25,8 +25,9 @@ const ListStyles = styled.div`
     border-radius: ${props => props.theme.sizes.borderRadius};
     font-size: 14px;
     transition: box-shadow 0.15s, background 0.3s;
-    background: ${props => props.theme.colors.listBackground};
-    padding: 6px;
+    background: ${props => props.theme.colors.elevatedOne};
+    padding-top: 6px;
+    box-shadow: ${props => props.theme.common.boxShadowOne};
 
     @media ${props => props.theme.media.tablet} {
       max-height: calc(100vh - 310px);
@@ -38,14 +39,15 @@ const ListStyles = styled.div`
   }
 
   .list--drag {
-    box-shadow: ${props => props.theme.common.bsDragging} !important;
+    box-shadow: ${props => props.theme.common.boxShadowThree} !important;
   }
 
   .cards-wrapper {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-top: 3px;
+    padding: 3px 6px;
+    margin-bottom: 6px;
   }
 
   .cards {

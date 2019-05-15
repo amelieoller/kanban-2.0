@@ -16,8 +16,8 @@ const SidebarStyles = styled.div`
   left: 0;
   margin-top: ${props => `${props.theme.sizes.headerHeight}px`};
   overflow: scroll;
-  box-shadow: 5px 0 10px 0px #55555529;
-  background: ${props => props.theme.colors.negativeText};
+  box-shadow: ${props => props.theme.common.boxShadowTwo};
+  background: ${props => props.theme.colors.elevatedThree};
   display: grid;
   grid-template-columns: ${props => `${props.theme.sizes.sidebarWidth}px`};
   grid-auto-rows: max-content;

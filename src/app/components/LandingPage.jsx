@@ -22,7 +22,7 @@ const LandingPageStyles = styled.div`
 
     .landing-page-heading {
       font-family: 'Pacifico';
-      color: ${props => props.theme.colors.mainAccent};
+      color: ${props => props.theme.colors.primary};
       font-size: 30px;
     }
 
@@ -105,7 +105,7 @@ const LandingPageStyles = styled.div`
         transition: stroke 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover {
-          stroke: ${props => props.theme.colors.mainAccent};
+          stroke: ${props => props.theme.colors.primary};
         }
       }
     }

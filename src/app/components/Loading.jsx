@@ -53,7 +53,7 @@ const LoadingStyles = styled.div`
   }
 
   span:nth-child(2) {
-    background: ${props => props.theme.colors.mainAccent};
+    background: ${props => props.theme.colors.primary};
     animation: ${shuffleTwo} 1.2s infinite linear;
   }
 

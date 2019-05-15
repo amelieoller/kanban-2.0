@@ -17,7 +17,7 @@ const EventsStyles = styled.div`
   line-height: 0.9rem;
 
   .currently-in-meeting {
-    color: ${props => props.theme.colors.mainAccent};
+    color: ${props => props.theme.colors.primary};
     margin-bottom: 0.7rem;
 
     .meeting {

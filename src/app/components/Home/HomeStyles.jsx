@@ -7,7 +7,7 @@ const HomeStyles = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   align-content: flex-start;
-  background: ${props => props.theme.colors.mainBackground};
+  background: ${props => props.theme.colors.background};
 
   .main-content {
     padding: 60px 20px;
@@ -35,14 +35,14 @@ const HomeStyles = styled.div`
     color: white;
     overflow-wrap: break-word;
     text-decoration: none;
-    background: ${props => props.theme.colors.mainBackground};
+    background: ${props => props.theme.colors.background};
     border: 1px solid ${props => props.theme.colors.white};
   }
 
   .board-link:hover,
   .board-link:focus {
     &.light {
-      background: ${props => props.theme.colors.mainBackground};
+      background: ${props => props.theme.colors.background};
     }
 
     &.dark {

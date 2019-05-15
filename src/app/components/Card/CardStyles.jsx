@@ -7,22 +7,26 @@ const CardStyles = styled.div`
     margin: 5px 0 0 0;
     border-radius: 3px;
     color: ${props => props.theme.colors.text};
-    background: ${props => props.theme.colors.backgroundAccent};
-    box-shadow: ${props => props.theme.common.bs};
-    border: 1px solid ${props => props.theme.colors.mainBackground};
+    background: ${props => props.theme.colors.elevatedTwo};
+    box-shadow: ${props => props.theme.common.boxShadowOne};
     font-size: 15px;
     overflow-wrap: break-word;
     transition: box-shadow 0.15s;
     user-select: none;
     cursor: pointer !important;
-    border-right: 3px solid ${props => props.theme.colors.mainBackground};
-    border-left: 3px solid ${props => props.theme.colors.mainBackground};
+    border-right: 3px solid ${props => props.theme.colors.background};
+    border-left: 3px solid ${props => props.theme.colors.background};
     display: flex;
     justify-content: space-between;
+
+    &:hover {
+      background-color: ${props => props.theme.colors.elevatedThree};
+      box-shadow: ${props => props.theme.common.boxShadowTwo};
+    }
   }
 
   .difficulty-1.card-title {
-    border-right-color: ${props => props.theme.colors.mainBackground};
+    border-right-color: ${props => props.theme.colors.background};
   }
 
   .difficulty-2.card-title {
@@ -30,7 +34,7 @@ const CardStyles = styled.div`
   }
 
   .difficulty-3.card-title {
-    border-right-color: ${props => props.theme.colors.mainAccent};
+    border-right-color: ${props => props.theme.colors.primary};
   }
 
   .card-title-top {
@@ -42,22 +46,19 @@ const CardStyles = styled.div`
   .checkmark {
     color: ${props => props.theme.colors.lightestGrey};
     padding: 9px;
+
+    &:hover {
+      color: ${props => props.theme.colors.success};
+    }
   }
 
-  .card-title:hover {
-    background-color: ${props => props.theme.colors.cardHover};
-  }
-
-  .checkmark:hover {
-    color: ${props => props.theme.colors.success};
-  }
-
-  .card-title:focus {
+  /* .card-title:focus {
     box-shadow: 0px 0px 1px 3px rgb(0, 180, 255);
-  }
+  } */
 
   .card-title--drag {
-    box-shadow: ${props => props.theme.common.bsDragging} !important;
+    background-color: ${props => props.theme.colors.elevatedFour};
+    box-shadow: ${props => props.theme.common.boxShadowThree} !important;
     opacity: 1 !important;
   }
 
@@ -95,7 +96,7 @@ const CardStyles = styled.div`
   }
 
   .within-pomodoro.card-title {
-    border-left: 3px solid ${props => props.theme.colors.success};
+    border-left: 3px solid ${props => props.theme.colors.secondary};
   }
 `;
 

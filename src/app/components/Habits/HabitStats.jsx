@@ -13,7 +13,7 @@ const GraphStyles = styled.div`
   }
 
   .ct-series-a .ct-point {
-    stroke: ${props => props.theme.colors.mainAccent};
+    stroke: ${props => props.theme.colors.primary};
     stroke-width: 8px;
     stroke-linecap: round;
   }
@@ -69,7 +69,7 @@ const ProgressBarStyles = styled.div`
     }
 
     .habit-progress-wrapper {
-      background-color: ${props => props.theme.colors.mainBackground};
+      background-color: ${props => props.theme.colors.background};
       width: 100%;
       float: left;
       margin-right: 15px;

@@ -19,7 +19,7 @@ import SaveButton from '../styles/SaveButton';
 import Checkbox from '../styles/Checkbox';
 
 const SettingsStyles = styled.div`
-  background-color: ${props => props.theme.colors.mainBackground};
+  background-color: ${props => props.theme.colors.background};
   color: ${props => props.theme.colors.text};
   width: 100%;
   min-height: 100%;
@@ -34,7 +34,7 @@ const SettingsStyles = styled.div`
     color: ${props => props.theme.colors.monotoneAccent};
     cursor: pointer;
     padding: 4px;
-    background: ${props => props.theme.colors.mainBackground};
+    background: ${props => props.theme.colors.background};
   }
 
   h1,

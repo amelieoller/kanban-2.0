@@ -17,10 +17,9 @@ const HeaderStyles = styled.header`
   width: 100vw;
   height: ${props => `${props.theme.sizes.headerHeight}px`};
   padding: 5px;
-  background: #555;
   z-index: 2;
   transition: background 0.3s;
-  box-shadow: ${props => props.theme.common.bs};
+  box-shadow: ${props => props.theme.common.boxShadowTwo};
   background: ${props => props.theme.colors.headerBackground};
   position: fixed;
   box-shadow: 0 5px 10px 0px #55555529;

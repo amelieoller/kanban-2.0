@@ -17,7 +17,7 @@ const HabitStyles = styled.li`
   border-radius: 3px;
   color: ${props => props.theme.colors.text};
   background: ${props => props.theme.colors.backgroundAccent};
-  border: 1px solid ${props => props.theme.colors.mainBackground};
+  border: 1px solid ${props => props.theme.colors.background};
   font-size: 15px;
   width: 100%;
   margin: 3px 0;
@@ -34,7 +34,7 @@ const HabitStyles = styled.li`
     height: auto;
     padding: 0;
     margin: 0;
-    color: ${props => props.theme.colors.mainBackground};
+    color: ${props => props.theme.colors.background};
     background: transparent;
   }
 
@@ -72,7 +72,7 @@ const HabitStyles = styled.li`
       font-size: 10px;
       position: relative;
       top: -5px;
-      color: ${props => props.theme.colors.mainAccent};
+      color: ${props => props.theme.colors.primary};
       font-weight: 500;
     }
   }
@@ -132,42 +132,85 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
     habitStats[date].reduce((n, val) => n + (val === card._id), 0);
 
   return (
-    <HabitStyles cardDifficulty={card.difficulty}>
-      <FiCheckCircle
-        className="habit-check"
-        onClick={() => changeHabitStat()}
-      />
-      <span className="habits-card-title">
-        <div
-          className="card-title-html"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: formatMarkdown(card.text)
-          }}
-        />{' '}
-        <span className="habit-done">{habitCount !== 0 && habitCount}</span>
-      </span>
+    <tr>
+      <td className="left">
+        <FiCheckCircle
+          className="habit-check"
+          onClick={() => changeHabitStat()}
+        />
+      </td>
+      <td className="left">
+        <span className="habits-card-title">
+          <div
+            className="card-title-html"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: formatMarkdown(card.text)
+            }}
+          />
+          <span className="habit-done">{habitCount !== 0 && habitCount}</span>
+        </span>
+      </td>
+      <td>
+        <Picker
+          isPickerOpen={isDifficultyPickerOpen}
+          togglePicker={togglePicker}
+          type="Difficulty"
+          icon={<FiFlag className="modal-icon" />}
+        >
+          {[1, 2, 3].map(difficulty => (
+            <span
+              key={difficulty}
+              type="submit"
+              className="picker-button"
+              onClick={() => changeDifficulty(difficulty)}
+            >
+              {difficulty}
+            </span>
+          ))}
+        </Picker>
+      </td>
+      <td>
+        <FiX className="habit-delete" onClick={() => deleteCard(card._id)} />
+      </td>
+    </tr>
 
-      <Picker
-        isPickerOpen={isDifficultyPickerOpen}
-        togglePicker={togglePicker}
-        type="Difficulty"
-        icon={<FiFlag className="modal-icon" />}
-      >
-        {[1, 2, 3].map(difficulty => (
-          <button
-            key={difficulty}
-            type="submit"
-            className="picker-button"
-            onClick={() => changeDifficulty(difficulty)}
-          >
-            {difficulty}
-          </button>
-        ))}
-      </Picker>
+    // <HabitStyles cardDifficulty={card.difficulty}>
+    //   <FiCheckCircle
+    //     className="habit-check"
+    //     onClick={() => changeHabitStat()}
+    //   />
+    //   <span className="habits-card-title">
+    //     <div
+    //       className="card-title-html"
+    //       // eslint-disable-next-line react/no-danger
+    //       dangerouslySetInnerHTML={{
+    //         __html: formatMarkdown(card.text)
+    //       }}
+    //     />{' '}
+    //     <span className="habit-done">{habitCount !== 0 && habitCount}</span>
+    //   </span>
 
-      <FiX className="habit-delete" onClick={() => deleteCard(card._id)} />
-    </HabitStyles>
+    //   <Picker
+    //     isPickerOpen={isDifficultyPickerOpen}
+    //     togglePicker={togglePicker}
+    //     type="Difficulty"
+    //     icon={<FiFlag className="modal-icon" />}
+    //   >
+    //     {[1, 2, 3].map(difficulty => (
+    //       <button
+    //         key={difficulty}
+    //         type="submit"
+    //         className="picker-button"
+    //         onClick={() => changeDifficulty(difficulty)}
+    //       >
+    //         {difficulty}
+    //       </button>
+    //     ))}
+    //   </Picker>
+
+    //   <FiX className="habit-delete" onClick={() => deleteCard(card._id)} />
+    // </HabitStyles>
   );
 };
 

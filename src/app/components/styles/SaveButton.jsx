@@ -7,7 +7,7 @@ const StyledSaveButton = styled.button`
   cursor: pointer;
   color: ${props =>
     props.changed
-      ? props.theme.colors.mainAccent
+      ? props.theme.colors.primary
       : props.theme.colors.monotoneAccent};
   background: transparent;
 

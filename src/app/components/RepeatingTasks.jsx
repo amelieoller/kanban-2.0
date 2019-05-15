@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const RepeatingTasksStyles = styled.div`
   background-color: ${props => props.theme.colors.backgroundAccent};
   padding: 10px;
-  box-shadow: ${props => props.theme.common.bs};
+  box-shadow: ${props => props.theme.common.boxShadowOne};
   max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;

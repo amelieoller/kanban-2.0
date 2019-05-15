@@ -14,7 +14,7 @@ const TaskStatsStyled = styled.div`
   .completed-task-wrapper {
     border-radius: 3px;
     color: ${props => props.theme.colors.text};
-    border: 1px solid ${props => props.theme.colors.mainBackground};
+    border: 1px solid ${props => props.theme.colors.background};
     width: 100%;
     margin: 3px 0;
     padding: 3px;

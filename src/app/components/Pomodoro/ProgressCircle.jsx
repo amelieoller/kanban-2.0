@@ -16,11 +16,11 @@ const ProgressBar = styled(StyledProgressCircle).attrs(props => ({
   strokeDashoffset: props.percentage
 }))`
   transition: stroke-dashoffset 1s cubic-bezier(0.6, 0, 0.4, 1);
-  stroke: ${props => props.theme.colors.mainAccent};
+  stroke: ${props => props.theme.colors.primary};
 `;
 
 const ProgressBackground = styled(StyledProgressCircle)`
-  stroke: ${props => props.theme.colors.mainBackground};
+  stroke: ${props => props.theme.colors.background};
   stroke-dashoffset: 0;
 `;
 
