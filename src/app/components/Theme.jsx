@@ -1,97 +1,137 @@
 const colors = {
-  white: '#FFFFFF',
   lightestGrey: '#F6F6F8',
-  lighterGrey: '#EAECEE',
   lightGrey: '#C6C7C6',
   grey: '#73777b',
   darkGrey: '#51575D',
-  darkerGrey: '#4A4C4E',
   black: '#272930',
-  darkBlack: '#1C1C20',
   darkerBlack: '#161615',
-  darkestBlack: '#111210',
-  darkRed: '#a03f2c',
-  red: '#EA725B',
-  lightRed: '#E98D5A',
-  orange: '#FFC461',
-  yellow: '#FFCD7B',
-  lightGreen: '#6AD08D',
   green: '#06C392',
   darkGreen: '#03926d',
-  lightBlue: '#00A3C0',
   blue: '#0075A3',
-  darkBlue: '#00578a',
-  lightPurple: '#7AB6FF',
-  purple: '#5367CB',
-  darkPurple: '#9C55A4'
+  darkBlue: '#00578a'
 };
 
 const lightColors = {
-  white: colors.white,
+  // Main Background
+  background: '#EEEEEE',
+  surface: '#EEEEEE',
+  // Main Text
+  text: 'rgba(0, 0, 0, 0.87)',
+  textSecondary: 'rgba(0, 0, 0, 0.60)',
+  textDisabled: 'rgba(0, 0, 0, 0.38)',
+
+  // Elevated Background
+  elevatedOne: '#f2f2f2',
+  elevatedTwo: '#fafafa',
+  elevatedThree: '#fcfcfc',
+  elevatedFour: '#fff',
+
+  // Primary Background
+  primary: '#ef5351',
+  primaryLight: '#ff867d',
+  primaryDark: '#b61828',
+  // Primary Text
+  onPrimary: 'rgba(0, 0, 0, 0.87)',
+  onPrimaryLight: 'rgba(0, 0, 0, 0.87)',
+  onPrimaryDark: 'rgba(255, 255, 255, 0.87)',
+
+  // Secondary Background
+  secondary: '#3caaa0',
+  secondaryLight: '#73dcd1',
+  secondaryDark: '#007a72',
+  // Secondary Text
+  onSecondary: 'rgba(0, 0, 0, 0.87)',
+  onSecondaryLight: 'rgba(0, 0, 0, 0.87)',
+  onSecondaryDark: 'rgba(0, 0, 0, 0.87)',
+
+  // Special
+  headerBackground: 'rgba(0, 0, 0, 0.7)',
+  white: '#FFF',
   lightestGrey: colors.lightestGrey,
-  text: colors.darkGrey,
   success: colors.green,
   successHover: colors.darkGreen,
   neutral: colors.blue,
   neutralHover: colors.darkBlue,
-  failure: colors.darkRed,
-  mainAccent: colors.red,
-  danger: colors.red,
   monotoneAccent: colors.lightGrey,
-  mainBackground: colors.lighterGrey,
-  backgroundAccent: colors.white,
-  easyDifficulty: colors.blue,
+  backgroundAccent: '#FFF',
   mediumDifficulty: colors.blue,
-  highDifficulty: colors.lighterGrey,
-  cardHover: colors.lighterGrey,
-  headerBackground: colors.darkGrey,
   cardButtonHover: colors.darkGrey,
   grey: colors.grey,
-  negativeText: colors.white,
-  negativeBackground: colors.darkGrey,
-  listBackground: colors.white,
-  borderColor: colors.lighterGrey,
-  transparentBlack: 'rgba(0, 0, 0, 0.2)',
-  transparentWhite: 'rgba(255, 255, 255, 0.4)',
+  negativeText: '#FFF',
+  listBackground: '#FFF',
+  borderColor: '#EAECEE',
   scrollbarBackground: colors.lightGrey,
-  scrollbarForeground: colors.darkGrey
+  scrollbarForeground: colors.darkGrey,
+  transparentBlack: 'rgba(0, 0, 0, 0.2)',
+  transparentWhite: 'rgba(255, 255, 255, 0.4)'
 };
 
 const darkColors = {
-  white: colors.white,
+  // Main Background
+  background: '#121212',
+  surface: '#1E1E1E',
+  // Main Text
+  text: 'rgba(255, 255, 255, 0.87)',
+  textSecondary: 'rgba(255, 255, 255, 0.60)',
+  textDisabled: 'rgba(255, 255, 255, 0.38)',
+
+  // Elevated Background
+  elevatedOne: '#1E1E1E',
+  elevatedTwo: '#252325',
+  elevatedThree: '#272727',
+  elevatedFour: '#2C2C2C',
+  elevatedFive: '#2E2E2E',
+  elevatedSix: '#333333',
+  elevatedSeven: '#363636',
+  elevatedEight: '#515151',
+
+  // Primary Background
+  primary: '#ea6371',
+  primaryLight: '#ff959f',
+  primaryDark: '#b33146',
+  // Primary Text
+  onPrimary: 'rgba(0, 0, 0, 0.87)',
+  onPrimaryLight: 'rgba(0, 0, 0, 0.87)',
+  onPrimaryDark: 'rgba(0, 0, 0, 0.87)',
+
+  // Secondary Background
+  secondary: '#80cbc4',
+  secondaryLight: '#b2fef7',
+  secondaryDark: '#4f9a94',
+  // Secondary Text
+  onSecondary: 'rgba(0, 0, 0, 0.87)',
+  onSecondaryLight: 'rgba(0, 0, 0, 0.87)',
+  onSecondaryDark: 'rgba(0, 0, 0, 0.87)',
+
+  // Special
+  headerBackground: '#ef5350',
+  white: '#FFF',
   lightestGrey: colors.lightestGrey,
-  text: colors.lightestGrey,
   success: colors.green,
   successHover: colors.darkGreen,
   neutral: colors.blue,
   neutralHover: colors.darkBlue,
-  failure: colors.darkRed,
-  mainAccent: colors.red,
-  danger: colors.red,
   monotoneAccent: colors.lightGrey,
-  mainBackground: colors.darkBlack,
   backgroundAccent: colors.black,
-  easyDifficulty: colors.lighterGrey,
   mediumDifficulty: colors.blue,
-  highDifficulty: colors.lighterGrey,
-  cardHover: colors.darkBlack,
-  headerBackground: colors.darkerBlack,
   cardButtonHover: colors.darkGrey,
   grey: colors.grey,
   negativeText: colors.darkerBlack,
-  negativeBackground: colors.lightGrey,
   listBackground: colors.darkerBlack,
-  borderColor: colors.darkBlack,
+  borderColor: '#1C1C20',
   scrollbarBackground: colors.darkGrey,
   scrollbarForeground: colors.black,
-
   transparentBlack: 'rgba(0, 0, 0, 0.2)',
   transparentWhite: 'rgba(255, 255, 255, 0.4)'
 };
 
 const common = {
-  bs: '0 5px 18px 0 rgba(0, 0, 0, 0.03)',
-  bsDragging: '0 7px 15px 0 rgba(0, 0, 0, 0.08)'
+  boxShadowOne:
+    'rgba(0, 0, 0, 0.2) 0px 1px 3px 0px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 2px 1px -1px',
+  boxShadowTwo:
+    'rgba(0, 0, 0, 0.2) 0px 1px 5px 0px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 3px 1px -2px',
+  boxShadowThree:
+    'rgba(0, 0, 0, 0.2) 0px 1px 8px 0px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 3px 3px -2px'
 };
 
 const sizes = {
