@@ -15,7 +15,7 @@ const HabitStyles = styled.li`
   position: relative;
   box-sizing: border-box;
   border-radius: 3px;
-  color: ${props => props.theme.colors.text};
+  color: ${props => props.theme.colors.textSecondary};
   background: ${props => props.theme.colors.backgroundAccent};
   border: 1px solid ${props => props.theme.colors.background};
   font-size: 15px;
@@ -41,12 +41,7 @@ const HabitStyles = styled.li`
   .habit-check {
     cursor: pointer;
     padding-right: 5px;
-    color: ${props => props.theme.colors.monotoneAccent};
     font-size: 20px;
-
-    &:hover {
-      color: ${props => props.theme.colors.success};
-    }
   }
 
   .habit-delete {

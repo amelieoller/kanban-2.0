@@ -161,10 +161,10 @@ const HabitStats = ({ stats, cards, dispatch, boardId, habitGoals }) => {
   return (
     <>
       <ProgressBarStyles>
-        <div className="header">
+        {/* <div className="header">
           Habits · <span className="number">{calculateSeries(0)}</span>
         </div>
-        <hr />
+        <hr /> */}
         <div className="habit-target">
           <div className="habit-progress-wrapper">
             <div
