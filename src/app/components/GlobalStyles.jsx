@@ -157,20 +157,22 @@ const GlobalStyles = createGlobalStyle`
 		background-color: transparent;
 		padding: 3px 4px;
 		border-radius: 3px;
-		border: 1px solid ${props => props.theme.colors.borderColor};
+		border: 1px solid ${props => props.theme.colors.textDisabled};
 		transition: background 0.5s;
 		cursor: pointer;
 		min-width: 24px;
 		color: ${props => props.theme.colors.text};
 
 		&.selected {
-			background-color: ${props => props.theme.colors.primary};
-			color: ${props => props.theme.colors.white};
+			background-color: ${props => props.theme.colors.secondary};
+			color: ${props => props.theme.colors.onSecondary};
+			border-color: ${props => props.theme.colors.onSecondary};
 		}
 
 		&:hover {
-			background-color: ${props => props.theme.colors.primary};
-			color: ${props => props.theme.colors.white};
+			background-color: ${props => props.theme.colors.secondary};
+			color: ${props => props.theme.colors.onSecondary};
+			border-color: ${props => props.theme.colors.onSecondary};
 		}
 
 		@media ${props => props.theme.media.phone} {

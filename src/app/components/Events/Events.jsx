@@ -28,17 +28,13 @@ const EventsStyles = styled.div`
   .next-meeting {
     margin-bottom: 0.7rem;
 
-    .meeting-prefix {
-      font-size: 1rem;
-    }
-
     .meeting {
-      font-size: 0.85rem;
+      font-weight: bold;
     }
   }
 
   .more-meetings {
-    color: ${props => props.theme.colors.monotoneAccent};
+    color: ${props => props.theme.colors.textSecondary};
     margin: 0;
 
     .meeting:not(:last-child) {
@@ -165,7 +161,7 @@ class Events extends Component {
           )}
 
           <div className="next-meeting">
-            <span className="cursive-header meeting-prefix">
+            <span className="meeting-prefix">
               {`Next meeting is ${nextEventText}: `}
             </span>
 

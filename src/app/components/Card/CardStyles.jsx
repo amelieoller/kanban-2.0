@@ -14,8 +14,8 @@ const CardStyles = styled.div`
     transition: box-shadow 0.15s;
     user-select: none;
     cursor: pointer !important;
-    border-right: 3px solid ${props => props.theme.colors.background};
-    border-left: 3px solid ${props => props.theme.colors.background};
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
     display: flex;
     justify-content: space-between;
 
@@ -26,7 +26,7 @@ const CardStyles = styled.div`
   }
 
   .difficulty-1.card-title {
-    border-right-color: ${props => props.theme.colors.background};
+    border-right-color: transparent;
   }
 
   .difficulty-2.card-title {

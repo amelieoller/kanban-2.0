@@ -13,7 +13,7 @@ const ListStyles = styled.div`
   flex-direction: column;
   user-select: none;
   scroll-snap-align: center;
-  margin: 10px 0;
+  margin: 15px 0;
   width: ${props => props.theme.sizes.listWidth};
 
   .list {

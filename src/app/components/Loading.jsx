@@ -33,7 +33,7 @@ const shuffleTwo = keyframes`
 `;
 
 const LoadingStyles = styled.div`
-  margin: 20px auto;
+  height: max-content;
 
   h1 {
     font-size: 16px;
@@ -58,7 +58,7 @@ const LoadingStyles = styled.div`
   }
 
   span:nth-child(3) {
-    background: ${props => props.theme.colors.neutral};
+    background: ${props => props.theme.colors.secondary};
     z-index: 100;
   }
 

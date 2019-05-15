@@ -19,10 +19,9 @@ const HeaderStyles = styled.header`
   padding: 5px;
   z-index: 2;
   transition: background 0.3s;
-  box-shadow: ${props => props.theme.common.boxShadowTwo};
+  box-shadow: ${props => props.theme.common.boxShadowThree};
   background: ${props => props.theme.colors.headerBackground};
   position: fixed;
-  box-shadow: 0 5px 10px 0px #55555529;
 
   .header-title {
     display: inline-flex;
