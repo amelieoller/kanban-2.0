@@ -6,9 +6,14 @@ import classnames from 'classnames';
 import styled from 'styled-components';
 
 const TaskStatsStyled = styled.div`
-  width: 20%;
-  @media (min-width: 768px) {
-    width: 50%;
+  ul {
+    margin: 0;
+  }
+
+  h3 {
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-weight: 400;
   }
 
   .completed-task-wrapper {
@@ -23,47 +28,40 @@ const TaskStatsStyled = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    &:hover {
-      .completed-task-text {
-        white-space: normal;
-      }
-    }
-
     .completed-task-text {
       font-size: 15px;
       width: 100%;
       margin: 0;
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      &:hover {
-        white-space: normal;
-      }
+      color: ${props => props.theme.colors.textSecondary};
     }
 
     .card-icon {
       cursor: pointer;
       min-width: 16px;
-      stroke: ${props => props.theme.colors.monotoneAccent};
+      stroke: ${props => props.theme.colors.primary};
+      font-size: 14px;
+
       &:hover {
         stroke: ${props => props.theme.colors.text};
       }
     }
 
-    .card-icon-starred {
+    /* .card-icon-starred {
       fill: #ffcb34;
       stroke: #ffcb34;
       &:hover {
         fill: #ffb934;
         stroke: #ffb934;
       }
-    }
+    } */
   }
 
   .stat-badges {
     display: flex;
     justify-content: space-between;
-    margin: 10px 0;
+    margin: 5px 0;
     flex-wrap: wrap;
 
     .minute-badges {
@@ -124,7 +122,7 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
     if (filteredCards.length !== 0) {
       return (
         <>
-          <p className="cursive-header">{text}</p>
+          <h3>{text}</h3>
           <ul>
             {filteredCards.map(card => (
               <li
@@ -149,12 +147,12 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
                     />
                   </>
                 )}
-                <FiStar
+                {/* <FiStar
                   className={
                     card.starred ? 'card-icon card-icon-starred' : 'card-icon'
                   }
                   onClick={() => handleStarClick(card._id)}
-                />
+                /> */}
               </li>
             ))}
           </ul>
@@ -172,10 +170,10 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
 
   return (
     <TaskStatsStyled className="no-focus-mode">
-      <div className="header">
+      {/* <div className="header">
         Task Stats · <span className="number">{accumulated || 0}</span>
       </div>
-      <hr />
+      <hr /> */}
       {cards &&
         (cards.length !== 0 && (
           <>
