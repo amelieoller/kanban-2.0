@@ -7,6 +7,7 @@ import Events from './Events/Events';
 import TaskStats from './TaskStats';
 // import RepeatingTasks from './RepeatingTasks';
 import Habits from './Habits/Habits';
+import ExpandablePanels from './Molecules/ExpandablePanels';
 
 const SidebarStyles = styled.div`
   height: 100%;
@@ -51,7 +52,7 @@ const SidebarStyles = styled.div`
 
     @media ${props => props.theme.media.tablet} {
       &:nth-child(odd) {
-        border-right: 1px solid ${props => props.theme.colors.borderColor};
+        border-right: 1px solid ${props => props.theme.colors.textDisabled};
       }
     }
   }
@@ -75,39 +76,48 @@ const Sidebar = ({
 
   return (
     <SidebarStyles isKeyboardOpen={isKeyboardOpen}>
-      <PomodoroWrapper
-        pomodoro={pomodoro}
-        dispatch={dispatch}
-        boardId={boardId}
-        pomodoriToEvent={pomodoriToEvent}
-        changeFocusMode={changeFocusMode}
-        pomodoroFocusMode={pomodoroFocusMode}
-      />
-      {user && eventCalendarId ? (
-        <Events
-          user={user}
+      <ExpandablePanels>
+        <PomodoroWrapper
+          pomodoro={pomodoro}
           dispatch={dispatch}
-          eventCalendarId={eventCalendarId}
-          eventFilter={eventFilter}
-          setPomodoriToEvent={setPomodoriToEvent}
+          boardId={boardId}
+          pomodoriToEvent={pomodoriToEvent}
+          changeFocusMode={changeFocusMode}
+          pomodoroFocusMode={pomodoroFocusMode}
+          name="Pomodoro"
+          defaultOpen
         />
-      ) : (
-        <p className="no-calendar">
-          In order to use event features, make sure you are signed in and have
-          added a Calendar ID in the settings panel.
-        </p>
-      )}
 
-      {cards.length !== 0 && (
-        <TaskStats
-          cards={cards}
-          completedListId={completedListId}
-          dispatch={dispatch}
-          categories={categories}
-        />
-      )}
+        {user && eventCalendarId ? (
+          <Events
+            user={user}
+            dispatch={dispatch}
+            eventCalendarId={eventCalendarId}
+            eventFilter={eventFilter}
+            setPomodoriToEvent={setPomodoriToEvent}
+            name="Events"
+            defaultOpen
+          />
+        ) : (
+          <p className="no-calendar">
+            In order to use event features, make sure you are signed in and have
+            added a Calendar ID in the settings panel.
+          </p>
+        )}
 
-      <Habits boardId={boardId} />
+        {cards.length !== 0 && (
+          <TaskStats
+            cards={cards}
+            completedListId={completedListId}
+            dispatch={dispatch}
+            categories={categories}
+            name="Tasks"
+          />
+        )}
+
+        <Habits boardId={boardId} name="Habits" />
+      </ExpandablePanels>
+
       {/* <RepeatingTasks pomodoro={pomodoro} boardId={boardId} /> */}
     </SidebarStyles>
   );
