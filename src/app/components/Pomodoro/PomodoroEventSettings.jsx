@@ -1,17 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FiSun } from 'react-icons/fi';
 import PropTypes from 'prop-types';
+import SimpleSlider from '../Molecules/SimpleSlider';
 
 const StyledPomodoroEventSettings = styled.div`
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   margin-top: 1.8rem;
-
-  *:not(:last-child) {
-    margin-right: 0.2rem;
-  }
 
   .pomodori-increase-input {
     border: 1px solid #f4f3f3;
@@ -26,20 +22,25 @@ const StyledPomodoroEventSettings = styled.div`
     color: ${props => props.theme.colors.text};
     font-style: italic;
   }
+
+  button.small-button {
+    font-size: 14px;
+    margin-right: 8px;
+  }
 `;
 
-const PomodoriText = pomodoriToEvent => {
-  let text = '';
+// const PomodoriText = pomodoriToEvent => {
+//   let text = '';
 
-  if (pomodoriToEvent) {
-    text = 'Too many Pomodori to count...';
-  } else if (pomodoriToEvent === 1) {
-    text = `${pomodoriToEvent} Pomodoro before next meeting`;
-  } else {
-    text = `${pomodoriToEvent} Pomodori before next meeting`;
-  }
-  return text;
-};
+//   if (pomodoriToEvent) {
+//     text = 'Too many Pomodori to count...';
+//   } else if (pomodoriToEvent === 1) {
+//     text = `${pomodoriToEvent} Pomodoro before next meeting`;
+//   } else {
+//     text = `${pomodoriToEvent} Pomodori before next meeting`;
+//   }
+//   return text;
+// };
 
 const PomodoroEventSettings = ({
   pomodoro,
@@ -49,27 +50,25 @@ const PomodoroEventSettings = ({
   pomodoriToEvent
 }) => (
   <StyledPomodoroEventSettings>
-    <FiSun
+    <button
       className={
         pomodoro.showDayPomo ? 'small-button selected' : 'small-button'
       }
       onClick={() => handleSettingsChange('showDayPomo', !pomodoro.showDayPomo)}
-    />
-    <input
-      className="pomodori-increase-input"
-      type="number"
-      id="pomodori"
-      placeholder="Pomodori"
+      type="button"
+    >
+      {pomodori}
+    </button>
+
+    <SimpleSlider
       value={pomodori}
-      onChange={e => {
-        handlePomodoriChange(e);
-        handleSettingsChange('pomodori', parseInt(e.target.value, 10));
+      onChange={(e, value) => {
+        handlePomodoriChange(parseInt(value, 10));
+      }}
+      onDragEnd={value => {
+        handleSettingsChange('pomodori', parseInt(value, 10));
       }}
     />
-
-    <span className="pomodori-possible">
-      {pomodoriToEvent && PomodoriText(pomodoriToEvent)}
-    </span>
   </StyledPomodoroEventSettings>
 );
 

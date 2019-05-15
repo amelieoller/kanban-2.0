@@ -199,9 +199,9 @@ class PomodoroWrapper extends Component {
     this.setState({ opened: bool });
   };
 
-  handlePomodoriChange = e => {
+  handlePomodoriChange = pomodori => {
     this.setState({
-      pomodori: parseInt(e.target.value, 10)
+      pomodori
     });
   };
 
