@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FiClock, FiCoffee } from 'react-icons/fi';
 import PropTypes from 'prop-types';
 import ProgressCircle from './ProgressCircle';
+import Icon from '../Atoms/Icon';
 
 const StyledPomodoro = styled.div`
   color: ${props => props.theme.colors.text};
@@ -22,21 +23,13 @@ const StyledPomodoro = styled.div`
     width: 100%;
     top: 30%;
 
-    .start-countdown-wrapper {
-      cursor: pointer;
+    .countdown-timer {
+      font-weight: 200;
       font-size: 3rem;
+    }
 
-      @media ${props => props.theme.media.phone} {
-        font-size: 2.7rem;
-      }
-
-      .countdown-timer {
-        font-weight: 200;
-      }
-
-      .current-pomodoro-icon {
-        margin-top: 0.5rem;
-      }
+    .current-pomodoro-icon {
+      margin-top: 0.5rem;
     }
 
     .pomodoro-footer {
@@ -54,7 +47,7 @@ const StyledPomodoro = styled.div`
         padding-right: 10px;
 
         .done {
-          color: ${props => props.theme.colors.primary};
+          color: ${props => props.theme.colors.textSecondary};
           font-size: 25px;
           padding-right: 2px;
         }
@@ -94,21 +87,32 @@ const Pomodoro = ({
   return (
     <StyledPomodoro className="bar-wrapper focus-mode">
       <div className="pomodoro-inside">
-        <div
-          className="start-countdown-wrapper"
-          onClick={() => startCountdown()}
-          onKeyDown={() => startCountdown()}
-          tabIndex={0}
-          role="button"
-        >
-          <span className="countdown-timer">{`${minutes}:${
-            seconds < 10 ? `0${seconds}` : seconds
-          }`}</span>
-          <div className="current-pomodoro-icon">
-            {sessionLength === 25 ? <FiClock /> : <FiCoffee />}
-          </div>
+        <span className="countdown-timer">{`${minutes}:${
+          seconds < 10 ? `0${seconds}` : seconds
+        }`}</span>
+        <div className="current-pomodoro-icon">
+          {sessionLength === 25 ? (
+            <Icon
+              onClick={() => startCountdown()}
+              fontSize={3}
+              color="primary"
+              fill="secondary"
+              round
+            >
+              <FiClock />
+            </Icon>
+          ) : (
+            <Icon
+              onClick={() => startCountdown()}
+              fontSize={3}
+              color="primary"
+              fill="secondary"
+              round
+            >
+              <FiCoffee />
+            </Icon>
+          )}
         </div>
-
         {timePaused || !timeInterval ? (
           <div className="pomodoro-footer">
             <span className="done-wrapper">

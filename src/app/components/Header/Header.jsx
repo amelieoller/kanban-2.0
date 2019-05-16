@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { FiUser, FiLogOut, FiLogIn } from 'react-icons/fi';
 import styled from 'styled-components';
 import kanbanLogo from '../../../assets/images/logo.png';
-import HeaderButtonStyles from '../styles/HeaderButtonStyles';
+import IconButton from '../Atoms/IconButton';
 import BoardHeader from './BoardHeader';
 
 const HeaderStyles = styled.header`
@@ -99,7 +99,8 @@ const Header = ({
   changeTheme,
   setBoardColor,
   focusMode,
-  changeFocusMode
+  changeFocusMode,
+  history
 }) => (
   <HeaderStyles>
     <Link to="/" className="header-title no-focus-mode">
@@ -126,18 +127,22 @@ const Header = ({
         <FiUser className="guest-icon no-focus-mode" />
       )}
       {user ? (
-        <a href="/auth/signout" className="no-focus-mode">
-          <HeaderButtonStyles>
-            <FiLogOut />
-          </HeaderButtonStyles>
-        </a>
+        <IconButton
+          onClick={() => (window.location.href = '/auth/signout')}
+          color="background"
+          className="no-focus-mode"
+        >
+          <FiLogOut />
+        </IconButton>
       ) : (
-        <a href="/" className="no-focus-mode">
-          <HeaderButtonStyles>
-            <FiLogIn />
-            &nbsp;Sign in
-          </HeaderButtonStyles>
-        </a>
+        <IconButton
+          onClick={() => (window.location.href = '/')}
+          color="background"
+          className="no-focus-mode"
+        >
+          <FiLogIn />
+          &nbsp;Sign in
+        </IconButton>
       )}
     </div>
   </HeaderStyles>

@@ -1,12 +1,12 @@
 import React from 'react';
 import { FiEyeOff, FiEye } from 'react-icons/fi';
 import PropTypes from 'prop-types';
-import HeaderButtonStyles from '../styles/HeaderButtonStyles';
+import IconButton from '../Atoms/IconButton';
 
 const FocusMode = ({ focusMode, changeFocusMode }) => (
-  <HeaderButtonStyles onClick={changeFocusMode}>
+  <IconButton onClick={changeFocusMode} color="background">
     {focusMode ? <FiEye style={{ stroke: '#EA725B' }} /> : <FiEyeOff />}
-  </HeaderButtonStyles>
+  </IconButton>
 );
 
 FocusMode.propTypes = {

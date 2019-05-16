@@ -4,6 +4,7 @@ import format from 'date-fns/format';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
 import { FiClock, FiBell, FiCheck } from 'react-icons/fi';
 import styled from 'styled-components';
+import Badge from './Atoms/Badge';
 
 const CardBadgesStyles = styled.div`
   display: flex;
@@ -98,18 +99,25 @@ const CardBadges = ({
     }
 
     return (
-      <div
-        className="badge badge-category"
+      <Badge
         onClick={toggleCategoryModal}
-        onKeyDown={toggleCategoryModal}
-        style={{
-          background: category.color
-        }}
-        role="button"
-        tabIndex={0}
+        background={category.color}
+        className="badge"
       >
         {category.short}
-      </div>
+      </Badge>
+
+      // <button
+      //   className="badge badge-category"
+      //   onClick={toggleCategoryModal}
+      //   style={{
+      //     background: category.color
+      //   }}
+      //   type="button"
+      //   tabIndex={0}
+      // >
+      //   {category.short}
+      // </button>
     );
   };
 

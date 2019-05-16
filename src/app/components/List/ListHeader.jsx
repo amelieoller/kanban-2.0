@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import { FiTrash2 } from 'react-icons/fi';
 import styled from 'styled-components';
+import IconButton from '../Atoms/IconButton';
 
 const ListHeaderStyles = styled.div`
   .list-title-button {
@@ -21,6 +22,13 @@ const ListHeaderStyles = styled.div`
     font-size: 1rem;
     font-weight: 400;
     text-transform: uppercase;
+    position: relative;
+
+    button {
+      position: absolute;
+      right: 0;
+      margin-right: 5px;
+    }
   }
 
   .list-title-textarea-wrapper {
@@ -41,19 +49,7 @@ const ListHeaderStyles = styled.div`
     overflow: hidden;
     resize: none;
     text-align: center;
-  }
-
-  .delete-list-button {
-    font-size: 20px;
-    cursor: pointer;
-    padding-left: 6px;
-    color: ${props => props.theme.colors.monotoneAccent};
-    padding-bottom: 2px;
-  }
-
-  .delete-list-button:hover,
-  .delete-list-button:focus {
-    color: ${props => props.theme.colors.grey};
+    background: transparent;
   }
 `;
 
@@ -143,17 +139,13 @@ const ListTitle = ({
           className="list-title-button"
         >
           {listTitle}
-          <FiTrash2
-            role="button"
-            tabIndex={0}
-            className="delete-list-button"
+          <IconButton
             onClick={() => {
               if (window.confirm('Are you sure?')) deleteList();
             }}
-            onKeyDown={() => {
-              if (window.confirm('Are you sure?')) deleteList();
-            }}
-          />
+          >
+            <FiTrash2 />
+          </IconButton>
         </div>
       )}
     </ListHeaderStyles>
