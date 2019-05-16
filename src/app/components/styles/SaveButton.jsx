@@ -11,7 +11,8 @@ const StyledSaveButton = styled.button`
       : props.theme.colors.monotoneAccent};
   background: transparent;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: ${props => props.theme.colors.success};
   }
 `;

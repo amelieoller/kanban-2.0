@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Swipe from 'react-easy-swipe';
 import classnames from 'classnames';
+import styled from 'styled-components';
+
+const StyledCheeseburger = styled.div`
+  visibility: ${props => (props.isOpen ? 'visible' : 'hidden')};
+`;
 
 const overlayStyle = () => ({
   position: 'fixed',
@@ -183,8 +188,9 @@ const SlideOutMenu = ({
   };
 
   return (
-    <div
+    <StyledCheeseburger
       className={classnames('cheeseburger-menu', className, { open: isOpen })}
+      isOpen={isOpen}
     >
       <div
         className="cheeseburger-menu-overlay"
@@ -192,9 +198,7 @@ const SlideOutMenu = ({
         onClick={closeCallback}
         onKeyDown={closeCallback}
         role="button"
-        tabIndex={0}
       />
-
       <Swipe
         onSwipeStart={onSwipeStart}
         onSwipeMove={onSwipeMove}
@@ -218,7 +222,7 @@ const SlideOutMenu = ({
           />
         </div>
       </Swipe>
-    </div>
+    </StyledCheeseburger>
   );
 };
 

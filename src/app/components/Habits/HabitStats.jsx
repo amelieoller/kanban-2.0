@@ -54,7 +54,6 @@ const ProgressBarStyles = styled.div`
         width: 17px;
         border: none;
         color: ${props => props.theme.colors.monotoneAccent};
-        outline: none;
         text-align: right;
         background: transparent;
       }

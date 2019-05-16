@@ -30,10 +30,6 @@ const StyledDropdown = styled.div`
     border: none;
     border-bottom: 1px solid ${props => props.theme.colors.monotoneAccent};
     border-radius: 0;
-
-    &:focus {
-      outline: none;
-    }
   }
 `;
 

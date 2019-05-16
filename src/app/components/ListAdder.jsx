@@ -6,7 +6,7 @@ import shortid from 'shortid';
 import styled from 'styled-components';
 
 const ListAdderButton = styled.div`
-  margin: 10px 0;
+  margin: 15px 0;
 
   button {
     display: inline-flex;
@@ -31,7 +31,7 @@ const ListAdderButton = styled.div`
 `;
 
 const ListAdderTextArea = styled.div`
-  margin: 10px 5px;
+  margin: 15px 5px;
   width: ${props => props.theme.sizes.listWidth};
   min-height: 0px;
   max-height: 100%;

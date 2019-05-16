@@ -20,7 +20,7 @@ const ProgressBar = styled(StyledProgressCircle).attrs(props => ({
 `;
 
 const ProgressBackground = styled(StyledProgressCircle)`
-  stroke: ${props => props.theme.colors.textDisabled};
+  stroke: ${props => props.theme.colors.elevatedOne};
   stroke-dashoffset: 0;
 `;
 

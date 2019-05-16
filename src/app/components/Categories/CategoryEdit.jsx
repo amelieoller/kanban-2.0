@@ -53,7 +53,7 @@ const CategoryEdit = ({ category, boardId, dispatch, handleSubmit }) => {
   return (
     <form action="" className="edit-category-form" onSubmit={onSubmit}>
       <ExpandingInput
-        placeholder="Name"
+        placeholder="New Category"
         name="name"
         value={state.name}
         onChange={e => handleChange(e)}

@@ -162,17 +162,22 @@ const GlobalStyles = createGlobalStyle`
 		cursor: pointer;
 		min-width: 24px;
 		color: ${props => props.theme.colors.text};
+		box-shadow: ${props => props.theme.common.boxShadowButton};
 
 		&.selected {
 			background-color: ${props => props.theme.colors.secondary};
 			color: ${props => props.theme.colors.onSecondary};
-			border-color: ${props => props.theme.colors.onSecondary};
+			border-color: ${props => props.theme.colors.secondaryDark};
 		}
 
-		&:hover {
+		&:active {
+			box-shadow: ${props => props.theme.common.boxShadowButtonActive};
+		}
+
+		&:hover, &:focus {
 			background-color: ${props => props.theme.colors.secondary};
 			color: ${props => props.theme.colors.onSecondary};
-			border-color: ${props => props.theme.colors.onSecondary};
+			border-color: ${props => props.theme.colors.secondaryDark};
 		}
 
 		@media ${props => props.theme.media.phone} {
@@ -249,7 +254,7 @@ const GlobalStyles = createGlobalStyle`
 		line-height: inherit;
 		resize: none;
 		overflow: hidden;
-		outline: none;
+		/* outline: none; */
 	}
 `;
 

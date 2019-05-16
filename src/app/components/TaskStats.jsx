@@ -43,7 +43,8 @@ const TaskStatsStyled = styled.div`
       stroke: ${props => props.theme.colors.primary};
       font-size: 14px;
 
-      &:hover {
+      &:hover,
+      &:focus {
         stroke: ${props => props.theme.colors.text};
       }
     }

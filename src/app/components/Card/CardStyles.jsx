@@ -19,7 +19,7 @@ const CardStyles = styled.div`
     display: flex;
     justify-content: space-between;
 
-    &:hover {
+    &:hover, &:focus {
       background-color: ${props => props.theme.colors.elevatedThree};
       box-shadow: ${props => props.theme.common.boxShadowTwo};
     }
@@ -47,7 +47,7 @@ const CardStyles = styled.div`
     color: ${props => props.theme.colors.lightestGrey};
     padding: 9px;
 
-    &:hover {
+    &:hover, &:focus {
       color: ${props => props.theme.colors.success};
     }
   }
