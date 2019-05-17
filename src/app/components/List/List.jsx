@@ -26,7 +26,6 @@ const ListStyles = styled.div`
     font-size: 14px;
     transition: box-shadow 0.15s, background 0.3s;
     background: ${props => props.theme.colors.elevatedOne};
-    padding-top: 6px;
     box-shadow: ${props => props.theme.common.boxShadowOne};
 
     @media ${props => props.theme.media.tablet} {
@@ -34,7 +33,8 @@ const ListStyles = styled.div`
     }
 
     @media ${props => props.theme.media.phone} {
-      max-height: ${props => props.isKeyboardOpen ? 'calc(100vh - 40px)' : 'calc(100vh - 380px)'};
+      max-height: ${props =>
+        props.isKeyboardOpen ? 'calc(100vh - 40px)' : 'calc(100vh - 380px)'};
     }
   }
 
@@ -46,13 +46,12 @@ const ListStyles = styled.div`
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 3px 6px;
+    padding: 0 6px;
     margin-bottom: 6px;
   }
 
   .cards {
     min-height: 1px;
-    margin-bottom: 3px;
   }
 `;
 
@@ -139,13 +138,15 @@ class List extends Component {
                   cards={list.cards}
                   boardId={boardId}
                 />
-                <div className="cards-wrapper">
-                  <Cards
-                    listId={list._id}
-                    categories={categories}
-                    withinPomodoroCards={this.withinPomodoroTime()}
-                  />
-                </div>
+                {list.cards.length !== 0 && (
+                  <div className="cards-wrapper">
+                    <Cards
+                      listId={list._id}
+                      categories={categories}
+                      withinPomodoroCards={this.withinPomodoroTime()}
+                    />
+                  </div>
+                )}
               </div>
               <CardAdder
                 listId={list._id}

@@ -22,7 +22,9 @@ const StyledIconButton = styled.button`
   vertical-align: middle;
   justify-content: center;
   text-decoration: none;
-  background-color: transparent;
+  background-color: ${props =>
+    props.theme.colors[props.background] || props.background};
+  min-width: 25px;
 
   &:hover,
   &:focus {
@@ -44,7 +46,8 @@ IconButton.defaultProps = {
   fontSize: 1,
   color: 'text',
   className: '',
-  round: false
+  round: false,
+  background: 'transparent'
 };
 
 IconButton.propTypes = {
@@ -53,7 +56,8 @@ IconButton.propTypes = {
   fontSize: PropTypes.number,
   color: PropTypes.string,
   className: PropTypes.string,
-  round: PropTypes.bool
+  round: PropTypes.bool,
+  background: PropTypes.string
 };
 
 export default IconButton;

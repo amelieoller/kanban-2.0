@@ -28,7 +28,7 @@ const StyledBadge = styled.button`
 
   &:hover,
   &:focus {
-		background-color: ${props => darken(0.1, props.background)};
+    /* background-color: ${props => darken(0.1, props.background)}; */
   }
 `;
 
@@ -59,7 +59,7 @@ Badge.defaultProps = {
 
 Badge.propTypes = {
   children: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   fontSize: PropTypes.number,
   className: PropTypes.string,
   style: PropTypes.string,

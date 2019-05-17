@@ -6,7 +6,8 @@ import { FiBell, FiFlag, FiTag, FiCheck, FiTrash2 } from 'react-icons/fi';
 import later from 'later';
 import styled from 'styled-components';
 import Calendar from './Calendar';
-import Picker from '../Picker';
+import Difficulty from './Difficulty';
+import Category from './Category';
 
 const CardOptionsStyles = styled.div`
   .options-list {
@@ -36,9 +37,10 @@ const CardOptionsStyles = styled.div`
     background: rgba(255, 255, 255, 0.8);
     font-size: ${props => (props.isThinDisplay ? '1.2rem' : '1rem')};
     cursor: pointer;
+    width: 100px;
 
-    &.minutes {
-      max-width: 85px;
+    &.is-active {
+      color: ${props => props.theme.colors.primary};
     }
 
     &.recurring {
@@ -86,8 +88,6 @@ const CardOptionsStyles = styled.div`
 
 class CardOptions extends Component {
   static propTypes = {
-    isCategoryPickerOpen: PropTypes.bool.isRequired,
-    isDifficultyPickerOpen: PropTypes.bool.isRequired,
     card: PropTypes.shape({
       _id: PropTypes.string.isRequired,
       minutes: PropTypes.string,
@@ -97,7 +97,6 @@ class CardOptions extends Component {
     isCardNearRightBorder: PropTypes.bool.isRequired,
     isThinDisplay: PropTypes.bool.isRequired,
     boundingRect: PropTypes.object.isRequired,
-    togglePicker: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
     toggleDifficultyPicker: PropTypes.func
@@ -108,7 +107,6 @@ class CardOptions extends Component {
     const { card } = this.props;
 
     this.state = {
-      isCalendarOpen: false,
       minutes: card.minutes || '',
       recurringText: card.recurringText || ''
     };
@@ -144,38 +142,6 @@ class CardOptions extends Component {
         payload: { cardId: card._id, listId }
       });
     }
-  };
-
-  changeCategory = category => {
-    const { dispatch, card, togglePicker } = this.props;
-
-    if (card.category !== category) {
-      if (category.color === 'white') {
-        dispatch({
-          type: 'DELETE_CARD_CATEGORY',
-          payload: { cardId: card._id }
-        });
-      } else {
-        dispatch({
-          type: 'CHANGE_CARD_CATEGORY',
-          payload: { categoryId: category._id, cardId: card._id }
-        });
-      }
-    }
-    togglePicker('Category');
-    this.colorPickerButton.focus();
-  };
-
-  changeDifficulty = difficulty => {
-    const { dispatch, card, togglePicker } = this.props;
-    if (card.difficulty !== difficulty) {
-      dispatch({
-        type: 'CHANGE_CARD_DIFFICULTY',
-        payload: { difficulty, cardId: card._id }
-      });
-    }
-    togglePicker('Difficulty');
-    this.colorPickerButton.focus();
   };
 
   handleKeyDownTime = e => {
@@ -228,33 +194,20 @@ class CardOptions extends Component {
     }
   };
 
-  toggleCalendar = () => {
-    const { isCalendarOpen } = this.state;
-    this.setState({ isCalendarOpen: !isCalendarOpen });
-  };
-
-  difficultyColor = difficulty => {
-    if (difficulty === 3) {
-      return '#EA725B';
-    }
-    if (difficulty === 2) {
-      return '#0075A3';
-    }
-    return '#EAECEE';
-  };
-
   render() {
     const {
       isCardNearRightBorder,
-      isCategoryPickerOpen,
-      isDifficultyPickerOpen,
       card,
       isThinDisplay,
       boundingRect,
-      togglePicker,
-      categories
+      categories,
+      isCalendarModalOpen,
+      isDifficultyModalOpen,
+      isCategoryModalOpen,
+      toggleSubModal
     } = this.props;
-    const { isCalendarOpen, minutes, recurringText } = this.state;
+
+    const { minutes, recurringText } = this.state;
 
     const calendarStyle = {
       content: {
@@ -321,59 +274,74 @@ class CardOptions extends Component {
           </form> */}
 
           {/* Category */}
-          <Picker
-            isPickerOpen={isCategoryPickerOpen}
-            togglePicker={togglePicker}
-            type="Category"
-            icon={<FiTag className="modal-icon" />}
-            text="Category"
-            className="modal-option"
-            boundingRect={boundingRect}
-            isThinDisplay={isThinDisplay}
+          <div>
+            <button
+              type="submit"
+              onClick={() => toggleSubModal('Category')}
+              className={
+                isCategoryModalOpen ? 'is-active modal-option' : 'modal-option'
+              }
+            >
+              <div className="modal-icon">
+                <FiTag />
+              </div>
+              &nbsp;Category
+            </button>
+          </div>
+
+          <Modal
+            isOpen={isCategoryModalOpen}
+            onRequestClose={() => toggleSubModal('Category')}
+            overlayClassName="calendar-underlay"
+            className="calendar-modal"
+            style={isThinDisplay ? calendarMobileStyle : calendarStyle}
           >
-            {categories.map(category => (
-              <button
-                type="submit"
-                key={category.name}
-                style={{ background: category.color }}
-                className="picker-button"
-                onClick={() => this.changeCategory(category)}
-              >
-                {category.short}
-              </button>
-            ))}
-          </Picker>
+            <Category
+              card={card}
+              categories={categories}
+              toggleModal={() => toggleSubModal('Category')}
+            />
+          </Modal>
 
           {/* Difficulty */}
-          <Picker
-            isPickerOpen={isDifficultyPickerOpen}
-            togglePicker={togglePicker}
-            type="Difficulty"
-            icon={<FiFlag className="modal-icon" />}
-            text="Difficulty"
-            className="modal-option"
-            boundingRect={boundingRect}
-            isThinDisplay={isThinDisplay}
+          <div>
+            <button
+              type="submit"
+              onClick={() => toggleSubModal('Difficulty')}
+              className={
+                isDifficultyModalOpen
+                  ? 'is-active modal-option'
+                  : 'modal-option'
+              }
+            >
+              <div className="modal-icon">
+                <FiFlag />
+              </div>
+              &nbsp;Difficulty
+            </button>
+          </div>
+
+          <Modal
+            isOpen={isDifficultyModalOpen}
+            onRequestClose={() => toggleSubModal('Difficulty')}
+            overlayClassName="calendar-underlay"
+            className="calendar-modal"
+            style={isThinDisplay ? calendarMobileStyle : calendarStyle}
           >
-            {[1, 2, 3].map(difficulty => (
-              <button
-                key={difficulty}
-                type="submit"
-                className="picker-button"
-                onClick={() => this.changeDifficulty(difficulty)}
-                style={{ background: this.difficultyColor(difficulty) }}
-              >
-                {difficulty}
-              </button>
-            ))}
-          </Picker>
+            <Difficulty
+              card={card}
+              toggleModal={() => toggleSubModal('Difficulty')}
+            />
+          </Modal>
 
           {/* Calendar */}
           <div>
             <button
               type="submit"
-              onClick={this.toggleCalendar}
-              className="modal-option"
+              onClick={() => toggleSubModal('Calendar')}
+              className={
+                isCalendarModalOpen ? 'is-active modal-option' : 'modal-option'
+              }
             >
               <div className="modal-icon">
                 <FiBell />
@@ -383,8 +351,8 @@ class CardOptions extends Component {
           </div>
 
           <Modal
-            isOpen={isCalendarOpen}
-            onRequestClose={this.toggleCalendar}
+            isOpen={isCalendarModalOpen}
+            onRequestClose={() => toggleSubModal('Calendar')}
             overlayClassName="calendar-underlay"
             className="calendar-modal"
             style={isThinDisplay ? calendarMobileStyle : calendarStyle}
@@ -392,14 +360,16 @@ class CardOptions extends Component {
             <Calendar
               cardId={card._id}
               date={card.date}
-              toggleCalendar={this.toggleCalendar}
+              toggleModal={() => toggleSubModal('Calendar')}
             />
           </Modal>
           {/* Delete */}
           <div>
             <button
               type="submit"
-              onClick={this.deleteCard}
+              onClick={() => {
+                if (window.confirm('Are you sure?')) this.deleteCard();
+              }}
               className="modal-option"
             >
               <div className="modal-icon">

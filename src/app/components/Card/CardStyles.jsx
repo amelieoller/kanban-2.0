@@ -4,7 +4,6 @@ const CardStyles = styled.div`
   .card-title {
     position: relative;
     box-sizing: border-box;
-    margin: 5px 0 0 0;
     border-radius: 3px;
     color: ${props => props.theme.colors.text};
     background: ${props => props.theme.colors.elevatedTwo};
@@ -18,23 +17,13 @@ const CardStyles = styled.div`
     border-left: 3px solid transparent;
     display: flex;
     justify-content: space-between;
+    margin: 0 0 5px 0;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background-color: ${props => props.theme.colors.elevatedThree};
       box-shadow: ${props => props.theme.common.boxShadowTwo};
     }
-  }
-
-  .difficulty-1.card-title {
-    border-right-color: transparent;
-  }
-
-  .difficulty-2.card-title {
-    border-right-color: ${props => props.theme.colors.mediumDifficulty};
-  }
-
-  .difficulty-3.card-title {
-    border-right-color: ${props => props.theme.colors.primary};
   }
 
   .card-title-top {
@@ -47,7 +36,8 @@ const CardStyles = styled.div`
     color: ${props => props.theme.colors.lightestGrey};
     padding: 9px;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: ${props => props.theme.colors.success};
     }
   }

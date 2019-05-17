@@ -11,11 +11,20 @@ const Frame = styled('div')`
   vertical-align: middle;
   color: ${props => props.theme.colors.text};
   fill: ${props => props.theme.colors.text};
+
+  .title-area {
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .title-area:hover,
+  .title-area:focus {
+    color: ${props => props.theme.colors.primary};
+  }
 `;
 
 const Title = styled('span')`
   vertical-align: middle;
-  cursor: pointer;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow-x: hidden;
@@ -36,7 +45,6 @@ const toggle = {
   width: '1em',
   height: '1em',
   marginRight: 6,
-  cursor: 'pointer',
   verticalAlign: 'middle'
 };
 
@@ -74,12 +82,21 @@ const Tree = memo(({ children, name, defaultOpen = false }) => {
 
   return (
     <Frame>
-      {children && isOpen ? (
-        <FiMinusSquare style={{ ...toggle }} onClick={() => setOpen(!isOpen)} />
-      ) : (
-        <FiPlusSquare style={{ ...toggle }} onClick={() => setOpen(!isOpen)} />
-      )}
-      <Title onClick={() => setOpen(!isOpen)}>{name}</Title>
+      <div className="title-area" onClick={() => setOpen(!isOpen)}>
+        {children && isOpen ? (
+          <FiMinusSquare
+            style={{ ...toggle }}
+            onClick={() => setOpen(!isOpen)}
+          />
+        ) : (
+          <FiPlusSquare
+            style={{ ...toggle }}
+            onClick={() => setOpen(!isOpen)}
+          />
+        )}
+        <Title>{name}</Title>
+      </div>
+
       <Content
         style={{
           opacity,
