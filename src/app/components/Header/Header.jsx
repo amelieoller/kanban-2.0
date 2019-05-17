@@ -96,11 +96,9 @@ const HeaderStyles = styled.header`
 const Header = ({
   user,
   homePage,
-  changeTheme,
-  setBoardColor,
+  toggleTheme,
   focusMode,
-  changeFocusMode,
-  history
+  changeFocusMode
 }) => (
   <HeaderStyles>
     <Link to="/" className="header-title no-focus-mode">
@@ -110,8 +108,7 @@ const Header = ({
     <div className="header-right-side">
       {!homePage && (
         <BoardHeader
-          changeTheme={changeTheme}
-          setBoardColor={setBoardColor}
+          toggleTheme={toggleTheme}
           focusMode={focusMode}
           changeFocusMode={changeFocusMode}
         />
@@ -151,8 +148,7 @@ const Header = ({
 Header.propTypes = {
   user: PropTypes.object,
   homePage: PropTypes.bool.isRequired,
-  changeTheme: PropTypes.func,
-  setBoardColor: PropTypes.func,
+  toggleTheme: PropTypes.func,
   focusMode: PropTypes.bool,
   changeFocusMode: PropTypes.func
 };

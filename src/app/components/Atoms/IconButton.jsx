@@ -51,7 +51,11 @@ IconButton.defaultProps = {
 };
 
 IconButton.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.number
+  ]),
   onClick: PropTypes.func.isRequired,
   fontSize: PropTypes.number,
   color: PropTypes.string,

@@ -6,12 +6,12 @@ import Board from './Board';
 
 // This components only purpose is to redirect requests for board pages that don't exist
 // or which the user is not authorized to visit, in order to prevent errors
-const BoardContainer = ({ board, changeTheme, setBoardColor }) =>
+const BoardContainer = ({ board, toggleTheme, setInitialTheme }) =>
   board ? (
     <Board
       board={board}
-      changeTheme={changeTheme}
-      setBoardColor={setBoardColor}
+      toggleTheme={toggleTheme}
+      setInitialTheme={setInitialTheme}
     />
   ) : (
     <Redirect to="/" />
@@ -19,8 +19,8 @@ const BoardContainer = ({ board, changeTheme, setBoardColor }) =>
 
 BoardContainer.propTypes = {
   board: PropTypes.object,
-  changeTheme: PropTypes.func.isRequired,
-  setBoardColor: PropTypes.func.isRequired
+  toggleTheme: PropTypes.func.isRequired,
+  setInitialTheme: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {

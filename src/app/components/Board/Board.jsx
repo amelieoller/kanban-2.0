@@ -68,9 +68,10 @@ class Board extends Component {
     dispatch: PropTypes.func.isRequired,
     completedListId: PropTypes.string,
     habitsListId: PropTypes.string,
-    changeTheme: PropTypes.func,
-    setBoardColor: PropTypes.func,
-    defaultList: PropTypes.string
+    toggleTheme: PropTypes.func,
+    setInitialTheme: PropTypes.func,
+    defaultList: PropTypes.string,
+    color: PropTypes.string
   };
 
   constructor(props) {
@@ -85,11 +86,13 @@ class Board extends Component {
 
   // boardId is stored in the redux store so that it is available inside middleware
   componentDidMount = () => {
-    const { boardId, dispatch } = this.props;
+    const { boardId, dispatch, color, setInitialTheme } = this.props;
     dispatch({
       type: 'PUT_BOARD_ID_IN_REDUX',
       payload: { boardId }
     });
+
+    setInitialTheme(color);
   };
 
   componentWillUnmount = () => {
@@ -225,6 +228,19 @@ class Board extends Component {
     }
   };
 
+  handleToggleTheme = () => {
+    const { dispatch, toggleTheme, color, boardId } = this.props;
+    const setting = color === 'light' ? 'dark' : 'light';
+    const type = 'color';
+
+    dispatch({
+      type: 'CHANGE_SETTING',
+      payload: { boardId, setting, type }
+    });
+
+    toggleTheme();
+  };
+
   render = () => {
     const {
       lists,
@@ -232,9 +248,7 @@ class Board extends Component {
       boardId,
       pomodoro,
       completedListId,
-      habitsListId,
-      changeTheme,
-      setBoardColor
+      habitsListId
     } = this.props;
     const otherLists = lists.filter(
       list => list && list._id !== completedListId && list._id !== habitsListId
@@ -252,8 +266,7 @@ class Board extends Component {
         >
           <Title>{boardTitle} | Kanban 2.0</Title>
           <Header
-            changeTheme={changeTheme}
-            setBoardColor={setBoardColor}
+            toggleTheme={this.handleToggleTheme}
             focusMode={focusMode}
             changeFocusMode={this.changeFocusMode}
           />
@@ -297,9 +310,12 @@ class Board extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { board } = ownProps;
-  const { completedListId, habitsListId, defaultList } = state.boardsById[
-    board._id
-  ].settings;
+  const {
+    completedListId,
+    habitsListId,
+    defaultList,
+    color
+  } = state.boardsById[board._id].settings;
 
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
@@ -309,7 +325,8 @@ const mapStateToProps = (state, ownProps) => {
     pomodoro: board.settings.pomodoro,
     completedListId,
     habitsListId,
-    defaultList
+    defaultList,
+    color
   };
 };
 

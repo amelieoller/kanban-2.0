@@ -31,8 +31,7 @@ const BoardHeaderStyles = styled.div`
 `;
 
 const BoardHeader = ({
-  changeTheme,
-  setBoardColor,
+  toggleTheme,
   focusMode,
   changeFocusMode,
   boardId,
@@ -46,20 +45,13 @@ const BoardHeader = ({
     <div className="board-header-right">
       <FocusMode focusMode={focusMode} changeFocusMode={changeFocusMode} />
       <BoardSettings listsById={listsById} dispatch={dispatch} />
-      <LightDarkMode
-        changeTheme={changeTheme}
-        setBoardColor={setBoardColor}
-        boardColor={color}
-        dispatch={dispatch}
-        boardId={boardId}
-      />
+      <LightDarkMode toggleTheme={toggleTheme} boardColor={color} />
     </div>
   </BoardHeaderStyles>
 );
 
 BoardHeader.propTypes = {
-  changeTheme: PropTypes.func.isRequired,
-  setBoardColor: PropTypes.func.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
   focusMode: PropTypes.bool.isRequired,
   changeFocusMode: PropTypes.func.isRequired,
   boardId: PropTypes.string.isRequired,

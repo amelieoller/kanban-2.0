@@ -13,10 +13,6 @@ import { light, dark } from './Theme';
 const App = ({ user, isGuest }) => {
   const [lightTheme, setLightTheme] = useState(true);
 
-  const setBoardColor = boardColor => {
-    setLightTheme(boardColor === 'light');
-  };
-
   return (
     <ThemeProvider theme={lightTheme ? light : dark}>
       <>
@@ -33,8 +29,10 @@ const App = ({ user, isGuest }) => {
               render={props => (
                 <BoardContainer
                   {...props}
-                  changeTheme={() => setLightTheme(!lightTheme)}
-                  setBoardColor={boardColor => setBoardColor(boardColor)}
+                  toggleTheme={() => setLightTheme(!lightTheme)}
+                  setInitialTheme={boardColor =>
+                    setLightTheme(boardColor === 'light')
+                  }
                 />
               )}
             />
