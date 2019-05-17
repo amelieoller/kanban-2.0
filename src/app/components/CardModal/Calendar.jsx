@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import DayPicker from 'react-day-picker';
 import DayPickerStyles from './DayPickerStyles';
 
-const Calendar = ({ toggleCalendar, date, dispatch, cardId }) => {
+const Calendar = ({ toggleModal, date, dispatch, cardId }) => {
   const [state, setState] = useState({
     selectedDay: date ? new Date(date) : undefined
   });
@@ -28,7 +28,7 @@ const Calendar = ({ toggleCalendar, date, dispatch, cardId }) => {
       type: 'CHANGE_CARD_DATE',
       payload: { date: selectedDay, cardId }
     });
-    toggleCalendar();
+    toggleModal();
   };
 
   const { selectedDay } = state;
@@ -48,7 +48,7 @@ const Calendar = ({ toggleCalendar, date, dispatch, cardId }) => {
         >
           Save
         </button>
-        <button type="submit" onClick={toggleCalendar}>
+        <button type="submit" onClick={toggleModal}>
           Cancel
         </button>
       </div>
@@ -60,7 +60,7 @@ Calendar.propTypes = {
   dispatch: PropTypes.func.isRequired,
   cardId: PropTypes.string.isRequired,
   date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
-  toggleCalendar: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired
 };
 
 export default connect()(Calendar);

@@ -12,10 +12,7 @@ const PickerStyles = styled.div`
   }
 
   .picker-wrapper {
-    z-index: 2;
     position: absolute;
-    left: ${props => `${props.fromLeft}px`};
-    left: 6px;
     padding: 0.3rem;
     display: grid;
     border-radius: ${props => props.theme.sizes.borderRadius};
@@ -25,9 +22,9 @@ const PickerStyles = styled.div`
   }
 
   .picker-button {
-    width: ${props => props.isThinDisplay ? '50px' : '34px'};
+    /* width: ${props => props.isThinDisplay ? '50px' : '34px'};
     height: ${props => props.isThinDisplay ? '50px' : '34px'};
-    margin: ${props => props.isThinDisplay ? '4px' : '2px'};
+    margin: ${props => props.isThinDisplay ? '4px' : '2px'}; */
     border: 1px ${props => props.theme.colors.monotoneAccent} solid;
     border-radius: ${props => props.theme.sizes.borderRadius};
     color: ${props => props.theme.colors.backgroundAccent};

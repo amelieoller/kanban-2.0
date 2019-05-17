@@ -29,8 +29,6 @@ class CardModal extends Component {
     super(props);
     this.state = {
       newText: props.card.text,
-      isCategoryPickerOpen: false,
-      isDifficultyPickerOpen: false,
       isTextareaFocused: true
     };
     if (typeof document !== 'undefined') {
@@ -64,6 +62,7 @@ class CardModal extends Component {
         }
       });
     }
+
     toggleCardEditor();
   };
 
@@ -71,30 +70,25 @@ class CardModal extends Component {
     this.setState({ newText: e.target.value });
   };
 
-  togglePicker = type => {
-    const picker = `is${type}PickerOpen`;
-
-    this.setState(prevState => ({
-      [picker]: !prevState[picker]
-    }));
-  };
-
   handleRequestClose = () => {
-    const { isCategoryPickerOpen, isDifficultyPickerOpen } = this.state;
     const { toggleCardEditor } = this.props;
-    if (!isCategoryPickerOpen || !isDifficultyPickerOpen) {
-      toggleCardEditor();
-    }
+
+    toggleCardEditor();
   };
 
   render() {
+    const { newText, isTextareaFocused } = this.state;
     const {
-      newText,
-      isCategoryPickerOpen,
-      isDifficultyPickerOpen,
-      isTextareaFocused
-    } = this.state;
-    const { cardElement, card, listId, isOpen, categories } = this.props;
+      cardElement,
+      card,
+      listId,
+      isOpen,
+      categories,
+      isCalendarModalOpen,
+      isDifficultyModalOpen,
+      isCategoryModalOpen,
+      toggleSubModal
+    } = this.props;
     if (!cardElement) {
       return null;
     }
@@ -199,15 +193,16 @@ class CardModal extends Component {
           )}
         </div>
         <CardOptions
-          isCategoryPickerOpen={isCategoryPickerOpen}
-          isDifficultyPickerOpen={isDifficultyPickerOpen}
           card={card}
           listId={listId}
           boundingRect={boundingRect}
           isCardNearRightBorder={isCardNearRightBorder}
           isThinDisplay={isThinDisplay}
-          togglePicker={this.togglePicker}
           categories={categories}
+          isCalendarModalOpen={isCalendarModalOpen}
+          isDifficultyModalOpen={isDifficultyModalOpen}
+          isCategoryModalOpen={isCategoryModalOpen}
+          toggleSubModal={toggleSubModal}
         />
       </Modal>
     );

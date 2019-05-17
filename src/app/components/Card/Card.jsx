@@ -9,7 +9,6 @@ import CardModal from '../CardModal/CardModal';
 import CardBadges from '../CardBadges';
 import { findCheckboxes } from '../utils';
 import formatMarkdown from './formatMarkdown';
-import CategoryModal from '../CardModal/CategoryModal';
 import CardStyles from './CardStyles';
 
 class Card extends Component {
@@ -26,25 +25,37 @@ class Card extends Component {
     isDraggingOver: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    withinPomodoroCard: PropTypes.bool.isRequired
   };
 
   constructor() {
     super();
     this.state = {
-      isModalOpen: false,
-      categoryModalIsOpen: false
+      isCardModalOpen: false,
+      isCalendarModalOpen: false,
+      isDifficultyModalOpen: false,
+      isCategoryModalOpen: false
     };
   }
 
-  toggleCardEditor = () => {
-    const { isModalOpen } = this.state;
-    this.setState({ isModalOpen: !isModalOpen });
+  toggleSubModal = type => {
+    const modal = `is${type}ModalOpen`;
+    const modalState = this.state[modal];
+
+    this.setState({
+      [modal]: !modalState
+    });
   };
 
-  toggleCategoryModal = () => {
-    const { categoryModalIsOpen } = this.state;
-    this.setState({ categoryModalIsOpen: !categoryModalIsOpen });
+  toggleCardEditor = () => {
+    const { isCardModalOpen } = this.state;
+    this.setState({ isCardModalOpen: !isCardModalOpen });
+  };
+
+  toggleSpecificModal = type => {
+    this.toggleCardEditor();
+    this.toggleSubModal(type);
   };
 
   handleClick = e => {
@@ -56,7 +67,7 @@ class Card extends Component {
       tagName.toLowerCase() !== 'a' &&
       !e.target.classList.contains('badge')
     ) {
-      this.toggleCardEditor(e);
+      this.toggleCardEditor();
     }
   };
 
@@ -115,25 +126,6 @@ class Card extends Component {
     }
   };
 
-  changeCategory = category => {
-    const { dispatch, card } = this.props;
-
-    if (card.category !== category) {
-      if (category.color === 'white') {
-        dispatch({
-          type: 'DELETE_CARD_CATEGORY',
-          payload: { cardId: card._id }
-        });
-      } else {
-        dispatch({
-          type: 'CHANGE_CARD_CATEGORY',
-          payload: { categoryId: category._id, cardId: card._id }
-        });
-      }
-    }
-    this.toggleCategoryModal();
-  };
-
   render() {
     const {
       card,
@@ -144,7 +136,12 @@ class Card extends Component {
       categories,
       withinPomodoroCard
     } = this.props;
-    const { isModalOpen, categoryModalIsOpen } = this.state;
+    const {
+      isCardModalOpen,
+      isCalendarModalOpen,
+      isDifficultyModalOpen,
+      isCategoryModalOpen
+    } = this.state;
     const checkboxes = findCheckboxes(card.text);
 
     return (
@@ -156,7 +153,6 @@ class Card extends Component {
                 <>
                   <div
                     className={classnames(
-                      `difficulty-${card.difficulty}`,
                       'card-title',
                       {
                         'card-title--drag': snapshot.isDragging
@@ -177,6 +173,8 @@ class Card extends Component {
                       provided.dragHandleProps.onKeyDown(event);
                       this.handleKeyDown(event);
                     }}
+                    role="button"
+                    tabIndex={0}
                     style={{
                       ...provided.draggableProps.style
                     }}
@@ -201,9 +199,11 @@ class Card extends Component {
                           category={categories.find(
                             cat => cat._id === card.categoryId
                           )}
-                          toggleCategoryModal={this.toggleCategoryModal}
                           dispatch={dispatch}
                           cardId={card._id}
+                          toggleDifficultyModal={this.toggleDifficultyModal}
+                          difficulty={card.difficulty}
+                          toggleSpecificModal={this.toggleSpecificModal}
                         />
                       )}
                     </div>
@@ -216,21 +216,17 @@ class Card extends Component {
                 </>
               )}
             </Draggable>
-            <CategoryModal
-              categoryModalIsOpen={categoryModalIsOpen}
-              cardElement={this.ref}
-              card={card}
-              listId={listId}
-              toggleCategoryModal={this.toggleCategoryModal}
-              categories={categories}
-            />
             <CardModal
-              isOpen={isModalOpen}
+              isOpen={isCardModalOpen}
               cardElement={this.ref}
               card={card}
               listId={listId}
               toggleCardEditor={this.toggleCardEditor}
               categories={categories}
+              toggleSubModal={this.toggleSubModal}
+              isCalendarModalOpen={isCalendarModalOpen}
+              isDifficultyModalOpen={isDifficultyModalOpen}
+              isCategoryModalOpen={isCategoryModalOpen}
             />
           </>
         )}

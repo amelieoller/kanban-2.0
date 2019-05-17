@@ -35,8 +35,9 @@ const CardBadges = ({
   minutes,
   cardId,
   category,
-  toggleCategoryModal,
+  difficulty,
   date,
+  toggleSpecificModal,
   checkboxes: { total, checked }
 }) => {
   const renderDueDate = () => {
@@ -94,30 +95,34 @@ const CardBadges = ({
   };
 
   const renderCategory = () => {
-    if (!category) {
+    if (!category || category.name === 'none') {
       return null;
     }
 
     return (
       <Badge
-        onClick={toggleCategoryModal}
+        onClick={() => toggleSpecificModal('Category')}
         background={category.color}
         className="badge"
       >
         {category.short}
       </Badge>
+    );
+  };
 
-      // <button
-      //   className="badge badge-category"
-      //   onClick={toggleCategoryModal}
-      //   style={{
-      //     background: category.color
-      //   }}
-      //   type="button"
-      //   tabIndex={0}
-      // >
-      //   {category.short}
-      // </button>
+  const renderDifficulty = () => {
+    if (!difficulty || difficulty === 1) {
+      return null;
+    }
+
+    return (
+      <Badge
+        onClick={() => toggleSpecificModal('Difficulty')}
+        background={difficulty === 3 ? '#ef5351' : '#0075A3'}
+        className="badge"
+      >
+        {difficulty}
+      </Badge>
     );
   };
 
@@ -154,8 +159,9 @@ const CardBadges = ({
   return (
     <CardBadgesStyles>
       {renderCategory()}
-      {renderDueDate()}
       {renderMinutes()}
+      {renderDifficulty()}
+      {renderDueDate()}
       {renderTaskProgress()}
     </CardBadgesStyles>
   );
@@ -175,7 +181,8 @@ CardBadges.propTypes = {
   }),
   dispatch: PropTypes.func,
   cardId: PropTypes.string,
-  toggleCategoryModal: PropTypes.func
+  difficulty: PropTypes.number,
+  toggleSpecificModal: PropTypes.func
 };
 
 export default CardBadges;

@@ -45,12 +45,18 @@ const CardAdderStyles = styled.div`
   }
 `;
 
-const CardAdder = ({ listId, dispatch, defaultCategory, defaultCardTime, toggleIsKeyboardOpen }) => {
+const CardAdder = ({
+  listId,
+  dispatch,
+  defaultCategory,
+  defaultCardTime,
+  toggleIsKeyboardOpen
+}) => {
   const [newText, setNewText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleCardComposer = () => {
-    toggleIsKeyboardOpen(!isOpen)
+    toggleIsKeyboardOpen(!isOpen);
     setIsOpen(!isOpen);
   };
 
@@ -100,7 +106,7 @@ const CardAdder = ({ listId, dispatch, defaultCategory, defaultCardTime, toggleI
               onKeyDown={handleKeyDown}
               value={newText}
               className="card-adder-textarea"
-              placeholder="Add a new card..."
+              placeholder="Add a new list item..."
               spellCheck={false}
               onBlur={toggleCardComposer}
             />
