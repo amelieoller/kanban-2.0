@@ -14,6 +14,7 @@ const CardOptionsStyles = styled.div`
     margin: 0 8px;
     display: flex;
     flex-direction: column;
+    justify-content: ${props => props.isThinDisplay && 'space-between'};
 
     @media (max-width: 550px) {
       flex-direction: row;
@@ -37,7 +38,7 @@ const CardOptionsStyles = styled.div`
     background: rgba(255, 255, 255, 0.8);
     font-size: ${props => (props.isThinDisplay ? '1.2rem' : '1rem')};
     cursor: pointer;
-    width: 100px;
+    width: ${props => (props.isThinDisplay ? '135px' : '100px')};
 
     &.is-active {
       color: ${props => props.theme.colors.primary};
@@ -95,11 +96,16 @@ class CardOptions extends Component {
     }).isRequired,
     listId: PropTypes.string.isRequired,
     isCardNearRightBorder: PropTypes.bool.isRequired,
+    isCardNearBottomBorder: PropTypes.bool.isRequired,
     isThinDisplay: PropTypes.bool.isRequired,
     boundingRect: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
-    toggleDifficultyPicker: PropTypes.func
+    toggleDifficultyPicker: PropTypes.func,
+    isCalendarModalOpen: PropTypes.bool.isRequired,
+    isDifficultyModalOpen: PropTypes.bool.isRequired,
+    isCategoryModalOpen: PropTypes.bool.isRequired,
+    toggleSubModal: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -197,6 +203,7 @@ class CardOptions extends Component {
   render() {
     const {
       isCardNearRightBorder,
+      isCardNearBottomBorder,
       card,
       isThinDisplay,
       boundingRect,
@@ -211,15 +218,20 @@ class CardOptions extends Component {
 
     const calendarStyle = {
       content: {
-        top: Math.min(boundingRect.bottom + 10, window.innerHeight - 300),
-        left: boundingRect.left
+        top: isCardNearBottomBorder ? 'auto' : boundingRect.bottom + 10,
+        left: isCardNearRightBorder ? 'auto' : boundingRect.left,
+        bottom: isCardNearBottomBorder
+          ? window.innerHeight - boundingRect.top - 3
+          : 'auto',
+        right: isCardNearRightBorder
+          ? window.innerWidth - boundingRect.right
+          : 'auto'
       }
     };
 
     const calendarMobileStyle = {
       content: {
         top: 110,
-        left: '50%',
         transform: 'translateX(-50%)'
       }
     };

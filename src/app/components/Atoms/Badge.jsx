@@ -58,7 +58,7 @@ Badge.defaultProps = {
 };
 
 Badge.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onClick: PropTypes.func,
   fontSize: PropTypes.number,
   className: PropTypes.string,

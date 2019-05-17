@@ -42,16 +42,12 @@ const ListStyles = styled.div`
     box-shadow: ${props => props.theme.common.boxShadowThree} !important;
   }
 
-  .cards-wrapper {
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 0 6px;
-    margin-bottom: 6px;
-  }
-
   .cards {
     min-height: 1px;
+    height: 100%;
+    padding: 0 6px;
+    margin-bottom: 6px;
+    overflow: scroll;
   }
 `;
 
@@ -65,7 +61,9 @@ class List extends Component {
     pomodoro: PropTypes.object,
     categories: PropTypes.array,
     defaultList: PropTypes.string,
-    defaultCardTime: PropTypes.string
+    defaultCardTime: PropTypes.string,
+    toggleIsKeyboardOpen: PropTypes.func,
+    isKeyboardOpen: PropTypes.bool
   };
 
   withinPomodoroTime = () => {
@@ -139,13 +137,11 @@ class List extends Component {
                   boardId={boardId}
                 />
                 {list.cards.length !== 0 && (
-                  <div className="cards-wrapper">
-                    <Cards
-                      listId={list._id}
-                      categories={categories}
-                      withinPomodoroCards={this.withinPomodoroTime()}
-                    />
-                  </div>
+                  <Cards
+                    listId={list._id}
+                    categories={categories}
+                    withinPomodoroCards={this.withinPomodoroTime()}
+                  />
                 )}
               </div>
               <CardAdder

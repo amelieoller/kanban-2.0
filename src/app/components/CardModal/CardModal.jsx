@@ -22,7 +22,11 @@ class CardModal extends Component {
     isOpen: PropTypes.bool.isRequired,
     toggleCardEditor: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    isCalendarModalOpen: PropTypes.bool.isRequired,
+    isDifficultyModalOpen: PropTypes.bool.isRequired,
+    isCategoryModalOpen: PropTypes.bool.isRequired,
+    toggleSubModal: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -197,6 +201,7 @@ class CardModal extends Component {
           listId={listId}
           boundingRect={boundingRect}
           isCardNearRightBorder={isCardNearRightBorder}
+          isCardNearBottomBorder={isCardNearBottomBorder}
           isThinDisplay={isThinDisplay}
           categories={categories}
           isCalendarModalOpen={isCalendarModalOpen}
