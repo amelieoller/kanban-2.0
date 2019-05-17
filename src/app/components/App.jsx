@@ -11,43 +11,14 @@ import GlobalStyles from './GlobalStyles';
 import { light, dark } from './Theme';
 
 const App = ({ user, isGuest }) => {
-  const [state, setState] = useState({
-    isLight: true,
-    focusMode: false
-  });
+  const [lightTheme, setLightTheme] = useState(true);
 
   const setBoardColor = boardColor => {
-    setState({
-      ...state,
-      isLight: boardColor === 'light'
-    });
+    setLightTheme(boardColor === 'light');
   };
-
-  const changeFocusMode = () => {
-    setState({
-      ...state,
-      focusMode: !state.focusMode
-    });
-
-    // const element = document.getElementsByName('CN8_QAFQF')[0];
-    // const headerOffset = 40;
-    // const elementPosition = element.getBoundingClientRect().left;
-    // const offsetPosition = elementPosition - headerOffset;
-    // debugger
-    // window.scrollTo({
-    //   left: offsetPosition,
-    //   behavior: 'smooth'
-    // });
-
-    // document
-    //   .getElementsByName('CN8_QAFQF')[0]
-    //   .scrollIntoView({ inline: 'center', behavior: 'smooth' });
-  };
-
-  const { isLight, focusMode } = state;
 
   return (
-    <ThemeProvider theme={isLight ? light : dark}>
+    <ThemeProvider theme={lightTheme ? light : dark}>
       <>
         <GlobalStyles />
         {user || isGuest ? (
@@ -62,15 +33,8 @@ const App = ({ user, isGuest }) => {
               render={props => (
                 <BoardContainer
                   {...props}
-                  changeTheme={() =>
-                    setState({
-                      ...state,
-                      isLight: !state.isLight
-                    })
-                  }
+                  changeTheme={() => setLightTheme(!lightTheme)}
                   setBoardColor={boardColor => setBoardColor(boardColor)}
-                  focusMode={focusMode}
-                  changeFocusMode={changeFocusMode}
                 />
               )}
             />

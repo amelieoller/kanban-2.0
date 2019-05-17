@@ -70,8 +70,7 @@ class Board extends Component {
     habitsListId: PropTypes.string,
     changeTheme: PropTypes.func,
     setBoardColor: PropTypes.func,
-    focusMode: PropTypes.bool,
-    changeFocusMode: PropTypes.func
+    defaultList: PropTypes.string
   };
 
   constructor(props) {
@@ -79,7 +78,8 @@ class Board extends Component {
     this.state = {
       startX: null,
       startScrollX: null,
-      isKeyboardOpen: false
+      isKeyboardOpen: false,
+      focusMode: false
     };
   }
 
@@ -203,6 +203,28 @@ class Board extends Component {
     });
   };
 
+  changeFocusMode = () => {
+    const { focusMode } = this.state;
+    const { defaultList } = this.props;
+
+    this.setState({
+      focusMode: !focusMode
+    });
+
+    if (!focusMode) {
+      const element = document.getElementsByName(defaultList)[0];
+      const bodyRect = document.body.getBoundingClientRect().left;
+      const elementRect = element.getBoundingClientRect().left;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - 220;
+
+      window.scrollTo({
+        left: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   render = () => {
     const {
       lists,
@@ -212,14 +234,12 @@ class Board extends Component {
       completedListId,
       habitsListId,
       changeTheme,
-      setBoardColor,
-      focusMode,
-      changeFocusMode
+      setBoardColor
     } = this.props;
     const otherLists = lists.filter(
       list => list && list._id !== completedListId && list._id !== habitsListId
     );
-    const { isKeyboardOpen } = this.state;
+    const { isKeyboardOpen, focusMode } = this.state;
 
     return (
       <BoardStyles focusMode={focusMode}>
@@ -235,7 +255,7 @@ class Board extends Component {
             changeTheme={changeTheme}
             setBoardColor={setBoardColor}
             focusMode={focusMode}
-            changeFocusMode={changeFocusMode}
+            changeFocusMode={this.changeFocusMode}
           />
 
           <DragDropContext onDragEnd={this.handleDragEnd}>
@@ -265,7 +285,8 @@ class Board extends Component {
           <Sidebar
             pomodoro={pomodoro}
             boardId={boardId}
-            changeFocusMode={changeFocusMode}
+            focusMode={focusMode}
+            changeFocusMode={this.changeFocusMode}
             isKeyboardOpen={isKeyboardOpen}
           />
         </CSSTransitionGroup>
@@ -276,7 +297,7 @@ class Board extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { board } = ownProps;
-  const { completedListId, habitsListId } = state.boardsById[
+  const { completedListId, habitsListId, defaultList } = state.boardsById[
     board._id
   ].settings;
 
@@ -287,7 +308,8 @@ const mapStateToProps = (state, ownProps) => {
     boardId: board._id,
     pomodoro: board.settings.pomodoro,
     completedListId,
-    habitsListId
+    habitsListId,
+    defaultList
   };
 };
 

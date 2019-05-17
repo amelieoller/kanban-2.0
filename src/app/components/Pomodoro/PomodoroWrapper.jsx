@@ -18,7 +18,8 @@ class PomodoroWrapper extends Component {
     }).isRequired,
     pomodoriToEvent: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
     changeFocusMode: PropTypes.func,
-    pomodoroFocusMode: PropTypes.bool
+    pomodoroFocusMode: PropTypes.bool,
+    focusMode: PropTypes.bool
   };
 
   constructor(props) {
@@ -66,7 +67,7 @@ class PomodoroWrapper extends Component {
 
   startCountdown = () => {
     const { timeInterval, timePaused, pausedTime } = this.state;
-    const { changeFocusMode, pomodoroFocusMode } = this.props;
+    const { changeFocusMode, pomodoroFocusMode, focusMode } = this.props;
 
     // Pause pomodoro if countdown is currently running, otherwise start
     // countdown
@@ -80,11 +81,10 @@ class PomodoroWrapper extends Component {
       // Check if pomodoro has just been un-paused
       if (timePaused === false) {
         // First time starting pomodoro
-        if (pomodoroFocusMode) changeFocusMode();
         this.unPauseCountdown();
       } else {
         // At first pause and every pause afterwards
-        if (pomodoroFocusMode) changeFocusMode();
+        if (pomodoroFocusMode && !focusMode) changeFocusMode();
 
         this.setState({
           endTime: newStartTime + pausedTime,
@@ -164,9 +164,9 @@ class PomodoroWrapper extends Component {
 
   pauseCountdown = () => {
     const { endTime } = this.state;
-    const { changeFocusMode, pomodoroFocusMode } = this.props;
+    const { changeFocusMode, pomodoroFocusMode, focusMode } = this.props;
 
-    if (pomodoroFocusMode) changeFocusMode();
+    if (pomodoroFocusMode && focusMode) changeFocusMode();
 
     this.resetInterval();
     this.setState({
@@ -177,9 +177,9 @@ class PomodoroWrapper extends Component {
 
   unPauseCountdown = () => {
     const { sessionLength } = this.state;
-    const { changeFocusMode, pomodoroFocusMode } = this.props;
+    const { changeFocusMode, pomodoroFocusMode, focusMode } = this.props;
 
-    if (pomodoroFocusMode) changeFocusMode();
+    if (pomodoroFocusMode && !focusMode) changeFocusMode();
 
     this.setState({
       endTime: new Date().getTime() + sessionLength * 60000
