@@ -10,6 +10,7 @@ import CardBadges from '../CardBadges';
 import { findCheckboxes } from '../utils';
 import formatMarkdown from './formatMarkdown';
 import CardStyles from './CardStyles';
+import IconButton from '../Atoms/IconButton';
 
 class Card extends Component {
   static propTypes = {
@@ -54,7 +55,9 @@ class Card extends Component {
   };
 
   toggleSpecificModal = type => {
-    this.toggleCardEditor();
+    const { isCardModalOpen } = this.state;
+
+    if (!isCardModalOpen) this.toggleCardEditor();
     this.toggleSubModal(type);
   };
 
@@ -179,37 +182,39 @@ class Card extends Component {
                       ...provided.draggableProps.style
                     }}
                   >
-                    <div className="card-left">
-                      <div className="card-title-top">
-                        <div
-                          className="card-title-html"
-                          dangerouslySetInnerHTML={{
-                            __html: formatMarkdown(card.text)
-                          }}
-                        />
-                      </div>
-                      {(card.date ||
-                        checkboxes.total > 0 ||
-                        card.minutes ||
-                        card.category) && (
-                        <CardBadges
-                          date={card.date}
-                          checkboxes={checkboxes}
-                          minutes={card.minutes}
-                          category={categories.find(
-                            cat => cat._id === card.categoryId
-                          )}
-                          dispatch={dispatch}
-                          cardId={card._id}
-                          toggleDifficultyModal={this.toggleDifficultyModal}
-                          difficulty={card.difficulty}
-                          toggleSpecificModal={this.toggleSpecificModal}
-                        />
-                      )}
+                    <div className="card-title-top">
+                      <div
+                        className="card-title-html"
+                        dangerouslySetInnerHTML={{
+                          __html: formatMarkdown(card.text)
+                        }}
+                      />
                     </div>
-                    <div className="checkmark" onClick={this.completeCard}>
+                    {(card.date ||
+                      checkboxes.total > 0 ||
+                      card.minutes ||
+                      card.category) && (
+                      <CardBadges
+                        date={card.date}
+                        checkboxes={checkboxes}
+                        minutes={card.minutes}
+                        category={categories.find(
+                          cat => cat._id === card.categoryId
+                        )}
+                        dispatch={dispatch}
+                        cardId={card._id}
+                        difficulty={card.difficulty}
+                        toggleSpecificModal={this.toggleSpecificModal}
+                      />
+                    )}
+                    <IconButton
+                      className="checkmark"
+                      onClick={this.completeCard}
+                      color="background"
+                      background="textDisabled"
+                    >
                       <FiCheck />
-                    </div>
+                    </IconButton>
                   </div>
                   {/* Remove placeholder when not dragging over to reduce snapping */}
                   {isDraggingOver && provided.placeholder}
@@ -227,6 +232,7 @@ class Card extends Component {
               isCalendarModalOpen={isCalendarModalOpen}
               isDifficultyModalOpen={isDifficultyModalOpen}
               isCategoryModalOpen={isCategoryModalOpen}
+              toggleSpecificModal={this.toggleSpecificModal}
             />
           </>
         )}
