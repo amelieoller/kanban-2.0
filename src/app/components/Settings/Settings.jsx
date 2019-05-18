@@ -13,7 +13,6 @@ import {
   FiList
 } from 'react-icons/fi';
 import Categories from '../Categories/Categories';
-import ExpandingInput from '../ExpandingInput';
 import Dropdown from '../Dropdown';
 import SaveButton from '../styles/SaveButton';
 import Checkbox from '../styles/Checkbox';
@@ -105,22 +104,13 @@ const Settings = ({
     eventCalendarId: eventCalendarId || '',
     eventFilter: eventFilter || '',
     defaultList: defaultList || '',
-    defaultCardTime: defaultCardTime || '',
-    pomodoroFocusMode: pomodoroFocusMode ? 'checked' : ''
+    defaultCardTime: defaultCardTime || 0,
+    pomodoroFocusMode: pomodoroFocusMode || false,
+    defaultCategory: defaultCategory || ''
   });
 
   const handleChange = e => {
     setState({ ...state, [e.target.name]: e.target.value });
-  };
-
-  const handleSettingChange = (e, setting, type) => {
-    e.preventDefault();
-    const { boardId } = match.params;
-
-    dispatch({
-      type: 'CHANGE_SETTING',
-      payload: { boardId, setting, type }
-    });
   };
 
   const handleDeleteBoard = () => {
@@ -129,10 +119,47 @@ const Settings = ({
     history.push('/');
   };
 
+  const hasChanged = () => {
+    const changedObject = {
+      eventCalendarId,
+      eventFilter,
+      defaultList,
+      defaultCardTime,
+      pomodoroFocusMode,
+      defaultCategory
+    };
+
+    return JSON.stringify(state) !== JSON.stringify(changedObject);
+  };
+
+  const handleSave = () => {
+    const { boardId } = match.params;
+
+    const changeObject = {
+      eventCalendarId: state.eventCalendarId,
+      eventFilter: state.eventFilter,
+      defaultList: state.defaultList,
+      defaultCardTime: state.defaultCardTime,
+      pomodoroFocusMode: state.pomodoroFocusMode,
+      defaultCategory: state.defaultCategory
+    };
+
+    dispatch({
+      type: 'CHANGE_SETTINGS',
+      payload: { boardId, changeObject }
+    });
+  };
+
   return (
     <SettingsStyles>
       <FiX className="close-button" onClick={closeMenu} />
-      <h1>Settings</h1>
+      <h1>
+        Settings{' '}
+        <SaveButton
+          changed={hasChanged()}
+          onClick={() => hasChanged() && handleSave()}
+        />
+      </h1>
       <h2>
         <FiHeart />
         Card Presets
@@ -140,8 +167,8 @@ const Settings = ({
       <p>Default category to be added to each new card:</p>
       <Dropdown
         name="defaultCategory"
-        value={defaultCategory}
-        onChange={e => handleSettingChange(e, e.target.value, e.target.name)}
+        value={state.defaultCategory}
+        onChange={handleChange}
         items={categories}
       >
         {categories.map(category => (
@@ -151,21 +178,17 @@ const Settings = ({
         ))}
       </Dropdown>
       <p>Default time to be added to each new card:</p>
-      <form
-        action=""
-        onSubmit={e =>
-          handleSettingChange(e, state.defaultCardTime, 'defaultCardTime')
+      <input
+        className="styled-input"
+        placeholder="Minutes"
+        name="defaultCardTime"
+        value={state.defaultCardTime}
+        onChange={e =>
+          setState({ ...state, [e.target.name]: parseInt(e.target.value, 10) })
         }
-      >
-        <ExpandingInput
-          placeholder="Minutes"
-          name="defaultCardTime"
-          value={state.defaultCardTime}
-          onChange={handleChange}
-          type="number"
-        />
-        <SaveButton changed={defaultCardTime !== state.defaultCardTime} />
-      </form>
+        type="number"
+      />
+
       <h2>
         <FiList />
         Categories
@@ -178,41 +201,30 @@ const Settings = ({
       <p>
         Events calendar (email address associated with your google calendar):
       </p>
-      <form
-        action=""
-        onSubmit={e =>
-          handleSettingChange(e, state.eventCalendarId, 'eventCalendarId')
-        }
-      >
-        <ExpandingInput
-          placeholder="Event Calendar"
-          name="eventCalendarId"
-          value={state.eventCalendarId}
-          onChange={handleChange}
-        />
-        <SaveButton changed={eventCalendarId !== state.eventCalendarId} />
-      </form>
+      <input
+        className="styled-input"
+        placeholder="Event Calendar"
+        name="eventCalendarId"
+        value={state.eventCalendarId}
+        onChange={handleChange}
+      />
       <p>Keyword by which to filter events:</p>
-      <form
-        action=""
-        onSubmit={e => handleSettingChange(e, state.eventFilter, 'eventFilter')}
-      >
-        <ExpandingInput
-          placeholder="Event Filter"
-          name="eventFilter"
-          value={state.eventFilter}
-          onChange={handleChange}
-        />
-        <SaveButton changed={eventFilter !== state.eventFilter} />
-      </form>
+      <input
+        className="styled-input"
+        placeholder="Event Filter"
+        name="eventFilter"
+        value={state.eventFilter}
+        onChange={handleChange}
+      />
+
       <h2>
         <FiEye /> Focus Mode
       </h2>
       <p>Default list to focus on:</p>
       <Dropdown
         name="defaultList"
-        value={defaultList}
-        onChange={e => handleSettingChange(e, e.target.value, 'defaultList')}
+        value={state.defaultList}
+        onChange={handleChange}
         items={categories}
       >
         {Object.keys(listsById).map(list => (
@@ -223,9 +235,11 @@ const Settings = ({
       </Dropdown>
       <Checkbox
         label="Activate when time starts"
-        onChange={handleSettingChange}
-        checked={pomodoroFocusMode}
-        name="focusIsChecked"
+        onChange={() =>
+          setState({ ...state, pomodoroFocusMode: !state.pomodoroFocusMode })
+        }
+        checked={state.pomodoroFocusMode}
+        name="pomodoroFocusMode"
       />
       <h2>
         <FiAlertCircle />
@@ -259,7 +273,7 @@ Settings.propTypes = {
   eventFilter: PropTypes.string,
   closeMenu: PropTypes.func,
   defaultList: PropTypes.string,
-  defaultCardTime: PropTypes.string,
+  defaultCardTime: PropTypes.number,
   listsById: PropTypes.object,
   categories: PropTypes.array,
   defaultCategory: PropTypes.string,
