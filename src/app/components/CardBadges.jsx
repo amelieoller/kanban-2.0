@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
@@ -46,6 +46,8 @@ const CardBadges = ({
   toggleSpecificModal,
   checkboxes: { total, checked }
 }) => {
+  const [cardMinutes, setCardMinutes] = useState(minutes);
+
   const renderDueDate = () => {
     if (!date) {
       return null;
@@ -135,16 +137,22 @@ const CardBadges = ({
   const handleMinuteChange = e => {
     const newMinutes = parseInt(e.target.value, 10);
 
-    if (minutes !== newMinutes) {
+    if (cardMinutes !== newMinutes) {
+      setCardMinutes(newMinutes);
+    }
+  };
+
+  const handleMinuteSubmit = () => {
+    if (minutes !== cardMinutes) {
       dispatch({
         type: 'CHANGE_CARD_MINUTES',
-        payload: { minutes: newMinutes, cardId }
+        payload: { minutes: cardMinutes, cardId }
       });
     }
   };
 
   const renderMinutes = () => {
-    if (!minutes) {
+    if (!cardMinutes) {
       return null;
     }
 
@@ -155,7 +163,8 @@ const CardBadges = ({
         <input
           onChange={e => handleMinuteChange(e)}
           type="number"
-          value={minutes}
+          value={cardMinutes}
+          onBlur={handleMinuteSubmit}
         />
         min
       </div>

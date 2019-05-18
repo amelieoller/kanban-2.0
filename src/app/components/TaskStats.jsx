@@ -181,7 +181,7 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
             <div className="stat-badges">
               {renderCategorySummary(cards).map(
                 category =>
-                  category.minutes !== 0 && (
+                  !!category.minutes && (
                     <div className="minute-badges" key={category.name}>
                       <div
                         className={classnames('minute-badge', 'badge')}

@@ -62,12 +62,17 @@ class Card extends Component {
   };
 
   handleClick = e => {
-    const { tagName, checked, id } = e.target;
-    if (tagName.toLowerCase() === 'input') {
+    const { tagName, checked, id, type } = e.target;
+
+    if (
+      tagName.toLowerCase() === 'input' &&
+      type.toLowerCase() === 'checkbox'
+    ) {
       // The id is a string that describes which number in the order of checkboxes this particular checkbox has
       this.toggleCheckbox(checked, parseInt(id, 10));
     } else if (
       tagName.toLowerCase() !== 'a' &&
+      tagName.toLowerCase() !== 'input' &&
       !e.target.classList.contains('badge')
     ) {
       this.toggleCardEditor();
