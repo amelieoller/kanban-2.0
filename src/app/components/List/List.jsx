@@ -61,7 +61,7 @@ class List extends Component {
     pomodoro: PropTypes.object,
     categories: PropTypes.array,
     defaultList: PropTypes.string,
-    defaultCardTime: PropTypes.string,
+    defaultCardTime: PropTypes.number,
     toggleIsKeyboardOpen: PropTypes.func,
     isKeyboardOpen: PropTypes.bool
   };

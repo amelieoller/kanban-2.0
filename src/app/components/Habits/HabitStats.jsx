@@ -110,7 +110,9 @@ const HabitStats = ({ stats, cards, dispatch, boardId, habitGoals }) => {
     return result;
   };
 
-  const handleSettingsChange = (type, value) => {
+  const handleSettingsChange = (type, v) => {
+    const value = parseInt(v, 10);
+
     dispatch({
       type: 'CHANGE_GOAL_SETTING',
       payload: { boardId, type, value }
@@ -194,7 +196,7 @@ HabitStats.propTypes = {
   cards: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   boardId: PropTypes.string.isRequired,
-  habitGoals: PropTypes.string.isRequired
+  habitGoals: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({

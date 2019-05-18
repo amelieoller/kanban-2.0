@@ -100,7 +100,7 @@ RepeatingTasks.propTypes = {
       createdAt: PropTypes.number.isRequired,
       difficulty: PropTypes.number.isRequired,
       inPomodoro: PropTypes.bool,
-      minutes: PropTypes.string.isRequired,
+      minutes: PropTypes.number.isRequired,
       nextDate: PropTypes.string.isRequired,
       recurringText: PropTypes.string.isRequired,
       schedule: PropTypes.object.isRequired,

@@ -8,7 +8,7 @@ import Badge from './Atoms/Badge';
 
 const CardBadgesStyles = styled.div`
   display: flex;
-  padding: 0px 8px 6px 8px;
+  padding: 0px 5px 5px 5px;
   font-size: 14px;
 
   .badge {
@@ -18,6 +18,12 @@ const CardBadgesStyles = styled.div`
 
   .badge-minutes {
     background-color: ${props => props.theme.colors.monotoneAccent};
+
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
 
     input {
       background: transparent;
@@ -127,7 +133,7 @@ const CardBadges = ({
   };
 
   const handleMinuteChange = e => {
-    const newMinutes = e.target.value;
+    const newMinutes = parseInt(e.target.value, 10);
 
     if (minutes !== newMinutes) {
       dispatch({
@@ -148,7 +154,7 @@ const CardBadges = ({
         &nbsp;
         <input
           onChange={e => handleMinuteChange(e)}
-          type="text"
+          type="number"
           value={minutes}
         />
         min
@@ -173,7 +179,7 @@ CardBadges.propTypes = {
     total: PropTypes.number.isRequired,
     checked: PropTypes.number.isRequired
   }).isRequired,
-  minutes: PropTypes.string,
+  minutes: PropTypes.number,
   category: PropTypes.shape({
     name: PropTypes.string.isRequired,
     short: PropTypes.string.isRequired,

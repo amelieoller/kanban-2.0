@@ -302,7 +302,7 @@ ExpandingInput.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   name: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   max: PropTypes.string
 };
 

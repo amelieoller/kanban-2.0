@@ -40,6 +40,8 @@ const CardOptionsStyles = styled.div`
     cursor: pointer;
     width: ${props => (props.isThinDisplay ? '135px' : '100px')};
 
+    &:hover,
+    &:focus,
     &.is-active {
       color: ${props => props.theme.colors.primary};
     }
@@ -91,7 +93,7 @@ class CardOptions extends Component {
   static propTypes = {
     card: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      minutes: PropTypes.string,
+      minutes: PropTypes.number,
       recurringText: PropTypes.string
     }).isRequired,
     listId: PropTypes.string.isRequired,
@@ -159,7 +161,7 @@ class CardOptions extends Component {
   };
 
   handleMinuteChange = e => {
-    const minutes = e.target.value;
+    const minutes = parseInt(e.target.value, 10);
 
     this.setState({
       [e.target.name]: minutes
@@ -260,10 +262,6 @@ class CardOptions extends Component {
           <form onSubmit={this.handleMinuteSubmit}>
             <input
               className="modal-option minutes"
-              onKeyDown={this.handleKeyDownTime}
-              ref={ref => {
-                this.colorPickerButton = ref;
-              }}
               name="minutes"
               type="number"
               placeholder="Minutes"

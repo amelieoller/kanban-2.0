@@ -129,7 +129,7 @@ CardAdder.propTypes = {
   listId: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   defaultCategory: PropTypes.string,
-  defaultCardTime: PropTypes.string
+  defaultCardTime: PropTypes.number
 };
 
 export default connect()(CardAdder);
