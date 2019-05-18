@@ -89,6 +89,25 @@ const CardStyles = styled.div`
       padding: 4px 2px;
       background: rgba(100, 100, 100, 0.08);
     }
+
+    ul {
+      margin: 0;
+
+      li {
+        > p {
+          display: inline;
+        }
+
+        &::before {
+          content: '•';
+          color: ${props => props.theme.colors.textSecondary};
+          font-size: 1em;
+          padding-right: 0.4rem;
+          position: relative;
+          top: 0em;
+        }
+      }
+    }
   }
 
   .within-pomodoro.card-title {
