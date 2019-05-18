@@ -111,7 +111,7 @@ const Tree = memo(({ children, name, defaultOpen = false }) => {
 
 const ExpandablePanels = ({ children }) => (
   <div>
-    {children.map((child, i) => (
+    {children.filter(Boolean).map((child, i) => (
       <Tree
         key={i}
         name={child.props.name}
