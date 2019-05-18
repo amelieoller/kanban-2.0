@@ -17,14 +17,15 @@ const StyledSaveButton = styled.button`
   }
 `;
 
-const SaveButton = ({ changed }) => (
-  <StyledSaveButton type="submit" changed={changed}>
+const SaveButton = ({ changed, onClick }) => (
+  <StyledSaveButton type="submit" changed={changed} onClick={onClick}>
     <FiSave />
   </StyledSaveButton>
 );
 
 SaveButton.propTypes = {
-  changed: PropTypes.bool
+  changed: PropTypes.bool.isRequired,
+  onClick: PropTypes.func
 };
 
 export default SaveButton;
