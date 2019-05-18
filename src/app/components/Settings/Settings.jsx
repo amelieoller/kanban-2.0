@@ -86,33 +86,61 @@ const SettingsStyles = styled.div`
   }
 `;
 
-const Settings = ({
-  eventCalendarId,
-  eventFilter,
-  match,
-  dispatch,
-  closeMenu,
-  history,
-  defaultList,
-  lists,
-  defaultCardTime,
-  categories,
-  defaultCategory,
-  pomodoroFocusMode,
-  toggleChangesPending,
-  changesPending
-}) => {
-  const [state, setState] = useState({
+const Settings = props => {
+  const {
+    eventCalendarId,
+    eventFilter,
+    match,
+    dispatch,
+    closeMenu,
+    history,
+    defaultList,
+    lists,
+    defaultCardTime,
+    categories,
+    defaultCategory,
+    pomodoroFocusMode,
+    settingsPending
+  } = props;
+
+  const initialState = {
     eventCalendarId: eventCalendarId || '',
     eventFilter: eventFilter || '',
     defaultList: defaultList || '',
     defaultCardTime: defaultCardTime || 0,
     pomodoroFocusMode: pomodoroFocusMode || false,
     defaultCategory: defaultCategory || ''
-  });
+  };
 
-  const handleChange = e => {
-    setState({ ...state, [e.target.name]: e.target.value });
+  const [state, setState] = useState(initialState);
+
+  const toggleSettingsPending = bool => {
+    dispatch({
+      type: 'SETTINGS_PENDING',
+      payload: { settingsPending: bool }
+    });
+  };
+
+  const handleChange = (name, value) => {
+    if (state[name] !== value) {
+      // If state has changed set new state
+      const newState = { ...state, [name]: value };
+      setState(newState);
+
+      if (
+        JSON.stringify(newState) !== JSON.stringify(initialState) &&
+        !settingsPending
+      ) {
+        // If state has changed for the first time
+        toggleSettingsPending(true);
+      } else if (
+        JSON.stringify(newState) === JSON.stringify(initialState) &&
+        settingsPending
+      ) {
+        // If state goes back to what it was before
+        toggleSettingsPending(false);
+      }
+    }
   };
 
   const handleDeleteBoard = () => {
@@ -138,24 +166,8 @@ const Settings = ({
       payload: { boardId, changeObject }
     });
 
-    toggleChangesPending(false);
+    toggleSettingsPending(false);
   };
-
-  const changedObject = {
-    eventCalendarId,
-    eventFilter,
-    defaultList,
-    defaultCardTime,
-    pomodoroFocusMode,
-    defaultCategory
-  };
-  
-  const changesBoolean =
-    JSON.stringify(state) !== JSON.stringify(changedObject);
-
-  if (changesBoolean) {
-    toggleChangesPending(changesBoolean);
-  }
 
   return (
     <SettingsStyles>
@@ -163,8 +175,8 @@ const Settings = ({
       <h1>
         Settings{' '}
         <SaveButton
-          changed={changesPending}
-          onClick={() => changesPending && handleSave()}
+          changed={settingsPending}
+          onClick={() => settingsPending && handleSave()}
         />
       </h1>
       <h2>
@@ -175,7 +187,7 @@ const Settings = ({
       <Dropdown
         name="defaultCategory"
         value={state.defaultCategory}
-        onChange={handleChange}
+        onChange={e => handleChange(e.target.name, e.target.value)}
         items={categories}
       >
         {categories.map(category => (
@@ -189,10 +201,11 @@ const Settings = ({
         className="styled-input"
         placeholder="Minutes"
         name="defaultCardTime"
-        value={state.defaultCardTime}
-        onChange={e =>
-          setState({ ...state, [e.target.name]: parseInt(e.target.value, 10) })
-        }
+        value={state.defaultCardTime === 0 ? '' : state.defaultCardTime}
+        onChange={e => {
+          const newMinutes = e.target.value === '' ? 0 : e.target.value;
+          handleChange(e.target.name, parseInt(newMinutes, 10));
+        }}
         type="number"
       />
 
@@ -213,7 +226,7 @@ const Settings = ({
         placeholder="Event Calendar"
         name="eventCalendarId"
         value={state.eventCalendarId}
-        onChange={handleChange}
+        onChange={e => handleChange(e.target.name, e.target.value)}
       />
       <p>Keyword by which to filter events:</p>
       <input
@@ -221,7 +234,7 @@ const Settings = ({
         placeholder="Event Filter"
         name="eventFilter"
         value={state.eventFilter}
-        onChange={handleChange}
+        onChange={e => handleChange(e.target.name, e.target.value)}
       />
 
       <h2>
@@ -231,7 +244,7 @@ const Settings = ({
       <Dropdown
         name="defaultList"
         value={state.defaultList}
-        onChange={handleChange}
+        onChange={e => handleChange(e.target.name, e.target.value)}
       >
         {lists
           .filter(l => !l.special)
@@ -244,7 +257,7 @@ const Settings = ({
       <Checkbox
         label="Activate when time starts"
         onChange={() =>
-          setState({ ...state, pomodoroFocusMode: !state.pomodoroFocusMode })
+          handleChange('pomodoroFocusMode', !state.pomodoroFocusMode)
         }
         checked={state.pomodoroFocusMode}
         name="pomodoroFocusMode"
@@ -286,8 +299,7 @@ Settings.propTypes = {
   categories: PropTypes.array,
   defaultCategory: PropTypes.string,
   pomodoroFocusMode: PropTypes.bool,
-  toggleChangesPending: PropTypes.func,
-  changesPending: PropTypes.bool
+  settingsPending: PropTypes.bool
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -315,7 +327,8 @@ const mapStateToProps = (state, ownProps) => {
     defaultCardTime,
     categories,
     defaultCategory,
-    pomodoroFocusMode
+    pomodoroFocusMode,
+    settingsPending: state.appState.settingsPending
   };
 };
 

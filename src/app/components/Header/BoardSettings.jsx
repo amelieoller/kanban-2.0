@@ -1,37 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FiSettings } from 'react-icons/fi';
+import { connect } from 'react-redux';
 import SlideOutMenu from '../Settings/SlideOutMenu';
 import Settings from '../Settings/Settings';
 import IconButton from '../Atoms/IconButton';
 
-const BoardSettings = ({ lists }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [changesPending, setChangesPending] = useState(false);
-
-  const toggleChangesPending = changesBoolean => {
-    setChangesPending(changesBoolean);
+const BoardSettings = ({
+  lists,
+  dispatch,
+  settingsMenuOpen,
+  settingsPending
+}) => {
+  const toggleSettingsMenu = bool => {
+    dispatch({
+      type: 'TOGGLE_SETTINGS_MENU',
+      payload: { settingsMenuOpen: bool }
+    });
   };
 
   return (
     <>
       <SlideOutMenu
-        isOpen={menuOpen}
-        closeCallback={() => setMenuOpen(false)}
+        isOpen={settingsMenuOpen}
+        closeCallback={() => toggleSettingsMenu(false)}
         right
         width={350}
       >
         <Settings
-          closeMenu={() => setMenuOpen(false)}
+          closeMenu={() => toggleSettingsMenu(false)}
           lists={lists}
-          toggleChangesPending={toggleChangesPending}
-          changesPending={changesPending}
+          settingsPending={settingsPending}
         />
       </SlideOutMenu>
       <IconButton
-        onClick={() => setMenuOpen(true)}
+        onClick={() => toggleSettingsMenu(true)}
         color="background"
-        className={changesPending ? `changesPending no-focus-mode` : 'no-focus-mode'}
+        className={
+          settingsPending ? `changesPending no-focus-mode` : 'no-focus-mode'
+        }
       >
         <FiSettings />
       </IconButton>
@@ -40,7 +47,15 @@ const BoardSettings = ({ lists }) => {
 };
 
 BoardSettings.propTypes = {
-  lists: PropTypes.array.isRequired
+  lists: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  settingsMenuOpen: PropTypes.bool.isRequired,
+  settingsPending: PropTypes.bool.isRequired
 };
 
-export default BoardSettings;
+const mapStateToProps = state => ({
+  settingsMenuOpen: state.appState.settingsMenuOpen,
+  settingsPending: state.appState.settingsPending
+});
+
+export default connect(mapStateToProps)(BoardSettings);
