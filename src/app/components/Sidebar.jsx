@@ -68,10 +68,8 @@ const Sidebar = ({
   categories,
   eventCalendarId,
   eventFilter,
-  changeFocusMode,
   pomodoroFocusMode,
-  isKeyboardOpen,
-  focusMode
+  isKeyboardOpen
 }) => {
   const [pomodoriToEvent, setPomodoriToEvent] = useState(false);
 
@@ -83,8 +81,6 @@ const Sidebar = ({
           dispatch={dispatch}
           boardId={boardId}
           pomodoriToEvent={pomodoriToEvent}
-          changeFocusMode={changeFocusMode}
-          focusMode={focusMode}
           pomodoroFocusMode={pomodoroFocusMode}
           name="Pomodoro"
           defaultOpen
@@ -141,9 +137,8 @@ Sidebar.propTypes = {
   categories: PropTypes.array,
   eventCalendarId: PropTypes.string,
   eventFilter: PropTypes.string,
-  changeFocusMode: PropTypes.func,
   pomodoroFocusMode: PropTypes.bool,
-  focusMode: PropTypes.bool.isRequired
+  isKeyboardOpen: PropTypes.bool
 };
 
 const mapStateToProps = (state, ownProps) => {

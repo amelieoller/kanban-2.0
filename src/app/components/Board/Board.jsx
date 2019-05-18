@@ -19,7 +19,7 @@ const BoardStyles = styled.div`
   max-height: 100vh;
 
   .no-focus-mode {
-    filter: ${props => (props.focusMode ? 'blur(3px)' : 'none')};
+    filter: ${props => (props.isInFocusMode ? 'blur(3px)' : 'none')};
   }
 
   .changesPending svg {
@@ -74,8 +74,8 @@ class Board extends Component {
     habitsListId: PropTypes.string,
     toggleTheme: PropTypes.func,
     setInitialTheme: PropTypes.func,
-    defaultList: PropTypes.string,
-    color: PropTypes.string
+    color: PropTypes.string,
+    isInFocusMode: PropTypes.bool
   };
 
   constructor(props) {
@@ -83,8 +83,7 @@ class Board extends Component {
     this.state = {
       startX: null,
       startScrollX: null,
-      isKeyboardOpen: false,
-      focusMode: false
+      isKeyboardOpen: false
     };
   }
 
@@ -210,28 +209,6 @@ class Board extends Component {
     });
   };
 
-  changeFocusMode = () => {
-    const { focusMode } = this.state;
-    const { defaultList } = this.props;
-
-    this.setState({
-      focusMode: !focusMode
-    });
-
-    const element = document.getElementsByName(defaultList)[0];
-    if (element && !focusMode) {
-      const bodyRect = document.body.getBoundingClientRect().left;
-      const elementRect = element.getBoundingClientRect().left;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - 220;
-
-      window.scrollTo({
-        left: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   handleToggleTheme = () => {
     const { dispatch, toggleTheme, color, boardId } = this.props;
     const setting = color === 'light' ? 'dark' : 'light';
@@ -252,15 +229,16 @@ class Board extends Component {
       boardId,
       pomodoro,
       completedListId,
-      habitsListId
+      habitsListId,
+      isInFocusMode
     } = this.props;
     const otherLists = lists.filter(
       list => list && list._id !== completedListId && list._id !== habitsListId
     );
-    const { isKeyboardOpen, focusMode } = this.state;
+    const { isKeyboardOpen } = this.state;
 
     return (
-      <BoardStyles focusMode={focusMode}>
+      <BoardStyles isInFocusMode={isInFocusMode}>
         <CSSTransitionGroup
           transitionName="fade"
           transitionAppear
@@ -271,8 +249,7 @@ class Board extends Component {
           <Title>{boardTitle} | Kanban 2.0</Title>
           <Header
             toggleTheme={this.handleToggleTheme}
-            focusMode={focusMode}
-            changeFocusMode={this.changeFocusMode}
+            isInFocusMode={isInFocusMode}
           />
 
           <DragDropContext onDragEnd={this.handleDragEnd}>
@@ -302,8 +279,7 @@ class Board extends Component {
           <Sidebar
             pomodoro={pomodoro}
             boardId={boardId}
-            focusMode={focusMode}
-            changeFocusMode={this.changeFocusMode}
+            isInFocusMode={isInFocusMode}
             isKeyboardOpen={isKeyboardOpen}
           />
         </CSSTransitionGroup>
@@ -314,12 +290,10 @@ class Board extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { board } = ownProps;
-  const {
-    completedListId,
-    habitsListId,
-    defaultList,
-    color
-  } = state.boardsById[board._id].settings;
+  const { completedListId, habitsListId, color } = state.boardsById[
+    board._id
+  ].settings;
+  const { isInFocusMode } = state.appState;
 
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
@@ -329,8 +303,8 @@ const mapStateToProps = (state, ownProps) => {
     pomodoro: board.settings.pomodoro,
     completedListId,
     habitsListId,
-    defaultList,
-    color
+    color,
+    isInFocusMode
   };
 };
 

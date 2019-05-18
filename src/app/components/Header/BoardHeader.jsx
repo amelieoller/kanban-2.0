@@ -32,17 +32,21 @@ const BoardHeaderStyles = styled.div`
 
 const BoardHeader = ({
   toggleTheme,
-  focusMode,
-  changeFocusMode,
   boardId,
   title,
   dispatch,
-  color
+  color,
+  isInFocusMode,
+  defaultList
 }) => (
   <BoardHeaderStyles>
     <BoardTitle boardTitle={title} boardId={boardId} dispatch={dispatch} />
     <div className="board-header-right">
-      <FocusMode focusMode={focusMode} changeFocusMode={changeFocusMode} />
+      <FocusMode
+        isInFocusMode={isInFocusMode}
+        defaultList={defaultList}
+        dispatch={dispatch}
+      />
       <BoardSettings />
       <LightDarkMode toggleTheme={toggleTheme} boardColor={color} />
     </div>
@@ -51,12 +55,12 @@ const BoardHeader = ({
 
 BoardHeader.propTypes = {
   toggleTheme: PropTypes.func.isRequired,
-  focusMode: PropTypes.bool.isRequired,
-  changeFocusMode: PropTypes.func.isRequired,
   boardId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
-  color: PropTypes.string.isRequired
+  color: PropTypes.string.isRequired,
+  isInFocusMode: PropTypes.bool.isRequired,
+  defaultList: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -70,18 +74,21 @@ const mapStateToProps = (state, ownProps) => {
   const {
     boardsById: {
       [boardId]: {
-        settings: { color },
+        settings: { color, defaultList },
         title
       }
     }
   } = state;
+  const { isInFocusMode } = state.appState;
 
   return {
     user,
     homePage,
     title,
     boardId,
-    color
+    color,
+    isInFocusMode,
+    defaultList
   };
 };
 

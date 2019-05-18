@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransitionGroup } from 'react-transition-group';
+import { connect } from 'react-redux';
 import PomodoroPopOut from './PomodoroPopOut';
 import Pomodoro from './Pomodoro';
 import pomodoroAlert from './pomodoroAlert';
@@ -17,9 +18,9 @@ class PomodoroWrapper extends Component {
       showDayPomo: PropTypes.bool
     }).isRequired,
     pomodoriToEvent: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-    changeFocusMode: PropTypes.func,
     pomodoroFocusMode: PropTypes.bool,
-    focusMode: PropTypes.bool
+    isInFocusMode: PropTypes.bool,
+    defaultList: PropTypes.string
   };
 
   constructor(props) {
@@ -55,6 +56,15 @@ class PomodoroWrapper extends Component {
     window.removeEventListener('beforeunload', this.toggleOpened);
   }
 
+  toggleFocusMode = () => {
+    const { defaultList, dispatch } = this.props;
+
+    dispatch({
+      type: 'TOGGLE_FOCUS_MODE',
+      payload: { defaultList }
+    });
+  };
+
   getFormatTypes = () => [
     { type: 'Work', sessionLength: 25 },
     { type: 'Coffee', sessionLength: 5 }
@@ -67,7 +77,7 @@ class PomodoroWrapper extends Component {
 
   startCountdown = () => {
     const { timeInterval, timePaused, pausedTime } = this.state;
-    const { changeFocusMode, pomodoroFocusMode, focusMode } = this.props;
+    const { pomodoroFocusMode, isInFocusMode } = this.props;
 
     // Pause pomodoro if countdown is currently running, otherwise start
     // countdown
@@ -84,7 +94,7 @@ class PomodoroWrapper extends Component {
         this.unPauseCountdown();
       } else {
         // At first pause and every pause afterwards
-        if (pomodoroFocusMode && !focusMode) changeFocusMode();
+        if (pomodoroFocusMode && !isInFocusMode) this.toggleFocusMode();
 
         this.setState({
           endTime: newStartTime + pausedTime,
@@ -164,9 +174,9 @@ class PomodoroWrapper extends Component {
 
   pauseCountdown = () => {
     const { endTime } = this.state;
-    const { changeFocusMode, pomodoroFocusMode, focusMode } = this.props;
+    const { pomodoroFocusMode, isInFocusMode } = this.props;
 
-    if (pomodoroFocusMode && focusMode) changeFocusMode();
+    if (pomodoroFocusMode && isInFocusMode) this.toggleFocusMode();
 
     this.resetInterval();
     this.setState({
@@ -177,9 +187,9 @@ class PomodoroWrapper extends Component {
 
   unPauseCountdown = () => {
     const { sessionLength } = this.state;
-    const { changeFocusMode, pomodoroFocusMode, focusMode } = this.props;
+    const { pomodoroFocusMode, isInFocusMode } = this.props;
 
-    if (pomodoroFocusMode && !focusMode) changeFocusMode();
+    if (pomodoroFocusMode && !isInFocusMode) this.toggleFocusMode();
 
     this.setState({
       endTime: new Date().getTime() + sessionLength * 60000
@@ -280,4 +290,13 @@ class PomodoroWrapper extends Component {
   }
 }
 
-export default PomodoroWrapper;
+const mapStateToProps = (state, ownProps) => {
+  const { boardId } = ownProps;
+
+  return {
+    isInFocusMode: state.appState.isInFocusMode,
+    defaultList: state.boardsById[boardId].settings.defaultList
+  };
+};
+
+export default connect(mapStateToProps)(PomodoroWrapper);
