@@ -143,6 +143,7 @@ const ListTitle = ({
             onClick={() => {
               if (window.confirm('Are you sure?')) deleteList();
             }}
+            color="textDisabled"
           >
             <FiTrash2 />
           </IconButton>

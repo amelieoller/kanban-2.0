@@ -186,7 +186,7 @@ const DayPickerStyles = styled.div`
     -webkit-box-shadow: none;
     box-shadow: none;
     cursor: pointer;
-    color: #4a90e2;
+    color: ${props => props.theme.colors.secondary};
     font-size: 0.875em;
   }
 
@@ -221,7 +221,7 @@ const DayPickerStyles = styled.div`
   .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
     position: relative;
     color: #f0f8ff;
-    background-color: #4a90e2;
+    background-color: ${props => props.theme.colors.secondary};
     border-radius: 0;
   }
 

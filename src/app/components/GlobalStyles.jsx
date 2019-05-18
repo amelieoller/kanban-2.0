@@ -238,13 +238,14 @@ const GlobalStyles = createGlobalStyle`
 		border-radius: 3px;
 		background: white;
 		transition: background 0.2s;
+		padding-left: 3px;
 	}
 
 	.modal-textarea {
 		flex-grow: 1;
 		box-sizing: border-box;
 		width: 100%;
-		padding: 10px 8px;
+		padding: 10px 5px;
 		border: 0;
 		border-radius: inherit;
 		color: inherit;
@@ -255,6 +256,17 @@ const GlobalStyles = createGlobalStyle`
 		resize: none;
 		overflow: hidden;
 		/* outline: none; */
+	}
+
+	.styled-input {
+		border: none;
+    border-bottom: 1px solid #C6C7C6;
+		padding: 2px;
+		font-size: 16px;
+		background: transparent;
+		outline: none;
+		color: ${props => props.theme.colors.text};
+		width: 100%;
 	}
 `;
 

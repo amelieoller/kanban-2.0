@@ -13,16 +13,20 @@ const CardStyles = styled.div`
     transition: box-shadow 0.15s;
     user-select: none;
     cursor: pointer !important;
-    border-right: 3px solid transparent;
     border-left: 3px solid transparent;
-    display: flex;
-    justify-content: space-between;
     margin: 0 0 5px 0;
+    padding-right: 3px;
 
     &:hover,
     &:focus {
       background-color: ${props => props.theme.colors.elevatedThree};
       box-shadow: ${props => props.theme.common.boxShadowTwo};
+
+      .checkmark {
+        visibility: visible;
+        opacity: 0.8;
+        transition: visibility 0s linear 0s, opacity 200ms;
+      }
     }
   }
 
@@ -33,18 +37,20 @@ const CardStyles = styled.div`
   }
 
   .checkmark {
-    color: ${props => props.theme.colors.lightestGrey};
-    padding: 9px;
+    opacity: 0.7;
+    padding: 4px;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    visibility: hidden;
+    transition: visibility 0s linear 20ms, opacity 20ms;
 
     &:hover,
     &:focus {
-      color: ${props => props.theme.colors.success};
+      color: ${props => props.theme.colors.background};
+      background-color: ${props => props.theme.colors.secondary};
     }
   }
-
-  /* .card-title:focus {
-    box-shadow: 0px 0px 1px 3px rgb(0, 180, 255);
-  } */
 
   .card-title--drag {
     background-color: ${props => props.theme.colors.elevatedFour};
@@ -53,7 +59,7 @@ const CardStyles = styled.div`
   }
 
   .card-title-html {
-    padding: 6px 4px 6px 8px;
+    padding: 5px;
     word-break: break-word;
 
     h1,
