@@ -5,7 +5,7 @@ import SlideOutMenu from '../Settings/SlideOutMenu';
 import Settings from '../Settings/Settings';
 import IconButton from '../Atoms/IconButton';
 
-const BoardSettings = ({ listsById }) => {
+const BoardSettings = ({ lists }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -16,7 +16,7 @@ const BoardSettings = ({ listsById }) => {
         right
         width={350}
       >
-        <Settings closeMenu={() => setMenuOpen(false)} listsById={listsById} />
+        <Settings closeMenu={() => setMenuOpen(false)} lists={lists} />
       </SlideOutMenu>
       <IconButton onClick={() => setMenuOpen(true)} color="background">
         <FiSettings />
@@ -26,7 +26,7 @@ const BoardSettings = ({ listsById }) => {
 };
 
 BoardSettings.propTypes = {
-  listsById: PropTypes.object.isRequired
+  lists: PropTypes.array.isRequired
 };
 
 export default BoardSettings;

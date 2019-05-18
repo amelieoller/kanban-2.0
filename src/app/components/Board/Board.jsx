@@ -214,8 +214,8 @@ class Board extends Component {
       focusMode: !focusMode
     });
 
-    if (!focusMode) {
-      const element = document.getElementsByName(defaultList)[0];
+    const element = document.getElementsByName(defaultList)[0];
+    if (element && !focusMode) {
       const bodyRect = document.body.getBoundingClientRect().left;
       const elementRect = element.getBoundingClientRect().left;
       const elementPosition = elementRect - bodyRect;

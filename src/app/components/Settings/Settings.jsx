@@ -94,7 +94,7 @@ const Settings = ({
   closeMenu,
   history,
   defaultList,
-  listsById,
+  lists,
   defaultCardTime,
   categories,
   defaultCategory,
@@ -225,11 +225,10 @@ const Settings = ({
         name="defaultList"
         value={state.defaultList}
         onChange={handleChange}
-        items={categories}
       >
-        {Object.keys(listsById).map(list => (
-          <option value={listsById[list]._id} key={listsById[list]._id}>
-            {listsById[list].title}
+        {lists.map(list => (
+          <option value={list._id} key={list._id}>
+            {list.title}
           </option>
         ))}
       </Dropdown>
@@ -274,7 +273,7 @@ Settings.propTypes = {
   closeMenu: PropTypes.func,
   defaultList: PropTypes.string,
   defaultCardTime: PropTypes.number,
-  listsById: PropTypes.object,
+  lists: PropTypes.array,
   categories: PropTypes.array,
   defaultCategory: PropTypes.string,
   pomodoroFocusMode: PropTypes.bool

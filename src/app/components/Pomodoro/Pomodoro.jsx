@@ -96,7 +96,7 @@ const Pomodoro = ({
               onClick={() => startCountdown()}
               fontSize={3}
               color="primary"
-              fill="secondary"
+              fill="#8686863d"
               round
             >
               <FiClock />
@@ -106,7 +106,7 @@ const Pomodoro = ({
               onClick={() => startCountdown()}
               fontSize={3}
               color="primary"
-              fill="secondary"
+              fill="#8686863d"
               round
             >
               <FiCoffee />
