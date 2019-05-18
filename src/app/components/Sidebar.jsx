@@ -101,7 +101,7 @@ const Sidebar = ({
             defaultOpen
           />
         ) : (
-          <p className="no-calendar">
+          <p className="no-calendar" name="Events">
             In order to use event features, make sure you are signed in and have
             added a Calendar ID in the settings panel.
           </p>
@@ -142,7 +142,7 @@ Sidebar.propTypes = {
   eventCalendarId: PropTypes.string,
   eventFilter: PropTypes.string,
   changeFocusMode: PropTypes.func,
-  pomodoroFocusMode: PropTypes.bool.isRequired,
+  pomodoroFocusMode: PropTypes.bool,
   focusMode: PropTypes.bool.isRequired
 };
 

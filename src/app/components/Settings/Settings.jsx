@@ -319,6 +319,9 @@ const mapStateToProps = (state, ownProps) => {
       }
     }
   } = state;
+  const board = state.boardsById[boardId];
+  const lists = board.lists.map(listId => state.listsById[listId]);
+  const { settingsPending } = state.appState;
 
   return {
     eventCalendarId,
@@ -328,7 +331,8 @@ const mapStateToProps = (state, ownProps) => {
     categories,
     defaultCategory,
     pomodoroFocusMode,
-    settingsPending: state.appState.settingsPending
+    lists,
+    settingsPending
   };
 };
 

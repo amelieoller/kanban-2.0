@@ -40,8 +40,8 @@ const CardStyles = styled.div`
     opacity: 0.7;
     padding: 4px;
     position: absolute;
-    right: 3px;
-    top: 3px;
+    right: 5px;
+    top: 5px;
     visibility: hidden;
     transition: visibility 0s linear 20ms, opacity 20ms;
 

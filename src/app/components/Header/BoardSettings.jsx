@@ -6,12 +6,7 @@ import SlideOutMenu from '../Settings/SlideOutMenu';
 import Settings from '../Settings/Settings';
 import IconButton from '../Atoms/IconButton';
 
-const BoardSettings = ({
-  lists,
-  dispatch,
-  settingsMenuOpen,
-  settingsPending
-}) => {
+const BoardSettings = ({ settingsMenuOpen, settingsPending, dispatch }) => {
   const toggleSettingsMenu = bool => {
     dispatch({
       type: 'TOGGLE_SETTINGS_MENU',
@@ -27,11 +22,7 @@ const BoardSettings = ({
         right
         width={350}
       >
-        <Settings
-          closeMenu={() => toggleSettingsMenu(false)}
-          lists={lists}
-          settingsPending={settingsPending}
-        />
+        <Settings closeMenu={() => toggleSettingsMenu(false)} />
       </SlideOutMenu>
       <IconButton
         onClick={() => toggleSettingsMenu(true)}
@@ -47,7 +38,6 @@ const BoardSettings = ({
 };
 
 BoardSettings.propTypes = {
-  lists: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   settingsMenuOpen: PropTypes.bool.isRequired,
   settingsPending: PropTypes.bool.isRequired

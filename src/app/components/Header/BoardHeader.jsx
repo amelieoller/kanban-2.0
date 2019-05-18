@@ -37,14 +37,13 @@ const BoardHeader = ({
   boardId,
   title,
   dispatch,
-  lists,
   color
 }) => (
   <BoardHeaderStyles>
     <BoardTitle boardTitle={title} boardId={boardId} dispatch={dispatch} />
     <div className="board-header-right">
       <FocusMode focusMode={focusMode} changeFocusMode={changeFocusMode} />
-      <BoardSettings lists={lists} dispatch={dispatch} />
+      <BoardSettings />
       <LightDarkMode toggleTheme={toggleTheme} boardColor={color} />
     </div>
   </BoardHeaderStyles>
@@ -57,7 +56,6 @@ BoardHeader.propTypes = {
   boardId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
-  lists: PropTypes.array.isRequired,
   color: PropTypes.string.isRequired
 };
 
@@ -77,14 +75,11 @@ const mapStateToProps = (state, ownProps) => {
       }
     }
   } = state;
-  const board = state.boardsById[boardId];
-  const lists = board.lists.map(listId => state.listsById[listId]);
 
   return {
     user,
     homePage,
     title,
-    lists,
     boardId,
     color
   };
