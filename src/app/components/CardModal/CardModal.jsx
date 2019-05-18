@@ -26,7 +26,8 @@ class CardModal extends Component {
     isCalendarModalOpen: PropTypes.bool.isRequired,
     isDifficultyModalOpen: PropTypes.bool.isRequired,
     isCategoryModalOpen: PropTypes.bool.isRequired,
-    toggleSubModal: PropTypes.func.isRequired
+    toggleSubModal: PropTypes.func.isRequired,
+    toggleSpecificModal: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -91,7 +92,9 @@ class CardModal extends Component {
       isCalendarModalOpen,
       isDifficultyModalOpen,
       isCategoryModalOpen,
-      toggleSubModal
+      toggleSubModal,
+      dispatch,
+      toggleSpecificModal
     } = this.props;
     if (!cardElement) {
       return null;
@@ -187,12 +190,17 @@ class CardModal extends Component {
           {(card.date ||
             checkboxes.total > 0 ||
             card.minutes ||
-            card.category) && (
+            card.category ||
+            card.difficulty) && (
             <CardBadges
               date={card.date}
               checkboxes={checkboxes}
               minutes={card.minutes}
               category={categories.find(cat => cat._id === card.categoryId)}
+              dispatch={dispatch}
+              cardId={card._id}
+              difficulty={card.difficulty}
+              toggleSpecificModal={toggleSpecificModal}
             />
           )}
         </div>
