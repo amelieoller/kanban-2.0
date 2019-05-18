@@ -93,14 +93,14 @@ const HeaderStyles = styled.header`
   }
 `;
 
-const Header = ({ user, homePage, toggleTheme }) => (
+const Header = ({ user, homePage }) => (
   <HeaderStyles>
     <Link to="/" className="header-title no-focus-mode">
       <img src={kanbanLogo} alt="Logo - Navigate Back to Board Overview" />
       &nbsp;Kanban 2.0
     </Link>
     <div className="header-right-side">
-      {!homePage && <BoardHeader toggleTheme={toggleTheme} />}
+      {!homePage && <BoardHeader />}
       {user ? (
         <img
           src={user.imageUrl}
@@ -135,8 +135,7 @@ const Header = ({ user, homePage, toggleTheme }) => (
 
 Header.propTypes = {
   user: PropTypes.object,
-  homePage: PropTypes.bool.isRequired,
-  toggleTheme: PropTypes.func
+  homePage: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {

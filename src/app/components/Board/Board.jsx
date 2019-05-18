@@ -72,8 +72,6 @@ class Board extends Component {
     dispatch: PropTypes.func.isRequired,
     completedListId: PropTypes.string,
     habitsListId: PropTypes.string,
-    toggleTheme: PropTypes.func,
-    setInitialTheme: PropTypes.func,
     color: PropTypes.string,
     isInFocusMode: PropTypes.bool
   };
@@ -89,13 +87,16 @@ class Board extends Component {
 
   // boardId is stored in the redux store so that it is available inside middleware
   componentDidMount = () => {
-    const { boardId, dispatch, color, setInitialTheme } = this.props;
+    const { boardId, dispatch, color } = this.props;
     dispatch({
       type: 'PUT_BOARD_ID_IN_REDUX',
       payload: { boardId }
     });
 
-    setInitialTheme(color);
+    dispatch({
+      type: 'SET_BOARD_THEME',
+      payload: { boardTheme: color }
+    });
   };
 
   componentWillUnmount = () => {
@@ -209,19 +210,6 @@ class Board extends Component {
     });
   };
 
-  handleToggleTheme = () => {
-    const { dispatch, toggleTheme, color, boardId } = this.props;
-    const setting = color === 'light' ? 'dark' : 'light';
-    const type = 'color';
-
-    dispatch({
-      type: 'CHANGE_SETTING',
-      payload: { boardId, setting, type }
-    });
-
-    toggleTheme();
-  };
-
   render = () => {
     const {
       lists,
@@ -247,10 +235,7 @@ class Board extends Component {
           transitionLeave={false}
         >
           <Title>{boardTitle} | Kanban 2.0</Title>
-          <Header
-            toggleTheme={this.handleToggleTheme}
-            isInFocusMode={isInFocusMode}
-          />
+          <Header isInFocusMode={isInFocusMode} />
 
           <DragDropContext onDragEnd={this.handleDragEnd}>
             <Droppable

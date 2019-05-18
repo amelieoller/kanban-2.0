@@ -2,7 +2,8 @@ const appState = (
   state = {
     settingsMenuOpen: false,
     settingsPending: false,
-    isInFocusMode: false
+    isInFocusMode: false,
+    boardTheme: 'light'
   },
   action
 ) => {
@@ -37,6 +38,12 @@ const appState = (
       }
 
       return { ...state, isInFocusMode: !isInFocusMode };
+    }
+
+    case 'SET_BOARD_THEME': {
+      const { boardTheme } = action.payload;
+
+      return { ...state, boardTheme };
     }
 
     default:

@@ -10,53 +10,40 @@ import Settings from './Settings/Settings';
 import GlobalStyles from './GlobalStyles';
 import { light, dark } from './Theme';
 
-const App = ({ user, isGuest }) => {
-  const [lightTheme, setLightTheme] = useState(true);
-
-  return (
-    <ThemeProvider theme={lightTheme ? light : dark}>
-      <>
-        <GlobalStyles />
-        {user || isGuest ? (
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route
-              path="/b/:boardId/:boardTitle/settings"
-              component={Settings}
-            />
-            <Route
-              path="/b/:boardId"
-              render={props => (
-                <BoardContainer
-                  {...props}
-                  toggleTheme={() => setLightTheme(!lightTheme)}
-                  setInitialTheme={boardColor =>
-                    setLightTheme(boardColor === 'light')
-                  }
-                />
-              )}
-            />
-            <Redirect to="/" />
-          </Switch>
-        ) : (
-          <Switch>
-            <Route exact path="/" component={LandingPage} />
-            <Redirect to="/" />
-          </Switch>
-        )}
-      </>
-    </ThemeProvider>
-  );
-};
+const App = ({ user, isGuest, boardTheme }) => (
+  <ThemeProvider theme={boardTheme === 'light' ? light : dark}>
+    <>
+      <GlobalStyles />
+      {user || isGuest ? (
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/b/:boardId/:boardTitle/settings" component={Settings} />
+          <Route
+            path="/b/:boardId"
+            render={props => <BoardContainer {...props} />}
+          />
+          <Redirect to="/" />
+        </Switch>
+      ) : (
+        <Switch>
+          <Route exact path="/" component={LandingPage} />
+          <Redirect to="/" />
+        </Switch>
+      )}
+    </>
+  </ThemeProvider>
+);
 
 App.propTypes = {
   user: PropTypes.object,
-  isGuest: PropTypes.bool.isRequired
+  isGuest: PropTypes.bool.isRequired,
+  boardTheme: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  isGuest: state.isGuest
+  isGuest: state.isGuest,
+  boardTheme: state.appState.boardTheme
 });
 
 // Use withRouter to prevent strange glitch where other components

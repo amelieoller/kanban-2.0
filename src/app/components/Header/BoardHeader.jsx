@@ -31,7 +31,6 @@ const BoardHeaderStyles = styled.div`
 `;
 
 const BoardHeader = ({
-  toggleTheme,
   boardId,
   title,
   dispatch,
@@ -48,13 +47,12 @@ const BoardHeader = ({
         dispatch={dispatch}
       />
       <BoardSettings />
-      <LightDarkMode toggleTheme={toggleTheme} boardColor={color} />
+      <LightDarkMode dispatch={dispatch} boardId={boardId} boardColor={color} />
     </div>
   </BoardHeaderStyles>
 );
 
 BoardHeader.propTypes = {
-  toggleTheme: PropTypes.func.isRequired,
   boardId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
