@@ -147,6 +147,21 @@ const boardsById = (state = {}, action) => {
       };
     }
 
+    case 'CHANGE_SETTINGS': {
+      const { boardId, changeObject } = action.payload;
+
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            ...changeObject
+          }
+        }
+      };
+    }
+
     // case 'CHANGE_LAST_CHECKIN': {
     //   const { boardId, checkinDate } = action.payload;
     //   return {
