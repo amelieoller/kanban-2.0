@@ -22,6 +22,10 @@ const BoardStyles = styled.div`
     filter: ${props => (props.focusMode ? 'blur(3px)' : 'none')};
   }
 
+  .changesPending svg {
+    color: ${props => props.theme.colors.primary};
+  }
+
   .lists {
     display: grid;
     grid-gap: 10px;

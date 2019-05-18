@@ -7,6 +7,11 @@ import IconButton from '../Atoms/IconButton';
 
 const BoardSettings = ({ lists }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [changesPending, setChangesPending] = useState(false);
+
+  const toggleChangesPending = changesBoolean => {
+    setChangesPending(changesBoolean);
+  };
 
   return (
     <>
@@ -16,9 +21,18 @@ const BoardSettings = ({ lists }) => {
         right
         width={350}
       >
-        <Settings closeMenu={() => setMenuOpen(false)} lists={lists} />
+        <Settings
+          closeMenu={() => setMenuOpen(false)}
+          lists={lists}
+          toggleChangesPending={toggleChangesPending}
+          changesPending={changesPending}
+        />
       </SlideOutMenu>
-      <IconButton onClick={() => setMenuOpen(true)} color="background">
+      <IconButton
+        onClick={() => setMenuOpen(true)}
+        color="background"
+        className={changesPending ? `changesPending no-focus-mode` : 'no-focus-mode'}
+      >
         <FiSettings />
       </IconButton>
     </>

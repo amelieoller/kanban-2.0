@@ -98,7 +98,9 @@ const Settings = ({
   defaultCardTime,
   categories,
   defaultCategory,
-  pomodoroFocusMode
+  pomodoroFocusMode,
+  toggleChangesPending,
+  changesPending
 }) => {
   const [state, setState] = useState({
     eventCalendarId: eventCalendarId || '',
@@ -119,19 +121,6 @@ const Settings = ({
     history.push('/');
   };
 
-  const hasChanged = () => {
-    const changedObject = {
-      eventCalendarId,
-      eventFilter,
-      defaultList,
-      defaultCardTime,
-      pomodoroFocusMode,
-      defaultCategory
-    };
-
-    return JSON.stringify(state) !== JSON.stringify(changedObject);
-  };
-
   const handleSave = () => {
     const { boardId } = match.params;
 
@@ -148,7 +137,25 @@ const Settings = ({
       type: 'CHANGE_SETTINGS',
       payload: { boardId, changeObject }
     });
+
+    toggleChangesPending(false);
   };
+
+  const changedObject = {
+    eventCalendarId,
+    eventFilter,
+    defaultList,
+    defaultCardTime,
+    pomodoroFocusMode,
+    defaultCategory
+  };
+  
+  const changesBoolean =
+    JSON.stringify(state) !== JSON.stringify(changedObject);
+
+  if (changesBoolean) {
+    toggleChangesPending(changesBoolean);
+  }
 
   return (
     <SettingsStyles>
@@ -156,8 +163,8 @@ const Settings = ({
       <h1>
         Settings{' '}
         <SaveButton
-          changed={hasChanged()}
-          onClick={() => hasChanged() && handleSave()}
+          changed={changesPending}
+          onClick={() => changesPending && handleSave()}
         />
       </h1>
       <h2>
@@ -226,11 +233,13 @@ const Settings = ({
         value={state.defaultList}
         onChange={handleChange}
       >
-        {lists.map(list => (
-          <option value={list._id} key={list._id}>
-            {list.title}
-          </option>
-        ))}
+        {lists
+          .filter(l => !l.special)
+          .map(list => (
+            <option value={list._id} key={list._id}>
+              {list.title}
+            </option>
+          ))}
       </Dropdown>
       <Checkbox
         label="Activate when time starts"
@@ -276,7 +285,9 @@ Settings.propTypes = {
   lists: PropTypes.array,
   categories: PropTypes.array,
   defaultCategory: PropTypes.string,
-  pomodoroFocusMode: PropTypes.bool
+  pomodoroFocusMode: PropTypes.bool,
+  toggleChangesPending: PropTypes.func,
+  changesPending: PropTypes.bool
 };
 
 const mapStateToProps = (state, ownProps) => {
