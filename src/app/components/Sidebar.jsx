@@ -74,6 +74,13 @@ const Sidebar = ({
 }) => {
   const [pomodoriToEvent, setPomodoriToEvent] = useState(false);
 
+  const toggleSettingsMenu = () => {
+    dispatch({
+      type: 'TOGGLE_SETTINGS_MENU',
+      payload: { settingsMenuOpen: true }
+    });
+  };
+
   return (
     <SidebarStyles isKeyboardOpen={isKeyboardOpen}>
       <ExpandablePanels>
@@ -98,7 +105,7 @@ const Sidebar = ({
             defaultOpen
           />
         ) : (
-          <p className="no-calendar" name="Events">
+          <p className="no-calendar" name="Events" onClick={toggleSettingsMenu}>
             In order to use event features, make sure you are signed in and have
             added a Calendar ID in the settings panel.
           </p>
