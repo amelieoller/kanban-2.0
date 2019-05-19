@@ -146,6 +146,10 @@ const Settings = props => {
   const handleDeleteBoard = () => {
     const { boardId } = match.params;
     dispatch({ type: 'DELETE_BOARD', payload: { boardId } });
+    dispatch({
+      type: 'TOGGLE_SETTINGS_MENU',
+      payload: { settingsMenuOpen: false }
+    });
     history.push('/');
   };
 
