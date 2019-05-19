@@ -100,7 +100,8 @@ const Settings = props => {
     categories,
     defaultCategory,
     pomodoroFocusMode,
-    settingsPending
+    settingsPending,
+    title
   } = props;
 
   const initialState = {
@@ -255,7 +256,7 @@ const Settings = props => {
           .filter(l => !l.special)
           .map(list => (
             <option value={list._id} key={list._id}>
-              {list.title}
+              {list.title.toUpperCase()}
             </option>
           ))}
       </Dropdown>
@@ -278,10 +279,8 @@ const Settings = props => {
           tabIndex={0}
           className="delete-button"
           onClick={() => {
-            if (window.confirm('Are you sure?')) handleDeleteBoard();
-          }}
-          onKeyDown={() => {
-            if (window.confirm('Are you sure?')) handleDeleteBoard();
+            if (window.confirm(`Are you sure you want to delete the board "${title}"?`))
+              handleDeleteBoard();
           }}
         />
       </p>
@@ -304,27 +303,25 @@ Settings.propTypes = {
   categories: PropTypes.array,
   defaultCategory: PropTypes.string,
   pomodoroFocusMode: PropTypes.bool,
-  settingsPending: PropTypes.bool
+  settingsPending: PropTypes.bool,
+  title: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps.match.params;
-  const {
-    boardsById: {
-      [boardId]: {
-        settings: {
-          eventCalendarId,
-          eventFilter,
-          defaultList,
-          defaultCardTime,
-          categories,
-          defaultCategory,
-          pomodoroFocusMode
-        }
-      }
-    }
-  } = state;
   const board = state.boardsById[boardId];
+  const {
+    title,
+    settings: {
+      eventCalendarId,
+      eventFilter,
+      defaultList,
+      defaultCardTime,
+      categories,
+      defaultCategory,
+      pomodoroFocusMode
+    }
+  } = board;
   const lists = board.lists.map(listId => state.listsById[listId]);
   const { settingsPending } = state.appState;
 
@@ -337,7 +334,8 @@ const mapStateToProps = (state, ownProps) => {
     defaultCategory,
     pomodoroFocusMode,
     lists,
-    settingsPending
+    settingsPending,
+    title
   };
 };
 

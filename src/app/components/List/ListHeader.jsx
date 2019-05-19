@@ -141,7 +141,12 @@ const ListTitle = ({
           {listTitle}
           <IconButton
             onClick={() => {
-              if (window.confirm('Are you sure?')) deleteList();
+              if (
+                window.confirm(
+                  `Are you sure you want to delete the list "${listTitle.toUpperCase()}"?`
+                )
+              )
+                deleteList();
             }}
             color="textDisabled"
           >

@@ -238,6 +238,15 @@ class CardOptions extends Component {
       }
     };
 
+    const truncateText = (text, length) => {
+      const newLength = length == null ? 100 : length;
+
+      if (text.length > length) {
+        return `${text.substring(0, newLength)}...`;
+      }
+      return text;
+    };
+
     return (
       <CardOptionsStyles isThinDisplay={isThinDisplay}>
         <div
@@ -378,7 +387,15 @@ class CardOptions extends Component {
             <button
               type="submit"
               onClick={() => {
-                if (window.confirm('Are you sure?')) this.deleteCard();
+                if (
+                  window.confirm(
+                    `Are you sure you want to delete the card "${truncateText(
+                      card.text,
+                      70
+                    )}"?`
+                  )
+                )
+                  this.deleteCard();
               }}
               className="modal-option"
             >
