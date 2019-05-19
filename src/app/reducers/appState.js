@@ -26,10 +26,16 @@ const appState = (
 
       const element = document.getElementsByName(defaultList)[0];
       if (element && !isInFocusMode) {
-        const bodyRect = document.body.getBoundingClientRect().left;
-        const elementRect = element.getBoundingClientRect().left;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - 220;
+        const bodyRect = document.body.getBoundingClientRect();
+        const elementRect = element.getBoundingClientRect();
+        const elementPosition = elementRect.left - bodyRect.left;
+        let offsetPosition;
+
+        if (bodyRect.width > 768) {
+          offsetPosition = elementPosition - 230;
+        } else {
+          offsetPosition = elementPosition - 20;
+        }
 
         window.scrollTo({
           left: offsetPosition,
