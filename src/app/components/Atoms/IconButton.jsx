@@ -30,6 +30,11 @@ const StyledIconButton = styled.button`
   &:focus {
     background-color: rgba(0, 0, 0, 0.08);
   }
+
+  @media ${props => props.theme.media.tablet} {
+    font-size: ${props => `${props.fontSize * 1.2}rem`};
+    padding: 12px;
+  }
 `;
 
 const IconButton = props => {

@@ -10,6 +10,7 @@ const StyledSaveButton = styled.button`
       ? props.theme.colors.primary
       : props.theme.colors.monotoneAccent};
   background: transparent;
+  font-size: ${props => `${props.fontSize}rem`};
 
   &:hover,
   &:focus {
@@ -17,15 +18,25 @@ const StyledSaveButton = styled.button`
   }
 `;
 
-const SaveButton = ({ changed, onClick }) => (
-  <StyledSaveButton type="submit" changed={changed} onClick={onClick}>
+const SaveButton = ({ changed, onClick, fontSize }) => (
+  <StyledSaveButton
+    type="submit"
+    changed={changed}
+    onClick={onClick}
+    fontSize={fontSize}
+  >
     <FiSave />
   </StyledSaveButton>
 );
 
+SaveButton.defaultProps = {
+  fontSize: 1
+};
+
 SaveButton.propTypes = {
   changed: PropTypes.bool.isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  fontSize: PropTypes.number
 };
 
 export default SaveButton;

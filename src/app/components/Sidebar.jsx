@@ -38,6 +38,7 @@ const SidebarStyles = styled.div`
     bottom: 0;
     top: auto;
     grid-template-columns: 50% 50%;
+    margin-top: ${props => `${props.theme.sizes.headerHeightMobile}px`};
   }
 
   @media ${props => props.theme.media.phone} {

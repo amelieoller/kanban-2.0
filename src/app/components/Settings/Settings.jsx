@@ -181,6 +181,7 @@ const Settings = props => {
         <SaveButton
           changed={settingsPending}
           onClick={() => settingsPending && handleSave()}
+          fontSize={1.3}
         />
       </h1>
       <h2>

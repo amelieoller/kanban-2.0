@@ -144,6 +144,7 @@ const sizes = {
   boardHeight: 140,
   boardMargin: 5,
   headerHeight: 40,
+  headerHeightMobile: 50,
   footerHeight: 210,
   sidebarWidth: 210
 };

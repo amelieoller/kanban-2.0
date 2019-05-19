@@ -38,7 +38,9 @@ const BoardStyles = styled.div`
 
     @media ${props => props.theme.media.tablet} {
       grid-template-rows: minmax(
-        calc(100vh - ${props => `${props.theme.sizes.headerHeight + 60}px`}),
+        calc(
+          100vh - ${props => `${props.theme.sizes.headerHeightMobile + 50}px`}
+        ),
         1fr
       );
     }
@@ -51,6 +53,7 @@ const BoardStyles = styled.div`
 
     @media ${props => props.theme.media.tablet} {
       margin-left: 0;
+      margin-top: ${props => `${props.theme.sizes.headerHeightMobile}px`};
     }
   }
 

@@ -23,6 +23,10 @@ const HeaderStyles = styled.header`
   background: ${props => props.theme.colors.headerBackground};
   position: fixed;
 
+  @media ${props => props.theme.media.tablet} {
+    height: ${props => `${props.theme.sizes.headerHeightMobile}px`};
+  }
+
   .header-title {
     display: inline-flex;
     align-items: center;
@@ -31,11 +35,6 @@ const HeaderStyles = styled.header`
     font-weight: 100;
     text-decoration: none;
     font-family: 'Pacifico', cursive;
-
-    @media ${props => props.theme.media.tablet} {
-      font-size: 20px;
-      font-weight: 500;
-    }
   }
 
   .header-title img {
