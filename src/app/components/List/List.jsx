@@ -45,8 +45,7 @@ const ListStyles = styled.div`
   .cards {
     min-height: 1px;
     height: 100%;
-    padding: 0 6px;
-    margin-bottom: 6px;
+    padding: 0 5px;
     overflow: scroll;
   }
 `;
@@ -136,13 +135,11 @@ class List extends Component {
                   cards={list.cards}
                   boardId={boardId}
                 />
-                {list.cards.length !== 0 && (
-                  <Cards
-                    listId={list._id}
-                    categories={categories}
-                    withinPomodoroCards={this.withinPomodoroTime()}
-                  />
-                )}
+                <Cards
+                  listId={list._id}
+                  categories={categories}
+                  withinPomodoroCards={this.withinPomodoroTime()}
+                />
               </div>
               <CardAdder
                 listId={list._id}

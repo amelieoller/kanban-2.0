@@ -10,7 +10,7 @@ const ListHeaderStyles = styled.div`
   .list-title-button {
     flex-grow: 1;
     min-width: 50%;
-    padding: 12px 0;
+    padding: 12px 0 11px 0;
     border: none;
     border-top-left-radius: inherit;
     color: ${props => props.theme.colors.text};
