@@ -106,7 +106,7 @@ const Categories = ({ categories, defaultCategory, dispatch, boardId }) => {
       ))}
 
       <CategoryEdit
-        category={{ name: '', short: '', color: '', _id: '' }}
+        category={{ name: 'none', short: '', color: '', _id: '' }}
         boardId={boardId}
         defaultCategory={defaultCategory}
         dispatch={dispatch}

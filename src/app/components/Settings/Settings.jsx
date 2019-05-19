@@ -252,6 +252,7 @@ const Settings = props => {
         value={state.defaultList}
         onChange={e => handleChange(e.target.name, e.target.value)}
       >
+        <option value="none">{'None'.toUpperCase()}</option>
         {lists
           .filter(l => !l.special)
           .map(list => (
@@ -279,7 +280,11 @@ const Settings = props => {
           tabIndex={0}
           className="delete-button"
           onClick={() => {
-            if (window.confirm(`Are you sure you want to delete the board "${title}"?`))
+            if (
+              window.confirm(
+                `Are you sure you want to delete the board "${title}"?`
+              )
+            )
               handleDeleteBoard();
           }}
         />

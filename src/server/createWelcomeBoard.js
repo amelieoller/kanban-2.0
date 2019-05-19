@@ -32,7 +32,7 @@ const dateToSring = date =>
 const dateToTimeMs = date => date.getTime();
 
 const category1 = {
-  name: '',
+  name: 'none',
   short: '',
   color: 'white',
   _id: categoryId1

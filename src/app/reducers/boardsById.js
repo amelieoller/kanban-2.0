@@ -43,6 +43,7 @@ const boardsById = (state = {}, action) => {
 
     case 'DELETE_LIST': {
       const { listId: newListId, boardId } = action.payload;
+
       return {
         ...state,
         [boardId]: {
@@ -76,7 +77,7 @@ const boardsById = (state = {}, action) => {
               habits: 0
             },
             categories: [
-              { name: '', short: '', color: 'white', _id: categoryId }
+              { name: 'none', short: '', color: 'white', _id: categoryId }
             ],
             defaultCategory: 'none',
             eventCalendarId: '',
