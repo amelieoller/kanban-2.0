@@ -15,7 +15,7 @@ import {
 import Categories from '../Categories/Categories';
 import Dropdown from '../Dropdown';
 import SaveButton from '../styles/SaveButton';
-import Checkbox from '../styles/Checkbox';
+import Checkbox from '../Atoms/Checkbox';
 
 const SettingsStyles = styled.div`
   background-color: ${props => props.theme.colors.background};
@@ -81,7 +81,7 @@ const SettingsStyles = styled.div`
     margin-left: 0.5rem;
   }
 
-  .check-box {
+  .checkbox {
     margin-top: 1rem;
   }
 `;
