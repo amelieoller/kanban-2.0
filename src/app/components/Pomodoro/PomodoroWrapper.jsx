@@ -209,12 +209,6 @@ class PomodoroWrapper extends Component {
     this.setState({ opened: bool });
   };
 
-  handlePomodoriChange = pomodori => {
-    this.setState({
-      pomodori
-    });
-  };
-
   stopCountdown = newTime => {
     this.resetInterval();
     this.setState({
@@ -278,9 +272,7 @@ class PomodoroWrapper extends Component {
           >
             <PomodoroEventSettings
               pomodoro={pomodoro}
-              pomodori={pomodori}
               handleSettingsChange={this.handleSettingsChange}
-              handlePomodoriChange={this.handlePomodoriChange}
               pomodoriToEvent={pomodoriToEvent}
             />
           </CSSTransitionGroup>

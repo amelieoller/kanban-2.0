@@ -25,6 +25,10 @@ const CardBadgesStyles = styled.div`
       margin: 0;
     }
 
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+
     input {
       background: transparent;
       color: ${props => props.theme.colors.backgroundAccent};

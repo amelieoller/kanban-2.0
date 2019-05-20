@@ -21,6 +21,8 @@ const lightColors = {
   textDisabled: 'rgba(0, 0, 0, 0.38)',
 
   // Elevated Background
+  elevated: '#e6e6e6',
+
   elevatedOne: '#f2f2f2',
   elevatedTwo: '#fafafa',
   elevatedThree: '#fcfcfc',
@@ -75,6 +77,8 @@ const darkColors = {
   textDisabled: 'rgba(255, 255, 255, 0.38)',
 
   // Elevated Background
+  elevated: '#1E1E1E',
+
   elevatedOne: '#1E1E1E',
   elevatedTwo: '#252325',
   elevatedThree: '#272727',
