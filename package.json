@@ -65,7 +65,7 @@
     "react-redux": "^5.1.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-spring": "^8.0.20",
+    "react-spring": "8.0.20",
     "react-textarea-autosize": "^7.1.0",
     "react-transition-group": "1.x",
     "react-use-gesture": "^5.0.1",
