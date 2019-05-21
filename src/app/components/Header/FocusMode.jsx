@@ -21,7 +21,7 @@ const FocusMode = ({ dispatch, isInFocusMode, defaultList }) => {
 FocusMode.propTypes = {
   isInFocusMode: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
-  defaultList: PropTypes.string.isRequired
+  defaultList: PropTypes.string
 };
 
 export default FocusMode;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
@@ -51,6 +51,12 @@ const CardBadges = ({
   checkboxes: { total, checked }
 }) => {
   const [cardMinutes, setCardMinutes] = useState(minutes);
+
+  useEffect(() => {
+    if (minutes !== cardMinutes) {
+      setCardMinutes(minutes);
+    }
+  }, [minutes]);
 
   const renderDueDate = () => {
     if (!date) {
@@ -169,6 +175,7 @@ const CardBadges = ({
           type="number"
           value={cardMinutes}
           onBlur={handleMinuteSubmit}
+          onKeyUp={e => e.keyCode === 13 && handleMinuteSubmit()}
         />
         min
       </div>

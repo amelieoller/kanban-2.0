@@ -58,7 +58,7 @@ BoardHeader.propTypes = {
   dispatch: PropTypes.func.isRequired,
   color: PropTypes.string.isRequired,
   isInFocusMode: PropTypes.bool.isRequired,
-  defaultList: PropTypes.string.isRequired
+  defaultList: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => {

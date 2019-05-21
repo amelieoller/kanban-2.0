@@ -120,6 +120,14 @@ class CardOptions extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { minutes } = this.state;
+
+    if (minutes !== nextProps.card.minutes) {
+      this.setState({ minutes: nextProps.card.minutes });
+    }
+  }
+
   deleteCard = () => {
     const { dispatch, listId, card } = this.props;
     dispatch({
@@ -168,8 +176,7 @@ class CardOptions extends Component {
     });
   };
 
-  handleMinuteSubmit = e => {
-    e.preventDefault();
+  handleMinuteSubmit = () => {
     const { dispatch, card } = this.props;
     const { minutes } = this.state;
 
@@ -268,16 +275,16 @@ class CardOptions extends Component {
           </button>
 
           {/* Minutes */}
-          <form onSubmit={this.handleMinuteSubmit}>
-            <input
-              className="modal-option minutes"
-              name="minutes"
-              type="number"
-              placeholder="Minutes"
-              value={minutes}
-              onChange={this.handleMinuteChange}
-            />
-          </form>
+          <input
+            className="modal-option minutes"
+            name="minutes"
+            type="number"
+            placeholder="Minutes"
+            value={minutes}
+            onChange={this.handleMinuteChange}
+            onBlur={this.handleMinuteSubmit}
+            onKeyUp={e => e.keyCode === 13 && this.handleMinuteSubmit()}
+          />
 
           {/* Recurring */}
           {/* <form onSubmit={this.handleRecurringSubmit}>
