@@ -14,7 +14,7 @@ import {
 } from 'react-icons/fi';
 import Categories from '../Categories/Categories';
 import Dropdown from '../Dropdown';
-import SaveButton from '../styles/SaveButton';
+import SaveButton from '../Atoms/SaveButton';
 import Checkbox from '../Atoms/Checkbox';
 
 const SettingsStyles = styled.div`

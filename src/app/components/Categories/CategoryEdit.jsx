@@ -3,7 +3,7 @@ import { FiX } from 'react-icons/fi';
 import PropTypes from 'prop-types';
 import ColorPicker from './ColorPicker';
 import ExpandingInput from '../ExpandingInput';
-import SaveButton from '../styles/SaveButton';
+import SaveButton from '../Atoms/SaveButton';
 
 const CategoryEdit = ({ category, boardId, dispatch, handleSubmit }) => {
   const [state, setState] = useState({
