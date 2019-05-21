@@ -33,14 +33,12 @@ const ListHeaderStyles = styled.div`
 
   .list-title-textarea-wrapper {
     width: 100%;
-    padding: 3px;
   }
 
   .list-title-textarea {
     float: left;
     box-sizing: border-box;
     width: 100%;
-    padding-top: 2px;
     border: none;
     color: ${props => props.theme.colors.grey};
     font-size: 1rem;
@@ -50,6 +48,7 @@ const ListHeaderStyles = styled.div`
     resize: none;
     text-align: center;
     background: transparent;
+    padding: 10px 0 11px 0;
   }
 `;
 
