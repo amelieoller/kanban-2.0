@@ -39,25 +39,27 @@ class Home extends Component {
             {boards.map(board => (
               <Link
                 key={board._id}
-                className={classnames('board-link', board.settings.color)}
+                className={classnames('board', board.settings.color)}
                 to={`/b/${board._id}/${slugify(board.title, {
                   lower: true
                 })}`}
               >
-                <div className="board-link-title">{board.title}</div>
+                <div className="board-title">{board.title}</div>
                 <div className="mini-board">
-                  {board.lists.map(listId => (
-                    <div
-                      key={listId}
-                      className="mini-list"
-                      style={{
-                        height: `${Math.min(
-                          (listsById[listId].cards.length + 1) * 18,
-                          100
-                        )}%`
-                      }}
-                    />
-                  ))}
+                  {board.lists
+                    .filter(l => !listsById[l].special)
+                    .map(listId => (
+                      <div
+                        key={listId}
+                        className="mini-list"
+                        style={{
+                          height: `${Math.min(
+                            (listsById[listId].cards.length + 1) * 18,
+                            100
+                          )}%`
+                        }}
+                      />
+                    ))}
                 </div>
               </Link>
             ))}
