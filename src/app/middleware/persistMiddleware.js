@@ -17,7 +17,9 @@ const persistMiddleware = store => next => action => {
       action.type === 'TOGGLE_SETTINGS_MENU' ||
       action.type === 'SETTINGS_PENDING' ||
       action.type === 'TOGGLE_FOCUS_MODE' ||
-      action.type === 'SET_BOARD_THEME'
+      action.type === 'SET_BOARD_THEME' ||
+      action.type === 'ADD_ERROR' ||
+      action.type === 'REMOVE_ERROR'
     )
       return;
     if (action.type === 'DELETE_BOARD') {
