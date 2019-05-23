@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -6,7 +6,6 @@ import { ThemeProvider } from 'styled-components';
 import Home from './Home/Home';
 import BoardContainer from './Board/BoardContainer';
 import LandingPage from './LandingPage';
-import Settings from './Settings/Settings';
 import GlobalStyles from './GlobalStyles';
 import { light, dark } from './Theme';
 
@@ -17,7 +16,6 @@ const App = ({ user, isGuest, boardTheme }) => (
       {user || isGuest ? (
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/b/:boardId/:boardTitle/settings" component={Settings} />
           <Route
             path="/b/:boardId"
             render={props => <BoardContainer {...props} />}

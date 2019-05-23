@@ -7,11 +7,21 @@ import styled from 'styled-components';
 import IconButton from '../Atoms/IconButton';
 
 const ListHeaderStyles = styled.div`
+  .shared-styles {
+    font-size: 1rem;
+    font-weight: 400;
+    border: none;
+    text-transform: uppercase;
+
+    @media ${props => props.theme.media.tablet} {
+      font-size: 1.2rem;
+    }
+  }
+
   .list-title-button {
     flex-grow: 1;
     min-width: 50%;
     padding: 12px 0 11px 0;
-    border: none;
     border-top-left-radius: inherit;
     color: ${props => props.theme.colors.text};
     overflow-wrap: break-word;
@@ -19,9 +29,6 @@ const ListHeaderStyles = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
-    font-weight: 400;
-    text-transform: uppercase;
     position: relative;
 
     button {
@@ -39,11 +46,8 @@ const ListHeaderStyles = styled.div`
     float: left;
     box-sizing: border-box;
     width: 100%;
-    border: none;
     color: ${props => props.theme.colors.grey};
-    font-size: 1rem;
     text-transform: uppercase;
-    font-weight: 400;
     overflow: hidden;
     resize: none;
     text-align: center;
@@ -120,7 +124,7 @@ const ListTitle = ({
             value={newTitle}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-            className="list-title-textarea"
+            className="shared-styles list-title-textarea"
             onBlur={handleSubmit}
             spellCheck={false}
           />
@@ -135,7 +139,7 @@ const ListTitle = ({
             handleButtonKeyDown(event);
             dragHandleProps.onKeyDown(event);
           }}
-          className="list-title-button"
+          className="shared-styles list-title-button"
         >
           {listTitle}
           <IconButton

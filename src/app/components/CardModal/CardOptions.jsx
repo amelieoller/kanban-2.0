@@ -38,7 +38,7 @@ const CardOptionsStyles = styled.div`
     background: rgba(255, 255, 255, 0.8);
     font-size: ${props => (props.isThinDisplay ? '1.2rem' : '1rem')};
     cursor: pointer;
-    width: ${props => (props.isThinDisplay ? '135px' : '100px')};
+    width: ${props => (props.isThinDisplay ? '120px' : '100px')};
 
     &:hover,
     &:focus,

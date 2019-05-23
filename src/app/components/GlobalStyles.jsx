@@ -255,18 +255,11 @@ const GlobalStyles = createGlobalStyle`
 		line-height: inherit;
 		resize: none;
 		overflow: hidden;
-		/* outline: none; */
-	}
-
-	.styled-input {
-		border: none;
-    border-bottom: 1px solid #C6C7C6;
-		padding: 2px;
-		font-size: 16px;
-		background: transparent;
 		outline: none;
-		color: ${props => props.theme.colors.text};
-		width: 100%;
+
+		@media ${props => props.theme.media.tablet} {
+			font-size: 20px;
+		}
 	}
 
 	.board-title-input {

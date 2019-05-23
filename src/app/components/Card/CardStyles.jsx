@@ -28,6 +28,10 @@ const CardStyles = styled.div`
         transition: visibility 0s linear 0s, opacity 200ms;
       }
     }
+
+    @media ${props => props.theme.media.tablet} {
+      font-size: 17px;
+    }
   }
 
   .card-title-top {

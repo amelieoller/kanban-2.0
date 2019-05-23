@@ -23,7 +23,7 @@ const SidebarStyles = styled.div`
   grid-template-columns: ${props => `${props.theme.sizes.sidebarWidth}px`};
   grid-auto-rows: max-content;
 
-  .no-calendar {
+  .no-items {
     color: ${props => props.theme.colors.text};
     font-size: 0.8rem;
     font-style: italic;
@@ -31,19 +31,28 @@ const SidebarStyles = styled.div`
     padding: 10px;
   }
 
+  .open-settings-link {
+    text-decoration: underline;
+    cursor: pointer;
+    color: ${props => props.theme.colors.secondary};
+
+    &:hover {
+      color: ${props => props.theme.colors.secondaryDark};
+    }
+  }
+
   @media ${props => props.theme.media.tablet} {
-    width: 100vw;
-    min-height: auto;
-    height: ${props => `${props.theme.sizes.footerHeight}px`};
-    bottom: 0;
-    top: auto;
-    grid-template-columns: 50% 50%;
     margin-top: ${props => `${props.theme.sizes.headerHeightMobile}px`};
   }
 
   @media ${props => props.theme.media.phone} {
     display: ${props => (props.isKeyboardOpen ? 'none' : 'grid')};
     grid-template-columns: 100%;
+    width: 100vw;
+    min-height: auto;
+    height: ${props => `${props.theme.sizes.footerHeight}px`};
+    bottom: 0;
+    top: auto;
   }
 
   & > div {
@@ -105,13 +114,23 @@ const Sidebar = ({
             defaultOpen
           />
         ) : (
-          <p className="no-calendar" name="Events" onClick={toggleSettingsMenu}>
-            In order to use event features, make sure you are signed in and have
-            added a Calendar ID in the settings panel.
+          <p className="no-items" name="Events">
+            To see your upcoming events, make sure you are signed in and have
+            added a Calendar ID in the{' '}
+            <span
+              role="link"
+              className="open-settings-link"
+              onClick={toggleSettingsMenu}
+              onKeyDown={toggleSettingsMenu}
+              tabIndex={0}
+            >
+              settings panel
+            </span>
+            .
           </p>
         )}
 
-        {cards.length !== 0 && (
+        {cards.length !== 0 ? (
           <TaskStats
             cards={cards}
             completedListId={completedListId}
@@ -119,6 +138,10 @@ const Sidebar = ({
             categories={categories}
             name="Tasks"
           />
+        ) : (
+          <p className="no-items" name="Tasks">
+            You don't have any completed tasks at this moment.
+          </p>
         )}
 
         <Habits boardId={boardId} name="Habits" />
@@ -164,6 +187,7 @@ const mapStateToProps = (state, ownProps) => {
       }
     }
   } = state;
+  const { isKeyboardOpen } = state.appState;
 
   return {
     cards: state.listsById[completedListId].cards.map(
@@ -174,7 +198,8 @@ const mapStateToProps = (state, ownProps) => {
     categories,
     eventCalendarId,
     eventFilter,
-    pomodoroFocusMode
+    pomodoroFocusMode,
+    isKeyboardOpen
   };
 };
 

@@ -79,16 +79,6 @@ const BoardTitle = ({ boardTitle, dispatch, boardId }) => {
   };
 
   return isOpen ? (
-    // <BoardTitleInput
-    //   value={newTitle}
-    //   type="text"
-    //   onKeyDown={handleKeyDown}
-    //   onChange={e => setNewTitle(e.target.value)}
-    //   onBlur={revertTitle}
-    //   onFocus={e => e.target.select()}
-    //   spellCheck={false}
-    //   className="no-focus-mode"
-    // />
     <ExpandingInput
       placeholder="Board Title"
       name="name"

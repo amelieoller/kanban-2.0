@@ -76,7 +76,10 @@ const HeaderStyles = styled.header`
 const Header = ({ user, homePage, boardColor }) => (
   <HeaderStyles isHome={homePage}>
     <Link to="/" className="header-title no-focus-mode">
-      <img src={homePage || boardColor === 'light' ? kanbanLogoWhite : kanbanLogo} alt="Logo - Navigate Back to Board Overview" />
+      <img
+        src={homePage || boardColor === 'light' ? kanbanLogoWhite : kanbanLogo}
+        alt="Logo - Navigate Back to Board Overview"
+      />
       &nbsp;Kanban 2.0
     </Link>
     <div className="header-right-side">
@@ -113,7 +116,8 @@ const Header = ({ user, homePage, boardColor }) => (
 
 Header.propTypes = {
   user: PropTypes.object,
-  homePage: PropTypes.bool.isRequired
+  homePage: PropTypes.bool.isRequired,
+  boardColor: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => {
