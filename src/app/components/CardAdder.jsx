@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
@@ -50,13 +50,26 @@ const CardAdder = ({
   dispatch,
   defaultCategory,
   defaultCardTime,
-  toggleIsKeyboardOpen
+  openCardAdder,
+  toggleKeyboard
 }) => {
   const [newText, setNewText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    if (openCardAdder) setIsOpen(true);
+    return () => {};
+  }, [openCardAdder]);
+
+  const toggleIsKeyboardOpen = bool => {
+    dispatch({
+      type: 'TOGGLE_KEYBOARD_OPEN',
+      payload: { isKeyboardOpen: bool }
+    });
+  };
+
   const toggleCardComposer = () => {
-    toggleIsKeyboardOpen(!isOpen);
+    if (toggleKeyboard) toggleIsKeyboardOpen(!isOpen);
     setIsOpen(!isOpen);
   };
 
@@ -129,7 +142,9 @@ CardAdder.propTypes = {
   listId: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   defaultCategory: PropTypes.string,
-  defaultCardTime: PropTypes.number
+  defaultCardTime: PropTypes.number,
+  openCardAdder: PropTypes.bool,
+  toggleKeyboard: PropTypes.func
 };
 
 export default connect()(CardAdder);

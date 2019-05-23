@@ -61,8 +61,9 @@ class List extends Component {
     categories: PropTypes.array,
     defaultList: PropTypes.string,
     defaultCardTime: PropTypes.number,
-    toggleIsKeyboardOpen: PropTypes.func,
-    isKeyboardOpen: PropTypes.bool
+    isKeyboardOpen: PropTypes.bool,
+    openCardAdder: PropTypes.bool,
+    dispatch: PropTypes.func.isRequired
   };
 
   withinPomodoroTime = () => {
@@ -102,8 +103,8 @@ class List extends Component {
       defaultCategory,
       defaultList,
       defaultCardTime,
-      toggleIsKeyboardOpen,
-      isKeyboardOpen
+      isKeyboardOpen,
+      openCardAdder
     } = this.props;
 
     return (
@@ -145,7 +146,8 @@ class List extends Component {
                 listId={list._id}
                 defaultCategory={defaultCategory}
                 defaultCardTime={defaultCardTime}
-                toggleIsKeyboardOpen={toggleIsKeyboardOpen}
+                openCardAdder={openCardAdder}
+                toggleKeyboard
               />
             </ListStyles>
             {provided.placeholder}

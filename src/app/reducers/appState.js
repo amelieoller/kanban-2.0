@@ -1,9 +1,9 @@
 const appState = (
   state = {
     settingsMenuOpen: false,
-    settingsPending: false,
     isInFocusMode: false,
-    boardTheme: 'light'
+    boardTheme: 'light',
+    isKeyboardOpen: false
   },
   action
 ) => {
@@ -12,12 +12,6 @@ const appState = (
       const { settingsMenuOpen } = action.payload;
 
       return { ...state, settingsMenuOpen };
-    }
-
-    case 'SETTINGS_PENDING': {
-      const { settingsPending } = action.payload;
-
-      return { ...state, settingsPending };
     }
 
     case 'TOGGLE_FOCUS_MODE': {
@@ -50,6 +44,12 @@ const appState = (
       const { boardTheme } = action.payload;
 
       return { ...state, boardTheme };
+    }
+
+    case 'TOGGLE_KEYBOARD_OPEN': {
+      const { isKeyboardOpen } = action.payload;
+
+      return { ...state, isKeyboardOpen };
     }
 
     default:

@@ -15,11 +15,11 @@ const persistMiddleware = store => next => action => {
   if (user) {
     if (
       action.type === 'TOGGLE_SETTINGS_MENU' ||
-      action.type === 'SETTINGS_PENDING' ||
       action.type === 'TOGGLE_FOCUS_MODE' ||
       action.type === 'SET_BOARD_THEME' ||
       action.type === 'ADD_ERROR' ||
-      action.type === 'REMOVE_ERROR'
+      action.type === 'REMOVE_ERROR' ||
+      action.type === 'TOGGLE_KEYBOARD_OPEN'
     )
       return;
     if (action.type === 'DELETE_BOARD') {
