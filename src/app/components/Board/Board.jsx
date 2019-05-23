@@ -22,10 +22,6 @@ const BoardStyles = styled.div`
     filter: ${props => (props.isInFocusMode ? 'blur(3px)' : 'none')};
   }
 
-  .changesPending svg {
-    color: ${props => props.theme.colors.primary};
-  }
-
   .lists {
     display: grid;
     grid-gap: 10px;
@@ -76,7 +72,8 @@ class Board extends Component {
     completedListId: PropTypes.string,
     habitsListId: PropTypes.string,
     color: PropTypes.string,
-    isInFocusMode: PropTypes.bool
+    isInFocusMode: PropTypes.bool,
+    errors: PropTypes.array
   };
 
   constructor(props) {
@@ -84,7 +81,7 @@ class Board extends Component {
     this.state = {
       startX: null,
       startScrollX: null,
-      isKeyboardOpen: false
+      openCardAdder: ''
     };
   }
 
@@ -207,9 +204,9 @@ class Board extends Component {
     }
   };
 
-  toggleIsKeyboardOpen = isOpen => {
+  setOpenCardAdder = listId => {
     this.setState({
-      isKeyboardOpen: isOpen
+      openCardAdder: listId
     });
   };
 
@@ -221,12 +218,14 @@ class Board extends Component {
       pomodoro,
       completedListId,
       habitsListId,
-      isInFocusMode
+      isInFocusMode,
+      errors,
+      color
     } = this.props;
     const otherLists = lists.filter(
       list => list && list._id !== completedListId && list._id !== habitsListId
     );
-    const { isKeyboardOpen } = this.state;
+    const { openCardAdder } = this.state;
 
     return (
       <BoardStyles isInFocusMode={isInFocusMode}>
@@ -238,8 +237,7 @@ class Board extends Component {
           transitionLeave={false}
         >
           <Title>{boardTitle} | Kanban 2.0</Title>
-          <Header isInFocusMode={isInFocusMode} />
-
+          <Header isInFocusMode={isInFocusMode} boardColor={color} />
           <DragDropContext onDragEnd={this.handleDragEnd}>
             <Droppable
               droppableId={boardId}
@@ -254,12 +252,14 @@ class Board extends Component {
                       boardId={boardId}
                       index={index}
                       key={list._id}
-                      toggleIsKeyboardOpen={this.toggleIsKeyboardOpen}
-                      isKeyboardOpen={isKeyboardOpen}
+                      openCardAdder={openCardAdder === list._id}
                     />
                   ))}
                   {provided.placeholder}
-                  <ListAdder boardId={boardId} />
+                  <ListAdder
+                    boardId={boardId}
+                    setOpenCardAdder={this.setOpenCardAdder}
+                  />
                 </main>
               )}
             </Droppable>
@@ -268,7 +268,6 @@ class Board extends Component {
             pomodoro={pomodoro}
             boardId={boardId}
             isInFocusMode={isInFocusMode}
-            isKeyboardOpen={isKeyboardOpen}
           />
         </CSSTransitionGroup>
       </BoardStyles>
@@ -282,17 +281,18 @@ const mapStateToProps = (state, ownProps) => {
     board._id
   ].settings;
   const { isInFocusMode } = state.appState;
+  const { errors } = state;
 
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
     boardTitle: board.title,
-    boardColor: board.settings.color,
     boardId: board._id,
     pomodoro: board.settings.pomodoro,
     completedListId,
     habitsListId,
     color,
-    isInFocusMode
+    isInFocusMode,
+    errors
   };
 };
 

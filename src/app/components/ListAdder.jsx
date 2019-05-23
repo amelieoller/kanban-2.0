@@ -57,7 +57,7 @@ const ListAdderTextArea = styled.div`
   }
 `;
 
-const ListAdder = ({ dispatch, boardId }) => {
+const ListAdder = ({ dispatch, boardId, setOpenCardAdder }) => {
   const [state, setState] = useState({
     isOpen: false,
     listTitle: ''
@@ -80,6 +80,7 @@ const ListAdder = ({ dispatch, boardId }) => {
       payload: { listTitle, listId, boardId }
     });
     setState({ ...state, isOpen: false, listTitle: '' });
+    setOpenCardAdder(listId);
   };
 
   const handleKeyDown = e => {
@@ -124,7 +125,8 @@ const ListAdder = ({ dispatch, boardId }) => {
 
 ListAdder.propTypes = {
   boardId: PropTypes.string.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  setOpenCardAdder: PropTypes.func.isRequired
 };
 
 export default connect()(ListAdder);
