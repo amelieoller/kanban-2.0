@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import BoardTitle from './BoardTitle';
-import BoardSettings from './BoardSettings';
+import BoardSettings from '../Settings/BoardSettings';
 import LightDarkMode from './LightDarkMode';
 import FocusMode from './FocusMode';
 

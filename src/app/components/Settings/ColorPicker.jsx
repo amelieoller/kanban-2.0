@@ -38,7 +38,7 @@ const ColorPickerStyles = styled.span`
   }
 `;
 
-const ColorPicker = ({ handleColorChange, previousColor }) => {
+const ColorPicker = ({ handleColorChange, previousColor, onSubmit }) => {
   let colorObject;
   if (previousColor) {
     const color = previousColor;
@@ -88,8 +88,14 @@ const ColorPicker = ({ handleColorChange, previousColor }) => {
           <div
             className="cover"
             role="button"
-            onClick={() => setShowPicker(false)}
-            onKeyDown={() => setShowPicker(false)}
+            onClick={() => {
+              if (previousColor !== color) onSubmit();
+              setShowPicker(false);
+            }}
+            onKeyDown={() => {
+              if (previousColor !== color) onSubmit();
+              setShowPicker(false);
+            }}
             tabIndex={0}
           />
           <TwitterPicker
@@ -120,9 +126,14 @@ const ColorPicker = ({ handleColorChange, previousColor }) => {
   );
 };
 
+ColorPicker.defaultProps = {
+  previousColor: 'rgba(242, 153, 133, 1)'
+};
+
 ColorPicker.propTypes = {
   handleColorChange: PropTypes.func.isRequired,
-  previousColor: PropTypes.string
+  previousColor: PropTypes.string,
+  onSubmit: PropTypes.func
 };
 
 export default ColorPicker;
