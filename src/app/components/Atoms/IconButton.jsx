@@ -28,7 +28,7 @@ const StyledIconButton = styled.button`
 
   &:hover,
   &:focus {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.18);
   }
 
   @media ${props => props.theme.media.tablet} {
@@ -49,7 +49,7 @@ const IconButton = props => {
 
 IconButton.defaultProps = {
   fontSize: 1,
-  color: 'text',
+  color: 'inherit',
   className: '',
   round: false,
   background: 'transparent'
@@ -59,7 +59,8 @@ IconButton.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
-    PropTypes.number
+    PropTypes.number,
+    PropTypes.array
   ]),
   onClick: PropTypes.func.isRequired,
   fontSize: PropTypes.number,

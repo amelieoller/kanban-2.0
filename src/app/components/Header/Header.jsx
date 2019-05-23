@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { FiUser, FiLogOut, FiLogIn } from 'react-icons/fi';
 import styled from 'styled-components';
 import kanbanLogo from '../../../assets/images/logo.png';
+import kanbanLogoWhite from '../../../assets/images/logo-white.png';
 import IconButton from '../Atoms/IconButton';
 import BoardHeader from './BoardHeader';
 
@@ -20,7 +21,8 @@ const HeaderStyles = styled.header`
   z-index: 2;
   transition: background 0.3s;
   box-shadow: ${props => props.theme.common.boxShadowThree};
-  background: ${props => props.theme.colors.headerBackground};
+  background: ${props =>
+    props.isHome ? 'rgba(0, 0, 0, 0.7)' : props.theme.colors.headerBackground};
   position: fixed;
 
   @media ${props => props.theme.media.tablet} {
@@ -30,7 +32,8 @@ const HeaderStyles = styled.header`
   .header-title {
     display: inline-flex;
     align-items: center;
-    color: white;
+    color: ${props =>
+      props.isHome ? '#EEEEEE' : props.theme.colors.headerText};
     font-size: 22px;
     font-weight: 100;
     text-decoration: none;
@@ -38,7 +41,7 @@ const HeaderStyles = styled.header`
   }
 
   .header-title img {
-    height: 30px;
+    height: 25px;
   }
 
   .header-right-side {
@@ -47,7 +50,8 @@ const HeaderStyles = styled.header`
     align-items: center;
     box-sizing: border-box;
     height: 100%;
-    color: white;
+    color: ${props =>
+      props.isHome ? '#EEEEEE' : props.theme.colors.headerText};
   }
 
   .user-thumbnail {
@@ -61,41 +65,18 @@ const HeaderStyles = styled.header`
     font-size: 24px;
   }
 
-  .signout-link {
-    padding: 3px 5px 1px 5px;
-    margin-left: 12px;
-    color: white;
-    text-decoration: none;
-  }
-
-  .signout-link:focus,
-  .signout-link:hover {
-    color: ${props => props.theme.colors.transparentBlack};
-  }
-
-  .signout-icon {
-    padding-bottom: 2px;
-    font-size: 22px;
-  }
-
   .user-thumbnail,
   .guest-icon {
     @media ${props => props.theme.media.tablet} {
       display: none;
     }
   }
-
-  .signout-link {
-    @media ${props => props.theme.media.tablet} {
-      margin-left: 0px;
-    }
-  }
 `;
 
-const Header = ({ user, homePage }) => (
-  <HeaderStyles>
+const Header = ({ user, homePage, boardColor }) => (
+  <HeaderStyles isHome={homePage}>
     <Link to="/" className="header-title no-focus-mode">
-      <img src={kanbanLogo} alt="Logo - Navigate Back to Board Overview" />
+      <img src={homePage || boardColor === 'light' ? kanbanLogoWhite : kanbanLogo} alt="Logo - Navigate Back to Board Overview" />
       &nbsp;Kanban 2.0
     </Link>
     <div className="header-right-side">
@@ -113,7 +94,6 @@ const Header = ({ user, homePage }) => (
       {user ? (
         <IconButton
           onClick={() => (window.location.href = '/auth/signout')}
-          color="background"
           className="no-focus-mode"
         >
           <FiLogOut />
@@ -121,7 +101,6 @@ const Header = ({ user, homePage }) => (
       ) : (
         <IconButton
           onClick={() => (window.location.href = '/')}
-          color="background"
           className="no-focus-mode"
         >
           <FiLogIn />

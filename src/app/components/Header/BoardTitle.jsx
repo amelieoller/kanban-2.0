@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import ExpandingInput from '../ExpandingInput';
 
 const BoardTitleInput = styled.input`
   width: 100%;
-  padding: 6px 10px 6px 10px;
+  padding: 6px 0px;
   border: 0;
   color: inherit;
   background: inherit;
   font-size: 18px;
   font-weight: 400;
-  font-family: inherit;
 `;
 
 const BoardTitleButton = styled.button`
@@ -22,10 +22,12 @@ const BoardTitleButton = styled.button`
   background: transparent;
   transition: background 0.1s;
   cursor: pointer;
+  font-size: 18px;
+  font-weight: 400;
 
   &:hover,
   &:focus {
-    background: ${props => props.theme.colors.transparentBlack};
+    background-color: rgba(0, 0, 0, 0.18);
   }
 
   @media ${props => props.theme.media.tablet} {
@@ -34,13 +36,14 @@ const BoardTitleButton = styled.button`
 
   .board-title-text {
     margin: 0;
-    color: ${props => props.theme.colors.white};
+    color: ${props => props.theme.colors.headerText};
     font-size: 18px;
     overflow: hidden;
     text-overflow: ellipsis;
     overflow-wrap: break-word;
     white-space: nowrap;
     font-weight: 400;
+    line-height: normal;
   }
 `;
 
@@ -76,16 +79,26 @@ const BoardTitle = ({ boardTitle, dispatch, boardId }) => {
   };
 
   return isOpen ? (
-    <BoardTitleInput
-      autoFocus
+    // <BoardTitleInput
+    //   value={newTitle}
+    //   type="text"
+    //   onKeyDown={handleKeyDown}
+    //   onChange={e => setNewTitle(e.target.value)}
+    //   onBlur={revertTitle}
+    //   onFocus={e => e.target.select()}
+    //   spellCheck={false}
+    //   className="no-focus-mode"
+    // />
+    <ExpandingInput
+      placeholder="Board Title"
+      name="name"
       value={newTitle}
-      type="text"
-      onKeyDown={handleKeyDown}
       onChange={e => setNewTitle(e.target.value)}
+      onKeyDown={handleKeyDown}
       onBlur={revertTitle}
-      onFocus={e => e.target.select()}
-      spellCheck={false}
-      className="no-focus-mode"
+      max="300"
+      className="no-focus-mode board-title-input"
+      fontSize={18}
     />
   ) : (
     <BoardTitleButton

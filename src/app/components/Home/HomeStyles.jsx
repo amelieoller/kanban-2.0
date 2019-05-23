@@ -109,8 +109,13 @@ const HomeStyles = styled.div`
         cursor: pointer;
         margin-bottom: 20px;
         border: 0;
-        background: #ddd;
-        color: #444;
+        background: #e6e6e6;
+        color: rgba(0, 0, 0, 0.87);
+        box-shadow: ${props => props.theme.common.boxShadowOne};
+
+        &:hover {
+          box-shadow: ${props => props.theme.common.boxShadowTwo};
+        }
       }
 
       .add-board-button:hover,
@@ -126,9 +131,14 @@ const HomeStyles = styled.div`
         margin-bottom: 20px;
         padding: 8px;
         border-radius: 3px;
-        background: #ddd;
-        color: #444;
+        background: #e6e6e6;
+        color: rgba(0, 0, 0, 0.87);
         font-size: 15px;
+        box-shadow: ${props => props.theme.common.boxShadowOne};
+
+        &:hover {
+          box-shadow: ${props => props.theme.common.boxShadowTwo};
+        }
       }
 
       .submit-board-button {

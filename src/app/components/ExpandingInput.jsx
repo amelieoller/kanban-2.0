@@ -69,6 +69,7 @@ class AutosizeInput extends Component {
     this.mounted = true;
     this.copyInputStyles();
     this.updateInputWidth();
+    this.focus();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -280,7 +281,17 @@ AutosizeInput.defaultProps = {
   injectStyles: true
 };
 
-const ExpandingInput = ({ placeholder, onChange, name, value, max }) => (
+const ExpandingInput = ({
+  placeholder,
+  onChange,
+  name,
+  value,
+  max,
+  onKeyDown,
+  className,
+  fontSize,
+  onBlur
+}) => (
   <AutosizeInput
     placeholder={placeholder}
     value={value}
@@ -290,20 +301,31 @@ const ExpandingInput = ({ placeholder, onChange, name, value, max }) => (
       border: 'none',
       borderBottom: '1px solid #999',
       padding: 2,
-      fontSize: 16,
+      fontSize,
       background: 'transparent',
       outline: 'none',
       maxWidth: `${max}px`
     }}
+    onKeyDown={onKeyDown}
+    className={className}
+    onBlur={onBlur}
   />
 );
+
+ExpandingInput.defaultProps = {
+  fontSize: 16
+};
 
 ExpandingInput.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  max: PropTypes.string
+  max: PropTypes.string,
+  onKeyDown: PropTypes.func,
+  className: PropTypes.string,
+  fontSize: PropTypes.number,
+  onBlur: PropTypes.func
 };
 
 export default ExpandingInput;

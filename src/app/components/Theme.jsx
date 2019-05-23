@@ -20,6 +20,8 @@ const lightColors = {
   textSecondary: 'rgba(0, 0, 0, 0.60)',
   textDisabled: 'rgba(0, 0, 0, 0.38)',
 
+  headerText: '#EEEEEE',
+
   // Elevated Background
   elevated: '#e6e6e6',
 
@@ -75,6 +77,8 @@ const darkColors = {
   text: 'rgba(255, 255, 255, 0.87)',
   textSecondary: 'rgba(255, 255, 255, 0.60)',
   textDisabled: 'rgba(255, 255, 255, 0.38)',
+
+  headerText: '#121212',
 
   // Elevated Background
   elevated: '#1E1E1E',

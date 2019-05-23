@@ -268,6 +268,15 @@ const GlobalStyles = createGlobalStyle`
 		color: ${props => props.theme.colors.text};
 		width: 100%;
 	}
+
+	.board-title-input {
+		padding-right: 5px;
+		
+		input {
+			color: inherit;
+			font-weight: 400;
+		}
+	}
 `;
 
 export default GlobalStyles;
