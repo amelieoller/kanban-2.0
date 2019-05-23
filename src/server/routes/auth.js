@@ -8,7 +8,7 @@ router.get(
   passport.authenticate("google", {
 		scope: ["profile", "https://www.googleapis.com/auth/calendar.readonly"],
     accessType: "offline",
-    prompt: "consent"
+    prompt: "select_account"
   })
 );
 
