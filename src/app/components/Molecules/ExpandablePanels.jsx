@@ -67,7 +67,7 @@ const useMeasure = () => {
   return [{ ref }, bounds];
 };
 
-const Tree = memo(({ children, name, defaultOpen = false }) => {
+const Tree = memo(({ children, name, defaultOpen, dispatch, boardId }) => {
   const [isOpen, setOpen] = useState(defaultOpen);
   const previous = usePrevious(isOpen);
   const [bind, { height: viewHeight }] = useMeasure();
@@ -80,19 +80,25 @@ const Tree = memo(({ children, name, defaultOpen = false }) => {
     }
   });
 
+  const handleClick = () => {
+    const type = `${name.toLowerCase()}Open`;
+    const setting = !isOpen;
+
+    dispatch({
+      type: 'CHANGE_SIDEBAR_OPEN',
+      payload: { boardId, type, setting }
+    });
+
+    setOpen(setting);
+  };
+
   return (
     <Frame>
-      <div className="title-area" onClick={() => setOpen(!isOpen)}>
+      <div className="title-area" onClick={handleClick}>
         {children && isOpen ? (
-          <FiMinusSquare
-            style={{ ...toggle }}
-            onClick={() => setOpen(!isOpen)}
-          />
+          <FiMinusSquare style={{ ...toggle }} onClick={handleClick} />
         ) : (
-          <FiPlusSquare
-            style={{ ...toggle }}
-            onClick={() => setOpen(!isOpen)}
-          />
+          <FiPlusSquare style={{ ...toggle }} onClick={handleClick} />
         )}
         <Title>{name}</Title>
       </div>
@@ -116,6 +122,8 @@ const ExpandablePanels = ({ children }) => (
         key={i}
         name={child.props.name}
         defaultOpen={child.props.defaultOpen}
+        boardId={child.props.boardId}
+        dispatch={child.props.dispatch}
       >
         {child}
       </Tree>
@@ -123,10 +131,16 @@ const ExpandablePanels = ({ children }) => (
   </div>
 );
 
+Tree.defaultProps = {
+  defaultOpen: false
+};
+
 Tree.propTypes = {
   children: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  defaultOpen: PropTypes.bool
+  defaultOpen: PropTypes.bool,
+  dispatch: PropTypes.func,
+  boardId: PropTypes.string
 };
 
 ExpandablePanels.propTypes = {

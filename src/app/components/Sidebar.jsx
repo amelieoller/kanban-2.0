@@ -79,7 +79,8 @@ const Sidebar = ({
   eventCalendarId,
   eventFilter,
   pomodoroFocusMode,
-  isKeyboardOpen
+  isKeyboardOpen,
+  sidebarOpen
 }) => {
   const [pomodoriToEvent, setPomodoriToEvent] = useState(false);
 
@@ -100,7 +101,7 @@ const Sidebar = ({
           pomodoriToEvent={pomodoriToEvent}
           pomodoroFocusMode={pomodoroFocusMode}
           name="Pomodoro"
-          defaultOpen
+          defaultOpen={sidebarOpen.pomodoroOpen}
         />
 
         {user && eventCalendarId ? (
@@ -111,7 +112,8 @@ const Sidebar = ({
             eventFilter={eventFilter}
             setPomodoriToEvent={setPomodoriToEvent}
             name="Events"
-            defaultOpen
+            defaultOpen={sidebarOpen.eventsOpen}
+            boardId={boardId}
           />
         ) : (
           <p className="no-items" name="Events">
@@ -130,7 +132,12 @@ const Sidebar = ({
           </p>
         )}
 
-        <Habits boardId={boardId} name="Habits" />
+        <Habits
+          boardId={boardId}
+          dispatch={dispatch}
+          name="Habits"
+          defaultOpen={sidebarOpen.habitsOpen}
+        />
 
         {cards.length !== 0 ? (
           <TaskStats
@@ -139,6 +146,8 @@ const Sidebar = ({
             dispatch={dispatch}
             categories={categories}
             name="Tasks"
+            defaultOpen={sidebarOpen.tasksOpen}
+            boardId={boardId}
           />
         ) : (
           <p className="no-items" name="Tasks">
@@ -169,7 +178,8 @@ Sidebar.propTypes = {
   eventCalendarId: PropTypes.string,
   eventFilter: PropTypes.string,
   pomodoroFocusMode: PropTypes.bool,
-  isKeyboardOpen: PropTypes.bool
+  isKeyboardOpen: PropTypes.bool,
+  sidebarOpen: PropTypes.object
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -182,7 +192,8 @@ const mapStateToProps = (state, ownProps) => {
           categories,
           eventCalendarId,
           eventFilter,
-          pomodoroFocusMode
+          pomodoroFocusMode,
+          sidebarOpen
         }
       }
     }
@@ -199,7 +210,8 @@ const mapStateToProps = (state, ownProps) => {
     eventCalendarId,
     eventFilter,
     pomodoroFocusMode,
-    isKeyboardOpen
+    isKeyboardOpen,
+    sidebarOpen
   };
 };
 

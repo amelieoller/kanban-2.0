@@ -277,7 +277,13 @@ Since you are not signed in, your changes will not persist after you leave the w
       color: 'light',
       completedListId,
       habitsListId,
-      pomodoroFocusMode: true
+      pomodoroFocusMode: true,
+      sidebarOpen: {
+        pomodoroOpen: true,
+        eventsOpen: true,
+        habitsOpen: false,
+        tasksOpen: false
+      }
     }
   };
 };

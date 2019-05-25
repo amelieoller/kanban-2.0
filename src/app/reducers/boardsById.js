@@ -187,6 +187,24 @@ const boardsById = (state = {}, action) => {
       };
     }
 
+    case 'CHANGE_SIDEBAR_OPEN': {
+      const { boardId, type, setting } = action.payload;
+
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          settings: {
+            ...state[boardId].settings,
+            sidebarOpen: {
+              ...state[boardId].settings.sidebarOpen,
+              [type]: setting
+            }
+          }
+        }
+      };
+    }
+
     // case 'CHANGE_LAST_CHECKIN': {
     //   const { boardId, checkinDate } = action.payload;
     //   return {
