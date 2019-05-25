@@ -19,6 +19,7 @@ import Checkbox from '../Atoms/Checkbox';
 import SlideOutMenu from './SlideOutMenu';
 import IconButton from '../Atoms/IconButton';
 import Input from './Input';
+import Tooltip from '../Atoms/Tooltip';
 
 const StyledBoardSettings = styled.div`
   background-color: ${props => props.theme.colors.background};
@@ -306,13 +307,15 @@ const BoardSettings = props => {
           </p>
         </StyledBoardSettings>
       </SlideOutMenu>
-      <IconButton
-        onClick={() => toggleSettingsMenu(true)}
-        color="background"
-        className="no-focus-mode"
-      >
-        <FiSettings />
-      </IconButton>
+      <Tooltip tooltipText="Settings">
+        <IconButton
+          onClick={() => toggleSettingsMenu(true)}
+          color="background"
+          className="no-focus-mode"
+        >
+          <FiSettings />
+        </IconButton>
+      </Tooltip>
     </>
   );
 };

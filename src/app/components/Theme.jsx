@@ -20,8 +20,6 @@ const lightColors = {
   textSecondary: 'rgba(0, 0, 0, 0.60)',
   textDisabled: 'rgba(0, 0, 0, 0.38)',
 
-  headerText: '#EEEEEE',
-
   // Elevated Background
   elevated: '#e6e6e6',
 
@@ -50,6 +48,9 @@ const lightColors = {
 
   // Special
   headerBackground: 'rgba(0, 0, 0, 0.7)',
+  headerText: '#EEEEEE',
+  toolTipBackground: 'rgba(0, 0, 0, 0.7)',
+  toolTipText: '#EEEEEE',
   white: '#FFF',
   lightestGrey: colors.lightestGrey,
   success: colors.green,
@@ -77,8 +78,6 @@ const darkColors = {
   text: 'rgba(255, 255, 255, 0.87)',
   textSecondary: 'rgba(255, 255, 255, 0.60)',
   textDisabled: 'rgba(255, 255, 255, 0.38)',
-
-  headerText: '#121212',
 
   // Elevated Background
   elevated: '#1E1E1E',
@@ -112,6 +111,9 @@ const darkColors = {
 
   // Special
   headerBackground: '#ef5350',
+  headerText: '#121212',
+  toolTipBackground: 'rgba(255, 255, 255, 0.60)',
+  toolTipText: '#121212',
   white: '#FFF',
   lightestGrey: colors.lightestGrey,
   success: colors.green,

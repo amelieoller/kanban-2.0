@@ -2,16 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ExpandingInput from '../ExpandingInput';
-
-const BoardTitleInput = styled.input`
-  width: 100%;
-  padding: 6px 0px;
-  border: 0;
-  color: inherit;
-  background: inherit;
-  font-size: 18px;
-  font-weight: 400;
-`;
+import Tooltip from '../Atoms/Tooltip';
 
 const BoardTitleButton = styled.button`
   display: flex;
@@ -91,13 +82,15 @@ const BoardTitle = ({ boardTitle, dispatch, boardId }) => {
       fontSize={18}
     />
   ) : (
-    <BoardTitleButton
-      type="submit"
-      onClick={() => setIsOpen(true)}
-      className="no-focus-mode"
-    >
-      <h1 className="board-title-text">{boardTitle}</h1>
-    </BoardTitleButton>
+    <Tooltip tooltipText="Change Board Name">
+      <BoardTitleButton
+        type="submit"
+        onClick={() => setIsOpen(true)}
+        className="no-focus-mode"
+      >
+        <h1 className="board-title-text">{boardTitle}</h1>
+      </BoardTitleButton>
+    </Tooltip>
   );
 };
 

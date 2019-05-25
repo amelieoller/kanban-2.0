@@ -12,10 +12,10 @@ const TaskStatsStyled = styled.div`
     margin: 0;
   }
 
-  h3 {
+  h4 {
     margin-bottom: 5px;
     margin-top: 10px;
-    font-weight: 400;
+    color: ${props => props.theme.colors.secondary};
   }
 
   .completed-task-wrapper {
@@ -150,7 +150,7 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
     if (filteredCards.length !== 0) {
       return (
         <>
-          <h3>{text}</h3>
+          <h4>{text}</h4>
           <ul>
             {filteredCards.map(card => (
               <li

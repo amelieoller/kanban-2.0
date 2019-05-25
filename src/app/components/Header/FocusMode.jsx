@@ -2,6 +2,7 @@ import React from 'react';
 import { FiEyeOff, FiEye } from 'react-icons/fi';
 import PropTypes from 'prop-types';
 import IconButton from '../Atoms/IconButton';
+import Tooltip from '../Atoms/Tooltip';
 
 const FocusMode = ({ dispatch, isInFocusMode, defaultList }) => {
   const toggleFocusMode = () => {
@@ -12,9 +13,11 @@ const FocusMode = ({ dispatch, isInFocusMode, defaultList }) => {
   };
 
   return (
-    <IconButton onClick={toggleFocusMode} color="background">
-      {isInFocusMode ? <FiEye style={{ stroke: '#EA725B' }} /> : <FiEyeOff />}
-    </IconButton>
+    <Tooltip tooltipText="Focus Mode">
+      <IconButton onClick={toggleFocusMode} color="background">
+        {isInFocusMode ? <FiEye style={{ stroke: '#EA725B' }} /> : <FiEyeOff />}
+      </IconButton>
+    </Tooltip>
   );
 };
 

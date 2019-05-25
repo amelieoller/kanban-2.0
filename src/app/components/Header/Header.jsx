@@ -8,6 +8,7 @@ import kanbanLogo from '../../../assets/images/logo.png';
 import kanbanLogoWhite from '../../../assets/images/logo-white.png';
 import IconButton from '../Atoms/IconButton';
 import BoardHeader from './BoardHeader';
+import Tooltip from '../Atoms/Tooltip';
 
 const HeaderStyles = styled.header`
   display: flex;
@@ -38,6 +39,7 @@ const HeaderStyles = styled.header`
     font-weight: 100;
     text-decoration: none;
     font-family: 'Pacifico', cursive;
+    padding: 4px 0;
   }
 
   .header-title img {
@@ -75,13 +77,17 @@ const HeaderStyles = styled.header`
 
 const Header = ({ user, homePage, boardColor }) => (
   <HeaderStyles isHome={homePage}>
-    <Link to="/" className="header-title no-focus-mode">
-      <img
-        src={homePage || boardColor === 'light' ? kanbanLogoWhite : kanbanLogo}
-        alt="Logo - Navigate Back to Board Overview"
-      />
-      &nbsp;Kanban 2.0
-    </Link>
+    <Tooltip tooltipText={homePage ? "You're Already Home" : 'Board Overview'}>
+      <Link to="/" className="header-title no-focus-mode">
+        <img
+          src={
+            homePage || boardColor === 'light' ? kanbanLogoWhite : kanbanLogo
+          }
+          alt="Logo - Navigate Back to Board Overview"
+        />
+        &nbsp;Kanban 2.0
+      </Link>
+    </Tooltip>
     <div className="header-right-side">
       {!homePage && <BoardHeader />}
       {user ? (
@@ -95,20 +101,24 @@ const Header = ({ user, homePage, boardColor }) => (
         <FiUser className="guest-icon no-focus-mode" />
       )}
       {user ? (
-        <IconButton
-          onClick={() => (window.location.href = '/auth/signout')}
-          className="no-focus-mode"
-        >
-          <FiLogOut />
-        </IconButton>
+        <Tooltip tooltipText="Sign Out">
+          <IconButton
+            onClick={() => (window.location.href = '/auth/signout')}
+            className="no-focus-mode"
+          >
+            <FiLogOut />
+          </IconButton>
+        </Tooltip>
       ) : (
-        <IconButton
-          onClick={() => (window.location.href = '/')}
-          className="no-focus-mode"
-        >
-          <FiLogIn />
-          &nbsp;Sign in
-        </IconButton>
+        <Tooltip tooltipText="Sign In">
+          <IconButton
+            onClick={() => (window.location.href = '/')}
+            className="no-focus-mode"
+          >
+            <FiLogIn />
+            &nbsp;Sign in
+          </IconButton>
+        </Tooltip>
       )}
     </div>
   </HeaderStyles>
