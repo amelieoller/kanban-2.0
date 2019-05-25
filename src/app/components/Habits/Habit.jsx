@@ -1,74 +1,91 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FiX, FiCheckCircle, FiFlag } from 'react-icons/fi';
+import { FiXCircle, FiCheckCircle, FiFlag } from 'react-icons/fi';
 import styled from 'styled-components';
 import Picker from '../Picker';
 import formatMarkdown from '../Card/formatMarkdown';
+import IconButton from '../Atoms/IconButton';
 
-const bgColorChooser = cardDifficulty => {
-  if (cardDifficulty === 2) return 'neutral';
-  if (cardDifficulty === 3) return 'danger';
-  return 'monotoneAccent';
-};
-
-const HabitStyles = styled.li`
+const HabitStyles = styled.div`
   position: relative;
-  box-sizing: border-box;
-  border-radius: 3px;
-  color: ${props => props.theme.colors.textSecondary};
-  background: ${props => props.theme.colors.backgroundAccent};
-  border: 1px solid ${props => props.theme.colors.background};
-  font-size: 15px;
-  width: 100%;
-  margin: 3px 0;
-  padding: 3px;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  border-right: 3px solid #eaecee;
-  border-right-color: ${props =>
-    props.theme.colors[`${bgColorChooser(props.cardDifficulty)}`]};
+  border-radius: ${props => props.theme.sizes.borderRadius};
+  padding: 2px 0;
 
-  .options-list-button {
-    height: auto;
+  .card-title-html {
     padding: 0;
-    margin: 0;
-    color: ${props => props.theme.colors.background};
-    background: transparent;
+    float: left;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    background-color: ${props => props.theme.colors.elevatedOne};
+
+    .habit-delete {
+      visibility: visible;
+      opacity: 0.8;
+      transition: visibility 0s linear 0s, opacity 200ms;
+    }
+
+    .card-title-html,
+    .card-title-html a {
+      color: ${props => props.theme.colors.text};
+    }
+  }
+
+  &:last-child {
+    border: 0;
   }
 
   .habit-check {
     cursor: pointer;
-    padding-right: 5px;
-    font-size: 20px;
+    padding-right: 2px;
+    font-size: 17px;
+    min-width: 17px;
+
+    &:hover {
+      color: ${props => props.theme.colors.secondary};
+    }
   }
 
-  .habit-delete {
+  .habit-done-count {
+    font-size: 10px;
+    position: relative;
+    top: -5px;
+    color: ${props => props.theme.colors.secondary};
+    font-weight: 500;
     cursor: pointer;
-    color: ${props => props.theme.colors.monotoneAccent};
+
+    &:hover {
+      color: ${props => props.theme.colors.primary};
+    }
   }
 
   .habits-card-title {
-    position: relative;
-    box-sizing: border-box;
     font-size: 15px;
-    width: 100%;
-    overflow: hidden;
+  }
 
-    p {
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  .habit-delete {
+    opacity: 0.7;
+    padding: 2px;
+    position: absolute;
+    right: -2px;
+    top: 2px;
+    visibility: hidden;
+    transition: visibility 0s linear 20ms, opacity 20ms;
+    cursor: pointer;
+    border-radius: ${props => props.theme.sizes.borderRadius};
+    background: ${props => props.theme.colors.elevatedOne};
+    color: ${props => props.theme.colors.textDisabled};
 
-    .habit-done {
-      font-size: 10px;
-      position: relative;
-      top: -5px;
+    &:hover svg,
+    &:focus svg {
       color: ${props => props.theme.colors.primary};
-      font-weight: 500;
     }
   }
 `;
@@ -108,17 +125,28 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
     });
   };
 
-  const changeDifficulty = difficulty => {
-    if (card.difficulty !== difficulty) {
-      dispatch({
-        type: 'CHANGE_CARD_DIFFICULTY',
-        payload: { difficulty, cardId: card._id }
-      });
-    }
-    togglePicker('Difficulty');
+  const reduceHabitCount = cardId => {
+    const today = new Date();
+    const date = `${today.getFullYear()}-${today.getMonth() +
+      1}-${today.getDate()}`;
+
+    dispatch({
+      type: 'REMOVE_HABIT',
+      payload: { cardId, boardId, date }
+    });
   };
 
-  const { isDifficultyPickerOpen } = state;
+  // const changeDifficulty = difficulty => {
+  //   if (card.difficulty !== difficulty) {
+  //     dispatch({
+  //       type: 'CHANGE_CARD_DIFFICULTY',
+  //       payload: { difficulty, cardId: card._id }
+  //     });
+  //   }
+  //   togglePicker('Difficulty');
+  // };
+
+  // const { isDifficultyPickerOpen } = state;
   const today = new Date();
   const date = `${today.getFullYear()}-${today.getMonth() +
     1}-${today.getDate()}`;
@@ -127,26 +155,30 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
     habitStats[date].reduce((n, val) => n + (val === card._id), 0);
 
   return (
-    <tr>
-      <td className="left">
-        <FiCheckCircle
-          className="habit-check"
-          onClick={() => changeHabitStat()}
+    <HabitStyles>
+      <FiCheckCircle
+        className="habit-check"
+        onClick={() => changeHabitStat()}
+      />
+      <span className="habits-card-title">
+        <div
+          className="card-title-html"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: formatMarkdown(card.text)
+          }}
         />
-      </td>
-      <td className="left">
-        <span className="habits-card-title">
-          <div
-            className="card-title-html"
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: formatMarkdown(card.text)
-            }}
-          />
-          <span className="habit-done">{habitCount !== 0 && habitCount}</span>
+        <span
+          className="habit-done-count"
+          role="button"
+          onClick={() => reduceHabitCount(card._id)}
+          onKeyDown={() => reduceHabitCount(card._id)}
+          tabIndex={0}
+        >
+          {habitCount !== 0 && habitCount}
         </span>
-      </td>
-      <td>
+      </span>
+      {/* <td>
         <Picker
           isPickerOpen={isDifficultyPickerOpen}
           togglePicker={togglePicker}
@@ -164,48 +196,26 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
             </span>
           ))}
         </Picker>
-      </td>
-      <td>
-        <FiX className="habit-delete" onClick={() => deleteCard(card._id)} />
-      </td>
-    </tr>
+      </td> */}
 
-    // <HabitStyles cardDifficulty={card.difficulty}>
-    //   <FiCheckCircle
-    //     className="habit-check"
-    //     onClick={() => changeHabitStat()}
-    //   />
-    //   <span className="habits-card-title">
-    //     <div
-    //       className="card-title-html"
-    //       // eslint-disable-next-line react/no-danger
-    //       dangerouslySetInnerHTML={{
-    //         __html: formatMarkdown(card.text)
-    //       }}
-    //     />{' '}
-    //     <span className="habit-done">{habitCount !== 0 && habitCount}</span>
-    //   </span>
+      <IconButton
+        className="habit-delete"
+        onClick={() => {
+          if (
+            window.confirm(
+              `Are you sure you want to delete the habit "${card.text}"?`
+            )
+          )
+            deleteCard(card._id);
+        }}
+        color="textDisabled"
+        background="transparent"
+      >
+        <FiXCircle />
+      </IconButton>
 
-    //   <Picker
-    //     isPickerOpen={isDifficultyPickerOpen}
-    //     togglePicker={togglePicker}
-    //     type="Difficulty"
-    //     icon={<FiFlag className="modal-icon" />}
-    //   >
-    //     {[1, 2, 3].map(difficulty => (
-    //       <button
-    //         key={difficulty}
-    //         type="submit"
-    //         className="picker-button"
-    //         onClick={() => changeDifficulty(difficulty)}
-    //       >
-    //         {difficulty}
-    //       </button>
-    //     ))}
-    //   </Picker>
 
-    //   <FiX className="habit-delete" onClick={() => deleteCard(card._id)} />
-    // </HabitStyles>
+    </HabitStyles>
   );
 };
 
