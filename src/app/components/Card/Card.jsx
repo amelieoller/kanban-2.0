@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 import classnames from 'classnames';
-import { FiCheck } from 'react-icons/fi';
+import { FiCheckCircle } from 'react-icons/fi';
 import later from 'later';
 import CardModal from '../CardModal/CardModal';
 import CardBadges from '../CardBadges';
@@ -215,10 +215,10 @@ class Card extends Component {
                     <IconButton
                       className="checkmark"
                       onClick={this.completeCard}
-                      color="background"
-                      background="textDisabled"
+                      color="textDisabled"
+                      background="transparent"
                     >
-                      <FiCheck />
+                      <FiCheckCircle />
                     </IconButton>
                   </div>
                   {/* Remove placeholder when not dragging over to reduce snapping */}

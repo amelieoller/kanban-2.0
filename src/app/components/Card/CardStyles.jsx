@@ -51,8 +51,8 @@ const CardStyles = styled.div`
 
     &:hover,
     &:focus {
-      color: ${props => props.theme.colors.background};
-      background-color: ${props => props.theme.colors.secondary};
+      color: ${props => props.theme.colors.secondary};
+      background: transparent;
     }
   }
 
