@@ -100,6 +100,30 @@ const boardsById = (state = {}, action) => {
       };
     }
 
+    case 'REMOVE_HABIT': {
+      const { cardId, boardId, date } = action.payload;
+
+      const idIndex = state[boardId].stats.habits[date].findIndex(
+        habitId => habitId === cardId
+      );
+
+      state[boardId].stats.habits[date].splice(idIndex, 1);
+
+      return {
+        ...state,
+        [boardId]: {
+          ...state[boardId],
+          stats: {
+            ...state[boardId].stats,
+            habits: {
+              ...state[boardId].stats.habits,
+              [date]: state[boardId].stats.habits[date]
+            }
+          }
+        }
+      };
+    }
+
     case 'CHANGE_HABIT_STATS': {
       const { boardId, habit } = action.payload;
       let newHabits = {};
