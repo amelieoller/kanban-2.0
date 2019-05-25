@@ -7,9 +7,8 @@ import styled from 'styled-components';
 import ClickOutside from './ClickOutside';
 
 const CardAdderStyles = styled.div`
-  .card-adder-textarea-wrapper {
-    margin-top: 6px;
-  }
+  margin-top: 6px;
+  min-height: 33px;
 
   .card-adder-textarea {
     float: right;
@@ -29,7 +28,6 @@ const CardAdderStyles = styled.div`
     flex-shrink: 0;
     width: 100%;
     height: 39px;
-    margin-top: 6px;
     border: none;
     border-radius: ${props => props.theme.sizes.borderRadius};
     color: ${props => props.theme.colors.backgroundAccent};
@@ -51,7 +49,8 @@ const CardAdder = ({
   defaultCategory,
   defaultCardTime,
   openCardAdder,
-  toggleKeyboard
+  toggleKeyboard,
+  placeholder
 }) => {
   const [newText, setNewText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -119,7 +118,7 @@ const CardAdder = ({
               onKeyDown={handleKeyDown}
               value={newText}
               className="card-adder-textarea"
-              placeholder="Add a new list item..."
+              placeholder={placeholder}
               spellCheck={false}
               onBlur={toggleCardComposer}
             />
@@ -144,7 +143,8 @@ CardAdder.propTypes = {
   defaultCategory: PropTypes.string,
   defaultCardTime: PropTypes.number,
   openCardAdder: PropTypes.bool,
-  toggleKeyboard: PropTypes.func
+  toggleKeyboard: PropTypes.bool,
+  placeholder: PropTypes.string
 };
 
 export default connect()(CardAdder);

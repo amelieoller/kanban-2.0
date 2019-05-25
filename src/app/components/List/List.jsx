@@ -147,6 +147,7 @@ class List extends Component {
                 defaultCategory={defaultCategory}
                 defaultCardTime={defaultCardTime}
                 openCardAdder={openCardAdder}
+                placeholder="Add a new list item..."
                 toggleKeyboard
               />
             </ListStyles>
