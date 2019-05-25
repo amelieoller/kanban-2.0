@@ -130,6 +130,8 @@ const Sidebar = ({
           </p>
         )}
 
+        <Habits boardId={boardId} name="Habits" />
+
         {cards.length !== 0 ? (
           <TaskStats
             cards={cards}
@@ -143,8 +145,6 @@ const Sidebar = ({
             You don't have any completed tasks at this moment.
           </p>
         )}
-
-        <Habits boardId={boardId} name="Habits" />
       </ExpandablePanels>
 
       {/* <RepeatingTasks pomodoro={pomodoro} boardId={boardId} /> */}
