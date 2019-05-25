@@ -36,6 +36,10 @@ const ListHeaderStyles = styled.div`
       right: 0;
       margin-right: 5px;
     }
+
+    &:focus {
+      color: ${props => props.theme.colors.textDisabled};
+    }
   }
 
   .list-title-textarea-wrapper {

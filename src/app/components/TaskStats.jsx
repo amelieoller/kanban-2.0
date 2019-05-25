@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FiX, FiStar } from 'react-icons/fi';
+import { FiXCircle, FiStar } from 'react-icons/fi';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
 import classnames from 'classnames';
 import styled from 'styled-components';
+import formatMarkdown from './Card/formatMarkdown';
+import IconButton from './Atoms/IconButton';
 
 const TaskStatsStyled = styled.div`
   ul {
@@ -17,16 +19,31 @@ const TaskStatsStyled = styled.div`
   }
 
   .completed-task-wrapper {
-    border-radius: 3px;
     color: ${props => props.theme.colors.text};
-    border: 1px solid ${props => props.theme.colors.background};
     width: 100%;
-    margin: 3px 0;
-    padding: 3px;
+    margin: 0;
+    padding: 5px 0px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid ${props => props.theme.colors.textDisabled};
+    }
+
+    &:hover,
+    &:focus {
+      background-color: ${props => props.theme.colors.elevatedOne};
+      /* box-shadow: ${props => props.theme.common.boxShadowTwo}; */
+
+      .card-icon {
+        visibility: visible;
+        opacity: 0.8;
+        transition: visibility 0s linear 0s, opacity 200ms;
+      }
+    }
 
     .completed-task-text {
       font-size: 15px;
@@ -35,17 +52,27 @@ const TaskStatsStyled = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       color: ${props => props.theme.colors.textSecondary};
+
+      p {
+        margin: 0;
+      }
     }
 
     .card-icon {
+      opacity: 0.7;
+      padding: 2px;
+      position: absolute;
+      right: -2px;
+      top: 0;
+      visibility: hidden;
+      transition: visibility 0s linear 20ms, opacity 20ms;
       cursor: pointer;
-      min-width: 16px;
-      stroke: ${props => props.theme.colors.primary};
-      font-size: 14px;
+      border-radius: ${props => props.theme.sizes.borderRadius};
+      background: ${props => props.theme.colors.elevatedOne};
 
       &:hover,
       &:focus {
-        stroke: ${props => props.theme.colors.text};
+        color: ${props => props.theme.colors.primary};
       }
     }
 
@@ -134,26 +161,23 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
                     card.category ? card.category.color : 'light-grey'
                   }`
                 }}
-                onMouseEnter={() => setHoverTask(card._id)}
-                onMouseLeave={() => setHoverTask('')}
               >
-                <span className="completed-task-text">{card.text}</span>
+                <div
+                  className="completed-task-text"
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{
+                    __html: formatMarkdown(card.text)
+                  }}
+                />
 
-                {hoverTask === card._id && (
-                  <>
-                    {/* <FiRepeat className="card-icon" /> */}
-                    <FiX
-                      className="card-icon"
-                      onClick={() => deleteCard(card._id)}
-                    />
-                  </>
-                )}
-                {/* <FiStar
-                  className={
-                    card.starred ? 'card-icon card-icon-starred' : 'card-icon'
-                  }
-                  onClick={() => handleStarClick(card._id)}
-                /> */}
+                <IconButton
+                  className="card-icon"
+                  onClick={() => deleteCard(card._id)}
+                  color="textDisabled"
+                  background="transparent"
+                >
+                  <FiXCircle />
+                </IconButton>
               </li>
             ))}
           </ul>

@@ -43,7 +43,7 @@ const CardOptionsStyles = styled.div`
     &:hover,
     &:focus,
     &.is-active {
-      color: ${props => props.theme.colors.primary};
+      background: ${props => props.theme.colors.secondary};
     }
 
     &.recurring {
