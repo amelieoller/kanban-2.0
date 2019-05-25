@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import styled from 'styled-components';
 import ChartistGraph from 'react-chartist';
+import Slider from '../Molecules/Slider';
 
 const GraphStyles = styled.div`
   .ct-series-a .ct-line {
@@ -13,14 +14,14 @@ const GraphStyles = styled.div`
   }
 
   .ct-series-a .ct-point {
-    stroke: ${props => props.theme.colors.primary};
+    stroke: ${props => props.theme.colors.secondary};
     stroke-width: 8px;
     stroke-linecap: round;
   }
 
   .ct-area {
     opacity: 0.4;
-    fill: ${props => props.theme.colors.monotoneAccent};
+    fill: ${props => props.theme.colors.elevatedOne};
   }
 
   .ct-label.ct-horizontal.ct-end {
@@ -32,7 +33,7 @@ const GraphStyles = styled.div`
     transform: translate(-63%) rotate(0deg);
     white-space: nowrap;
     font-size: 12px;
-    color: ${props => props.theme.colors.grey};
+    color: ${props => props.theme.colors.textSecondary};
     font-family: 'Pacifico', cursive;
     margin-top: 3px;
   }
@@ -42,42 +43,30 @@ const ProgressBarStyles = styled.div`
   .habit-target {
     display: flex;
     justify-content: space-between;
-    margin-top: 5px;
+    margin-top: 10px;
     align-items: center;
+    position: relative;
 
-    .goal {
-      color: ${props => props.theme.colors.monotoneAccent};
-      display: flex;
-      align-items: center;
-
-      input {
-        width: 17px;
-        border: none;
-        color: ${props => props.theme.colors.monotoneAccent};
-        text-align: right;
-        background: transparent;
-      }
-
-      input[type='number']::-webkit-inner-spin-button,
-      input[type='number']::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        margin: 0;
-      }
+    .progress-text {
+      position: absolute;
+      font-size: 13px;
+      font-family: Pacifico;
+      right: 5px;
+      bottom: 3px;
     }
 
     .habit-progress-wrapper {
-      background-color: ${props => props.theme.colors.background};
+      background-color: ${props => props.theme.colors.elevatedOne};
       width: 100%;
       float: left;
-      margin-right: 15px;
-      height: 13px;
+      height: 18px;
+      border-radius: 8px;
 
       .habit-progress {
-        background-color: ${props => props.theme.colors.success};
+        background-color: ${props => props.theme.colors.secondary};
         width: 100%;
-        height: 13px;
+        height: 18px;
+        border-radius: 8px;
       }
     }
   }
@@ -101,7 +90,8 @@ const HabitStats = ({ stats, cards, dispatch, boardId, habitGoals }) => {
 
     if (stats.habits[date]) {
       stats.habits[date].map(cardId => {
-        if (cards[cardId]) result += cards[cardId].difficulty;
+        if (cards[cardId]) result += 1;
+        // if (cards[cardId]) result += cards[cardId].difficulty;
       });
     } else {
       return 0;
@@ -120,8 +110,7 @@ const HabitStats = ({ stats, cards, dispatch, boardId, habitGoals }) => {
   };
 
   const calculateWidth = calculateSeries(0) / parseInt(habitGoals, 10);
-  const progressWidth =
-    calculateWidth > 1 ? `100%` : `${calculateWidth * 100}%`;
+  const progressWidth = calculateWidth <= 0 ? 0 : calculateWidth * 100;
 
   const data = {
     labels: [
@@ -156,32 +145,40 @@ const HabitStats = ({ stats, cards, dispatch, boardId, habitGoals }) => {
       showGrid: true
     },
     width: '100%',
-    height: '140px'
+    height: '100px'
+  };
+
+  const progressMessage = () => {
+    if (!progressWidth || progressWidth < 40) {
+      return `Today's Progress`;
+    }
+    if (progressWidth < 70) {
+      return `You Can Do This!`;
+    }
+    if (progressWidth >= 100) {
+      return `All Done, Nice Job!`;
+    }
+    return `Almost there!`;
   };
 
   return (
     <>
       <ProgressBarStyles>
-        {/* <div className="header">
-          Habits · <span className="number">{calculateSeries(0)}</span>
-        </div>
-        <hr /> */}
+        <Slider
+          value={habitGoals}
+          onDragEnd={sliderValue => handleSettingsChange('habits', sliderValue)}
+          beforeText="Goal"
+        />
         <div className="habit-target">
+          <span className="progress-text">{progressMessage()}</span>
           <div className="habit-progress-wrapper">
             <div
               className="habit-progress"
               style={{
-                width: progressWidth
+                width: `${progressWidth >= 100 ? 100 : progressWidth}%`
               }}
             />
           </div>
-          <span className="goal">
-            <input
-              type="number"
-              onChange={e => handleSettingsChange('habits', e.target.value)}
-              value={habitGoals}
-            />
-          </span>
         </div>
       </ProgressBarStyles>
       <GraphStyles>

@@ -20,6 +20,11 @@ const StyledSlider = styled.div`
     cursor: pointer;
   }
 
+  .before-text {
+    font-size: 13px;
+    font-family: Pacifico;
+  }
+
   .number {
     color: ${props =>
       props.isChecked
@@ -204,7 +209,14 @@ const StyledSlider = styled.div`
   }
 `;
 
-const Slider = ({ value, onCheckClick, onDragEnd, checkValue, className }) => {
+const Slider = ({
+  value,
+  onCheckClick,
+  onDragEnd,
+  checkValue,
+  className,
+  beforeText
+}) => {
   const [sliderValue, setSliderValue] = useState(value);
   const [isChecked, setIsChecked] = useState(checkValue);
 
@@ -233,12 +245,16 @@ const Slider = ({ value, onCheckClick, onDragEnd, checkValue, className }) => {
       isChecked={isChecked}
       className={className}
     >
-      <Checkbox
-        onChange={toggleCheck}
-        checked={isChecked}
-        name="sliderCheckbox"
-        color="secondary"
-      />
+      {onCheckClick && !beforeText ? (
+        <Checkbox
+          onChange={toggleCheck}
+          checked={isChecked}
+          name="sliderCheckbox"
+          color="secondary"
+        />
+      ) : (
+        <span className="before-text">{beforeText}</span>
+      )}
       <input
         name="slider"
         onChange={handleOnChange}
@@ -254,14 +270,15 @@ const Slider = ({ value, onCheckClick, onDragEnd, checkValue, className }) => {
   );
 };
 
-Slider.defaultProps = { value: 0 };
+Slider.defaultProps = { value: 0, checkValue: true };
 
 Slider.propTypes = {
   value: PropTypes.number,
   onCheckClick: PropTypes.func,
   onDragEnd: PropTypes.func,
   checkValue: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
+  beforeText: PropTypes.string
 };
 
 export default Slider;
