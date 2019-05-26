@@ -7,17 +7,10 @@ import ModalPickerStyles from './ModalPickerStyles';
 const Category = ({ toggleModal, dispatch, card, categories }) => {
   const handleSave = category => {
     if (card.category !== category) {
-      if (category.color === 'white') {
-        dispatch({
-          type: 'DELETE_CARD_CATEGORY',
-          payload: { cardId: card._id }
-        });
-      } else {
-        dispatch({
-          type: 'CHANGE_CARD_CATEGORY',
-          payload: { categoryId: category._id, cardId: card._id }
-        });
-      }
+      dispatch({
+        type: 'CHANGE_CARD_CATEGORY',
+        payload: { categoryId: category._id, cardId: card._id }
+      });
     }
 
     toggleModal();

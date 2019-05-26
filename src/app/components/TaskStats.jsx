@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { FiXCircle, FiStar } from 'react-icons/fi';
+import { FiXCircle } from 'react-icons/fi';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
-import classnames from 'classnames';
 import styled from 'styled-components';
 import formatMarkdown from './Card/formatMarkdown';
 import IconButton from './Atoms/IconButton';
@@ -36,7 +35,6 @@ const TaskStatsStyled = styled.div`
     &:hover,
     &:focus {
       background-color: ${props => props.theme.colors.elevatedOne};
-      /* box-shadow: ${props => props.theme.common.boxShadowTwo}; */
 
       .card-icon {
         visibility: visible;
@@ -75,15 +73,6 @@ const TaskStatsStyled = styled.div`
         color: ${props => props.theme.colors.primary};
       }
     }
-
-    /* .card-icon-starred {
-      fill: #ffcb34;
-      stroke: #ffcb34;
-      &:hover {
-        fill: #ffb934;
-        stroke: #ffb934;
-      }
-    } */
   }
 
   .stat-badges {
@@ -91,16 +80,22 @@ const TaskStatsStyled = styled.div`
     justify-content: space-between;
     margin: 5px 0;
     flex-wrap: wrap;
-
-    .minute-badges {
-      margin-bottom: 5px;
-    }
   }
 `;
 
-const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
-  const [hoverTask, setHoverTask] = useState('');
+const StyledCategoryBadge = styled.div`
+  margin-bottom: 5px;
+  background-color: ${props =>
+    props.color === 'white' ? props.theme.colors.textDisabled : props.color};
+  padding: 2px 4px;
+  border-radius: ${props => props.theme.sizes.borderRadius};
+  color: ${props => props.theme.colors.backgroundAccent};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
+const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
   const deleteCard = cardId => {
     const listId = completedListId;
 
@@ -195,10 +190,6 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
 
   return (
     <TaskStatsStyled className="no-focus-mode">
-      {/* <div className="header">
-        Task Stats · <span className="number">{accumulated || 0}</span>
-      </div>
-      <hr /> */}
       {cards &&
         (cards.length !== 0 && (
           <>
@@ -206,21 +197,18 @@ const TaskStats = ({ cards, dispatch, completedListId, categories }) => {
               {renderCategorySummary(cards).map(
                 category =>
                   !!category.minutes && (
-                    <div className="minute-badges" key={category.name}>
-                      <div
-                        className={classnames('minute-badge', 'badge')}
-                        style={{ background: category.color }}
-                      >
-                        {category.minutes} min
-                      </div>
-                    </div>
+                    <StyledCategoryBadge
+                      key={category.name}
+                      color={category.color}
+                    >
+                      {category.minutes} min
+                    </StyledCategoryBadge>
                   )
               )}
             </div>
 
             {renderCompletedDateSection(cards, 0, 'Today')}
             {renderCompletedDateSection(cards, -1, 'Yesterday')}
-            {/* {renderCompletedDateSection(cards, -2, 'The Day Before Yesterday')} */}
           </>
         ))}
     </TaskStatsStyled>
