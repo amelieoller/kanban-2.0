@@ -28,7 +28,7 @@ const LandingPageStyles = styled.div`
 
     .signin-buttons {
       display: flex;
-      justify-content: space-between;
+      /* justify-content: space-between; */
       max-width: 400px;
       flex-wrap: wrap;
 
@@ -49,6 +49,7 @@ const LandingPageStyles = styled.div`
         text-decoration: none;
         cursor: pointer;
         transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-right: 10px;
 
         &:hover,
         &:focus {
@@ -138,7 +139,7 @@ const LandingPage = ({ dispatch }) => (
           className="guest-button"
         >
           <FiUser className="button-icon" />
-          <span className="button-text">Sign in as Guest</span>
+          <span className="button-text">Try It Out</span>
         </button>
       </div>
     </div>

@@ -110,7 +110,7 @@ const item6 = {
   [x] Colors
   [x] Deadlines
   [x] Minutes
-  [x] Checkboxes`,
+  [ ] Checkboxes`,
   date: today,
   _id: shortid.generate(),
   difficulty: 3,

@@ -99,7 +99,7 @@ const StyledTooltip = styled.div`
   }
 
   /* Show the tooltip text when you mouse over the tooltip container */
-  &:hover .tooltip {
+  &:hover .tooltip, &:focus .tooltip {
     visibility: visible;
     opacity: 1;
   }
