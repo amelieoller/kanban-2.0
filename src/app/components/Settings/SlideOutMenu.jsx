@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Swipe from 'react-easy-swipe';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import styled from 'styled-components';
 
 const StyledCheeseburger = styled.div`
@@ -189,7 +189,7 @@ const SlideOutMenu = ({
 
   return (
     <StyledCheeseburger
-      className={classnames('cheeseburger-menu', className, { open: isOpen })}
+      className={clsx('cheeseburger-menu', className, { open: isOpen })}
       isOpen={isOpen}
     >
       <div
@@ -205,17 +205,17 @@ const SlideOutMenu = ({
         onSwipeEnd={onSwipeEnd}
       >
         <div
-          className={classnames('cheeseburger-menu-outer', outerClassName)}
+          className={clsx('cheeseburger-menu-outer', outerClassName)}
           style={currentMenuOuterStyle}
         >
           <div
-            className={classnames('cheeseburger-menu-inner', innerClassName)}
+            className={clsx('cheeseburger-menu-inner', innerClassName)}
             style={menuInnerStyle(options)}
           >
             {children}
           </div>
           <div
-            className={classnames('cheeseburger-menu-shadow', shadowClassName)}
+            className={clsx('cheeseburger-menu-shadow', shadowClassName)}
             style={
               isOpen ? menuShadowActiveStyle(options) : menuShadowStyle(options)
             }

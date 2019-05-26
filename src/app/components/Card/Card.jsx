@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import { FiCheckCircle } from 'react-icons/fi';
 import later from 'later';
 import CardModal from '../CardModal/CardModal';
@@ -160,7 +160,7 @@ class Card extends Component {
               {(provided, snapshot) => (
                 <>
                   <div
-                    className={classnames(
+                    className={clsx(
                       'card-title',
                       {
                         'card-title--drag': snapshot.isDragging

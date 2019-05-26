@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Title } from 'react-head';
 import slugify from 'slugify';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import Header from '../Header/Header';
 import BoardAdder from './BoardAdder';
 import HomeStyles from './HomeStyles';
@@ -39,7 +39,7 @@ class Home extends Component {
             {boards.map(board => (
               <Link
                 key={board._id}
-                className={classnames('board', board.settings.color)}
+                className={clsx('board', board.settings.color)}
                 to={`/b/${board._id}/${slugify(board.title, {
                   lower: true
                 })}`}
