@@ -166,13 +166,12 @@ class CardModal extends Component {
         onClick={this.handleRequestClose}
       >
         <div
-          className="modal-textarea-wrapper"
+          className={`${
+            isTextareaFocused ? 'modal-textarea-wrapper-shadow' : ''
+          } modal-textarea-wrapper`}
           style={{
             minHeight: isThinDisplay ? 'none' : boundingRect.height,
             width: isThinDisplay ? '100%' : boundingRect.width,
-            boxShadow: isTextareaFocused
-              ? '0px 0px 3px 2px rgb(0, 180, 255)'
-              : null,
             background: card.color
           }}
         >

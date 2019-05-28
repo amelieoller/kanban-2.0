@@ -240,6 +240,10 @@ const GlobalStyles = createGlobalStyle`
 		transition: background 0.2s;
 		padding-left: 3px;
 	}
+	
+	.modal-textarea-wrapper-shadow  {
+		box-shadow: ${props => `0px 0px 3px 2px ${props.theme.colors.secondary}`};
+	}
 
 	.modal-textarea {
 		flex-grow: 1;
