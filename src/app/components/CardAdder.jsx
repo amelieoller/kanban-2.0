@@ -17,10 +17,11 @@ const CardAdderStyles = styled.div`
     padding: 10px 8px;
     border: 0;
     border-radius: 3px;
-    color: inherit;
+    color: ${props => props.theme.colors.textSecondary};
     font-family: inherit;
     font-size: 15px;
     resize: none;
+    background: ${props => props.theme.colors.elevatedFour};
   }
 
   .add-card-button {
@@ -107,7 +108,7 @@ const CardAdder = ({
 
   return (
     <CardAdderStyles>
-      {isOpen ? (
+      {!isOpen ? (
         <ClickOutside toggleOpen={toggleCardComposer}>
           <form onSubmit={handleSubmit} className="card-adder-textarea-wrapper">
             <Textarea
