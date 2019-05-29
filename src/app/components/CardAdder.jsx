@@ -108,7 +108,7 @@ const CardAdder = ({
 
   return (
     <CardAdderStyles>
-      {!isOpen ? (
+      {isOpen ? (
         <ClickOutside toggleOpen={toggleCardComposer}>
           <form onSubmit={handleSubmit} className="card-adder-textarea-wrapper">
             <Textarea
