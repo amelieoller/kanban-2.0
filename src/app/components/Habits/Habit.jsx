@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { FiXCircle, FiCheckCircle, FiFlag } from 'react-icons/fi';
+import { FiXCircle, FiCheckCircle } from 'react-icons/fi';
 import styled from 'styled-components';
-import Picker from '../Picker';
 import formatMarkdown from '../Card/formatMarkdown';
 import IconButton from '../Atoms/IconButton';
 
@@ -91,10 +90,6 @@ const HabitStyles = styled.div`
 `;
 
 const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
-  const [state, setState] = useState({
-    isDifficultyPickerOpen: false
-  });
-
   const deleteCard = cardId => {
     const listId = habitsListId;
 
@@ -116,15 +111,6 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
     });
   };
 
-  const togglePicker = type => {
-    const picker = `is${type}PickerOpen`;
-
-    setState({
-      ...state,
-      [picker]: !state[picker]
-    });
-  };
-
   const reduceHabitCount = cardId => {
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() +
@@ -136,17 +122,6 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
     });
   };
 
-  // const changeDifficulty = difficulty => {
-  //   if (card.difficulty !== difficulty) {
-  //     dispatch({
-  //       type: 'CHANGE_CARD_DIFFICULTY',
-  //       payload: { difficulty, cardId: card._id }
-  //     });
-  //   }
-  //   togglePicker('Difficulty');
-  // };
-
-  // const { isDifficultyPickerOpen } = state;
   const today = new Date();
   const date = `${today.getFullYear()}-${today.getMonth() +
     1}-${today.getDate()}`;
@@ -178,25 +153,6 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
           {habitCount !== 0 && habitCount}
         </span>
       </span>
-      {/* <td>
-        <Picker
-          isPickerOpen={isDifficultyPickerOpen}
-          togglePicker={togglePicker}
-          type="Difficulty"
-          icon={<FiFlag className="modal-icon" />}
-        >
-          {[1, 2, 3].map(difficulty => (
-            <span
-              key={difficulty}
-              type="submit"
-              className="picker-button"
-              onClick={() => changeDifficulty(difficulty)}
-            >
-              {difficulty}
-            </span>
-          ))}
-        </Picker>
-      </td> */}
 
       <IconButton
         className="habit-delete"
@@ -213,8 +169,6 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
       >
         <FiXCircle />
       </IconButton>
-
-
     </HabitStyles>
   );
 };
