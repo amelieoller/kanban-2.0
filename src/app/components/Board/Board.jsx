@@ -72,8 +72,7 @@ class Board extends Component {
     completedListId: PropTypes.string,
     habitsListId: PropTypes.string,
     color: PropTypes.string,
-    isInFocusMode: PropTypes.bool,
-    errors: PropTypes.array
+    isInFocusMode: PropTypes.bool
   };
 
   constructor(props) {
@@ -219,7 +218,6 @@ class Board extends Component {
       completedListId,
       habitsListId,
       isInFocusMode,
-      errors,
       color
     } = this.props;
     const otherLists = lists.filter(
@@ -281,7 +279,6 @@ const mapStateToProps = (state, ownProps) => {
     board._id
   ].settings;
   const { isInFocusMode } = state.appState;
-  const { errors } = state;
 
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
@@ -291,8 +288,7 @@ const mapStateToProps = (state, ownProps) => {
     completedListId,
     habitsListId,
     color,
-    isInFocusMode,
-    errors
+    isInFocusMode
   };
 };
 
