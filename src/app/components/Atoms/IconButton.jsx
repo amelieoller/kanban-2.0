@@ -38,10 +38,16 @@ const StyledIconButton = styled.button`
 `;
 
 const IconButton = props => {
-  const { children, onClick } = props;
+  const { children, onClick, onKeyDown } = props;
 
   return (
-    <StyledIconButton role="button" tabIndex={0} onClick={onClick} {...props}>
+    <StyledIconButton
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      {...props}
+    >
       {children}
     </StyledIconButton>
   );
@@ -67,7 +73,8 @@ IconButton.propTypes = {
   color: PropTypes.string,
   className: PropTypes.string,
   round: PropTypes.bool,
-  background: PropTypes.string
+  background: PropTypes.string,
+  onKeyDown: PropTypes.func
 };
 
 export default IconButton;

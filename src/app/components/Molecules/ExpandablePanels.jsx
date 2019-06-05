@@ -15,11 +15,11 @@ const Frame = styled('div')`
   .title-area {
     cursor: pointer;
     transition: color 0.15s ease;
-  }
 
-  .title-area:hover,
-  .title-area:focus {
-    color: ${props => props.theme.colors.primary};
+    &:hover,
+    &:focus {
+      color: ${props => props.theme.colors.primary};
+    }
   }
 `;
 
@@ -33,7 +33,7 @@ const Title = styled('span')`
 `;
 
 const Content = styled(animated.div)`
-  will-change: transform, opacity, height;
+  will-change: transform, opacity, visibility, height;
   overflow: hidden;
 
   & > div {
@@ -71,11 +71,17 @@ const Tree = memo(({ children, name, defaultOpen, dispatch, boardId }) => {
   const [isOpen, setOpen] = useState(defaultOpen);
   const previous = usePrevious(isOpen);
   const [bind, { height: viewHeight }] = useMeasure();
-  const { height, opacity, transform } = useSpring({
-    from: { height: 0, opacity: 0, transform: 'translate3d(20px,0,0)' },
+  const { height, opacity, visibility, transform } = useSpring({
+    from: {
+      height: 0,
+      opacity: 0,
+      visibility: 'hidden',
+      transform: 'translate3d(20px,0,0)'
+    },
     to: {
       height: isOpen ? viewHeight + 30 : 0,
       opacity: isOpen ? 1 : 0,
+      visibility: 'visible',
       transform: `translate3d(${isOpen ? 0 : 20}px,0,0)`
     }
   });
@@ -94,7 +100,13 @@ const Tree = memo(({ children, name, defaultOpen, dispatch, boardId }) => {
 
   return (
     <Frame>
-      <div className="title-area" onClick={handleClick}>
+      <div
+        className="title-area"
+        onClick={handleClick}
+        onKeyDown={e => e.keyCode === 13 && handleClick()}
+        tabIndex={0}
+        role="button"
+      >
         {children && isOpen ? (
           <FiMinusSquare style={{ ...toggle }} onClick={handleClick} />
         ) : (
@@ -106,7 +118,8 @@ const Tree = memo(({ children, name, defaultOpen, dispatch, boardId }) => {
       <Content
         style={{
           opacity,
-          height: isOpen && previous === isOpen ? 'auto' : height
+          height: isOpen && previous === isOpen ? 'auto' : height,
+          visibility: isOpen ? 'visible' : 'hidden'
         }}
       >
         <a.div style={{ transform }} {...bind} children={children} />

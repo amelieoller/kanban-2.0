@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';

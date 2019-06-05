@@ -59,6 +59,11 @@ const GlobalStyles = createGlobalStyle`
 
 	a {
 		color: ${props => props.theme.colors.text};
+
+		&:hover,
+		&:focus {
+			color: ${props => props.theme.colors.textSecondary};
+		}
 	}
 
 	ul {

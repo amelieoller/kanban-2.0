@@ -28,7 +28,7 @@ const StyledBadge = styled.button`
 
   &:hover,
   &:focus {
-    /* background-color: ${props => darken(0.1, props.background)}; */
+    background-color: ${props => darken(0.1, props.background)};
   }
 `;
 
@@ -45,6 +45,7 @@ const Badge = ({
     role="button"
     tabIndex={0}
     onClick={onClick}
+    onKeyDown={e => e.keyCode === 13 && onClick()}
     className={className}
     style={style}
     background={background}

@@ -236,6 +236,11 @@ class Board extends Component {
         >
           <Title>{boardTitle} | Kanban 2.0</Title>
           <Header isInFocusMode={isInFocusMode} boardColor={color} />
+          <Sidebar
+            pomodoro={pomodoro}
+            boardId={boardId}
+            isInFocusMode={isInFocusMode}
+          />
           <DragDropContext onDragEnd={this.handleDragEnd}>
             <Droppable
               droppableId={boardId}
@@ -262,11 +267,6 @@ class Board extends Component {
               )}
             </Droppable>
           </DragDropContext>
-          <Sidebar
-            pomodoro={pomodoro}
-            boardId={boardId}
-            isInFocusMode={isInFocusMode}
-          />
         </CSSTransitionGroup>
       </BoardStyles>
     );

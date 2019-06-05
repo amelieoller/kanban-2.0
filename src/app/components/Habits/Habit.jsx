@@ -47,7 +47,8 @@ const HabitStyles = styled.div`
     font-size: 17px;
     min-width: 17px;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: ${props => props.theme.colors.secondary};
     }
   }
@@ -60,7 +61,8 @@ const HabitStyles = styled.div`
     font-weight: 500;
     cursor: pointer;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: ${props => props.theme.colors.primary};
     }
   }
@@ -84,6 +86,9 @@ const HabitStyles = styled.div`
 
     &:hover svg,
     &:focus svg {
+      visibility: visible;
+      opacity: 0.8;
+      transition: visibility 0s linear 0s, opacity 200ms;
       color: ${props => props.theme.colors.primary};
     }
   }
@@ -134,6 +139,8 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
       <FiCheckCircle
         className="habit-check"
         onClick={() => changeHabitStat()}
+        onKeyDown={e => e.keyCode === 13 && changeHabitStat()}
+        tabIndex={0}
       />
       <span className="habits-card-title">
         <div
@@ -147,7 +154,7 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
           className="habit-done-count"
           role="button"
           onClick={() => reduceHabitCount(card._id)}
-          onKeyDown={() => reduceHabitCount(card._id)}
+          onKeyDown={e => e.keyCode === 13 && reduceHabitCount(card._id)}
           tabIndex={0}
         >
           {habitCount !== 0 && habitCount}
@@ -164,6 +171,13 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
           )
             deleteCard(card._id);
         }}
+        onKeyDown={e =>
+          e.keyCode === 13 &&
+          window.confirm(
+            `Are you sure you want to delete the habit "${card.text}"?`
+          ) &&
+          deleteCard(card._id)
+        }
         color="textDisabled"
         background="transparent"
       >

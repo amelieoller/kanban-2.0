@@ -198,6 +198,7 @@ const SlideOutMenu = ({
         onClick={closeCallback}
         onKeyDown={closeCallback}
         role="button"
+        tabIndex={0}
       />
       <Swipe
         onSwipeStart={onSwipeStart}
