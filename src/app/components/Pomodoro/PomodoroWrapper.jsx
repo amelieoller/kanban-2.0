@@ -39,7 +39,6 @@ class PomodoroWrapper extends Component {
       timePassedMs: 0,
       endTime: 0,
       pomodoriDone: pomodoriDone || 0,
-      pomodori: pomodoro.pomodori || 0,
       opened: false
     };
   }
@@ -226,7 +225,6 @@ class PomodoroWrapper extends Component {
       pomodoriDone,
       sessionLength,
       timePaused,
-      pomodori,
       timePassedMs,
       opened
     } = this.state;
