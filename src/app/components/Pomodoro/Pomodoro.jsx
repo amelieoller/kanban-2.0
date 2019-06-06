@@ -123,11 +123,15 @@ const Pomodoro = ({
               <FiCoffee
                 className="small-button"
                 onClick={() => stopCountdown(5)}
+                onKeyDown={e => e.keyCode === 13 && stopCountdown(5)}
+                tabIndex={0}
               />
             ) : (
               <FiClock
                 className="small-button"
                 onClick={() => stopCountdown(25)}
+                onKeyDown={e => e.keyCode === 13 && stopCountdown(25)}
+                tabIndex={0}
               />
             )}
           </div>

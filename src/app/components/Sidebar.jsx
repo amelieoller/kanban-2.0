@@ -22,6 +22,7 @@ const SidebarStyles = styled.div`
   display: grid;
   grid-template-columns: ${props => `${props.theme.sizes.sidebarWidth}px`};
   grid-auto-rows: max-content;
+  z-index: 1;
 
   .no-items {
     color: ${props => props.theme.colors.text};

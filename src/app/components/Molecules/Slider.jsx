@@ -206,6 +206,30 @@ const StyledSlider = styled.div`
     &::-ms-tooltip {
       display: none;
     }
+
+    &:focus ::-webkit-slider-thumb {
+      box-shadow: ${props =>
+        `0px 0px 0px 9px ${transparentize(
+          0.8,
+          props.theme.colors.secondaryDark
+        )}`};
+    }
+
+    &:focus ::-moz-range-thumb {
+      box-shadow: ${props =>
+        `0px 0px 0px 9px ${transparentize(
+          0.8,
+          props.theme.colors.secondaryDark
+        )}`};
+    }
+
+    &:focus ::-ms-thumb {
+      box-shadow: ${props =>
+        `0px 0px 0px 9px ${transparentize(
+          0.8,
+          props.theme.colors.secondaryDark
+        )}`};
+    }
   }
 `;
 
@@ -219,6 +243,7 @@ const Slider = ({
 }) => {
   const [sliderValue, setSliderValue] = useState(value);
   const [isChecked, setIsChecked] = useState(checkValue);
+  const [prevValue, setPrevValue] = useState(value);
 
   const min = 0;
   const max = 10;
@@ -231,11 +256,22 @@ const Slider = ({
   };
 
   const handleOnChange = e => {
-    setSliderValue(e.target.value);
+    setSliderValue(parseInt(e.target.value));
+  };
+
+  const handleOnDragStart = () => {
+    setPrevValue(sliderValue);
   };
 
   const handleOnDragEnd = () => {
-    onDragEnd(sliderValue);
+    if (prevValue !== sliderValue) onDragEnd(sliderValue);
+  };
+
+  const handleOnKeydown = change => {
+    const newValue = sliderValue + change;
+
+    setPrevValue(sliderValue);
+    onDragEnd(newValue);
   };
 
   return (
@@ -259,11 +295,20 @@ const Slider = ({
         name="slider"
         onChange={handleOnChange}
         onMouseUp={handleOnDragEnd}
+        onMouseDown={handleOnDragStart}
+        onKeyDown={e => {
+          if (e.keyCode === 37) {
+            handleOnKeydown(-1);
+          } else if (e.keyCode === 39) {
+            handleOnKeydown(1);
+          }
+        }}
         value={sliderValue}
         type="range"
         max={max}
         min={min}
         step="1"
+        tabIndex={0}
       />
       <span className="number">{sliderValue}</span>
     </StyledSlider>

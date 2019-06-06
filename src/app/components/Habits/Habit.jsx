@@ -26,9 +26,8 @@ const HabitStyles = styled.div`
     background-color: ${props => props.theme.colors.elevatedOne};
 
     .habit-delete {
-      visibility: visible;
       opacity: 0.8;
-      transition: visibility 0s linear 0s, opacity 200ms;
+      transition: opacity 200ms;
     }
 
     .card-title-html,
@@ -72,23 +71,31 @@ const HabitStyles = styled.div`
   }
 
   .habit-delete {
-    opacity: 0.7;
-    padding: 2px;
+    opacity: 0;
+    padding: 1px;
     position: absolute;
-    right: -2px;
+    right: 0;
     top: 2px;
-    visibility: hidden;
-    transition: visibility 0s linear 20ms, opacity 20ms;
+    transition: opacity 20ms;
     cursor: pointer;
     border-radius: ${props => props.theme.sizes.borderRadius};
     background: ${props => props.theme.colors.elevatedOne};
     color: ${props => props.theme.colors.textDisabled};
 
+    &:hover,
+    &:focus {
+      opacity: 0.8;
+      transition: opacity 200ms;
+    }
+
+    &:focus {
+      background: transparent;
+    }
+
     &:hover svg,
     &:focus svg {
-      visibility: visible;
       opacity: 0.8;
-      transition: visibility 0s linear 0s, opacity 200ms;
+      transition: opacity 200ms;
       color: ${props => props.theme.colors.primary};
     }
   }
@@ -150,15 +157,17 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
             __html: formatMarkdown(card.text)
           }}
         />
-        <span
-          className="habit-done-count"
-          role="button"
-          onClick={() => reduceHabitCount(card._id)}
-          onKeyDown={e => e.keyCode === 13 && reduceHabitCount(card._id)}
-          tabIndex={0}
-        >
-          {habitCount !== 0 && habitCount}
-        </span>
+        {habitCount !== 0 &&
+          <span
+            className="habit-done-count"
+            role="button"
+            onClick={() => reduceHabitCount(card._id)}
+            onKeyDown={e => e.keyCode === 13 && reduceHabitCount(card._id)}
+            tabIndex={0}
+          >
+            {habitCount}
+          </span>
+        }
       </span>
 
       <IconButton

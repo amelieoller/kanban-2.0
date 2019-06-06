@@ -9,6 +9,16 @@ const StyledCheckbox = styled.div`
   align-items: center;
   cursor: pointer;
 
+  &:hover svg,
+  &:focus svg {
+    color: ${props => props.theme.colors.secondary};
+  }
+
+  &:hover svg.selected,
+  &:focus svg.selected {
+    color: ${props => props.theme.colors.secondaryDark};
+  }
+
   label {
     margin-left: 3px;
   }
@@ -67,7 +77,13 @@ const Checkbox = ({ label, onChange, checked, name, color }) => {
   });
 
   return (
-    <StyledCheckbox className="checkbox" color={color} onClick={handleCheck}>
+    <StyledCheckbox
+      className="checkbox"
+      color={color}
+      onClick={handleCheck}
+      onKeyDown={e => e.keyCode === 13 && handleCheck()}
+      tabIndex={0}
+    >
       <div className="check">
         {transitions.map(({ item, props, key }) => {
           const Page = boxes[item];
