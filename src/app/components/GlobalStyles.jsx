@@ -1,4 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
+import { lighten } from 'polished';
+import { darken } from 'polished';
 
 const GlobalStyles = createGlobalStyle`
 	@import url('https://fonts.googleapis.com/css?family=Pacifico|Roboto:100,400,500');
@@ -145,16 +147,23 @@ const GlobalStyles = createGlobalStyle`
 	}
 
 	.alert {
-		padding: .6rem 1rem;
+		padding: .5rem .7rem;
     margin: .5rem 0;
     border: 1px solid transparent;
     border-radius: .25rem;
+		font-size: .8rem;
 	}
 
 	.alert-error {
-    background-color: #ffeeeb;
-    border-color: #ffded9;
+		background-color: ${props => lighten(0.33, props.theme.colors.primary)};
+		border-color: ${props => lighten(0.25, props.theme.colors.primary)};
     color: ${props => props.theme.colors.primary};
+	}
+
+	.alert-message {
+		background-color: ${props => lighten(0.46, props.theme.colors.secondary)};
+		border-color: ${props => lighten(0.27, props.theme.colors.secondary)};
+    color: ${props => props.theme.colors.secondary};
 	}
 
 	.small-button {
