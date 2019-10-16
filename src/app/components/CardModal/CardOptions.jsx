@@ -169,7 +169,7 @@ class CardOptions extends Component {
   };
 
   handleMinuteChange = e => {
-    const minutes = parseInt(e.target.value, 10);
+    const minutes = e.target.value === '' ? '' : parseInt(e.target.value, 10);
 
     this.setState({
       [e.target.name]: minutes
@@ -183,7 +183,7 @@ class CardOptions extends Component {
     if (card.minutes !== minutes) {
       dispatch({
         type: 'CHANGE_CARD_MINUTES',
-        payload: { minutes, cardId: card._id }
+        payload: { minutes: minutes === '' ? 0 : minutes, cardId: card._id }
       });
     }
   };
@@ -280,7 +280,7 @@ class CardOptions extends Component {
             name="minutes"
             type="number"
             placeholder="Minutes"
-            value={minutes}
+            value={minutes === 0 ? "" : minutes}
             onChange={this.handleMinuteChange}
             onBlur={this.handleMinuteSubmit}
             onKeyUp={e => e.keyCode === 13 && this.handleMinuteSubmit()}

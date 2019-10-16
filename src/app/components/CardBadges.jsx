@@ -51,6 +51,7 @@ const CardBadges = ({
   checkboxes: { total, checked }
 }) => {
   const [cardMinutes, setCardMinutes] = useState(minutes);
+  let minuteInput = React.createRef();
 
   useEffect(() => {
     if (minutes !== cardMinutes) {
@@ -145,7 +146,8 @@ const CardBadges = ({
   };
 
   const handleMinuteChange = e => {
-    const newMinutes = parseInt(e.target.value, 10);
+    const newMinutes =
+      e.target.value === '' ? '' : parseInt(e.target.value, 10);
 
     if (cardMinutes !== newMinutes) {
       setCardMinutes(newMinutes);
@@ -156,18 +158,22 @@ const CardBadges = ({
     if (minutes !== cardMinutes) {
       dispatch({
         type: 'CHANGE_CARD_MINUTES',
-        payload: { minutes: cardMinutes, cardId }
+        payload: { minutes: cardMinutes === '' ? 0 : cardMinutes, cardId }
       });
     }
   };
 
+  const handleMinuteFocus = () => {
+    minuteInput.current.focus();
+  };
+
   const renderMinutes = () => {
-    if (!cardMinutes) {
+    if (!minutes) {
       return null;
     }
 
     return (
-      <div className="badge badge-minutes">
+      <div className="badge badge-minutes" onClick={handleMinuteFocus}>
         <FiClock className="badge-icon" />
         &nbsp;
         <input
@@ -176,6 +182,7 @@ const CardBadges = ({
           value={cardMinutes}
           onBlur={handleMinuteSubmit}
           onKeyUp={e => e.keyCode === 13 && handleMinuteSubmit()}
+          ref={minuteInput}
         />
         min
       </div>
