@@ -112,7 +112,9 @@ const Tree = memo(({ children, name, defaultOpen, dispatch, boardId }) => {
         ) : (
           <FiPlusSquare style={{ ...toggle }} onClick={handleClick} />
         )}
-        <Title>{name}</Title>
+        <Title>
+          {name} {children.props.children}
+        </Title>
       </div>
 
       <Content

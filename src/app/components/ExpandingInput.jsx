@@ -69,7 +69,7 @@ class AutosizeInput extends Component {
     this.mounted = true;
     this.copyInputStyles();
     this.updateInputWidth();
-    this.focus();
+    // this.focus();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -152,6 +152,7 @@ class AutosizeInput extends Component {
     } else {
       newInputWidth = this.sizer.scrollWidth + 2;
     }
+
     // add extraWidth to the detected width. for number types, this defaults to 16 to allow for the stepper UI
     const newExtraWidth =
       type === 'number' && extraWidth === undefined
@@ -169,9 +170,9 @@ class AutosizeInput extends Component {
     }
   }
 
-  focus() {
-    this.input.focus();
-  }
+  // focus() {
+  //   this.input.focus();
+  // }
 
   blur() {
     this.input.blur();
@@ -273,12 +274,14 @@ AutosizeInput.propTypes = {
   placeholder: PropTypes.string, // placeholder text
   placeholderIsMinWidth: PropTypes.bool, // don't collapse size to less than the placeholder
   style: PropTypes.object, // css styles for the outer element
-  value: PropTypes.any // field value
+  value: PropTypes.any, // field value
+  type: PropTypes.string
 };
 
 AutosizeInput.defaultProps = {
   minWidth: 1,
-  injectStyles: true
+  injectStyles: true,
+  type: 'text'
 };
 
 const ExpandingInput = ({
@@ -290,7 +293,9 @@ const ExpandingInput = ({
   onKeyDown,
   className,
   fontSize,
-  onBlur
+  onBlur,
+  type,
+  extraWidth
 }) => (
   <AutosizeInput
     placeholder={placeholder}
@@ -298,22 +303,20 @@ const ExpandingInput = ({
     onChange={onChange}
     name={name}
     inputStyle={{
-      border: 'none',
-      borderBottom: '1px solid #999',
-      padding: 2,
       fontSize,
-      background: 'transparent',
-      outline: 'none',
       maxWidth: `${max}px`
     }}
     onKeyDown={onKeyDown}
     className={className}
     onBlur={onBlur}
+    type={type}
+    extraWidth={extraWidth}
   />
 );
 
 ExpandingInput.defaultProps = {
-  fontSize: 16
+  fontSize: 16,
+  type: 'text'
 };
 
 ExpandingInput.propTypes = {
@@ -325,7 +328,8 @@ ExpandingInput.propTypes = {
   onKeyDown: PropTypes.func,
   className: PropTypes.string,
   fontSize: PropTypes.number,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
+  type: PropTypes.string
 };
 
 export default ExpandingInput;

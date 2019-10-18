@@ -5,6 +5,7 @@ import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
 import { FiClock, FiBell, FiCheck } from 'react-icons/fi';
 import styled from 'styled-components';
 import Badge from './Atoms/Badge';
+import ExpandingInput from './ExpandingInput';
 
 const CardBadgesStyles = styled.div`
   display: flex;
@@ -32,9 +33,8 @@ const CardBadgesStyles = styled.div`
     input {
       background: transparent;
       color: ${props => props.theme.colors.backgroundAccent};
-      width: 17px;
       border: none;
-      text-align: center;
+      max-width: 40px;
       font-size: 12px;
     }
   }
@@ -51,7 +51,6 @@ const CardBadges = ({
   checkboxes: { total, checked }
 }) => {
   const [cardMinutes, setCardMinutes] = useState(minutes);
-  let minuteInput = React.createRef();
 
   useEffect(() => {
     if (minutes !== cardMinutes) {
@@ -163,26 +162,25 @@ const CardBadges = ({
     }
   };
 
-  const handleMinuteFocus = () => {
-    minuteInput.current.focus();
-  };
-
   const renderMinutes = () => {
     if (!minutes) {
       return null;
     }
 
     return (
-      <div className="badge badge-minutes" onClick={handleMinuteFocus}>
+      <div className="badge badge-minutes">
         <FiClock className="badge-icon" />
         &nbsp;
-        <input
+        <ExpandingInput
+          name="minutes"
+          max="50"
+          fontSize={12}
           onChange={e => handleMinuteChange(e)}
           type="number"
           value={cardMinutes}
           onBlur={handleMinuteSubmit}
           onKeyUp={e => e.keyCode === 13 && handleMinuteSubmit()}
-          ref={minuteInput}
+          extraWidth={0}
         />
         min
       </div>
