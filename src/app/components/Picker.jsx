@@ -22,9 +22,6 @@ const PickerStyles = styled.div`
   }
 
   .picker-button {
-    /* width: ${props => props.isThinDisplay ? '50px' : '34px'};
-    height: ${props => props.isThinDisplay ? '50px' : '34px'};
-    margin: ${props => props.isThinDisplay ? '4px' : '2px'}; */
     border: 1px ${props => props.theme.colors.monotoneAccent} solid;
     border-radius: ${props => props.theme.sizes.borderRadius};
     color: ${props => props.theme.colors.backgroundAccent};
@@ -36,17 +33,14 @@ class Picker extends Component {
   static propTypes = {
     isPickerOpen: PropTypes.bool.isRequired,
     togglePicker: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
+    children: PropTypes.array,
+    icon: PropTypes.object,
+    text: PropTypes.string,
+    className: PropTypes.string,
+    boundingRect: PropTypes.object,
+    isThinDisplay: PropTypes.bool
   };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isCalendarOpen: false
-    };
-  }
 
   handleKeyDown = e => {
     const { togglePicker, type } = this.props;
