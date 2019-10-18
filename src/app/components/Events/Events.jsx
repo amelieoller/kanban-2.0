@@ -58,15 +58,17 @@ class Events extends Component {
 	componentDidMount = () => {
 		const { user } = this.props;
 
-		// If access token is expired use refresh token to get new access token
-		if (
-			moment()
-				.subtract(user.expiryDate, 's')
-				.format('X') > -300
-		) {
-			this.callRefreshAccessToken();
-		} else {
-			this.callFetchEvents();
+		if (user) {
+			// If access token is expired use refresh token to get new access token
+			if (
+				moment()
+					.subtract(user.expiryDate, 's')
+					.format('X') > -300
+			) {
+				this.callRefreshAccessToken();
+			} else {
+				this.callFetchEvents();
+			}
 		}
 	};
 
@@ -136,11 +138,11 @@ class Events extends Component {
 	render() {
 		const { events, nextEventTime, error } = this.state;
 		const nextEventText = moment(nextEventTime).fromNow();
-		const { user, eventCalendarId } = this.props;
+		const { user, eventCalendarId, toggleSettingsMenu } = this.props;
 
 		let eventInfo;
 
-		if (!user && !eventCalendarId) {
+		if (!user || !eventCalendarId) {
 			<div className="no-items" name="Events">
 				To see your upcoming events, make sure you are signed in and have added
 				a Calendar ID in the{' '}
