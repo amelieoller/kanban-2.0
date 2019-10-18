@@ -27,7 +27,6 @@ const BoardAdder = ({ dispatch, history, userId }) => {
     const boardId = shortid.generate();
     const completedListId = shortid.generate();
     const habitsListId = shortid.generate();
-    const categoryId = shortid.generate();
 
     dispatch({
       type: 'ADD_BOARD',
@@ -36,8 +35,7 @@ const BoardAdder = ({ dispatch, history, userId }) => {
         boardId,
         userId,
         completedListId,
-        habitsListId,
-        categoryId
+        habitsListId
       }
     });
     dispatch({

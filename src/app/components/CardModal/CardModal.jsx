@@ -189,8 +189,8 @@ class CardModal extends Component {
           {(card.date ||
             checkboxes.total > 0 ||
             card.minutes ||
-            card.category ||
-            card.difficulty) && (
+            card.categoryId === "none" ||
+            card.difficulty !== 1) && (
             <CardBadges
               date={card.date}
               checkboxes={checkboxes}

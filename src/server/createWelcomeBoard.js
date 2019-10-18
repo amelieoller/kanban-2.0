@@ -14,7 +14,6 @@ const listId1 = shortid.generate();
 
 const categoryId1 = shortid.generate();
 const categoryId2 = shortid.generate();
-const categoryId3 = shortid.generate();
 
 const habitId1 = shortid.generate();
 const habitId2 = shortid.generate();
@@ -35,21 +34,21 @@ const category1 = {
   name: 'none',
   short: '',
   color: 'white',
-  _id: categoryId1
+  _id: 'none'
 };
 
 const category2 = {
   name: 'Todo',
   short: 'T',
   color: 'rgba(233, 141, 90, 1)',
-  _id: categoryId2
+  _id: categoryId1
 };
 
 const category3 = {
   name: 'Work',
   short: 'W',
   color: 'rgba(0, 163, 192, 1)',
-  _id: categoryId3
+  _id: categoryId2
 };
 
 const item1 = {
@@ -72,7 +71,7 @@ const item3 = {
   _id: shortid.generate(),
   difficulty: 1,
   minutes: 0,
-  categoryId: categoryId3
+  categoryId: categoryId1
 };
 
 const item4 = {
@@ -115,7 +114,7 @@ const item6 = {
   _id: shortid.generate(),
   difficulty: 3,
   minutes: 10,
-  categoryId: categoryId3
+  categoryId: categoryId2
 };
 
 const completed1 = {
@@ -124,7 +123,7 @@ const completed1 = {
   _id: shortid.generate(),
   difficulty: 3,
   minutes: 10,
-  categoryId: categoryId3
+  categoryId: categoryId2
 };
 
 const completed2 = {
@@ -142,7 +141,7 @@ const completed3 = {
   _id: shortid.generate(),
   difficulty: 3,
   minutes: 10,
-  categoryId: categoryId3
+  categoryId: categoryId1
 };
 
 const completed4 = {
@@ -151,7 +150,7 @@ const completed4 = {
   _id: shortid.generate(),
   difficulty: 3,
   minutes: 10,
-  categoryId: categoryId3
+  categoryId: categoryId1
 };
 
 const habit1 = {
