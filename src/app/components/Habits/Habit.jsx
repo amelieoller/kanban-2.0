@@ -4,6 +4,7 @@ import { FiXCircle, FiCheckCircle } from 'react-icons/fi';
 import styled from 'styled-components';
 import formatMarkdown from '../Card/formatMarkdown';
 import IconButton from '../Atoms/IconButton';
+import shortid from 'shortid';
 
 const HabitStyles = styled.div`
   position: relative;
@@ -101,7 +102,14 @@ const HabitStyles = styled.div`
   }
 `;
 
-const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
+const Habit = ({
+  dispatch,
+  habitsListId,
+  boardId,
+  card,
+  habitStats,
+  defaultList
+}) => {
   const deleteCard = cardId => {
     const listId = habitsListId;
 
@@ -111,15 +119,33 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
     });
   };
 
-  const changeHabitStat = () => {
-    const today = new Date();
-    const date = `${today.getFullYear()}-${today.getMonth() +
-      1}-${today.getDate()}`;
-    const habit = { date, cardId: card._id };
+  // const changeHabitStat = () => {
+  //   const today = new Date();
+  //   const date = `${today.getFullYear()}-${today.getMonth() +
+  //     1}-${today.getDate()}`;
+  //   const habit = { date, cardId: card._id };
+
+  //   dispatch({
+  //     type: 'CHANGE_HABIT_STATS',
+  //     payload: { boardId, habit }
+  //   });
+  // };
+
+  const addHabitToDefaultList = () => {
+    const cardId = shortid.generate();
+
+    const newCard = {
+      cardText: card.text,
+      cardId: cardId,
+      createdAt: card.createdAt,
+      minutes: card.minutes,
+      habitId: card._id,
+      listId: defaultList
+    };
 
     dispatch({
-      type: 'CHANGE_HABIT_STATS',
-      payload: { boardId, habit }
+      type: 'ADD_CARD',
+      payload: newCard
     });
   };
 
@@ -145,8 +171,8 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
     <HabitStyles>
       <FiCheckCircle
         className="habit-check"
-        onClick={() => changeHabitStat()}
-        onKeyDown={e => e.keyCode === 13 && changeHabitStat()}
+        onClick={() => addHabitToDefaultList()}
+        onKeyDown={e => e.keyCode === 13 && addHabitToDefaultList()}
         tabIndex={0}
       />
       <span className="habits-card-title">
@@ -157,7 +183,7 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
             __html: formatMarkdown(card.text)
           }}
         />
-        {habitCount !== 0 &&
+        {habitCount !== 0 && (
           <span
             className="habit-done-count"
             role="button"
@@ -167,7 +193,7 @@ const Habit = ({ dispatch, habitsListId, boardId, card, habitStats }) => {
           >
             {habitCount}
           </span>
-        }
+        )}
       </span>
 
       <IconButton

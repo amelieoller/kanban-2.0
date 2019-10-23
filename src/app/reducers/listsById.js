@@ -1,13 +1,14 @@
 const listsById = (state = {}, action) => {
   switch (action.type) {
-    case "ADD_CARD": {
+    case 'ADD_CARD': {
       const { listId, cardId } = action.payload;
+
       return {
         ...state,
         [listId]: { ...state[listId], cards: [...state[listId].cards, cardId] }
       };
     }
-    case "MOVE_CARD": {
+    case 'MOVE_CARD': {
       const {
         oldCardIndex,
         newCardIndex,
@@ -35,7 +36,7 @@ const listsById = (state = {}, action) => {
         [destListId]: { ...state[destListId], cards: destinationCards }
       };
     }
-    case "DELETE_CARD": {
+    case 'DELETE_CARD': {
       const { cardId: newCardId, listId } = action.payload;
       return {
         ...state,
@@ -45,16 +46,13 @@ const listsById = (state = {}, action) => {
         }
       };
     }
-    case "COMPLETE_CARD": {
+    case 'COMPLETE_CARD': {
       const { listId } = action.payload;
-      let destListId = "";
+      let destListId = '';
       const sourceListId = listId;
 
       for (const list in state) {
-        if (
-          state.hasOwnProperty(list) &&
-          state[list].special === "completed"
-        ) {
+        if (state.hasOwnProperty(list) && state[list].special === 'completed') {
           destListId = list;
         }
       }
@@ -76,7 +74,7 @@ const listsById = (state = {}, action) => {
         [destListId]: { ...state[destListId], cards: destinationCards }
       };
     }
-    case "ADD_LIST": {
+    case 'ADD_LIST': {
       const { listId, listTitle, special } = action.payload;
       let list = {};
 
@@ -96,14 +94,14 @@ const listsById = (state = {}, action) => {
         [listId]: { _id: listId, title: listTitle, cards: [] }
       };
     }
-    case "CHANGE_LIST_TITLE": {
+    case 'CHANGE_LIST_TITLE': {
       const { listId, listTitle } = action.payload;
       return {
         ...state,
         [listId]: { ...state[listId], title: listTitle }
       };
     }
-    case "DELETE_LIST": {
+    case 'DELETE_LIST': {
       const { listId } = action.payload;
       const { [listId]: deletedList, ...restOfLists } = state;
       return restOfLists;

@@ -1,8 +1,15 @@
 const cardsById = (state = {}, action) => {
   switch (action.type) {
-    case "ADD_CARD": {
-      const { cardText, cardId, createdAt, categoryId, minutes } = action.payload;
-      
+    case 'ADD_CARD': {
+      const {
+        cardText,
+        cardId,
+        createdAt,
+        categoryId,
+        minutes,
+        habitId
+      } = action.payload;
+
       return {
         ...state,
         [cardId]: {
@@ -11,36 +18,37 @@ const cardsById = (state = {}, action) => {
           difficulty: 1,
           minutes,
           createdAt,
-          categoryId
+          categoryId,
+          habitId
         }
       };
     }
-    case "CHANGE_CARD_TEXT": {
+    case 'CHANGE_CARD_TEXT': {
       const { cardText, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], text: cardText } };
     }
-    case "CHANGE_CARD_DATE": {
+    case 'CHANGE_CARD_DATE': {
       const { date, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], date } };
     }
-    case "CHANGE_CARD_CATEGORY": {
+    case 'CHANGE_CARD_CATEGORY': {
       const { categoryId, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], categoryId } };
     }
-    case "CHANGE_CARD_DIFFICULTY": {
+    case 'CHANGE_CARD_DIFFICULTY': {
       const { difficulty, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], difficulty } };
     }
-    case "CHANGE_CARD_MINUTES": {
+    case 'CHANGE_CARD_MINUTES': {
       const { minutes, cardId } = action.payload;
       return { ...state, [cardId]: { ...state[cardId], minutes } };
     }
-    case "CHANGE_CARD_STAR": {
+    case 'CHANGE_CARD_STAR': {
       const { cardId } = action.payload;
-			const starred = !state[cardId].starred;
+      const starred = !state[cardId].starred;
       return { ...state, [cardId]: { ...state[cardId], starred } };
     }
-    case "DELETE_CARD_CATEGORY": {
+    case 'DELETE_CARD_CATEGORY': {
       const { cardId } = action.payload;
       const {
         [cardId]: { categoryId, ...rest1 },
@@ -49,12 +57,12 @@ const cardsById = (state = {}, action) => {
 
       return { [cardId]: rest1, ...rest2 };
     }
-    case "DELETE_CARD": {
+    case 'DELETE_CARD': {
       const { cardId } = action.payload;
       const { [cardId]: deletedCard, ...restOfCards } = state;
       return restOfCards;
     }
-    case "CHANGE_CARD_RECURRING": {
+    case 'CHANGE_CARD_RECURRING': {
       const { recurringText, cardId, nextDate, schedule } = action.payload;
 
       return {
@@ -68,7 +76,7 @@ const cardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_CARD_SCHEDULE": {
+    case 'CHANGE_CARD_SCHEDULE': {
       const { cardId, nextDate } = action.payload;
       const active = false;
 
@@ -77,7 +85,7 @@ const cardsById = (state = {}, action) => {
         [cardId]: { ...state[cardId], ...{ nextDate, active } }
       };
     }
-    case "CHANGE_CARD_COMPLETED_AT": {
+    case 'CHANGE_CARD_COMPLETED_AT': {
       const { cardId, completedAt } = action.payload;
 
       return {
@@ -88,7 +96,7 @@ const cardsById = (state = {}, action) => {
         }
       };
     }
-    case "CHANGE_CARD_ACTIVE": {
+    case 'CHANGE_CARD_ACTIVE': {
       const { cardId, active } = action.payload;
 
       return {
@@ -100,7 +108,7 @@ const cardsById = (state = {}, action) => {
       };
     }
     // Find every card from the deleted list and remove it (actually unnecessary since they will be removed from db on next write anyway)
-    case "DELETE_LIST": {
+    case 'DELETE_LIST': {
       const { cards: cardIds } = action.payload;
       return Object.keys(state)
         .filter(cardId => !cardIds.includes(cardId))

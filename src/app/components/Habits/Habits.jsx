@@ -23,7 +23,14 @@ const HabitsStyles = styled.div`
   }
 `;
 
-const Habits = ({ cards, habitsListId, habitStats, dispatch, boardId }) => (
+const Habits = ({
+  cards,
+  habitsListId,
+  habitStats,
+  defaultList,
+  dispatch,
+  boardId
+}) => (
   <HabitsStyles className="no-focus-mode">
     <HabitStats boardId={boardId} />
     <div className="cards-wrapper">
@@ -35,6 +42,7 @@ const Habits = ({ cards, habitsListId, habitStats, dispatch, boardId }) => (
               dispatch={dispatch}
               card={card}
               habitsListId={habitsListId}
+              defaultList={defaultList}
               boardId={boardId}
               habitStats={habitStats}
             />
@@ -55,14 +63,15 @@ Habits.propTypes = {
   dispatch: PropTypes.func.isRequired,
   boardId: PropTypes.string.isRequired,
   habitsListId: PropTypes.string,
-  habitStats: PropTypes.object
+  habitStats: PropTypes.object,
+  defaultList: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => {
   const {
     boardsById: {
       [ownProps.boardId]: {
-        settings: { habitsListId }
+        settings: { habitsListId, defaultList }
       }
     }
   } = state;
@@ -72,6 +81,7 @@ const mapStateToProps = (state, ownProps) => {
       cardId => state.cardsById[cardId]
     ),
     habitsListId,
+    defaultList,
     user: state.user,
     habitStats: state.boardsById[ownProps.boardId].stats.habits
   };

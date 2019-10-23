@@ -9,7 +9,8 @@ class Cards extends Component {
     listId: PropTypes.string.isRequired,
     cards: PropTypes.arrayOf(PropTypes.string).isRequired,
     withinPomodoroCards: PropTypes.array,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    boardId: PropTypes.string.isRequired
   };
 
   componentDidUpdate = prevProps => {
@@ -28,7 +29,13 @@ class Cards extends Component {
   };
 
   render() {
-    const { listId, cards, categories, withinPomodoroCards } = this.props;
+    const {
+      listId,
+      cards,
+      categories,
+      withinPomodoroCards,
+      boardId
+    } = this.props;
 
     return (
       <Droppable droppableId={listId}>
@@ -44,6 +51,7 @@ class Cards extends Component {
                   listId={listId}
                   withinPomodoroCard={withinPomodoroCards.includes(cardId)}
                   categories={categories}
+                  boardId={boardId}
                 />
               ))}
               {provided.placeholder}
@@ -62,7 +70,8 @@ class Cards extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  cards: state.listsById[ownProps.listId].cards
+  cards: state.listsById[ownProps.listId].cards,
+  boardId: ownProps.boardId
 });
 
 export default connect(mapStateToProps)(Cards);

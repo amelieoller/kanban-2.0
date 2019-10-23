@@ -140,6 +140,7 @@ class List extends Component {
                   listId={list._id}
                   categories={categories}
                   withinPomodoroCards={this.withinPomodoroTime()}
+                  boardId={boardId}
                 />
               </div>
               <CardAdder

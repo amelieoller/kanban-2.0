@@ -27,7 +27,8 @@ class Card extends Component {
     index: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
-    withinPomodoroCard: PropTypes.bool.isRequired
+    withinPomodoroCard: PropTypes.bool.isRequired,
+    boardId: PropTypes.string.isRequired
   };
 
   constructor() {
@@ -110,7 +111,19 @@ class Card extends Component {
   };
 
   completeCard = () => {
-    const { dispatch, listId, card } = this.props;
+    const { dispatch, listId, card, boardId } = this.props;
+
+    if (card.habitId) {
+      const today = new Date();
+      const date = `${today.getFullYear()}-${today.getMonth() +
+        1}-${today.getDate()}`;
+      const habit = { date, cardId: card.habitId };
+
+      dispatch({
+        type: 'CHANGE_HABIT_STATS',
+        payload: { boardId, habit }
+      });
+    }
 
     if (card.schedule) {
       const nextDate = later.schedule(card.schedule).next();
@@ -198,7 +211,7 @@ class Card extends Component {
                     {(card.date ||
                       checkboxes.total > 0 ||
                       card.minutes ||
-                      card.categoryId === "none" ||
+                      card.categoryId === 'none' ||
                       card.difficulty !== 1) && (
                       <CardBadges
                         date={card.date}
