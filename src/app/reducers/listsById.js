@@ -47,15 +47,8 @@ const listsById = (state = {}, action) => {
       };
     }
     case 'COMPLETE_CARD': {
-      const { listId } = action.payload;
-      let destListId = '';
+      const { listId, completedListId } = action.payload;
       const sourceListId = listId;
-
-      for (const list in state) {
-        if (state.hasOwnProperty(list) && state[list].special === 'completed') {
-          destListId = list;
-        }
-      }
 
       const oldCardIndex = state[sourceListId].cards.indexOf(
         action.payload.cardId
@@ -65,13 +58,13 @@ const listsById = (state = {}, action) => {
       // Move card from one list to another
       const sourceCards = Array.from(state[sourceListId].cards);
       const [removedCard] = sourceCards.splice(oldCardIndex, 1);
-      const destinationCards = Array.from(state[destListId].cards);
+      const destinationCards = Array.from(state[completedListId].cards);
 
       destinationCards.splice(newCardIndex, 0, removedCard);
       return {
         ...state,
         [sourceListId]: { ...state[sourceListId], cards: sourceCards },
-        [destListId]: { ...state[destListId], cards: destinationCards }
+        [completedListId]: { ...state[completedListId], cards: destinationCards }
       };
     }
     case 'ADD_LIST': {
@@ -87,11 +80,6 @@ const listsById = (state = {}, action) => {
       return {
         ...state,
         [listId]: list
-      };
-
-      return {
-        ...state,
-        [listId]: { _id: listId, title: listTitle, cards: [] }
       };
     }
     case 'CHANGE_LIST_TITLE': {

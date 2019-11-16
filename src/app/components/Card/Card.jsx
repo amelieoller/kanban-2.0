@@ -111,7 +111,7 @@ class Card extends Component {
   };
 
   completeCard = () => {
-    const { dispatch, listId, card, boardId } = this.props;
+    const { dispatch, listId, card, boardId, completedListId } = this.props;
 
     if (card.habitId) {
       const today = new Date();
@@ -142,7 +142,7 @@ class Card extends Component {
 
       dispatch({
         type: 'COMPLETE_CARD',
-        payload: { cardId: card._id, listId }
+        payload: { cardId: card._id, listId, completedListId }
       });
     }
   };

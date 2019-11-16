@@ -34,7 +34,8 @@ class Cards extends Component {
       cards,
       categories,
       withinPomodoroCards,
-      boardId
+      boardId,
+      completedListId
     } = this.props;
 
     return (
@@ -52,6 +53,7 @@ class Cards extends Component {
                   withinPomodoroCard={withinPomodoroCards.includes(cardId)}
                   categories={categories}
                   boardId={boardId}
+                  completedListId={completedListId}
                 />
               ))}
               {provided.placeholder}
@@ -71,7 +73,8 @@ class Cards extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   cards: state.listsById[ownProps.listId].cards,
-  boardId: ownProps.boardId
+  boardId: ownProps.boardId,
+  completedListId: state.boardsById[ownProps.boardId].settings.completedListId
 });
 
 export default connect(mapStateToProps)(Cards);
