@@ -26,14 +26,6 @@ const SidebarStyles = styled.div`
   grid-auto-rows: max-content;
   z-index: 1;
 
-  .no-items {
-    color: ${props => props.theme.colors.text};
-    font-size: 0.8rem;
-    font-style: italic;
-    margin: 0;
-    padding: 10px;
-  }
-
   .open-settings-link {
     text-decoration: underline;
     cursor: pointer;
