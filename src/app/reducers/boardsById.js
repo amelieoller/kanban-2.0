@@ -67,20 +67,7 @@ const boardsById = (state = {}, action) => {
         [boardId]: {
           _id: boardId,
           title: boardTitle,
-          lists: [
-            {
-              _id: habitsListId,
-              title: 'Habits',
-              cards: [],
-              special: 'habits'
-            },
-            {
-              _id: completedListId,
-              title: 'Completed',
-              cards: [],
-              special: 'completed'
-            }
-          ],
+          lists: [],
           users: [userId],
           stats: { habits: {} },
           settings: {
@@ -88,9 +75,7 @@ const boardsById = (state = {}, action) => {
             goals: {
               habits: 0
             },
-            categories: [
-              { name: 'none', short: '', color: 'white', _id: 'none' }
-            ],
+            categories: [{ name: 'none', short: '', color: 'white', _id: 'none' }],
             defaultCategory: 'none',
             eventCalendarId: '',
             color: 'light',
@@ -148,16 +133,11 @@ const boardsById = (state = {}, action) => {
 
       if (!state[boardId].stats.habits[habit.date]) {
         newHabits = {
-          [habit.date]: (state[boardId].stats.habits[habit.date] = [
-            habit.cardId
-          ])
+          [habit.date]: (state[boardId].stats.habits[habit.date] = [habit.cardId])
         };
       } else {
         newHabits = {
-          [habit.date]: [
-            ...state[boardId].stats.habits[habit.date],
-            habit.cardId
-          ]
+          [habit.date]: [...state[boardId].stats.habits[habit.date], habit.cardId]
         };
       }
 

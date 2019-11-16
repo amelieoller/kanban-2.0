@@ -85,9 +85,10 @@ const BoardAdder = ({ dispatch, history, userId }) => {
         />
         <button
           className="submit-board-button"
-          type="button"
+          type="submit"
           disabled={title === ''}
           aria-label="Create Board"
+          onClick={handleSubmit}
         >
           Create
         </button>
