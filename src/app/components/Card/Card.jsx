@@ -211,7 +211,7 @@ class Card extends Component {
                     {(card.date ||
                       checkboxes.total > 0 ||
                       card.minutes ||
-                      card.categoryId === 'none' ||
+                      card.categoryId !== 'none' ||
                       card.difficulty !== 1) && (
                       <CardBadges
                         date={card.date}
