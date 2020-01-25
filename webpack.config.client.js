@@ -3,7 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ZopfliPlugin = require('zopfli-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
@@ -96,7 +96,7 @@ module.exports = {
     new CopyPlugin([{ from: 'src/assets/favicons', to: 'favicons' }]),
     new ManifestPlugin(),
     new MiniCssExtractPlugin(),
-    new ZopfliPlugin(),
+    new CompressionPlugin(),
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(true)
     })
