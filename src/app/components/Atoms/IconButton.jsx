@@ -32,7 +32,7 @@ const StyledIconButton = styled.button`
   }
 
   @media ${props => props.theme.media.tablet} {
-    font-size: ${props => `${props.fontSize * 1.2}rem`};
+    /* font-size: ${props => `${props.fontSize * 1.2}rem`}; */
     padding: 12px;
   }
 `;

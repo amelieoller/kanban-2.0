@@ -194,9 +194,9 @@ const GlobalStyles = createGlobalStyle`
 			border-color: ${props => props.theme.colors.secondaryDark};
 		}
 
-		@media ${props => props.theme.media.phone} {
+		/* @media ${props => props.theme.media.phone} {
 			font-size: 1.8rem;
-		}
+		} */
 	}
 
   .calendar-modal {
@@ -275,9 +275,9 @@ const GlobalStyles = createGlobalStyle`
 		overflow: hidden;
 		outline: none;
 
-		@media ${props => props.theme.media.tablet} {
+		/* @media ${props => props.theme.media.tablet} {
 			font-size: 20px;
-		}
+		} */
 	}
 
 	.board-title-input {

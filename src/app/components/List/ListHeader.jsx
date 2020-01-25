@@ -13,9 +13,9 @@ const ListHeaderStyles = styled.div`
     border: none;
     text-transform: uppercase;
 
-    @media ${props => props.theme.media.tablet} {
+    /* @media ${props => props.theme.media.tablet} {
       font-size: 1.2rem;
-    }
+    } */
   }
 
   .list-title-button {

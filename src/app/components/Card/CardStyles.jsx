@@ -29,9 +29,9 @@ const CardStyles = styled.div`
       }
     }
 
-    @media ${props => props.theme.media.tablet} {
+    /* @media ${props => props.theme.media.tablet} {
       font-size: 17px;
-    }
+    } */
   }
 
   .card-title-top {
