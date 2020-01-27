@@ -20,15 +20,15 @@ class PomodoroWrapper extends Component {
     pomodoriToEvent: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
     pomodoroFocusMode: PropTypes.bool,
     isInFocusMode: PropTypes.bool,
-    defaultList: PropTypes.string
+    defaultList: PropTypes.string,
+    updateFirstCardsTime: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     const { pomodoro } = props;
     const today = new Date();
-    const date = `${today.getFullYear()}-${today.getMonth() +
-      1}-${today.getDate()}`;
+    const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     const pomodoriDone = pomodoro.pomodoriDone && pomodoro.pomodoriDone[date];
 
     this.state = {
@@ -70,17 +70,13 @@ class PomodoroWrapper extends Component {
   ];
 
   formatType = timeType =>
-    this.getFormatTypes().filter(
-      timeObj => timeObj.sessionLength === timeType
-    )[0].type;
+    this.getFormatTypes().filter(timeObj => timeObj.sessionLength === timeType)[0].type;
 
   startCountdown = () => {
     const { timeInterval, timePaused, pausedTime } = this.state;
     const { pomodoroFocusMode, isInFocusMode } = this.props;
 
-    // Pause pomodoro if countdown is currently running, otherwise start
-    // countdown
-
+    // Pause pomodoro if countdown is currently running, otherwise start countdown
     if (timeInterval !== 0) {
       this.pauseCountdown();
     } else {
@@ -110,11 +106,19 @@ class PomodoroWrapper extends Component {
   };
 
   updateCountdown = () => {
-    const { endTime } = this.state;
+    const { endTime, timePassedMs, sessionLength } = this.state;
+    const { updateFirstCardsTime } = this.props;
 
     // Get difference between the current time and the
     // end time in milliseconds. difference = remaining time
     const difference = endTime - new Date().getTime();
+
+    const time = timePassedMs !== 0 ? timePassedMs : sessionLength * 60 * 1000;
+    const seconds = Math.floor((time / 1000) % 60);
+
+    if (timePassedMs > 0 && seconds === 0) {
+      updateFirstCardsTime();
+    }
 
     // Display remaining minutes and seconds, unless there is less than 1 second
     // left on timer. Then change to next session.
@@ -149,8 +153,7 @@ class PomodoroWrapper extends Component {
 
     if (sessionLength === 25) {
       const today = new Date();
-      const date = `${today.getFullYear()}-${today.getMonth() +
-        1}-${today.getDate()}`;
+      const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 
       const pomodoriDoneObject = {
         [date]: pomodoriDone + 1
