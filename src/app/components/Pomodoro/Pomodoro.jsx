@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { FiClock, FiCoffee } from 'react-icons/fi';
 import PropTypes from 'prop-types';
@@ -83,6 +83,12 @@ const Pomodoro = ({
   const time = timePassedMs !== 0 ? timePassedMs : sessionLength * 60 * 1000;
   const seconds = Math.floor((time / 1000) % 60);
   const minutes = Math.floor((time / 1000 / 60) % 60);
+
+  useEffect(() => {
+    if (timePassedMs !== 0) {
+      document.title = `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+    }
+  }, [seconds]);
 
   return (
     <StyledPomodoro className="bar-wrapper focus-mode">
