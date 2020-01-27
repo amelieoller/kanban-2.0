@@ -41,13 +41,14 @@ const SidebarStyles = styled.div`
   }
 
   @media ${props => props.theme.media.phone} {
-    display: ${props => (props.isKeyboardOpen ? 'none' : 'grid')};
+    display: none;
+    /* display: ${props => (props.isKeyboardOpen ? 'none' : 'grid')};
     grid-template-columns: 100%;
     width: 100vw;
     min-height: auto;
     height: ${props => `${props.theme.sizes.footerHeight}px`};
     bottom: 0;
-    top: auto;
+    top: auto; */
   }
 
   & > div {
@@ -75,7 +76,8 @@ const Sidebar = ({
   eventFilter,
   pomodoroFocusMode,
   isKeyboardOpen,
-  sidebarOpen
+  sidebarOpen,
+  updateFirstCardsTime
 }) => {
   const [pomodoriToEvent, setPomodoriToEvent] = useState(false);
 
@@ -97,6 +99,7 @@ const Sidebar = ({
           pomodoroFocusMode={pomodoroFocusMode}
           name="Pomodoro"
           defaultOpen={sidebarOpen.pomodoroOpen}
+          updateFirstCardsTime={updateFirstCardsTime}
         />
 
         <Events
@@ -129,9 +132,8 @@ const Sidebar = ({
         >
           <ButtonBubbles
             count={
-              cards.filter(
-                c => differenceInCalendarDays(c.completedAt, new Date()) === 0
-              ).length
+              cards.filter(c => differenceInCalendarDays(c.completedAt, new Date()) === 0)
+                .length
             }
           />
         </TaskStats>
@@ -160,7 +162,8 @@ Sidebar.propTypes = {
   eventFilter: PropTypes.string,
   pomodoroFocusMode: PropTypes.bool,
   isKeyboardOpen: PropTypes.bool,
-  sidebarOpen: PropTypes.object
+  sidebarOpen: PropTypes.object,
+  updateFirstCardsTime: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -182,9 +185,7 @@ const mapStateToProps = (state, ownProps) => {
   const { isKeyboardOpen } = state.appState;
 
   return {
-    cards: state.listsById[completedListId].cards.map(
-      cardId => state.cardsById[cardId]
-    ),
+    cards: state.listsById[completedListId].cards.map(cardId => state.cardsById[cardId]),
     completedListId,
     user,
     categories,
