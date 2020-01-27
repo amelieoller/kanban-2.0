@@ -101,10 +101,7 @@ const CardBadges = ({
       return null;
     }
     return (
-      <div
-        className="badge"
-        style={{ background: checked === total ? 'green' : '#444' }}
-      >
+      <div className="badge" style={{ background: checked === total ? 'green' : '#444' }}>
         <FiCheck className="badge-icon" />
         &nbsp;
         {checked}/{total}
@@ -145,8 +142,7 @@ const CardBadges = ({
   };
 
   const handleMinuteChange = e => {
-    const newMinutes =
-      e.target.value === '' ? '' : parseInt(e.target.value, 10);
+    const newMinutes = e.target.value === '' ? '' : parseInt(e.target.value, 10);
 
     if (cardMinutes !== newMinutes) {
       setCardMinutes(newMinutes);
@@ -189,8 +185,8 @@ const CardBadges = ({
 
   return (
     <CardBadgesStyles>
-      {renderCategory()}
-      {renderMinutes()}
+      {/* {renderCategory()} */}
+      {/* {renderMinutes()} */}
       {renderDifficulty()}
       {renderDueDate()}
       {renderTaskProgress()}

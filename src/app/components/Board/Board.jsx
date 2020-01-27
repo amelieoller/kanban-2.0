@@ -19,7 +19,7 @@ const BoardStyles = styled.div`
   max-height: 100vh;
 
   .no-focus-mode {
-    filter: ${props => (props.isInFocusMode ? 'blur(3px)' : 'none')};
+    filter: ${props => (props.isInFocusMode ? 'blur(3px) brightness(0.5)' : 'none')};
   }
 
   .lists {
@@ -34,9 +34,7 @@ const BoardStyles = styled.div`
 
     @media ${props => props.theme.media.tablet} {
       grid-template-rows: minmax(
-        calc(
-          100vh - ${props => `${props.theme.sizes.headerHeightMobile + 50}px`}
-        ),
+        calc(100vh - ${props => `${props.theme.sizes.headerHeightMobile + 50}px`}),
         1fr
       );
     }
@@ -62,9 +60,8 @@ const BoardStyles = styled.div`
 
 class Board extends Component {
   static propTypes = {
-    lists: PropTypes.arrayOf(
-      PropTypes.shape({ _id: PropTypes.string.isRequired })
-    ).isRequired,
+    lists: PropTypes.arrayOf(PropTypes.shape({ _id: PropTypes.string.isRequired }))
+      .isRequired,
     boardId: PropTypes.string.isRequired,
     boardTitle: PropTypes.string.isRequired,
     pomodoro: PropTypes.object.isRequired,
@@ -209,6 +206,20 @@ class Board extends Component {
     });
   };
 
+  updateFirstCardsTime = () => {
+    const { firstCardInDefaultList, dispatch } = this.props;
+    if (firstCardInDefaultList.minutes > 1) {
+      // Remove a minute from the card time
+      const cardId = firstCardInDefaultList._id;
+      const newCardMinutes = firstCardInDefaultList.minutes - 1;
+
+      dispatch({
+        type: 'CHANGE_CARD_MINUTES',
+        payload: { minutes: newCardMinutes, cardId }
+      });
+    }
+  };
+
   render = () => {
     const {
       lists,
@@ -240,13 +251,10 @@ class Board extends Component {
             pomodoro={pomodoro}
             boardId={boardId}
             isInFocusMode={isInFocusMode}
+            updateFirstCardsTime={this.updateFirstCardsTime}
           />
           <DragDropContext onDragEnd={this.handleDragEnd}>
-            <Droppable
-              droppableId={boardId}
-              type="COLUMN"
-              direction="horizontal"
-            >
+            <Droppable droppableId={boardId} type="COLUMN" direction="horizontal">
               {provided => (
                 <main className="lists" ref={provided.innerRef}>
                   {otherLists.map((list, index) => (
@@ -259,10 +267,7 @@ class Board extends Component {
                     />
                   ))}
                   {provided.placeholder}
-                  <ListAdder
-                    boardId={boardId}
-                    setOpenCardAdder={this.setOpenCardAdder}
-                  />
+                  <ListAdder boardId={boardId} setOpenCardAdder={this.setOpenCardAdder} />
                 </main>
               )}
             </Droppable>
@@ -275,10 +280,11 @@ class Board extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { board } = ownProps;
-  const { completedListId, habitsListId, color } = state.boardsById[
+  const { completedListId, habitsListId, color, defaultList } = state.boardsById[
     board._id
   ].settings;
   const { isInFocusMode } = state.appState;
+  const firstCardInDefaultList = state.cardsById[state.listsById[defaultList].cards[0]];
 
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
@@ -288,7 +294,9 @@ const mapStateToProps = (state, ownProps) => {
     completedListId,
     habitsListId,
     color,
-    isInFocusMode
+    isInFocusMode,
+    defaultList,
+    firstCardInDefaultList
   };
 };
 

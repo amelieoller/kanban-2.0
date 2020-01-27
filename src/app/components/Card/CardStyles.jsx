@@ -14,8 +14,29 @@ const CardStyles = styled.div`
     user-select: none;
     cursor: pointer !important;
     border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
     margin: 0 0 5px 0;
     padding-right: 3px;
+
+    .minutes-wrapper {
+      margin-top: 2px;
+      margin-left: 4px;
+
+      svg {
+        color: ${({ theme }) => theme.colors.elevated};
+        height: 25px;
+      }
+
+      .minutes {
+        letter-spacing: -1px;
+        font-family: "Pacifico", cursive;
+        font-size: .72rem;
+        position: absolute;
+        left: ${props => props.minutePosition};
+        top: 10px;    
+        color: ${({ theme }) => theme.colors.cardButtonHover};
+      }
+    }
 
     &:hover,
     &:focus {
@@ -37,15 +58,15 @@ const CardStyles = styled.div`
   .card-title-top {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    align-items: flex-start;    
   }
 
   .checkmark {
     opacity: 0.7;
     padding: 4px;
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 2px;
+    top: 3px;
     visibility: hidden;
     transition: visibility 0s linear 20ms, opacity 20ms;
 
@@ -80,7 +101,7 @@ const CardStyles = styled.div`
     }
 
     p {
-      margin: 4px 0;
+      margin: 2px 0;
     }
 
     code,
@@ -89,7 +110,7 @@ const CardStyles = styled.div`
     }
 
     pre {
-      margin: 4px 0;
+      margin: 2px 0;
       padding: 4px 2px;
       background: rgba(100, 100, 100, 0.08);
     }
@@ -116,6 +137,10 @@ const CardStyles = styled.div`
 
   .within-pomodoro.card-title {
     border-left: 3px solid ${props => props.theme.colors.secondary};
+  }
+
+  .with-category.card-title {
+    border-right: 3px solid ${props => props.categoryColor};
   }
 `;
 

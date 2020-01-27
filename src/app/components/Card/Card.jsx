@@ -65,10 +65,7 @@ class Card extends Component {
   handleClick = e => {
     const { tagName, checked, id, type } = e.target;
 
-    if (
-      tagName.toLowerCase() === 'input' &&
-      type.toLowerCase() === 'checkbox'
-    ) {
+    if (tagName.toLowerCase() === 'input' && type.toLowerCase() === 'checkbox') {
       // The id is a string that describes which number in the order of checkboxes this particular checkbox has
       this.toggleCheckbox(checked, parseInt(id, 10));
     } else if (
@@ -115,8 +112,7 @@ class Card extends Component {
 
     if (card.habitId) {
       const today = new Date();
-      const date = `${today.getFullYear()}-${today.getMonth() +
-        1}-${today.getDate()}`;
+      const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
       const habit = { date, cardId: card.habitId };
 
       dispatch({
@@ -164,10 +160,17 @@ class Card extends Component {
       isCategoryModalOpen
     } = this.state;
     const checkboxes = findCheckboxes(card.text);
+    const cardCategory = categories.find(cat => cat._id === card.categoryId);
+    const minuteLength = card.minutes.toString().length;
 
     return (
-      <CardStyles>
-        {card.active !== false && (
+      card.active !== false && (
+        <CardStyles
+          categoryColor={cardCategory ? cardCategory.color : 'transparent'}
+          minutePosition={
+            minuteLength === 1 ? '11.5px' : minuteLength === 2 ? '8.5px' : '6.8px'
+          }
+        >
           <>
             <Draggable draggableId={card._id} index={index}>
               {(provided, snapshot) => (
@@ -178,7 +181,9 @@ class Card extends Component {
                       {
                         'card-title--drag': snapshot.isDragging
                       },
-                      withinPomodoroCard && 'within-pomodoro'
+                      withinPomodoroCard && 'within-pomodoro',
+                      card.categoryId !== 'none' && 'with-category',
+                      card.minutes !== 0 && 'has-minutes'
                     )}
                     ref={ref => {
                       provided.innerRef(ref);
@@ -201,6 +206,27 @@ class Card extends Component {
                     }}
                   >
                     <div className="card-title-top">
+                      {card.minutes !== 0 && (
+                        <span className="minutes-wrapper">
+                          <svg
+                            version="1.1"
+                            id="Layer_1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 19.5 24"
+                            xmlSpace="preserve"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M17.7,8.6l1.1-1.1C19,7.3,19,7,18.8,6.8L18,6c-0.2-0.2-0.6-0.2-0.8,0l-1,1c-1.5-1.3-3.3-2.2-5.3-2.4V2.2h1.3
+                                c0.3,0,0.6-0.3,0.6-0.6V0.6c0-0.3-0.3-0.6-0.6-0.6H7.3C7,0,6.8,0.3,6.8,0.6v1.1C6.8,2,7,2.2,7.3,2.2h1.3v2.3C3.8,5.1,0,9.2,0,14.2
+                                C0,19.6,4.4,24,9.8,24s9.8-4.4,9.8-9.8C19.5,12.2,18.8,10.2,17.7,8.6z M9.8,21.8c-4.1,0-7.5-3.4-7.5-7.5s3.4-7.5,7.5-7.5
+                                s7.5,3.4,7.5,7.5S13.9,21.8,9.8,21.8z"
+                            />
+                          </svg>
+
+                          <span className="minutes">{card.minutes}</span>
+                        </span>
+                      )}
                       <div
                         className="card-title-html"
                         dangerouslySetInnerHTML={{
@@ -208,18 +234,12 @@ class Card extends Component {
                         }}
                       />
                     </div>
-                    {(card.date ||
-                      checkboxes.total > 0 ||
-                      card.minutes ||
-                      card.categoryId !== 'none' ||
-                      card.difficulty !== 1) && (
+                    {(card.date || checkboxes.total > 0 || card.difficulty !== 1) && (
                       <CardBadges
                         date={card.date}
                         checkboxes={checkboxes}
                         minutes={card.minutes}
-                        category={categories.find(
-                          cat => cat._id === card.categoryId
-                        )}
+                        category={cardCategory}
                         dispatch={dispatch}
                         cardId={card._id}
                         difficulty={card.difficulty}
@@ -254,8 +274,8 @@ class Card extends Component {
               toggleSpecificModal={this.toggleSpecificModal}
             />
           </>
-        )}
-      </CardStyles>
+        </CardStyles>
+      )
     );
   }
 }
