@@ -28,14 +28,14 @@ const ListStyles = styled.div`
     background: ${props => props.theme.colors.elevatedOne};
     box-shadow: ${props => props.theme.common.boxShadowOne};
 
-    @media ${props => props.theme.media.tablet} {
+    /* @media ${props => props.theme.media.tablet} {
       max-height: calc(100vh - 310px);
     }
 
     @media ${props => props.theme.media.phone} {
       max-height: ${props =>
         props.isKeyboardOpen ? 'calc(100vh - 40px)' : 'calc(100vh - 380px)'};
-    }
+    } */
   }
 
   .list--drag {
@@ -108,19 +108,13 @@ class List extends Component {
     } = this.props;
 
     return (
-      <Draggable
-        draggableId={list._id}
-        index={index}
-        disableInteractiveElementBlocking
-      >
+      <Draggable draggableId={list._id} index={index} disableInteractiveElementBlocking>
         {(provided, snapshot) => (
           <>
             <ListStyles
               ref={provided.innerRef}
               {...provided.draggableProps}
-              className={
-                defaultList === list._id ? 'focus-mode' : 'no-focus-mode'
-              }
+              className={defaultList === list._id ? 'focus-mode' : 'no-focus-mode'}
               name={list._id}
               isKeyboardOpen={isKeyboardOpen}
             >
@@ -165,9 +159,7 @@ const mapStateToProps = (state, ownProps) => {
   const { boardId } = ownProps;
 
   return {
-    cards: cardIds
-      .map(id => state.cardsById[id])
-      .filter(card => card.active !== false),
+    cards: cardIds.map(id => state.cardsById[id]).filter(card => card.active !== false),
     pomodoro: state.boardsById[boardId].settings.pomodoro,
     categories: state.boardsById[boardId].settings.categories,
     defaultCategory: state.boardsById[boardId].settings.defaultCategory,
