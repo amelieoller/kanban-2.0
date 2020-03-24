@@ -161,7 +161,7 @@ class Card extends Component {
     } = this.state;
     const checkboxes = findCheckboxes(card.text);
     const cardCategory = categories.find(cat => cat._id === card.categoryId);
-    const minuteLength = card.minutes.toString().length;
+    const minuteLength = card.minutes && card.minutes.toString().length;
 
     return (
       card.active !== false && (
@@ -206,7 +206,7 @@ class Card extends Component {
                     }}
                   >
                     <div className="card-title-top">
-                      {card.minutes !== 0 && (
+                      {!!card.minutes && card.minutes !== 0 && (
                         <span className="minutes-wrapper">
                           <svg
                             version="1.1"
