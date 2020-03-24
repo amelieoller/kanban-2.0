@@ -208,7 +208,7 @@ class Board extends Component {
 
   updateFirstCardsTime = () => {
     const { firstCardInDefaultList, dispatch } = this.props;
-    if (firstCardInDefaultList.minutes > 1) {
+    if (firstCardInDefaultList && firstCardInDefaultList.minutes > 1) {
       // Remove a minute from the card time
       const cardId = firstCardInDefaultList._id;
       const newCardMinutes = firstCardInDefaultList.minutes - 1;
@@ -284,7 +284,10 @@ const mapStateToProps = (state, ownProps) => {
     board._id
   ].settings;
   const { isInFocusMode } = state.appState;
-  const firstCardInDefaultList = state.cardsById[state.listsById[defaultList].cards[0]];
+  let firstCardInDefaultList = null;
+  if (defaultList) {
+    firstCardInDefaultList = state.cardsById[state.listsById[defaultList].cards[0]];
+  }
 
   return {
     lists: board.lists.map(listId => state.listsById[listId]),
